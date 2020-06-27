@@ -9,102 +9,61 @@ namespace week
         #region private
 
         /// <summary> 닉넴 </summary>
-        string nickName;
+        string _nickName;
 
-        /// <summary> 모발코인 </summary>
-        int _hairCoin;
+        /// <summary> 코인 </summary>
+        int _Coin;
 
         /// <summary> 체력 </summary>
-        int _hp = 20;
-        /// <summary> 발모력 </summary>
-        float _hairGrowth = 1f;
-        /// <summary> 모근력 </summary>
-        float _hairRoot = 1f;
-        /// <summary> 필드 클리어 대기 시간 </summary>
-        float _clearTime = 90f;
-
-        int[] hasEquip;
+        float _hp           = 20f;
+        /// <summary> 체력젠 </summary>
+        float _hpgen        = 0f;
+        /// <summary> 공격 기본값 </summary>
+        float _attFactor    = 10f;
+        /// <summary> 전체 쿨감 </summary>
+        float _subAttSpeed  = 0;
+        /// <summary> 경험치 배수 </summary>
+        float _expFactor    = 1f;
+        /// <summary> 코인 배수 </summary>
+        float _coinFactor   = 1f;
+        /// <summary> 방어력 </summary>
+        float _def          = 1f;
+        /// <summary> 스킬 범위 증가 </summary>
+        float _skillRange   = 1f;
+        /// <summary> 처치 몬스터 수 감소 </summary>
+        int _subKillAmount  = 0;
 
         #endregion
 
-        int[] _Item;
+        public string NickName { get => _nickName; set => _nickName = value; }
 
-        public int Hp 
-        {
-            get
-            {
-                if (_Item[0] > -1)
-                {
-                    return _hp + DataManager.GetTable<int>(DataTable.hair, _Item[0].ToString(), "value");
-                }
-                else
-                {
-                    return _hp;
-                }
-            }
-        }
+        public int Coin { get => _Coin; set => _Coin = value; }
 
-        public float Growth
-        {
-            get
-            {
-                if (_Item[1] > -1)
-                {
-                    return _hairGrowth * DataManager.GetTable<float>(DataTable.eyebrow, _Item[1].ToString(), "value");
-                }
-                else
-                {
-                    return _hairGrowth;
-                }
-            }
-        }
-        public float Root
-        {
-            get
-            {
-                if (_Item[2] > -1)
-                {
-                    return _hairRoot * DataManager.GetTable<float>(DataTable.beard, _Item[2].ToString(), "value");
-                }
-                else
-                {
-                    return _hairRoot;
-                }
-            }
-        }
-        public float ClearTime
-        {
-            get
-            {
-                if (_Item[3] > -1)
-                {
-                    return _clearTime - DataManager.GetTable<int>(DataTable.cloth, _Item[3].ToString(), "value");
-                }
-                else
-                {
-                    return _clearTime;
-                }
-            }
-        }
-        public string NickName { get => nickName; set => nickName = value; }
-        public int HairCoin { get => _hairCoin; set => _hairCoin = value; }
-
-        public int[] Item { get => _Item; set => _Item = value; }
-        public string HairItem { get => _Item[0].ToString(); }
-        public string EyebrowItem { get => _Item[1].ToString(); }
-        public string BeardItem { get => _Item[2].ToString(); }
-        public string ClothItem { get => _Item[3].ToString(); }
-        
-        public int[] HasEquip { get => hasEquip; set => hasEquip = value; }
+        public float Hp { get => _hp; set => _hp = value; }
+        public float Hpgen { get => _hpgen; set => _hpgen = value; }
+        public float AttFactor { get => _attFactor; set => _attFactor = value; }
+        public float SubAttSpeed { get => _subAttSpeed; set => _subAttSpeed = value; }
+        public float ExpFactor { get => _expFactor; set => _expFactor = value; }
+        public float CoinFactor { get => _coinFactor; set => _coinFactor = value; }
+        public float Def { get => _def; set => _def = value; }
+        public float SkillRange { get => _skillRange; set => _skillRange = value; }
+        public int SubKillAmount { get => _subKillAmount; set => _subKillAmount = value; }
 
         public UserEntity()
         {
-            nickName = "ready_Player_1";
+            _nickName = "ready_Player_1";
 
-            _hairCoin = 100;
+            _Coin = 0;
 
-            _Item = new int[4] { -1, -1, -1, -1 };
-            hasEquip = new int[4] { 0, 0, 0, 0 };
-        }
+            _hp = 20f;
+            _hpgen = 0f;
+            _attFactor = 10f;
+            _subAttSpeed = 0;
+            _expFactor = 1f;
+            _coinFactor = 1f;
+            _def = 1f;
+            _skillRange = 1f;
+            _subKillAmount = 0;
+        }        
     }
 }

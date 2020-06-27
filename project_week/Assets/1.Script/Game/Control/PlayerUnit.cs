@@ -20,17 +20,7 @@ public class PlayerUnit : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            if (BaseManager.userEntity.Item[i] > -1)
-            {
-                renders[i].sprite = DataManager.GetTable<Sprite>((DataTable)i, BaseManager.userEntity.Item[i].ToString(), "sprite");
-            }
-            else
-            {
-                renders[i].enabled = false;
-            }
-        }
+        
     }
 
     // Update is called once per frame

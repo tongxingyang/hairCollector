@@ -30,7 +30,6 @@ namespace week
 
         public void Destroy()
         {
-            Debug.Log("파괴");
             isUse = false;
             gameObject.SetActive(false);
         }

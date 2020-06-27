@@ -14,5 +14,5 @@ namespace week
 
     public enum Enemy { mop1, mop2, middleBoss }
 
-    public enum DataTable { hair, eyebrow, beard, cloth, max}
+    public enum DataTable { skill, monster, max}
 }

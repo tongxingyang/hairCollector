@@ -16,7 +16,6 @@ namespace week
             GameLogo,
                         
             Fill,
-            hair,
 
             pressButton
         }
@@ -34,7 +33,6 @@ namespace week
             m_pkImages[(int)E_IMAGE.Fill].fillAmount = 0f;
             m_pkImages[(int)E_IMAGE.pressButton].gameObject.SetActive(false);
             m_pkImages[(int)E_IMAGE.Fill].gameObject.SetActive(true);
-            m_pkImages[(int)E_IMAGE.hair].gameObject.SetActive(false);
             StartCoroutine(showLogo());
         }
 
@@ -79,7 +77,6 @@ namespace week
         {
             m_pkImages[(int)E_IMAGE.pressButton].gameObject.SetActive(true);
             m_pkImages[(int)E_IMAGE.Fill].gameObject.SetActive(false);
-            m_pkImages[(int)E_IMAGE.hair].gameObject.SetActive(true);
         }
 
         public void StartGame()

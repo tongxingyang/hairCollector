@@ -21,21 +21,19 @@ namespace week
 
         [Space(20)]
 
-        [SerializeField] RectTransform _hpBarCase;
-        [SerializeField] Image _hpBar;
+        [SerializeField] Image _ExpBar;
 
         [Space]
 
-        [SerializeField] Text _totalHair;
-        [SerializeField] Text _nowHair;
+        [SerializeField] Text _totalCoin;
 
         List<EnemyControl> _enemyList;
         List<hairCoinControl> _hairList;
 
         float _speed = 1f;
 
-        float maxHp = 10;
-        float playerHp = 10;
+        int lvl = 1;
+        float playerHp = 10f;
 
         float _etime;
         float _eterm = 2.5f;
@@ -50,11 +48,9 @@ namespace week
         {
             _enemyList = new List<EnemyControl>();
             _hairList = new List<hairCoinControl>();
-            playerHp = maxHp = BaseManager.userEntity.Hp;
-            _hpBarCase.sizeDelta = new Vector2(maxHp + 20, 120);
-            _totalHair.text = BaseManager.userEntity.HairCoin.ToString() + "모";
-            _nowHair.text = _hair.ToString() + "모";
-            _hpBar.fillAmount = 1f;
+            playerHp = BaseManager.userEntity.Hp;
+            
+            _ExpBar.fillAmount = 0f;
 
             optionStart();
         }
@@ -146,11 +142,9 @@ namespace week
         public void getDamaged(int dmg)
         {
             playerHp -= dmg;
-            _hpBar.fillAmount = playerHp / maxHp;
-            Debug.Log(playerHp);
+
             if (playerHp < 1)
             {
-                BaseManager.userEntity.HairCoin += _hair;
                 BaseManager.instance.convertScene(SceneNum.GameScene.ToString(), SceneNum.LobbyScene);
             }
         }
@@ -158,7 +152,6 @@ namespace week
         public void getHair(int val)
         {
             _hair += val;
-            _nowHair.text = _hair.ToString() + "모";
         }
 
         #region [option]

@@ -39,7 +39,6 @@ namespace week
             if (result)
             {
                 isDataLoadSuccess = true;
-                Debug.Log(DataManager.bgCount);
             }
             else
                 Debug.LogError("앱 데이터 로드 에러");
