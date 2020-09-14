@@ -2,13 +2,13 @@
 # 2
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/JungleDice/[Ll]ibrary/
-/JungleDice/[Tt]emp/
-/JungleDice/[Oo]bj/
-/JungleDice/[Bb]uild/
-/JungleDice/[Bb]uilds/
-/JungleDice/[Ll]ogs/
-/JungleDice/[Uu]ser[Ss]ettings/
+/project_week/[Ll]ibrary/
+/project_week/[Tt]emp/
+/project_week/[Oo]bj/
+/project_week/[Bb]uild/
+/project_week/[Bb]uilds/
+/project_week/[Ll]ogs/
+/project_week/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
