@@ -48,10 +48,11 @@ SpriteAtlas:
     - {fileID: 2800000, guid: c2be63eb849d86d409f0229fc7752ac7, type: 3}
     - {fileID: 2800000, guid: d5434fe4812048847881bf9f57fde719, type: 3}
     - {fileID: 2800000, guid: 09e7366358457614baeaf339f7c3f9a8, type: 3}
-    totalSpriteSurfaceArea: 1258840
+    totalSpriteSurfaceArea: 1652056
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 54991f80853056e42bdd2d04629cadae, type: 3}
   - {fileID: 21300000, guid: 82569ac06f686b94e95306e906518516, type: 3}
   - {fileID: 21300000, guid: 00c75561f692c6d48b91d50a38af111d, type: 3}
   - {fileID: 21300000, guid: 9a72c7e184fa88c4ab46f32aa45f8304, type: 3}
@@ -60,10 +61,14 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 09e7366358457614baeaf339f7c3f9a8, type: 3}
   - {fileID: 21300000, guid: 7c0d55243d1bcd04494f4bb763cec627, type: 3}
   - {fileID: 21300000, guid: 8f2c0724ceb553549bb50e502074dd81, type: 3}
+  - {fileID: 21300000, guid: 22a73b745901a0547bcc68ae55b41428, type: 3}
   - {fileID: 21300000, guid: d5434fe4812048847881bf9f57fde719, type: 3}
+  - {fileID: 21300000, guid: 65bf660522d4c3646b9dbd7bbaaa3c07, type: 3}
+  - {fileID: 21300000, guid: ed6b854637d91224f9b104eac763dee5, type: 3}
   - {fileID: 21300000, guid: 72d325075c26cf942b488a6694b48569, type: 3}
   - {fileID: 21300000, guid: 6aeb3c47949843a468b563b695aa6bab, type: 3}
   - {fileID: 21300000, guid: 45c89a77bf5c4e9408d40605184906cd, type: 3}
+  - {fileID: 21300000, guid: b10731d773fdbf048b220788e5a02e98, type: 3}
   - {fileID: 21300000, guid: 2f08921862907124db483392e5c4055d, type: 3}
   - {fileID: 21300000, guid: 2513f848f6fdb41429b3b751560df879, type: 3}
   - {fileID: 21300000, guid: 64185798894843e4ba74169dbaf62bdc, type: 3}
@@ -86,10 +91,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2140f50d9a62718409a8fade703a6ce9, type: 3}
   - {fileID: 21300000, guid: afff259df14f6aa4f87a64934990a7d5, type: 3}
   - {fileID: 21300000, guid: 977f5b9d3a489b94ca05f7f99c0ccf4e, type: 3}
+  - {fileID: 21300000, guid: 7185dd6e02d837846b443460106a3190, type: 3}
   - {fileID: 21300000, guid: aad2678ea50c746458aec56b0e2e2953, type: 3}
   - {fileID: 21300000, guid: 8aee2a9eb0150274a97389f462f8dd21, type: 3}
   - {fileID: 21300000, guid: 2c2523cf81170b14584dfb7fb41238c3, type: 3}
   m_PackedSpriteNamesToIndex:
+  - ap_l
   - arrow
   - rabel
   - hp2
@@ -98,10 +105,14 @@ SpriteAtlas:
   - box
   - coin
   - gem_m
+  - adRemove
   - login
+  - doubleCoin
+  - ap_s
   - Btn2
   - linecase
   - add
+  - mob
   - def
   - gem_l
   - gold_s
@@ -124,6 +135,7 @@ SpriteAtlas:
   - gold_l
   - upCase
   - woodbox
+  - ap_m
   - exp
   - jwl
   - gold_m

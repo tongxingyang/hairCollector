@@ -307,6 +307,7 @@ namespace week
     public enum eDeBuff { slow, dotDem }
 
     public enum season { spring, summer, fall, winter, max }
+    public enum landtem { heal, gem, present }
 
     #region [Sound]
 

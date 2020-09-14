@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1142707374047670707}
   - component: {fileID: 2230947147290630172}
   - component: {fileID: 1177242505809397058}
-  - component: {fileID: 5302323001551924817}
   m_Layer: 11
   m_Name: r5_nd
   m_TagString: obstacle
@@ -73,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 7
-  m_Sprite: {fileID: 21300000, guid: 323d427e23c5d20438fde33e0d1d156a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: be9d86859171be84da91370fb297618b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,26 +107,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.68}
+  m_Size: {x: 0.95, y: 0.52}
   m_EdgeRadius: 0
---- !u!114 &5302323001551924817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530898247081344443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcfcfe31612b4494d81de24129785e17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  render: {fileID: 2230947147290630172}
-  imgs:
-  - {fileID: 21300000, guid: 323d427e23c5d20438fde33e0d1d156a, type: 3}
-  - {fileID: 21300000, guid: 0f2a2fecaf696ab4db1501240992b1b5, type: 3}
-  - {fileID: 21300000, guid: c74424ca19fe6994eb71c14119ad06f7, type: 3}
-  - {fileID: 21300000, guid: 6f11593da5a8671489c036b48a700341, type: 3}
 --- !u!1 &1243715368800828082
 GameObject:
   m_ObjectHideFlags: 0

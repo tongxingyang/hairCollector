@@ -7,9 +7,9 @@ namespace week
 {
     public class LandItem : MonoBehaviour
     {
+        [SerializeField] landtem _temtype;
         [SerializeField] GameObject _tem;
         [SerializeField] Animator _ani;
-        [SerializeField] bool _responable;
 
         GameScene _gs;
         PlayerCtrl _player;
@@ -38,15 +38,19 @@ namespace week
 
         void chkRespone()
         {
-            if (_responable) // 리스폰 가능 - 힐팩
+            switch (_temtype)
             {
-                _player.getHealed(20);
-                StartCoroutine(respone());
-            }
-            else // 전설 장비
-            {
-                _gs.getEquip();
-                getEquip();
+                case landtem.heal:
+                    _player.getHealed(20);
+                    StartCoroutine(respone());
+                    break;
+                case landtem.gem:
+                    //_player.getGem();
+                    break;
+                case landtem.present:
+                    _gs.getEquip();
+                    getEquip();
+                    break;
             }
 
             _tem.SetActive(false);

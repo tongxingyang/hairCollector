@@ -73,6 +73,7 @@ namespace week
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userEntity.Coin.ToString();
 
             _isLobby = true;
+            mGos[(int)eGO.Lobby].SetActive(true);
             mGos[(int)eGO.Store].SetActive(false);
             mGos[(int)eGO.Status].SetActive(false);
             mGos[(int)eGO.Deco].SetActive(false);

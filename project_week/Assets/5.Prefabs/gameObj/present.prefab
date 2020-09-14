@@ -159,9 +159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18604198e3815e43adb5eb13881d777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _temtype: 2
   _tem: {fileID: 6094117709466198092}
   _ani: {fileID: 0}
-  _responable: 0
 --- !u!58 &1766949464976642722
 CircleCollider2D:
   m_ObjectHideFlags: 0

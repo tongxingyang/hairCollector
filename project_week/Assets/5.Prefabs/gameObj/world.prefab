@@ -30987,7 +30987,7 @@ MonoBehaviour:
   _seasonMaps:
   - {fileID: 21300000, guid: c7bdedbdc9590264dbec0e8a9b6057d9, type: 3}
   - {fileID: 21300000, guid: 6ba1fdf1bff45ad4ab1ecdb7cb0dc944, type: 3}
-  - {fileID: 21300000, guid: b4a79a7c1e5d902498e4ed69b23bf89c, type: 3}
+  - {fileID: 21300000, guid: b37e24a7a45780e4e9a9b150e537cf7f, type: 3}
   - {fileID: 21300000, guid: faea93ed2cc5f0a448838402b8dca770, type: 3}
 --- !u!114 &8576883440842013088
 MonoBehaviour:

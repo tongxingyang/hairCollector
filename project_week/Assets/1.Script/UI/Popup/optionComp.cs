@@ -16,6 +16,7 @@ namespace week
         [SerializeField] Slider _sfxVol;
 
         [SerializeField] GameObject cloudWin;
+        [SerializeField] GameObject developWin;
         [SerializeField] TextMeshProUGUI _LoginTxt;
 
         private void Awake()
@@ -44,6 +45,11 @@ namespace week
             _lobby.refreshCoin();
 
             BaseManager.instance.saveUserData();
+        }
+
+        public void developers()
+        {
+            developWin.SetActive(true);
         }
 
         public void manualLogin()
@@ -91,6 +97,8 @@ namespace week
             BaseManager.instance.saveUserData();
             _win.localScale = new Vector3(1f, 0f);
 
+            developWin.SetActive(false);
+            cloudWin.SetActive(false);
             gameObject.SetActive(false);
         }
     }
