@@ -1,0 +1,55 @@
+
+firecrap.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+레이어 1
+  rotate: true
+  xy: 75, 148
+  size: 71, 89
+  orig: 205, 205
+  offset: 74, 50
+  index: -1
+레이어 2
+  rotate: false
+  xy: 2, 102
+  size: 71, 117
+  orig: 205, 205
+  offset: 125, 61
+  index: -1
+레이어 3
+  rotate: true
+  xy: 2, 2
+  size: 98, 110
+  orig: 205, 205
+  offset: 1, 53
+  index: -1
+레이어 4
+  rotate: true
+  xy: 108, 122
+  size: 24, 30
+  orig: 205, 205
+  offset: 72, 36
+  index: -1
+레이어 5
+  rotate: true
+  xy: 108, 105
+  size: 15, 28
+  orig: 205, 205
+  offset: 91, 37
+  index: -1
+레이어 6
+  rotate: true
+  xy: 114, 83
+  size: 20, 26
+  orig: 205, 205
+  offset: 119, 42
+  index: -1
+레이어 7
+  rotate: false
+  xy: 75, 116
+  size: 31, 30
+  orig: 205, 205
+  offset: 127, 45
+  index: -1

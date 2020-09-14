@@ -1,0 +1,20 @@
+
+fireseed.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 2, 57
+  size: 144, 172
+  orig: 205, 205
+  offset: 31, 17
+  index: -1
+2
+  rotate: false
+  xy: 2, 2
+  size: 78, 53
+  orig: 205, 205
+  offset: 62, 62
+  index: -1

@@ -1,0 +1,27 @@
+
+firewood.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+레이어 4
+  rotate: false
+  xy: 2, 104
+  size: 67, 131
+  orig: 205, 205
+  offset: 65, 39
+  index: -1
+레이어 5
+  rotate: false
+  xy: 71, 138
+  size: 81, 97
+  orig: 205, 205
+  offset: 121, 67
+  index: -1
+레이어 6
+  rotate: false
+  xy: 154, 142
+  size: 81, 93
+  orig: 205, 205
+  offset: 0, 71
+  index: -1

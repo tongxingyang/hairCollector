@@ -1,0 +1,41 @@
+
+raindeer.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Rf
+  rotate: false
+  xy: 128, 2
+  size: 38, 46
+  orig: 205, 205
+  offset: 70, 24
+  index: -1
+bLf
+  rotate: true
+  xy: 128, 50
+  size: 44, 42
+  orig: 205, 205
+  offset: 91, 26
+  index: -1
+body
+  rotate: false
+  xy: 2, 6
+  size: 124, 88
+  orig: 205, 205
+  offset: 72, 29
+  index: -1
+fLf
+  rotate: true
+  xy: 168, 7
+  size: 41, 39
+  orig: 205, 205
+  offset: 127, 30
+  index: -1
+head
+  rotate: false
+  xy: 2, 96
+  size: 181, 158
+  orig: 205, 205
+  offset: 4, 32
+  index: -1

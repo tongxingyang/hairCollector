@@ -1,0 +1,251 @@
+
+fireowl.png
+size: 2048,1028
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+back/B-Body
+  rotate: true
+  xy: 2, 666
+  size: 360, 377
+  orig: 819, 819
+  offset: 228, 244
+  index: -1
+back/B-Eb-L
+  rotate: false
+  xy: 1542, 168
+  size: 163, 137
+  orig: 819, 819
+  offset: 239, 595
+  index: -1
+back/B-Eb-R
+  rotate: false
+  xy: 1753, 448
+  size: 150, 126
+  orig: 819, 819
+  offset: 424, 596
+  index: -1
+back/B-Foot-L
+  rotate: true
+  xy: 1707, 183
+  size: 122, 184
+  orig: 819, 819
+  offset: 244, 111
+  index: -1
+back/B-Foot-R
+  rotate: false
+  xy: 1861, 2
+  size: 121, 179
+  orig: 819, 819
+  offset: 448, 114
+  index: -1
+back/B-Leg-R
+  rotate: false
+  xy: 1753, 576
+  size: 129, 142
+  orig: 819, 819
+  offset: 413, 221
+  index: -1
+back/B-Leg_L
+  rotate: true
+  xy: 1786, 755
+  size: 129, 142
+  orig: 819, 819
+  offset: 272, 222
+  index: -1
+back/B-Wing-R-Open
+  rotate: false
+  xy: 751, 684
+  size: 348, 342
+  orig: 819, 819
+  offset: 451, 295
+  index: -1
+back/B-Wing_L-Open
+  rotate: true
+  xy: 751, 328
+  size: 354, 339
+  orig: 819, 819
+  offset: 17, 298
+  index: -1
+back/B-head
+  rotate: false
+  xy: 722, 193
+  size: 340, 133
+  orig: 819, 819
+  offset: 238, 518
+  index: -1
+back/B-mouse
+  rotate: false
+  xy: 1893, 219
+  size: 116, 89
+  orig: 819, 819
+  offset: 349, 590
+  index: -1
+back/B-tail
+  rotate: false
+  xy: 371, 4
+  size: 275, 170
+  orig: 819, 819
+  offset: 270, 274
+  index: -1
+front/F-Body
+  rotate: true
+  xy: 381, 669
+  size: 357, 368
+  orig: 819, 819
+  offset: 245, 231
+  index: -1
+front/F-Eb-L
+  rotate: true
+  xy: 1399, 9
+  size: 156, 131
+  orig: 819, 819
+  offset: 253, 563
+  index: -1
+front/F-Eb-R
+  rotate: false
+  xy: 1707, 48
+  size: 152, 133
+  orig: 819, 819
+  offset: 435, 563
+  index: -1
+front/F-Foot-L
+  rotate: true
+  xy: 1605, 720
+  size: 142, 179
+  orig: 819, 819
+  offset: 240, 97
+  index: -1
+front/F-Foot_R
+  rotate: true
+  xy: 1777, 886
+  size: 140, 184
+  orig: 819, 819
+  offset: 464, 93
+  index: -1
+front/F-Head
+  rotate: false
+  xy: 371, 176
+  size: 327, 147
+  orig: 819, 819
+  offset: 259, 488
+  index: -1
+front/F-Leg-L
+  rotate: false
+  xy: 1884, 620
+  size: 124, 133
+  orig: 819, 819
+  offset: 291, 209
+  index: -1
+front/F-Leg_R
+  rotate: false
+  xy: 1893, 310
+  size: 123, 136
+  orig: 819, 819
+  offset: 433, 208
+  index: -1
+front/F-Wing-L-Close
+  rotate: false
+  xy: 1092, 344
+  size: 338, 324
+  orig: 819, 819
+  offset: 247, 266
+  index: -1
+front/F-Wing-L-Open
+  rotate: true
+  xy: 381, 325
+  size: 342, 339
+  orig: 819, 819
+  offset: 29, 280
+  index: -1
+front/F-Wing-R-Close
+  rotate: true
+  xy: 2, 327
+  size: 337, 325
+  orig: 819, 819
+  offset: 264, 253
+  index: -1
+front/F-Wing_R-Open
+  rotate: true
+  xy: 1101, 670
+  size: 356, 339
+  orig: 819, 819
+  offset: 454, 283
+  index: -1
+side/S-Eb-L
+  rotate: true
+  xy: 1399, 167
+  size: 138, 141
+  orig: 819, 819
+  offset: 285, 549
+  index: -1
+side/S-Eb-R
+  rotate: false
+  xy: 1542, 4
+  size: 107, 162
+  orig: 819, 819
+  offset: 248, 536
+  index: -1
+side/S-Foot-L
+  rotate: true
+  xy: 1442, 864
+  size: 162, 168
+  orig: 819, 819
+  offset: 336, 88
+  index: -1
+side/S-Foot-R
+  rotate: true
+  xy: 1612, 864
+  size: 162, 163
+  orig: 819, 819
+  offset: 347, 91
+  index: -1
+side/S-Leg-L
+  rotate: true
+  xy: 1753, 331
+  size: 115, 114
+  orig: 819, 819
+  offset: 376, 188
+  index: -1
+side/S-Leg-R
+  rotate: true
+  xy: 1930, 757
+  size: 127, 109
+  orig: 819, 819
+  offset: 383, 188
+  index: -1
+side/S-Wing-L
+  rotate: true
+  xy: 1092, 2
+  size: 340, 305
+  orig: 819, 819
+  offset: 406, 355
+  index: -1
+side/S-Wing-R
+  rotate: true
+  xy: 1432, 307
+  size: 361, 319
+  orig: 819, 819
+  offset: 236, 454
+  index: -1
+side/S-body
+  rotate: true
+  xy: 2, 13
+  size: 312, 367
+  orig: 819, 819
+  offset: 258, 212
+  index: -1
+side/S-head
+  rotate: false
+  xy: 700, 2
+  size: 324, 189
+  orig: 819, 819
+  offset: 240, 459
+  index: -1
+side/S-tail
+  rotate: false
+  xy: 1442, 714
+  size: 161, 148
+  orig: 819, 819
+  offset: 496, 238
+  index: -1

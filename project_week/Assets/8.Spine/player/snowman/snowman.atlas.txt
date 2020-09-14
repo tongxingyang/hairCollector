@@ -1,0 +1,132 @@
+
+snowman.png
+size: 2048,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+F-body
+  rotate: true
+  xy: 230, 2
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+F-head
+  rotate: false
+  xy: 1079, 106
+  size: 170, 148
+  orig: 170, 148
+  offset: 0, 0
+  index: -1
+F-l-arm
+  rotate: false
+  xy: 1363, 180
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+F-l-hand
+  rotate: false
+  xy: 903, 6
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+F-r-arm
+  rotate: true
+  xy: 1437, 180
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+F-r-hand
+  rotate: true
+  xy: 999, 7
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+b-body1
+  rotate: true
+  xy: 2, 2
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+b-hand1
+  rotate: false
+  xy: 1189, 9
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+b-head1
+  rotate: true
+  xy: 687, 75
+  size: 179, 176
+  orig: 179, 176
+  offset: 0, 0
+  index: -1
+b-i-arm1
+  rotate: true
+  xy: 1396, 28
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+b-l-hand1
+  rotate: true
+  xy: 1094, 7
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+b-r-arm1
+  rotate: false
+  xy: 1396, 104
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+s-body1
+  rotate: true
+  xy: 456, 12
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+s-head1
+  rotate: false
+  xy: 865, 106
+  size: 212, 148
+  orig: 212, 151
+  offset: 0, 3
+  index: -1
+s-l-arm1
+  rotate: false
+  xy: 795, 7
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+s-l-hand1
+  rotate: true
+  xy: 1285, 21
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+s-r-arm1
+  rotate: false
+  xy: 687, 5
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+s-r-hand1
+  rotate: true
+  xy: 1251, 139
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1

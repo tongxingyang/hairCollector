@@ -1,0 +1,76 @@
+
+scearcrow.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+scearcrow/B-L-hand
+  rotate: false
+  xy: 266, 69
+  size: 139, 307
+  orig: 819, 819
+  offset: 37, 340
+  index: -1
+scearcrow/B-R-hand
+  rotate: false
+  xy: 407, 70
+  size: 181, 306
+  orig: 819, 819
+  offset: 619, 335
+  index: -1
+scearcrow/B-body
+  rotate: true
+  xy: 2, 378
+  size: 643, 501
+  orig: 819, 819
+  offset: 79, 55
+  index: -1
+scearcrow/B-head
+  rotate: true
+  xy: 845, 6
+  size: 400, 182
+  orig: 819, 819
+  offset: 207, 547
+  index: -1
+scearcrow/B-hear
+  rotate: true
+  xy: 1030, 614
+  size: 407, 229
+  orig: 819, 819
+  offset: 208, 432
+  index: -1
+scearcrow/F-L-hand
+  rotate: false
+  xy: 1029, 114
+  size: 140, 292
+  orig: 819, 819
+  offset: 640, 357
+  index: -1
+scearcrow/F-R-hand
+  rotate: true
+  xy: 1030, 437
+  size: 175, 289
+  orig: 819, 819
+  offset: 9, 345
+  index: -1
+scearcrow/F-body
+  rotate: true
+  xy: 505, 408
+  size: 613, 523
+  orig: 819, 819
+  offset: 89, 62
+  index: -1
+scearcrow/F-head
+  rotate: true
+  xy: 2, 2
+  size: 374, 262
+  orig: 819, 819
+  offset: 206, 490
+  index: -1
+scearcrow/F-hear
+  rotate: true
+  xy: 590, 5
+  size: 401, 253
+  orig: 819, 819
+  offset: 203, 423
+  index: -1

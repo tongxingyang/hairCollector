@@ -1,0 +1,27 @@
+
+mammo.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 22
+  size: 79, 90
+  orig: 102, 102
+  offset: 23, 8
+  index: -1
+eyes
+  rotate: false
+  xy: 77, 75
+  size: 26, 19
+  orig: 102, 102
+  offset: 29, 37
+  index: -1
+tusk
+  rotate: 270
+  xy: 69, 21
+  size: 53, 42
+  orig: 102, 102
+  offset: 0, 8
+  index: -1
