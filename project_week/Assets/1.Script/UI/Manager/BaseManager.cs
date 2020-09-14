@@ -10,70 +10,47 @@ namespace week
         static public BaseManager instance;
 
         static public UserEntity userEntity;
-        public bool isDataLoadSuccess { get; private set; }
+        private static PreGameData preGameData;
+
+        loadScene _loading;
+        public static PreGameData PreGameData { set => preGameData = value; }
+        public loadScene Loading { set => _loading = value; }
 
         // Use this for initialization
         void Start()
         {
             Debug.Log("베이스 스타트");
             instance = this;
-            isDataLoadSuccess = false;       
-
-            if (ES3.KeyExists("userEntity"))
-            {
-                userEntity = ES3.Load<UserEntity>("userEntity");
-            }
-            else
-            {
-                Debug.Log("기본 유저 데이터가 없으므로 제작함");
-                userEntity = new UserEntity();
-            }
-
-            StartCoroutine(baseStart());
 
             StartCoroutine(StartLogoScene());
-        }
-        IEnumerator baseStart()
-        {
-            bool result = DataManager.LoadBGdata();
-            if (result)
-            {
-                isDataLoadSuccess = true;
-            }
-            else
-                Debug.LogError("앱 데이터 로드 에러");
-
-            yield return new WaitForEndOfFrame();
-        }
+        }        
 
         // 씬 전환
         IEnumerator LoadingScene(string remove, int load)
         {
+            _loading.open(); 
+            yield return new WaitForSeconds(0.2f);
+
             AsyncOperation AO;
             if (remove != string.Empty)
             {
                 AO = SceneManager.UnloadSceneAsync(remove);
                 while (!AO.isDone)
                 {
-                    yield return new WaitForSeconds(0.25f);
+                    yield return new WaitForEndOfFrame();
                 }
             }
-
-            //yield return new WaitForSeconds(0.25f);
-
 
             AO = SceneManager.LoadSceneAsync(load, LoadSceneMode.Additive);
             while (!AO.isDone)
             {
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForEndOfFrame();
             }
-
-
-            //yield return new WaitForSeconds(0.4f);
 
             SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
 
-            //yield return new WaitForSeconds(0.5f);
+            _loading.close();
+            yield return new WaitForSeconds(0.2f);
         }
 
         // 로고 씬
@@ -90,6 +67,27 @@ namespace week
         public void convertScene(string close, SceneNum open)
         {
             StartCoroutine(LoadingScene(close, (int)open));
+        }
+
+        public void saveUserData()
+        {
+            ES3.Save<UserEntity>("userEntity", userEntity);
+        }
+
+        public string convertToTime(int time)
+        {
+            int s = time % 60;
+            int m = (time % 3600) / 60;
+            int h = time / 3600;
+            
+            if (time > 3600)
+            {
+                return $"{h:D2}:{m:D2}:{s:D2}";
+            }
+            else
+            {
+                return $"{m:D2}:{s:D2}";
+            }
         }
     }
 }

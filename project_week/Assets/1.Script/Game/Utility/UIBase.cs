@@ -36,53 +36,53 @@ public abstract class UIBase : MonoBehaviour
     {
     }
 
-    [ShowIf(EConditionOperator.And, "m_pkTransforms_chk")]
-    public Transform[] m_pkTransforms;
-    bool m_pkTransforms_chk { get { return GetEnumTransform() != null; } }
+    [ShowIf(EConditionOperator.And, "mTr_chk")]
+    public Transform[] mTrs;
+    bool mTr_chk { get { return GetEnumTransform() != null; } }
 
-    [ShowIf(EConditionOperator.And, "m_pkTexts_chk")]
-    public Text[] m_pkTexts;
-    bool m_pkTexts_chk { get { return GetEnumText() != null; } }
+    [ShowIf(EConditionOperator.And, "mTxt_chk")]
+    public Text[] mTxts;
+    bool mTxt_chk { get { return GetEnumText() != null; } }
 
-    [ShowIf(EConditionOperator.And, "m_pkImages_chk")]
-    public Image[] m_pkImages;
-    bool m_pkImages_chk { get { return GetEnumImage() != null; } }
+    [ShowIf(EConditionOperator.And, "mImg_chk")]
+    public Image[] mImgs;
+    bool mImg_chk { get { return GetEnumImage() != null; } }
 
-    [ShowIf(EConditionOperator.And, "m_pkButton_chk")]
-    public Button[] m_pkButton;
-    bool m_pkButton_chk { get { return GetEnumButton() != null; } }
+    [ShowIf(EConditionOperator.And, "mBtn_chk")]
+    public Button[] mBtns;
+    bool mBtn_chk { get { return GetEnumButton() != null; } }
 
-    private Enum m_pkEnumGameObject;
+    private Enum mEnumGOs;
 
-    [ShowIf(EConditionOperator.And, "m_pkGameObject_chk")]
-    public GameObject[] m_pkGameObject;
-    bool m_pkGameObject_chk { get { return GetEnumGameObject() != null; } }
+    [ShowIf(EConditionOperator.And, "mGO_chk")]
+    public GameObject[] mGos;
+    bool mGO_chk { get { return GetEnumGameObject() != null; } }
 
     [ContextMenu("SetContent")]
     public virtual void SetContent()
     {
         if (GetEnumTransform() != null)
         {
-            m_pkTransforms = SetComponent<Transform>(GetEnumTransform());
+            mTrs = SetComponent<Transform>(GetEnumTransform());
         }
 
         if (GetEnumText() != null)
         {
-            m_pkTexts = SetComponent<Text>(GetEnumText());
+            mTxts = SetComponent<Text>(GetEnumText());
         }
 
         if (GetEnumImage() != null)
         {
-            m_pkImages = SetComponent<Image>(GetEnumImage());
+            mImgs = SetComponent<Image>(GetEnumImage());
         }
 
         if (GetEnumButton() != null)
         {
-            m_pkButton = SetComponent<Button>(GetEnumButton());
+            mBtns = SetComponent<Button>(GetEnumButton());
         }
 
-        m_pkEnumGameObject = GetEnumGameObject();
-        if (m_pkEnumGameObject != null)
+        mEnumGOs = GetEnumGameObject();
+        if (mEnumGOs != null)
         {
             SetGameObject();
         }
@@ -122,72 +122,12 @@ public abstract class UIBase : MonoBehaviour
         return m_pkpkComps;
     }
 
-    /*
-    private void SetTransform()
-    {
-        Enum pkEnum = m_pkpkEnumTransform;
-
-        m_pkpkTransforms = new Transform[(int) Enum.GetNames(pkEnum.GetType()).Length];
-
-        for (int i = 0; i < (int) Enum.GetNames(pkEnum.GetType()).Length; i++)
-        {
-            string str = Enum.GetName(pkEnum.GetType(), i);
-
-            Transform[] Transforms = gameObject.GetComponentsInChildren<Transform>();
-            foreach (Transform Transform in Transforms)
-            {
-                if (Transform.name.Equals(str) == true)
-                {
-                    if (m_pkpkTransforms[i] != null)
-                    {
-                        Debug.LogError("SetTransform Error : " + str);
-                    }
-                    m_pkpkTransforms[i] = Transform;
-                }
-            }
-            if (m_pkpkTransforms[i] == null)
-            {
-                Debug.LogError("Find not SetTransform Error : " + str);
-            }
-        }
-    }
-
-    private void SetText()
-    {
-        Enum pkEnum = m_pkpkEnumText;
-
-        m_pkpkTexts = new Text[(int) Enum.GetNames(m_pkpkEnumText.GetType()).Length];
-
-        for (int i = 0; i < (int) Enum.GetNames(pkEnum.GetType()).Length; i++)
-        {
-            string str = Enum.GetName(pkEnum.GetType(), i);
-
-            Text[] Texts = gameObject.GetComponentsInChildren<Text>();
-            foreach (Text Label in Texts)
-            {
-                if (Label.name.Equals(str) == true)
-                {
-                    if (m_pkpkTexts[i] != null)
-                    {
-                        Debug.LogError("SetLabel Error : " + str);
-                    }
-                    m_pkpkTexts[i] = Label;
-                }
-            }
-            if (m_pkpkTexts[i] == null)
-            {
-                Debug.LogError("Find not SetLabel Error : " + str);
-            }
-        }
-    }
-    */
-
     /// <summary> 필요한 게임오브젝트 수집 </summary>
     private void SetGameObject()
     {
-        Enum pkEnum = m_pkEnumGameObject;
+        Enum pkEnum = mEnumGOs;
 
-        m_pkGameObject = new GameObject[(int)Enum.GetNames(m_pkEnumGameObject.GetType()).Length];
+        mGos = new GameObject[(int)Enum.GetNames(mEnumGOs.GetType()).Length];
 
         for (int i = 0; i < (int)Enum.GetNames(pkEnum.GetType()).Length; i++)
         {
@@ -198,14 +138,14 @@ public abstract class UIBase : MonoBehaviour
             {
                 if (tran.name.Equals(str) == true)
                 {
-                    if (m_pkGameObject[i] != null)
+                    if (mGos[i] != null)
                     {
                         Debug.LogError("SetLabel Error : " + str);
                     }
-                    m_pkGameObject[i] = tran.gameObject;
+                    mGos[i] = tran.gameObject;
                 }
             }
-            if (m_pkGameObject[i] == null)
+            if (mGos[i] == null)
             {
                 Debug.LogError("Find not SetLabel Error : " + str);
             }

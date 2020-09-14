@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Boss
+  - obstacle
+  - p_proj
+  - e_proj
+  - interOb
   layers:
   - Default
   - TransparentFX
@@ -13,15 +19,15 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - player
+  - monster
+  - boss
+  - obstacle
+  - environment
+  - trap
+  - playerProj
+  - enWeapon
+  - ignoreOb
   - 
   - 
   - 

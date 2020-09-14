@@ -1,192 +1,492 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using TMPro;
 
 namespace week
 {
     public class GameScene : MonoBehaviour
     {
-        [SerializeField] Transform _player = null;
-        [SerializeField] Transform _map = null;
-        [SerializeField] Transform _pool = null;
-
-        [SerializeField] GameObject[] _mops;
-        [SerializeField] GameObject _hairFab;
-
-        [Space(20)]
-
-        [SerializeField] Image _optionPanel;
-        [SerializeField] Image _chkExitPanel;
-
-        [Space(20)]
-
+        [Header("Player")]
+        [SerializeField] PlayerCtrl _player = null;
+        [Header("Game")]
+        [SerializeField] Joystick _joyStick = null;
+        [SerializeField] SnowController _snow = null;
+        [Header("Manager")]
+        [SerializeField] MapManager _mapMng = null;
+        ObstacleManager _obtMng;
+        [SerializeField] enemyManager _enemyMng = null;
+        EnemyProjManager _enProjMng;
+        effManager _efMng;
+        playerSkillManager _skillMng;
+        dmgFontManager _dmgfntMng;
+        [SerializeField] clockManager _clockMng = null;
+        [Header("Popup")]
+        [SerializeField] upgradePopup _upgradePanel;
+        [SerializeField] pausePopup _pausePanel;
+        [SerializeField] resultPopup _resultPopup;
+        [Header("UI")]
         [SerializeField] Image _ExpBar;
+        [SerializeField] TextMeshProUGUI _totalCoin;
+        [SerializeField] TextMeshProUGUI _killCount;
+        [Header("etc")]
+        [SerializeField] TextMeshProUGUI _lvlTmp;
 
-        [Space]
+        int _lvl = 0;
 
-        [SerializeField] Text _totalCoin;
+        int _coin = 0;
+        int _gem = 0;
+        int _ap = 0;
 
-        List<EnemyControl> _enemyList;
-        List<hairCoinControl> _hairList;
+        int _kill = 0;
 
-        float _speed = 1f;
+        Vector3 targetPos;        
 
-        int lvl = 1;
-        float playerHp = 10f;
+        float _mopCoin;
+        float _bossCoin;
 
-        float _etime;
-        float _eterm = 2.5f;
+        bool _pause;
+        bool _gameOver;
+        bool _stagePlay;
 
-        float _htime;
-        float _hterm = 2.5f;
+        public PlayerCtrl Player { get => _player; }
+        public bool Pause { get => _pause; set => _pause = value; }
+        public bool GameOver { get => _gameOver; }
+        public bool StagePlay { get => _stagePlay; }
 
-        int _hair = 0;
+        public Vector2 pVector { get => _joyStick.Direction; }
 
-        // Start is called before the first frame update
+        bossControl _boss;
+        public MapManager MapMng { get => _mapMng; }
+        public ObstacleManager ObtMng { get => _obtMng; }
+        public enemyManager EnemyMng { get => _enemyMng; }
+        public EnemyProjManager EnProjMng { get => _enProjMng; }
+        public effManager EfMng { get => _efMng; }
+        public playerSkillManager SkillMng { get => _skillMng; }
+        public dmgFontManager DmgfntMng { get => _dmgfntMng; }
+
+        public float RecordTime { get => _clockMng.RecordTime; }
+        public clockManager ClockMng { get => _clockMng; set => _clockMng = value; }
+
+        void test()
+        {
+            DataManager.LoadBGdata();
+        }
         void Start()
         {
-            _enemyList = new List<EnemyControl>();
-            _hairList = new List<hairCoinControl>();
-            playerHp = BaseManager.userEntity.Hp;
-            
+            //test();
+
+            _stagePlay = false;
+            _gameOver = false;
+
+            managersManager();
+
+            _mopCoin = gameValues._firstMopCoin;
+            _bossCoin = gameValues._firstBossCoin;
+
+            _player._gameOver = gameOver;
+            _player.EnemyDamage = enemyDamaged;
+            _player.Blizzard = blizzard;
+            _player.EnemyFrozen = enemyFrozen;
             _ExpBar.fillAmount = 0f;
 
-            optionStart();
+            _pausePanel.pauseStart(this);
+            _upgradePanel.setting(_player, closeUpgradePanel);
+
+            SoundManager.instance.PlayBGM(BGM.Battle);
+            standardSnow();
+
+            StartCoroutine(move());
+            StartCoroutine(_enemyMng.startMakeEnemy());
+
+            _stagePlay = true;
         }
 
-        // Update is called once per frame
-        void Update()
+        void managersManager()
         {
-            _map.position -= new Vector3(0, _speed * Time.deltaTime);
+            _obtMng = _mapMng.GetComponent<ObstacleManager>();
 
-            if (_map.position.y <= -10.24f)
-            {
-                _map.position = Vector3.zero;
-            }
+            _enProjMng = _enemyMng.GetComponent<EnemyProjManager>();
+            _efMng = _enemyMng.GetComponent<effManager>();
+            _skillMng = _enemyMng.GetComponent<playerSkillManager>();
+            _dmgfntMng = _enemyMng.GetComponent<dmgFontManager>();
 
-            _etime += Time.deltaTime;
-            if (_etime > _eterm)
-            {
-                _etime = 0;
-                _eterm -= 0.01f;
-                makeEnemy();
-            }
+            _enProjMng.Init(this);
+            _enemyMng.Init(this);
+            _obtMng.Init(this);
+            _mapMng.Init(this);
 
-            _htime += Time.deltaTime;
-            if (_htime > _hterm)
-            {
-                _htime = 0;
-                _hterm -= 0.01f;
-                makeHair();
-            }
+            _efMng.Init(this);
+            _skillMng.Init(this);
+            _dmgfntMng.Init();
+
+            _clockMng.Init(this);
+            _player.Init(this);
         }
 
-        Vector2 mopRespawnsPos()
+        IEnumerator move()
         {
-            if (Random.Range(0, 2) == 0)
-            {
-                float x = (Random.Range(0, 2) == 0) ? 3.5f : -3.5f;
-                return new Vector2(x, Random.Range(0, 6f));
-            }
-            else
-            {
-                return new Vector2(Random.Range(-3.5f, 3.5f), 6f);
-            }
-        }
+            yield return new WaitUntil(() => _stagePlay == true);
 
-        void makeEnemy()
-        {
-            int val = Random.Range(0, 10);
-            Enemy type = (val == 9) ? Enemy.middleBoss : (val >= 6) ? Enemy.mop2 : Enemy.mop1;
-
-            foreach (EnemyControl ec in _enemyList)
+            while (_gameOver == false)
             {
-                if (ec.getType == type && ec.isUse == false)
+                yield return new WaitUntil(() => _pause == false);
+
+                _clockMng.accTime(Time.deltaTime);
+
+                _player.setMove(_joyStick.Direction);
+
+                if (_mapMng.middleTilePos.y - _player.transform.position.y < -10.24f)
                 {
-                    ec.transform.position = mopRespawnsPos();
-                    ec.Init(_player.position - ec.transform.position);
-
-                    return;
+                    _mapMng.playerMoveUp();
                 }
-            }
-
-            EnemyControl ect = Instantiate(_mops[(int)type]).GetComponent<EnemyControl>();
-            _enemyList.Add(ect);
-            ect.transform.parent = _pool;
-            ect.transform.position = mopRespawnsPos();
-            ect.setting(this);
-            ect.Init(_player.position - ect.transform.position);
-        }
-
-        void makeHair()
-        {
-            foreach (hairCoinControl hcc in _hairList)
-            {
-                if (hcc.isUse == false)
+                else if (_mapMng.middleTilePos.y - _player.transform.position.y > 10.24f)
                 {
-                    hcc.transform.position = new Vector2(Random.Range(-3f, 3f), 6f);
-                    hcc.Init();
-                    return;
+                    _mapMng.playerMoveDown();
                 }
-            }
 
-            hairCoinControl hcct = Instantiate(_hairFab).GetComponent<hairCoinControl>();
-            _hairList.Add(hcct);
-            hcct.transform.parent = _pool;
-            hcct.transform.position = new Vector2(Random.Range(-3f, 3f), 6f);
-            hcct.setting(this);
-            hcct.Init();
+                if (_mapMng.middleTilePos.x - _player.transform.position.x < -10.24f)
+                {
+                    _mapMng.playerMoveRight();
+                }
+                else if (_mapMng.middleTilePos.x - _player.transform.position.x > 10.24f)
+                {
+                    _mapMng.playerMoveLeft();
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
         }
 
-        public void getDamaged(int dmg)
-        {
-            playerHp -= dmg;
+        #region EXP
 
-            if (playerHp < 1)
+        void ExpRefresh()
+        {
+            _ExpBar.fillAmount = _player.ExpRate;
+        }
+
+        public void levelUp()
+        {
+            if (_gameOver)
             {
-                BaseManager.instance.convertScene(SceneNum.GameScene.ToString(), SceneNum.LobbyScene);
+                return;
             }
+
+            whenPause();            
+            //Time.timeScale = 0;
+
+            _lvl++;
+            _lvlTmp.text = $"lvl.{_lvl.ToString()}";
+
+            _upgradePanel.levelUpOpen();
         }
 
-        public void getHair(int val)
+        public void getEquip()
         {
-            _hair += val;
+            //whenPause();
+            ////Time.timeScale = 0;
+
+            //_upgradePanel.presentOpen();
+            StartCoroutine(getEquipCo());
         }
 
-        #region [option]
+        IEnumerator getEquipCo()
+        {
+            yield return new WaitUntil(() => Pause == false);
 
-        void optionStart()
-        {
-            _optionPanel.gameObject.SetActive(false);
-            _chkExitPanel.gameObject.SetActive(false);
-        }
+            whenPause();
+            //Time.timeScale = 0;
 
-        public void openOption()
-        {
-            _optionPanel.gameObject.SetActive(true);
-            Time.timeScale = 0;
-        }        
-        public void optionResume()
-        {
-            Time.timeScale = 1;
-            _optionPanel.gameObject.SetActive(false);
-        }
-
-        public void chkExitOpen()
-        {
-            _chkExitPanel.gameObject.SetActive(true);
-        }
-        public void chkExitClose()
-        {
-            _chkExitPanel.gameObject.SetActive(false);
-        }
-        public void exitGame()
-        {
-            Time.timeScale = 1;
-            BaseManager.instance.convertScene(SceneNum.GameScene.ToString(), SceneNum.LobbyScene);
+            _upgradePanel.presentOpen();
         }
 
         #endregion
+
+        public void getKill(int exp)
+        {
+            _killCount.text = (++_kill).ToString();
+            _player.getExp(exp*3);
+            getCoin(cointype.mopCoin);
+            ExpRefresh();
+        }
+
+        public void getBossKill()
+        {
+            _player.getExp(50);
+        }
+
+        public void getCoin(cointype ctype)
+        {
+            if (_gameOver)
+            {
+                return;
+            }
+
+            switch (ctype) 
+            {
+                case cointype.mopCoin:
+                    _coin += (int)_mopCoin;
+                    break;
+                case cointype.extraCoin:
+                    _coin += (int)(_bossCoin);
+                    break;
+            }
+            _totalCoin.text = _coin.ToString();
+        }
+
+        #region 카메라 안 군중제어
+
+        /// <summary> 플레이어 공격시 첫타겟 선택용 </summary>
+        public Vector3 mostCloseEnemy(Transform from)
+        {
+            float dist = float.MaxValue;
+            float val;
+
+            if (_enemyMng.BossList.Count > 0)
+            {
+                for (int i = 0; i < _enemyMng.BossList.Count; i++)
+                {
+                    if (_enemyMng.BossList[i].IsUse)
+                    {
+                        val = Vector3.Distance(_enemyMng.BossList[i].transform.position, from.position);
+                        if (val < dist && val < 5f)
+                        {
+                            dist = val;
+                            targetPos = _enemyMng.BossList[i].transform.position;
+                        }
+                    }
+                }
+            }
+
+            if (dist < float.MaxValue)
+                return targetPos;
+
+            if (_enemyMng.EnemyList.Count > 0)
+            {
+                for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
+                {
+                    if (_enemyMng.EnemyList[i].IsUse)
+                    {
+                        val = _enemyMng.EnemyList[i].PlayerDist;
+                        if (val < dist)
+                        {
+                            dist = val;
+                            targetPos = _enemyMng.EnemyList[i].transform.position;
+                        }
+                    }
+                }
+            }
+
+            return targetPos;
+        }
+
+        /// <summary> 튕길때 최소사거리 이상 적 선택용 </summary>
+        public Vector3 mostCloseEnemy(Transform from, float min)
+        {
+            float dist = float.MaxValue;
+            float val;
+
+            for (int i = 0; i < _enemyMng.BossList.Count; i++)
+            {
+                if (_enemyMng.BossList[i].IsUse)
+                {
+                    val = Vector3.Distance(_enemyMng.BossList[i].transform.position, from.position);
+                    if (val > min && val < dist && val < 5f)
+                    {
+                        dist = val;
+                        targetPos = _enemyMng.BossList[i].transform.position;
+                    }
+                }
+            }
+
+            for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
+            {
+                if (_enemyMng.EnemyList[i].IsUse)
+                {
+                    val = Vector3.Distance(_enemyMng.EnemyList[i].transform.position, from.position);
+                    if (val > min && val < dist)
+                    {
+                        dist = val;
+                        targetPos = _enemyMng.EnemyList[i].transform.position;
+                    }
+                }
+            }
+
+            return targetPos;
+        }
+
+        /// <summary> 최대사거리 이내 아무나 </summary>
+        public Vector3 randomCloseEnemy(Transform from, float max)
+        {
+            float val;
+
+            if (_enemyMng.BossList.Count > 0)
+            {
+                for (int i = 0; i < _enemyMng.BossList.Count; i++)
+                {
+                    if (_enemyMng.BossList[i].IsUse)
+                    {
+                        val = Vector3.Distance(_enemyMng.BossList[i].transform.position, from.position);
+                        if (val < max)
+                        {
+                            return _enemyMng.BossList[i].transform.position;
+                        }
+                    }
+                }
+            }
+
+            if (_enemyMng.EnemyList.Count > 0)
+            {
+                for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
+                {
+                    if (_enemyMng.EnemyList[i].IsUse)
+                    {
+                        val = _enemyMng.EnemyList[i].PlayerDist;
+                        if (val < max)
+                        {
+                            targetPos = _enemyMng.EnemyList[i].transform.position;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return targetPos;
+        }
+
+        public void enemyFrozen(float term)
+        {
+            for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
+            {
+                _enemyMng.EnemyList[i].setFrozen(term);
+            }
+        }
+
+        public void enemyDamaged(float dmg)
+        {
+            for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
+            {
+                if (_enemyMng.EnemyList[i].IsUse)
+                {
+                    _enemyMng.EnemyList[i].getDamaged(dmg);
+                }
+            }
+        }
+
+        public void enemySlow(bool last, float term, float slow)
+        {
+            for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
+            {
+                _enemyMng.EnemyList[i].setBuff(eDeBuff.slow, last, term, slow);
+            }
+        }
+
+        #endregion
+           
+        public void gameOver()
+        {
+            whenPause();
+
+            _enemyMng.allDestroy();
+            _stagePlay = false;
+            _gameOver = true;
+
+            int coinResult = _coin * BaseManager.userEntity.DoubleCoin;
+            int gemResult = _gem * BaseManager.userEntity.DoubleCoin;
+            int apResult = _ap * BaseManager.userEntity.DoubleCoin;
+
+            BaseManager.userEntity.Coin += coinResult;
+            BaseManager.userEntity.Gem += gemResult;
+            BaseManager.userEntity.Ap += apResult;
+
+            BaseManager.instance.saveUserData();
+
+            _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult);
+        }
+
+        #region [Window]
+
+        public void openPause()
+        {
+            _pausePanel.openPause();
+        }
+
+         void closeUpgradePanel()
+        {
+            Time.timeScale = 1;
+            whenResume();
+            _player.setAlmighty();
+        }
+
+        #endregion
+
+        public void whenPause()
+        {
+            _pause = true;
+
+            _player.onPause(true);
+
+            foreach (MobControl mc in _enemyMng.EnemyList)
+            {
+                mc.onPause(true);
+            }
+            foreach (bossControl bc in _enemyMng.BossList)
+            {
+                bc.onPause(true);
+            }
+            foreach (effControl ec in _efMng.EffList)
+            {
+                ec.onPause(true);
+            }
+        }
+        public void whenResume()
+        {
+            _pause = false;
+
+            _player.onPause(false); 
+
+            foreach (MobControl mc in _enemyMng.EnemyList)
+            {
+                mc.onPause(false);
+            }
+            foreach (bossControl bc in _enemyMng.BossList)
+            {
+                bc.onPause(false);
+            }
+            foreach (effControl ec in _efMng.EffList)
+            {
+                ec.onPause(false);
+            }
+        }
+
+        public void blizzard(bool bl)
+        {
+            if (bl)
+            {
+                hardSnow();
+            }
+            else
+            {
+                standardSnow();
+            }
+        }
+
+        void standardSnow()
+        {
+            _snow.OnMasterChanged(1f);
+            _snow.OnSnowChanged(0f);
+            _snow.OnWindChanged(0f);
+            _snow.OnFogChanged(0f);
+        }
+
+        void hardSnow()
+        {
+            _snow.OnMasterChanged(1f);
+            _snow.OnSnowChanged(1f);
+            _snow.OnWindChanged(0.5f);
+            _snow.OnFogChanged(0.5f);
+        }
     }
 }
