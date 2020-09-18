@@ -7,7 +7,6 @@ namespace week
 {
     public class MobOnlyFollow : MobControl
     {
-        [SerializeField] SpriteRenderer _render;
         protected override void otherWhenFixInit()
         {
         }
@@ -50,11 +49,6 @@ namespace week
             }
         }
 
-        protected override IEnumerator mopAttack()
-        {
-            yield return null;
-        }
-
         protected override void switchStat(stat st)
         {
             _stat = st;
@@ -83,24 +77,7 @@ namespace week
             _render.color = _originColor;
         }
 
-        protected override IEnumerator damageAni()
-        {
-            _isDmgAction = true;
-            _render.color = new Color(1, 0.4f, 0.4f);
-
-            yield return new WaitForSeconds(0.1f);
-
-            _render.color = _originColor;
-
-            yield return new WaitForSeconds(0.1f);
-
-            _render.color = new Color(1, 0.4f, 0.4f);
-
-            yield return new WaitForSeconds(0.1f);
-
-            _render.color = _originColor;
-            _isDmgAction = false;
-        }
+        
 
         public override void onPause(bool bl)
         {

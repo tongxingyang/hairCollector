@@ -59,10 +59,6 @@ namespace week
                 Destroy();
             }
         }
-        protected override IEnumerator mopAttack()
-        {
-            yield return null;
-        }
 
         protected override void switchStat(stat st)
         {

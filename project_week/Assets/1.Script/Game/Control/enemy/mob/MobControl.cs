@@ -12,6 +12,7 @@ namespace week
     {
         [Header("type")]
         [SerializeField] Mob _enemy = Mob.mob_fire;
+        [SerializeField] protected SpriteRenderer _render;
         [SerializeField] GameObject _ice;
 
         protected enum stat { trace, attack, attack2, die }
@@ -66,7 +67,7 @@ namespace week
             _def        = DataManager.GetTable<int>(DataTable.monster, (getType).ToString(), MonsterData.def.ToString());
             _speed      = gameValues._defaultSpeed * DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.speed.ToString());
             _calSpeed   = _speed;
-            _pspeed     = gameValues._defaultSpeed * DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString());
+            _pspeed     = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString());
             _exp        = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.exp.ToString());
             _staticCool = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.attspeed.ToString());
 
@@ -88,12 +89,8 @@ namespace week
             _coolTime = 0;
             _isCool = false;
 
-            if (_spine != null)
-            {
-                _spine.skeleton.SetColor(Color.white);
-                SetAnimation("trace", true, 1f);
-            }
-            _hpbar.localScale = new Vector2(_hp / _maxhp, 1f);
+            _render.color = Color.white;
+            
             _isDmgAction = false;
 
             //_target = target.normalized;
@@ -187,7 +184,7 @@ namespace week
 
         protected virtual void setColor()
         {
-            _spine.skeleton.SetColor(_originColor);    
+            _render.color = _originColor;    
         }
 
         protected void deBuffChk(float delTime)
@@ -339,9 +336,26 @@ namespace week
 
         #endregion
 
-        #region abstract attack
+        #region [override]
 
-        protected abstract IEnumerator mopAttack();
+        protected override IEnumerator damageAni()
+        {
+            _isDmgAction = true;
+            _render.color = new Color(1, 0.4f, 0.4f);
+
+            yield return new WaitForSeconds(0.1f);
+
+            _render.color = _originColor;
+
+            yield return new WaitForSeconds(0.1f);
+
+            _render.color = new Color(1, 0.4f, 0.4f);
+
+            yield return new WaitForSeconds(0.1f);
+
+            _render.color = _originColor;
+            _isDmgAction = false;
+        }
 
         #endregion
 
@@ -349,7 +363,7 @@ namespace week
 
         public override void onPause(bool bl)
         {
-            spinePause(bl);
+            _ani.speed = (bl) ? 0f : 1f;
         }
 
         #endregion        

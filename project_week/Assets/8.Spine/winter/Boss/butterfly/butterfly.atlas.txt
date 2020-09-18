@@ -1,0 +1,48 @@
+
+butterfly.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+back/B-L-wing
+  rotate: false
+  xy: 1279, 23
+  size: 384, 803
+  orig: 819, 819
+  offset: 21, 16
+  index: -1
+back/B-R-wing
+  rotate: false
+  xy: 454, 11
+  size: 436, 815
+  orig: 819, 819
+  offset: 361, 0
+  index: -1
+back/B-body
+  rotate: false
+  xy: 1665, 2
+  size: 207, 408
+  orig: 819, 819
+  offset: 284, 223
+  index: -1
+front/F-L-wing
+  rotate: false
+  xy: 892, 16
+  size: 385, 810
+  orig: 819, 819
+  offset: 410, 9
+  index: -1
+front/F-R-wing
+  rotate: false
+  xy: 2, 7
+  size: 450, 819
+  orig: 819, 819
+  offset: 0, 0
+  index: -1
+front/F-body
+  rotate: false
+  xy: 1665, 412
+  size: 206, 414
+  orig: 819, 819
+  offset: 319, 217
+  index: -1

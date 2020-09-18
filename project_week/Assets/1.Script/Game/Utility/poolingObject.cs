@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace week
 {
-    public abstract class poolingObject : spineCtrl, IPause
+    public abstract class poolingObject : MonoBehaviour, IPause
     {
         protected bool _isUse;
         public bool IsUse { get => _isUse; set => _isUse = value; }

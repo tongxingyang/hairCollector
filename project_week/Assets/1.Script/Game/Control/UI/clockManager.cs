@@ -16,13 +16,13 @@ namespace week
         [SerializeField] nightDarkCtrl _dark;
 
         GameScene _gs;
-        readonly int _date = 30;
+        readonly int _date = 120;
         float _night = 30f;
         float _degree;
         bool _isNight;
         float _startDark = 0.6f;
 
-        season _season = season.fall;
+        season _season = season.winter;
         float _recordTime;
         float _dateTime;
         float _monthTime;

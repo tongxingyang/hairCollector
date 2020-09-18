@@ -197,6 +197,8 @@ namespace week
         boss_owl,
         boss_bear,
         boss_scarecrow,
+        boss_flower,
+        //boss_bigbettle,
         max
     }
 
@@ -209,6 +211,11 @@ namespace week
         owl_shot,
         bear_shot,
         scarecrow_shot,
+        flower_thorn,
+        flower_mine,
+
+        banana,
+
         max
     }
 
@@ -217,12 +224,18 @@ namespace week
         bosszone_0,
         bosszone_1,
         bosszone_2,
+        bosszone_3,
+        bosszone_4,
+
         map0,
         map1,
         map2,
         map3,
         map4,
         map5,
+        map6,
+        map7,
+
         ruin0,
         ruin1,
         ruin2,

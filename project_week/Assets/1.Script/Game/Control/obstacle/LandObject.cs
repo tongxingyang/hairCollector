@@ -145,12 +145,12 @@ namespace week
 
             bosss = new bossControl[bosPos.Length];
             Boss _bs = (Boss)Random.Range(0, (int)Boss.max);
-            // _bs = Boss.boss_bear;
+            //_bs = Boss.boss_flower;
 
             for (int i = 0; i < bosPos.Length; i++)
             {
                 bosss[i] = _enm.makeBoss(_bs, this, bosPos[i].position);
-                bosss[i].PlayObject(bosPos[i].position);
+                bosss[i].PlayObject();
             }
         }
 
@@ -213,7 +213,7 @@ namespace week
             {
                 for (int i = 0; i < bosPos.Length; i++)
                 {
-                    bosss[i].Destroy();
+                    bosss[i].chkDestroy(this);
                 }
             }
             else if (chk_ruin)

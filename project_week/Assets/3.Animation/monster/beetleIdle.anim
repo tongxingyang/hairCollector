@@ -35,7 +35,7 @@ AnimationClip:
       value: {fileID: 8189239267110657558, guid: 313c86c232161c84dac665dbe3110621,
         type: 3}
     attribute: m_Sprite
-    path: sprite
+    path: beetle_sprite
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -46,7 +46,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 891129758
+      path: 2081768987
       attribute: 0
       script: {fileID: 0}
       typeID: 212

@@ -11,6 +11,8 @@ namespace week
         [Header("type")]
         [SerializeField] Boss _boss = Boss.boss_owl;
 
+        [SerializeField] protected GameObject _hpCase;
+        [SerializeField] protected Transform _hpbar;
 
         protected Vector3[] _shotDir = new Vector3[4] { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
         protected enum dir { back, right, front, left }
@@ -31,12 +33,26 @@ namespace week
         public bool isFrozen { get; set; }
         public float Slow { get; set; }
 
-        public float getDamage { get => _att; }
-
         public Boss getType { get { return _boss; } }
+        public override bool getDamaged(float val)//, bool knockBack = false)
+        {
+            _hpbar.localScale = new Vector2(_hp / _maxhp, 1f);
+            val = (val - _def > 0) ? val - _def : 0;
 
+            dmgFunc(transform, (int)val, dmgTxtType.standard, false);
+            _hp -= val;
+
+            if (_hp <= 0)
+            {
+                enemyDie();
+                return true;
+            }
+
+            damagedAni();
+            return false;
+        }
         public void setting(GameScene gs, effManager ef, EnemyProjManager ep, Action<Transform, int, dmgTxtType, bool> dmg, Action<int> kill)
-        {            
+        {
             _player = gs.Player;
             _gs = gs;
             _efMng = ef;
@@ -63,13 +79,14 @@ namespace week
 
         public void RepeatInit() 
         {
+            _hp = _maxhp;
+            _hpbar.localScale = new Vector2(_hp / _maxhp, 1f);
             _isDie = false;
             IsUse = true;
             _isAppear = false;
             isFrozen = false;
             Slow = 1f;
 
-            _spine.skeleton.SetColor(Color.white);
             _hpbar.localScale = new Vector2(_hp / _maxhp, 1f);
             _isDmgAction = false;
             gameObject.SetActive(true);
@@ -77,9 +94,8 @@ namespace week
             otherWhenRepeatInit();
         }
 
-        public void PlayObject(Vector3 pos)
+        public void PlayObject()
         {
-            transform.position = pos;
             StartCoroutine(lifeCycle());
         }
 
@@ -95,6 +111,14 @@ namespace week
             killFunc((int)_exp);
             _efMng.makeEff(effAni.bossExplosion, transform.position);
             Destroy();
+        }
+
+        public void chkDestroy(LandObject land)
+        {
+            if (land == _home)
+            {
+                Destroy();
+            }
         }
 
         public override void Destroy()
@@ -126,22 +150,6 @@ namespace week
             {
                 Destroy();
             }
-        }
-
-        //void OnTriggerEnter2D(Collider2D collision)
-        //{
-        //    if (collision.gameObject.tag.Equals("Player"))
-        //    {
-        //        _player.getDamaged(_att);
-        //    }
-        //    else if (collision.gameObject.tag.Equals("Player"))
-        //    {
-        //        _player.getDamaged(_att);
-        //    }
-        //    else if (collision.tag.Equals("Finish"))
-        //    {
-        //        Destroy();
-        //    }
-        //}
+        }        
     }
 }

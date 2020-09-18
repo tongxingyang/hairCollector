@@ -7,7 +7,7 @@ using Spine;
 
 namespace week
 {
-    public class bossBearCtrl : bossControl
+    public class bossBearCtrl : spineBossControl
     {
         #region [skill value]
 
@@ -56,6 +56,7 @@ namespace week
 
         protected override void otherWhenRepeatInit()
         {
+            base.otherWhenRepeatInit();
             //_hp *= 10000;
             SetAnimation("idle", true, 1f);
         }
@@ -332,11 +333,6 @@ namespace week
             }
 
             SetAnimation(d_str + s_str, loop, spd);
-        }
-
-        public override void onPause(bool bl)
-        {
-            spinePause(bl);
         }
 
         #endregion

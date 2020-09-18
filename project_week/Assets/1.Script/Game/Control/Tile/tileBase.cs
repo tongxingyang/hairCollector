@@ -83,7 +83,7 @@ namespace week
 
             if (ran < 20)//2
             {
-                mo = (mapObstacle)UnityEngine.Random.Range(0, 2);
+                mo = (mapObstacle)UnityEngine.Random.Range(0, (int)mapObstacle.map0);
             }
             else if(ran > 80)//98
             {
@@ -94,7 +94,7 @@ namespace week
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map0, (int)mapObstacle.ruin0);
             }
 
-            mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
+            mo = (mapObstacle.bosszone_3);// UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
 
             if (first)
             {
@@ -103,18 +103,5 @@ namespace week
 
             _obm.getObstacle(mo, this, transform.position).transform.position = transform.position;
         }
-
-        //public void makeOb2()
-        //{
-        //    PreGameData.obsData oData = null;
-
-        //    for (int i = 0; i < 16; i++)
-        //    {
-        //        for (int j = 0; j < 16; j++)
-        //        {
-        //            oData = BaseManager.preGameData.getObs();
-        //        }
-        //    }
-        //}
     }
 }

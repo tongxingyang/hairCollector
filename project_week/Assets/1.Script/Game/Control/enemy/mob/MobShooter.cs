@@ -6,7 +6,6 @@ namespace week
 {
     public class MobShooter : MobControl
     {
-        [SerializeField] SpriteRenderer _render;
         [SerializeField] Transform[] _shotPos;
 
         float _shootTime;
@@ -24,11 +23,6 @@ namespace week
         protected void applyAttack()
         {
             _pAngle = 10f;
-        }
-
-        protected override IEnumerator mopAttack()
-        {
-            yield return null;
         }
 
         protected override void otherWhenDie()
@@ -57,6 +51,7 @@ namespace week
                 }
 
                 _shootTime += deltime;
+
                 if (_shootTime > _pspeed)
                 {
                     _shootTime = 0;

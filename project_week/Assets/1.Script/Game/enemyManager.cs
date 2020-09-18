@@ -109,7 +109,7 @@ namespace week
                 {
                     for (int j = 0; j < _stageEnemyAmount; j++)
                     {
-                        makeEnemySet(Mob.mob_fire);
+                        makeEnemySet(Mob.mob_stick);
                     }
                 }
 
@@ -246,6 +246,7 @@ namespace week
                 if (bc.getType == boss && bc.IsUse == false)
                 {
                     bc.setHome(bo, home);
+                    bc.transform.position = home;
                     bc.RepeatInit();
 
                     return bc;
@@ -260,6 +261,8 @@ namespace week
             bct.setting(_gs, _efm, _epm, _dmgFont.getText, _gs.getKill);
 
             bct.setHome(bo, home);
+            bct.transform.position = home;
+
             bct.FixInit();
 
             return bct;

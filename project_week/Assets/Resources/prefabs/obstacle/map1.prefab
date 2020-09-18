@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spine: {fileID: 0}
-  _type: 4
+  _type: 6
   _pocket: {fileID: 3981237554224266914}
   bosPos: []
   present: {fileID: 0}

@@ -10,7 +10,8 @@ namespace week
         [SerializeField] EnShot _shotType;
         public EnShot getType { get { return _shotType; } }
 
-        [SerializeField] protected bool _followAngle;
+        [SerializeField] protected bool _targeting;
+        [SerializeField] protected bool _lookRotate;
 
         /// <summary> 매니저들 </summary>
         protected GameScene _gs;
@@ -67,5 +68,6 @@ namespace week
         #endregion
 
         public abstract void operation(Vector3 target, float addAngle = 0f);
+        public abstract void operation(float addAngle = 0f);
     }
 }

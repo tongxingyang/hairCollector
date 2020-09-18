@@ -86,7 +86,7 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Enemy"))
             {
-                MobControl mc = collision.gameObject.GetComponent<MobControl>();
+                MobControl mc = collision.gameObject.GetComponentInParent<MobControl>();
                 if (mc)
                 {
                     mc.getDamaged(_dmg);

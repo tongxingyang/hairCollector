@@ -88,10 +88,10 @@ namespace week
             gauge += 0.2f;
 
             //저장된 유저 데이터 로드
-            if (ES3.KeyExists("userEntity"))
-            {
-                ES3.DeleteKey("userEntity");
-            }
+            //if (ES3.KeyExists("userEntity"))
+            //{
+            //    ES3.DeleteKey("userEntity");
+            //}
 
             if (ES3.KeyExists("userEntity"))
             {

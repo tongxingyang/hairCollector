@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NaughtyAttributes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,11 @@ namespace week
 {
     public class EnSkill_Proj : EnSkillControl
     {
+        [SerializeField] bool _lowHitRate;
+        [ShowIf("isLowHit")]
+        float _randAngle = 0f;
+        bool isLowHit { get => (_lowHitRate == true); }
+
         [SerializeField] bool _triggDestroy = true;
 
         float _lifeTime = 2.5f;
@@ -24,7 +30,16 @@ namespace week
         }
         public override void operation(Vector3 target, float addAngle = 0f)
         {
-            setTarget(target, addAngle);
+            _targeting = true;
+            setTarget(target - transform.position, addAngle);
+
+            StartCoroutine(skillUpdate());
+        }
+
+        public override void operation(float addAngle = 0)
+        {
+            _targeting = false;
+            setTarget(Vector3.zero, addAngle);
 
             StartCoroutine(skillUpdate());
         }
@@ -32,37 +47,27 @@ namespace week
         /// <summary> 타겟방향 회전 </summary>
         protected override void setTarget(Vector3 target, float addAngle = 0f)
         {
-            if (_followAngle)
+            if (_lookRotate)
             {
-                Vector3 _direct = target - transform.position;
+                if (_targeting)
+                {
+                    Vector3 _direct = target - transform.position;
 
-                float angle = Mathf.Atan2(_direct.x, _direct.y) * Mathf.Rad2Deg;
-                float add = Random.Range(-addAngle, addAngle);
-                transform.rotation = Quaternion.AngleAxis(angle + add, Vector3.back);
+                    float angle = Mathf.Atan2(_direct.x, _direct.y) * Mathf.Rad2Deg;
+                    float add = Random.Range(-_randAngle, _randAngle);
+                    transform.rotation = Quaternion.AngleAxis(angle + add, Vector3.back);
+
+                }
+                else
+                {
+                    transform.rotation = Quaternion.AngleAxis(addAngle, Vector3.back);
+                }
             }
             else
             {
-                _target = target;
+                _target = target.normalized;
             }
         }
-
-        ///// <summary> 특정 각도로 회전 </summary>
-        //public void setRotate(float dir)
-        //{
-        //    _followAngle = true;
-
-        //    transform.rotation = Quaternion.AngleAxis(dir, Vector3.back);
-        //}
-
-        /// <summary> 회전안하고 특정 방향 지정 </summary>
-        //public void setNonAngleTarget(Vector3 target)
-        //{
-        //    _followAngle = false;
-
-        //}
-
-        /// <summary> 작동 </summary>
-        
 
         protected IEnumerator skillUpdate()
         {
@@ -72,7 +77,7 @@ namespace week
             {
                 time += Time.deltaTime;
 
-                if (_followAngle)
+                if (_lookRotate)
                 {
                     transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
                 }
