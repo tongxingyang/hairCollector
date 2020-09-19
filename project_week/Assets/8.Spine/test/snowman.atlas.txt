@@ -1,0 +1,2028 @@
+
+snowman.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+image/angel-smowman/F-body
+  rotate: false
+  xy: 2, 787
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/angel-smowman/F-head
+  rotate: true
+  xy: 1209, 1712
+  size: 170, 250
+  orig: 170, 250
+  offset: 0, 0
+  index: -1
+image/angel-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/beast-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/fire-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/gold-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/light-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/machine-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/mine-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/rock-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/spider-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/spring-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/square-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/F-l-arm
+  rotate: true
+  xy: 370, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/angel-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/beast-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/fire-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/gold-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/light-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/machine-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/mine-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/rock-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/spider-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/spring-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/square-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/F-l-hand
+  rotate: true
+  xy: 720, 1938
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/angel-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/beast-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/fire-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/gold-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/light-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/machine-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/mine-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/rock-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/spider-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/spring-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/square-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/F-r-arm
+  rotate: false
+  xy: 218, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/angel-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/beast-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/fire-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/gold-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/light-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/machine-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/mine-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/rock-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/spider-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/spring-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/square-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/F-r-hand
+  rotate: false
+  xy: 522, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/angel-smowman/b-body1
+  rotate: true
+  xy: 485, 722
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/angel-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/beast-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/fire-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/gold-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/light-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/machine-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/mine-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/rock-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/spider-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/spring-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/square-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/b-hand1
+  rotate: true
+  xy: 820, 1938
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/angel-smowman/b-head1
+  rotate: true
+  xy: 1325, 1531
+  size: 179, 231
+  orig: 179, 231
+  offset: 0, 0
+  index: -1
+image/angel-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/beast-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/fire-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/gold-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/light-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/machine-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/mine-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/rock-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/spider-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/spring-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/square-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/b-i-arm1
+  rotate: false
+  xy: 294, 1961
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/angel-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/beast-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/fire-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/gold-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/light-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/machine-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/mine-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/rock-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/spider-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/spring-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/square-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/b-l-hand1
+  rotate: false
+  xy: 621, 1939
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/angel-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/beast-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/fire-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/gold-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/light-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/machine-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/mine-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/rock-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/spider-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/spring-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/square-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/b-r-arm1
+  rotate: true
+  xy: 446, 1960
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/angel-smowman/s-body1
+  rotate: false
+  xy: 1531, 113
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/angel-smowman/s-head1
+  rotate: true
+  xy: 225, 1013
+  size: 212, 262
+  orig: 212, 262
+  offset: 0, 0
+  index: -1
+image/angel-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/beast-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/fire-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/gold-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/light-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/machine-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/mine-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/rock-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/spider-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/spring-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/square-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/s-l-arm1
+  rotate: false
+  xy: 2, 1966
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/angel-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/beast-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/fire-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/gold-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/light-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/machine-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/mine-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/rock-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/spider-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/spring-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/square-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/s-l-hand1
+  rotate: false
+  xy: 917, 1923
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/angel-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/beast-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/fire-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/gold-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/light-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/machine-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/mine-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/rock-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/spider-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/spring-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/square-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/s-r-arm1
+  rotate: false
+  xy: 110, 1964
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/angel-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/beast-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/fire-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/gold-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/light-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/machine-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/mine-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/rock-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/spider-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/spring-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/square-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1922
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/beast-smowman/F-head
+  rotate: false
+  xy: 241, 1227
+  size: 378, 198
+  orig: 378, 198
+  offset: 0, 0
+  index: -1
+image/beast-smowman/b-head1
+  rotate: false
+  xy: 1465, 1342
+  size: 374, 187
+  orig: 374, 187
+  offset: 0, 0
+  index: -1
+image/beast-smowman/s-head1
+  rotate: false
+  xy: 2, 1045
+  size: 221, 210
+  orig: 221, 210
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/F-head
+  rotate: true
+  xy: 276, 1628
+  size: 174, 218
+  orig: 174, 218
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/b-head1
+  rotate: true
+  xy: 1558, 1531
+  size: 179, 198
+  orig: 179, 198
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/s-body1
+  rotate: true
+  xy: 246, 22
+  size: 242, 235
+  orig: 242, 240
+  offset: 0, 5
+  index: -1
+image/citrus-smowman/s-head1
+  rotate: true
+  xy: 489, 976
+  size: 212, 222
+  orig: 212, 223
+  offset: 0, 1
+  index: -1
+image/fire-smowman/F-head
+  rotate: true
+  xy: 1616, 1132
+  size: 208, 219
+  orig: 208, 219
+  offset: 0, 0
+  index: -1
+image/fire-smowman/b-head1
+  rotate: true
+  xy: 1546, 916
+  size: 214, 228
+  orig: 214, 228
+  offset: 0, 0
+  index: -1
+image/fire-smowman/s-body1
+  rotate: false
+  xy: 1362, 462
+  size: 289, 226
+  orig: 289, 226
+  offset: 0, 0
+  index: -1
+image/gold-smowman/F-body
+  rotate: false
+  xy: 1775, 113
+  size: 261, 229
+  orig: 261, 229
+  offset: 0, 0
+  index: -1
+image/gold-smowman/F-head
+  rotate: false
+  xy: 1196, 1343
+  size: 267, 186
+  orig: 267, 186
+  offset: 0, 0
+  index: -1
+image/gold-smowman/b-body1
+  rotate: true
+  xy: 256, 520
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/gold-smowman/b-head1
+  rotate: false
+  xy: 1039, 1532
+  size: 284, 178
+  orig: 284, 179
+  offset: 0, 0
+  index: -1
+image/gold-smowman/s-body1
+  rotate: false
+  xy: 2, 102
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/gold-smowman/s-head1
+  rotate: false
+  xy: 2, 1257
+  size: 237, 199
+  orig: 237, 199
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/F-body
+  rotate: false
+  xy: 713, 706
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/F-head
+  rotate: true
+  xy: 1461, 1712
+  size: 170, 268
+  orig: 170, 268
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/b-body1
+  rotate: false
+  xy: 1653, 344
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/b-head1
+  rotate: true
+  xy: 1758, 1531
+  size: 179, 247
+  orig: 179, 247
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/s-body1
+  rotate: false
+  xy: 483, 21
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/icecream-smowman/s-head1
+  rotate: true
+  xy: 713, 932
+  size: 212, 270
+  orig: 212, 270
+  offset: 0, 0
+  index: -1
+image/light-smowman/F-body
+  rotate: false
+  xy: 967, 702
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/light-smowman/F-head
+  rotate: true
+  xy: 1731, 1712
+  size: 170, 284
+  orig: 170, 284
+  offset: 0, 0
+  index: -1
+image/light-smowman/b-body1
+  rotate: false
+  xy: 2, 333
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/light-smowman/b-head1
+  rotate: true
+  xy: 2, 1458
+  size: 179, 237
+  orig: 179, 237
+  offset: 0, 0
+  index: -1
+image/light-smowman/s-body1
+  rotate: false
+  xy: 1215, 2
+  size: 286, 229
+  orig: 286, 229
+  offset: 0, 0
+  index: -1
+image/light-smowman/s-head1
+  rotate: true
+  xy: 985, 928
+  size: 212, 284
+  orig: 212, 284
+  offset: 0, 0
+  index: -1
+image/machine-smowman/F-body
+  rotate: false
+  xy: 1221, 699
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/machine-smowman/b-body1
+  rotate: true
+  xy: 256, 266
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/mine-smowman/F-body
+  rotate: false
+  xy: 750, 475
+  size: 306, 225
+  orig: 306, 226
+  offset: 0, 1
+  index: -1
+image/mine-smowman/F-head
+  rotate: true
+  xy: 656, 1398
+  size: 192, 197
+  orig: 192, 197
+  offset: 0, 0
+  index: -1
+image/mine-smowman/b-body1
+  rotate: false
+  xy: 1246, 233
+  size: 283, 227
+  orig: 283, 227
+  offset: 0, 0
+  index: -1
+image/mine-smowman/b-head1
+  rotate: true
+  xy: 1841, 1331
+  size: 198, 199
+  orig: 198, 199
+  offset: 0, 0
+  index: -1
+image/mine-smowman/s-body1
+  rotate: false
+  xy: 1058, 472
+  size: 302, 225
+  orig: 302, 225
+  offset: 0, 0
+  index: -1
+image/mine-smowman/s-head1
+  rotate: false
+  xy: 852, 1146
+  size: 243, 199
+  orig: 243, 199
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/F-body
+  rotate: false
+  xy: 1475, 690
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/F-head
+  rotate: false
+  xy: 1152, 1884
+  size: 170, 148
+  orig: 170, 148
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/b-body1
+  rotate: false
+  xy: 484, 252
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/b-head1
+  rotate: false
+  xy: 496, 1608
+  size: 179, 176
+  orig: 179, 176
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/s-body1
+  rotate: false
+  xy: 727, 16
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/nomal-smowman/s-head1
+  rotate: false
+  xy: 1324, 1884
+  size: 212, 148
+  orig: 212, 151
+  offset: 0, 3
+  index: -1
+image/rock-smowman/F-head
+  rotate: false
+  xy: 346, 1804
+  size: 174, 154
+  orig: 174, 154
+  offset: 0, 0
+  index: -1
+image/rock-smowman/b-head1
+  rotate: false
+  xy: 677, 1592
+  size: 179, 176
+  orig: 179, 176
+  offset: 0, 0
+  index: -1
+image/rock-smowman/s-body1
+  rotate: true
+  xy: 256, 774
+  size: 237, 227
+  orig: 237, 227
+  offset: 0, 0
+  index: -1
+image/rock-smowman/s-head1
+  rotate: false
+  xy: 980, 1718
+  size: 227, 164
+  orig: 227, 164
+  offset: 0, 0
+  index: -1
+image/spider-smowman/F-head
+  rotate: false
+  xy: 1538, 1884
+  size: 170, 148
+  orig: 170, 148
+  offset: 0, 0
+  index: -1
+image/spider-smowman/b-head1
+  rotate: true
+  xy: 241, 1447
+  size: 179, 180
+  orig: 179, 183
+  offset: 0, 3
+  index: -1
+image/spider-smowman/s-head1
+  rotate: false
+  xy: 1710, 1884
+  size: 212, 148
+  orig: 212, 151
+  offset: 0, 3
+  index: -1
+image/spring-smowman/F-body
+  rotate: false
+  xy: 1729, 572
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/spring-smowman/F-head
+  rotate: true
+  xy: 2, 1639
+  size: 170, 272
+  orig: 170, 272
+  offset: 0, 0
+  index: -1
+image/spring-smowman/b-body1
+  rotate: false
+  xy: 738, 247
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/spring-smowman/b-head1
+  rotate: true
+  xy: 423, 1427
+  size: 179, 231
+  orig: 179, 231
+  offset: 0, 0
+  index: -1
+image/spring-smowman/s-body1
+  rotate: false
+  xy: 971, 13
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/spring-smowman/s-head1
+  rotate: true
+  xy: 1271, 925
+  size: 212, 273
+  orig: 212, 273
+  offset: 0, 0
+  index: -1
+image/square-smowman/F-body
+  rotate: false
+  xy: 2, 561
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/square-smowman/F-head
+  rotate: false
+  xy: 2, 1814
+  size: 170, 148
+  orig: 170, 148
+  offset: 0, 0
+  index: -1
+image/square-smowman/b-body1
+  rotate: false
+  xy: 992, 244
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/square-smowman/b-head1
+  rotate: false
+  xy: 858, 1540
+  size: 179, 176
+  orig: 179, 176
+  offset: 0, 0
+  index: -1
+image/square-smowman/s-head1
+  rotate: false
+  xy: 766, 1770
+  size: 212, 151
+  orig: 212, 151
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/F-head
+  rotate: false
+  xy: 174, 1811
+  size: 170, 148
+  orig: 170, 148
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/b-body1
+  rotate: true
+  xy: 1837, 1023
+  size: 306, 207
+  orig: 306, 207
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/b-head1
+  rotate: false
+  xy: 855, 1347
+  size: 339, 183
+  orig: 339, 190
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/s-head1
+  rotate: false
+  xy: 522, 1786
+  size: 242, 150
+  orig: 242, 154
+  offset: 0, 4
+  index: -1
+image/warrior-smowman/F-body
+  rotate: false
+  xy: 1776, 798
+  size: 262, 223
+  orig: 262, 223
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/F-head
+  rotate: false
+  xy: 1097, 1142
+  size: 256, 199
+  orig: 256, 199
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/b-body1
+  rotate: false
+  xy: 484, 480
+  size: 264, 224
+  orig: 264, 224
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/b-head1
+  rotate: false
+  xy: 1355, 1139
+  size: 259, 201
+  orig: 259, 201
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/s-head1
+  rotate: false
+  xy: 621, 1190
+  size: 229, 206
+  orig: 229, 206
+  offset: 0, 0
+  index: -1
+
+snowman2.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+image/beast-smowman/F-body
+  rotate: true
+  xy: 331, 679
+  size: 318, 251
+  orig: 318, 251
+  offset: 0, 0
+  index: -1
+image/beast-smowman/b-body1
+  rotate: true
+  xy: 475, 366
+  size: 311, 250
+  orig: 311, 250
+  offset: 0, 0
+  index: -1
+image/beast-smowman/s-body1
+  rotate: false
+  xy: 2, 14
+  size: 374, 244
+  orig: 374, 244
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/F-body
+  rotate: true
+  xy: 1449, 510
+  size: 256, 249
+  orig: 256, 249
+  offset: 0, 0
+  index: -1
+image/citrus-smowman/b-body1
+  rotate: true
+  xy: 1241, 241
+  size: 261, 248
+  orig: 261, 248
+  offset: 0, 0
+  index: -1
+image/fire-smowman/F-body
+  rotate: true
+  xy: 727, 443
+  size: 314, 235
+  orig: 314, 235
+  offset: 0, 0
+  index: -1
+image/fire-smowman/b-body1
+  rotate: false
+  xy: 584, 759
+  size: 322, 238
+  orig: 322, 238
+  offset: 0, 0
+  index: -1
+image/fire-smowman/s-head1
+  rotate: true
+  xy: 1747, 19
+  size: 254, 232
+  orig: 254, 233
+  offset: 0, 1
+  index: -1
+image/machine-smowman/F-head
+  rotate: false
+  xy: 1511, 11
+  size: 234, 262
+  orig: 234, 262
+  offset: 0, 0
+  index: -1
+image/machine-smowman/b-head1
+  rotate: false
+  xy: 1197, 504
+  size: 250, 262
+  orig: 250, 262
+  offset: 0, 0
+  index: -1
+image/machine-smowman/s-body1
+  rotate: false
+  xy: 378, 34
+  size: 355, 234
+  orig: 355, 234
+  offset: 0, 0
+  index: -1
+image/machine-smowman/s-head1
+  rotate: true
+  xy: 735, 174
+  size: 267, 262
+  orig: 267, 262
+  offset: 0, 0
+  index: -1
+image/rock-smowman/F-body
+  rotate: false
+  xy: 1491, 275
+  size: 270, 233
+  orig: 270, 233
+  offset: 0, 0
+  index: -1
+image/rock-smowman/b-body1
+  rotate: false
+  xy: 1241, 2
+  size: 268, 237
+  orig: 268, 237
+  offset: 0, 0
+  index: -1
+image/spider-smowman/F-body
+  rotate: true
+  xy: 2, 260
+  size: 393, 238
+  orig: 393, 238
+  offset: 0, 0
+  index: -1
+image/spider-smowman/b-body1
+  rotate: true
+  xy: 242, 270
+  size: 383, 231
+  orig: 383, 235
+  offset: 0, 0
+  index: -1
+image/spider-smowman/s-body1
+  rotate: true
+  xy: 999, 188
+  size: 281, 240
+  orig: 281, 240
+  offset: 0, 0
+  index: -1
+image/square-smowman/s-body1
+  rotate: false
+  xy: 1208, 768
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/F-body
+  rotate: true
+  xy: 2, 655
+  size: 342, 327
+  orig: 342, 327
+  offset: 0, 0
+  index: -1
+image/vempire-smowman/s-body1
+  rotate: true
+  xy: 964, 471
+  size: 295, 231
+  orig: 295, 231
+  offset: 0, 0
+  index: -1
+image/warrior-smowman/s-body1
+  rotate: false
+  xy: 908, 768
+  size: 298, 229
+  orig: 298, 229
+  offset: 0, 0
+  index: -1
