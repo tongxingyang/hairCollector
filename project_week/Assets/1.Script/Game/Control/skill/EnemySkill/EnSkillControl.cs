@@ -42,8 +42,8 @@ namespace week
             _player = _gs.Player;
             _efm = efm;
 
-            _dmg = DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjData.att.ToString());
-            _speed = gameValues._defaultSpeed * DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjData.speed.ToString());
+            _dmg = DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.att.ToString());
+            _speed = gameValues._defaultSpeed * DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.speed.ToString());
 
             whenInit();
 

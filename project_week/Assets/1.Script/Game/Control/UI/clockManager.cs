@@ -16,7 +16,7 @@ namespace week
         [SerializeField] nightDarkCtrl _dark;
 
         GameScene _gs;
-        readonly int _date = 120;
+        readonly int _date = 30;
         float _night = 30f;
         float _degree;
         bool _isNight;
@@ -30,10 +30,10 @@ namespace week
         public float RecordTime { get => _recordTime; set => _recordTime = value; }
         public season Season { get => _season; set => _season = value; }
 
-        float _chk1w = 60f;
+        float _chk1w = 30f;
         public bool chk1Wave { get => _monthTime > _chk1w; }
-        public bool chk2Wave { get => _monthTime > 120f; }
-        public bool chk3Wave { get => _monthTime > 240f; }
+        public bool chk2Wave { get => _monthTime > 60f; }
+        public bool chk3Wave { get => _monthTime > 120f; }
 
         public Action<season> changeSS;
         public void Init(GameScene gs)
@@ -64,7 +64,9 @@ namespace week
 
             if (_dateTime > _date - _night && _isNight == false)
             {
-                _dark.startNight(_startDark);
+                float calDark = (BaseManager.userGameData.SkinBval[(int)skinBvalue.light]) ? 0.2f : _startDark;
+
+                _dark.startNight(calDark);
                 _isNight = true;
             }
             else if (_dateTime > _date)

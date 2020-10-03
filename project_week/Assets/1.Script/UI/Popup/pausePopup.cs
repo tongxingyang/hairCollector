@@ -101,8 +101,8 @@ namespace week
             _pauseCase.gameObject.SetActive(false);
             _optionPanel.SetActive(true);
 
-            _bgmHandle.sprite = (BaseManager.userEntity.BgmVol < 0.1f) ? _imgs[0] : _imgs[1];
-            _sfxHandle.sprite = (BaseManager.userEntity.SfxVol < 0.1f) ? _imgs[0] : _imgs[1];
+            _bgmHandle.sprite = (BaseManager.userGameData.BgmVol < 0.1f) ? _imgs[0] : _imgs[1];
+            _sfxHandle.sprite = (BaseManager.userGameData.SfxVol < 0.1f) ? _imgs[0] : _imgs[1];
         }
 
         public void optionClose()
@@ -165,7 +165,7 @@ namespace week
             int num = 0;
             getSkillCase gsc;
 
-            for (getSkillList sk = getSkillList.hp; sk < getSkillList.snowball; sk++)
+            for (SkillKeyList sk = SkillKeyList.hp; sk < SkillKeyList.snowball; sk++)
             {
                 if (_gs.Player.Abils[sk].active)
                 {
@@ -182,7 +182,7 @@ namespace week
                 }            
             }
 
-            for (getSkillList sk = getSkillList.snowball; sk < getSkillList.poison; sk++)
+            for (SkillKeyList sk = SkillKeyList.snowball; sk < SkillKeyList.poison; sk++)
             {
                 if (_gs.Player.Skills[sk].active)
                 {
@@ -199,7 +199,7 @@ namespace week
                 }
             }
 
-            for (getSkillList sk = getSkillList.poison; sk < getSkillList.max; sk++)
+            for (SkillKeyList sk = SkillKeyList.poison; sk < SkillKeyList.max; sk++)
             {
                 if (_gs.Player.Equips[sk].active)
                 {

@@ -39,12 +39,11 @@ namespace week
         {
             Debug.Log("초기화");
 
-            BaseManager.userEntity = new UserEntity();
-            BaseManager.userEntity.applyLevel();
+            BaseManager.userGameData = new UserGameData();
 
             _lobby.refreshCoin();
 
-            BaseManager.instance.saveUserData();
+            BaseManager.userGameData.saveUserEntity();
         }
 
         public void developers()
@@ -93,8 +92,8 @@ namespace week
 
         public void close()
         {
-            Debug.Log(BaseManager.userEntity.BgmVol + " // " + _bgmVol.value);
-            BaseManager.instance.saveUserData();
+            Debug.Log(BaseManager.userGameData.BgmVol + " // " + _bgmVol.value);
+            BaseManager.userGameData.saveUserEntity();
             _win.localScale = new Vector3(1f, 0f);
 
             developWin.SetActive(false);

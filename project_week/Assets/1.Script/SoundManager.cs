@@ -22,8 +22,8 @@ namespace week
         {
             instance = this;
             bgmPlayer = GetComponent<AudioSource>();
-            masterVolumeBGM = BaseManager.userEntity.BgmVol;
-            masterVolumeSFX = BaseManager.userEntity.SfxVol;
+            masterVolumeBGM = BaseManager.userGameData.BgmVol;
+            masterVolumeSFX = BaseManager.userGameData.SfxVol;
         }
 
         public void PlayBGM(BGM bgm)
@@ -52,14 +52,14 @@ namespace week
         public void SetVolumeBGM(float a_volume)
         {
             masterVolumeBGM = a_volume;
-            BaseManager.userEntity.BgmVol = masterVolumeBGM;
+            BaseManager.userGameData.BgmVol = masterVolumeBGM;
             bgmPlayer.volume = masterVolumeBGM;
         }
 
         public void SetVolumeSFX(float a_volume)
         {
             masterVolumeSFX = a_volume;
-            BaseManager.userEntity.SfxVol = masterVolumeSFX;
+            BaseManager.userGameData.SfxVol = masterVolumeSFX;
         }
     }
 }

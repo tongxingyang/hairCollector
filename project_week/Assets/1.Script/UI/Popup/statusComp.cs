@@ -103,14 +103,14 @@ namespace week
         /// <summary> 능력치 강화창 초기화 </summary>
         public void statusPopupStart()
         {
-            mTmps[(int)eTmp.hpEx].text         = string.Format("체력 +{0:0}", BaseManager.userEntity.Hp);      
-            mTmps[(int)eTmp.hpgenEx].text      = string.Format("체력회복 {0:0.00}", BaseManager.userEntity.Hpgen);
-            mTmps[(int)eTmp.defEx].text        = string.Format("방어력 +{0:0}", BaseManager.userEntity.Def);
-            mTmps[(int)eTmp.attEx].text        = string.Format("공격력 +{0:0}", BaseManager.userEntity.AttFactor);
-            mTmps[(int)eTmp.coolEx].text       = string.Format("공격속도 {0:0.00}", BaseManager.userEntity.Cool);
-            mTmps[(int)eTmp.expEx].text        = string.Format("경험치획득량 x{0:0.00}", BaseManager.userEntity.ExpFactor);
-            mTmps[(int)eTmp.coinEx].text       = string.Format("코인추가획득 x{0:0.00}", BaseManager.userEntity.CoinFactor);
-            mTmps[(int)eTmp.skinEx].text       = string.Format("스킨 강화율 {0:0.0}%", BaseManager.userEntity.SkinEnhance);
+            mTmps[(int)eTmp.hpEx].text          = string.Format("체력 +{0:0}", BaseManager.userGameData.o_Hp);
+            mTmps[(int)eTmp.attEx].text         = string.Format("공격력 +{0:0}", BaseManager.userGameData.o_Att);
+            mTmps[(int)eTmp.defEx].text         = string.Format("방어력 +{0:0}", BaseManager.userGameData.o_Def);
+            mTmps[(int)eTmp.hpgenEx].text       = string.Format("체력회복 {0:0.00}", BaseManager.userGameData.o_Hpgen);
+            mTmps[(int)eTmp.coolEx].text        = string.Format("공격속도 {0:0.00}", BaseManager.userGameData.o_Cool);
+            mTmps[(int)eTmp.expEx].text         = string.Format("경험치획득량 x{0:0.00}", BaseManager.userGameData.o_ExpFactor);
+            mTmps[(int)eTmp.coinEx].text        = string.Format("코인추가획득 x{0:0.00}", BaseManager.userGameData.o_CoinFactor);
+            mTmps[(int)eTmp.skinEx].text        = string.Format("스킨 강화율 {0:0.0}%", BaseManager.userGameData.SkinEnhance);
         }
 
         /// <summary> 창 오픈시 </summary>
@@ -146,7 +146,7 @@ namespace week
         /// <summary> ap 새로고침 </summary>
         void ApTxtRefresh()
         {
-            mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userEntity.Ap}";
+            mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userGameData.Ap}";
         }
 
         /// <summary> 능력치 창 설명 새로고침 </summary>
@@ -155,7 +155,7 @@ namespace week
             for (int i = 0; i < (int)StatusData.max; i++)
             {
                 mTmps[(int)eTmp.hpEx + i].text = getExplain((StatusData)i, false); 
-                mTmps[(int)eTmp.hpLevel + i].text = BaseManager.userEntity.StatusLevel[i].ToString();
+                mTmps[(int)eTmp.hpLevel + i].text = BaseManager.userGameData.StatusLevel[i].ToString();
             }
         }
 
@@ -163,25 +163,25 @@ namespace week
         void upgradePanelRefresh()
         { 
             int stat = (int)_selectStat;
-            _upgradePrice = (int)(BaseManager.userEntity.StatusLevel[stat] / 5) + 1;
+            _upgradePrice = (int)(BaseManager.userGameData.StatusLevel[stat] / 5) + 1;
 
-            bool bl = (BaseManager.userEntity.Ap >= _upgradePrice);
+            bool bl = (BaseManager.userGameData.Ap >= _upgradePrice);
             mTmps[(int)eTmp.upgradePrice].text = _upgradePrice.ToString();
 
             mImgs[(int)eImage.statImg].sprite = statImg[stat];
             mTmps[(int)eTmp.prevVal].text = getExplain(_selectStat, false);
             mTmps[(int)eTmp.nextVal].text = getExplain(_selectStat ,true);
-            mTmps[(int)eTmp.prevLvl].text = $"Lv.{BaseManager.userEntity.StatusLevel[stat]}";
-            mTmps[(int)eTmp.nextLvl].text = $"Lv.{BaseManager.userEntity.StatusLevel[stat] + 1}";
+            mTmps[(int)eTmp.prevLvl].text = $"Lv.{BaseManager.userGameData.StatusLevel[stat]}";
+            mTmps[(int)eTmp.nextLvl].text = $"Lv.{BaseManager.userGameData.StatusLevel[stat] + 1}";
 
-            bool chk = BaseManager.userEntity.Ap >= _upgradePrice;
+            bool chk = BaseManager.userGameData.Ap >= _upgradePrice;
             mImgs[(int)eImage.upgradeBtn].color = (chk) ? new Color(0.78f, 0.13f, 0.3f) : Color.gray;
         }
 
         /// <summary> 구매버튼 새로고침 </summary>
         void apPurchaseBtnRefresh()
         {
-            bool bl = BaseManager.userEntity.Coin >= gameValues._apPrice;
+            bool bl = BaseManager.userGameData.Coin >= gameValues._apPrice;
 
             mImgs[(int)eImage.purchaseBtn].raycastTarget = bl;
             mImgs[(int)eImage.purchaseBtn].color = (bl) ? Color.white : Color.grey;
@@ -192,7 +192,7 @@ namespace week
         /// <summary> ap최대치 가격 새로고침 </summary>
         void apMaxRefresh()
         {
-            int max = BaseManager.userEntity.Coin / gameValues._apPrice;
+            int max = BaseManager.userGameData.Coin / gameValues._apPrice;
             mTmps[(int)eTmp.apPriceMax].text = $"{gameValues._apPrice * max}";
         }
 
@@ -208,28 +208,28 @@ namespace week
         //    {
         //        case 0:
         //            num = (next) ? DataManager.GetTable<int>(DataTable.status, "addition", StatusData.hp.ToString()) * upList[_selectStat] : 0;
-        //            return string.Format("체력 +{0:0}", BaseManager.userEntity.Hp + num);
+        //            return string.Format("체력 +{0:0}", BaseManager.userGameData.Hp + num);
         //        case 1:
         //            num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.att.ToString()) * upList[_selectStat] : 0;
-        //            return string.Format("공격력 +{0:0}", BaseManager.userEntity.AttFactor + num);                
+        //            return string.Format("공격력 +{0:0}", BaseManager.userGameData.AttFactor + num);                
         //        case 2:
         //            num = (next) ? DataManager.GetTable<int>(DataTable.status, "addition", StatusData.def.ToString()) * upList[_selectStat] : 0;
-        //            return string.Format("방어력 +{0:0}", BaseManager.userEntity.Def + num);
+        //            return string.Format("방어력 +{0:0}", BaseManager.userGameData.Def + num);
         //        case 3:
         //            num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.hpgen.ToString()) * upList[_selectStat] : 0;
-        //            return string.Format("체력회복 {0:0.00}", BaseManager.userEntity.Hpgen + num);
+        //            return string.Format("체력회복 {0:0.00}", BaseManager.userGameData.Hpgen + num);
         //        case 4:
         //            num = (next) ? Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.cool.ToString()), upList[_selectStat])  : 1;
-        //            return string.Format("공격속도 {0:0.00}", BaseManager.userEntity.Cool * num);
+        //            return string.Format("공격속도 {0:0.00}", BaseManager.userGameData.Cool * num);
         //        case 5:
         //            num = (next) ? Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.exp.ToString()), upList[_selectStat]) : 1;
-        //            return string.Format("경험치획득량 x{0:0.00}", BaseManager.userEntity.ExpFactor * num);
+        //            return string.Format("경험치획득량 x{0:0.00}", BaseManager.userGameData.ExpFactor * num);
         //        case 6:
         //            num = (next) ? Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.coin.ToString()), upList[_selectStat]) : 1;
-        //            return string.Format("코인추가획득 x{0:0.00}", BaseManager.userEntity.CoinFactor * num);
+        //            return string.Format("코인추가획득 x{0:0.00}", BaseManager.userGameData.CoinFactor * num);
         //        case 7:
         //            num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.skin.ToString()) * upList[_selectStat] : 0;
-        //            return string.Format("스킨 강화율 {0:0.0}%", BaseManager.userEntity.SkinEnhance + num);
+        //            return string.Format("스킨 강화율 {0:0.0}%", BaseManager.userGameData.SkinEnhance + num);
         //        default:
         //            Debug.LogError($"잘못된 능력치 : {_selectStat}");
         //            return null;
@@ -257,28 +257,28 @@ namespace week
             {
                 case StatusData.hp:
                     num = (next) ? DataManager.GetTable<int>(DataTable.status, "addition", StatusData.hp.ToString()) : 0;
-                    return string.Format("체력 +{0:0}", BaseManager.userEntity.Hp + num);
+                    return string.Format("체력 +{0:0}", BaseManager.userGameData.o_Hp + num);
                 case StatusData.att:
                     num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.att.ToString()) : 0;
-                    return string.Format("공격력 +{0:0}", BaseManager.userEntity.AttFactor + num);
+                    return string.Format("공격력 +{0:0}", BaseManager.userGameData.o_Att + num);
                 case StatusData.def:
                     num = (next) ? DataManager.GetTable<int>(DataTable.status, "addition", StatusData.def.ToString()) : 0;
-                    return string.Format("방어력 +{0:0}", BaseManager.userEntity.Def + num);
+                    return string.Format("방어력 +{0:0}", BaseManager.userGameData.o_Def + num);
                 case StatusData.hpgen:
                     num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.hpgen.ToString()) : 0;
-                    return string.Format("체력회복 {0:0.00}", BaseManager.userEntity.Hpgen + num);
+                    return string.Format("체력회복 {0:0.00}", BaseManager.userGameData.o_Hpgen + num);
                 case StatusData.cool:
                     num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.cool.ToString()) : 1;
-                    return string.Format("공격속도 {0:0.00}", BaseManager.userEntity.Cool * num);
+                    return string.Format("공격속도 {0:0.00}", BaseManager.userGameData.o_Cool * num);
                 case StatusData.exp:
                     num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.exp.ToString()) : 1;
-                    return string.Format("경험치획득량 x{0:0.00}", BaseManager.userEntity.ExpFactor * num);
+                    return string.Format("경험치획득량 x{0:0.00}", BaseManager.userGameData.o_ExpFactor * num);
                 case StatusData.coin:
                     num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.coin.ToString()) : 1;
-                    return string.Format("코인추가획득 x{0:0.00}", BaseManager.userEntity.CoinFactor * num);
+                    return string.Format("코인추가획득 x{0:0.00}", BaseManager.userGameData.o_CoinFactor * num);
                 case StatusData.skin:
                     num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.skin.ToString()) : 0;
-                    return string.Format("스킨 강화율 {0:0.0}%", BaseManager.userEntity.SkinEnhance + num);
+                    return string.Format("스킨 강화율 {0:0.0}%", BaseManager.userGameData.SkinEnhance + num);
                 default:
                     Debug.LogError($"잘못된 능력치 : {_selectStat}");
                     return null;
@@ -288,13 +288,13 @@ namespace week
         /// <summary> 업그레이드 버튼 눌름 </summary>
         public void pressUpgradeBtn()
         {
-            if (BaseManager.userEntity.Ap >= _upgradePrice)
+            if (BaseManager.userGameData.Ap >= _upgradePrice)
             {
-                BaseManager.userEntity.Ap -= _upgradePrice;
+                BaseManager.userGameData.Ap -= _upgradePrice;
 
-                BaseManager.userEntity.statusLevelUp(_selectStat);
+                BaseManager.userGameData.statusLevelUp(_selectStat);
 
-                BaseManager.instance.saveUserData();
+                BaseManager.userGameData.saveUserEntity();
 
                 ApTxtRefresh();
                 statusPanelRefresh();
@@ -317,34 +317,34 @@ namespace week
         /// <summary> ap 구매 </summary>
         public void purchaseAp()
         {
-            BaseManager.userEntity.Coin -= gameValues._apPrice;
+            BaseManager.userGameData.Coin -= gameValues._apPrice;
             _costRefresh();
 
-            BaseManager.userEntity.Ap++;
-            mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userEntity.Ap}";
+            BaseManager.userGameData.Ap++;
+            mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userGameData.Ap}";
             ApTxtRefresh();
 
             apPurchaseBtnRefresh();
             apMaxRefresh();
 
-            BaseManager.instance.saveUserData();
+            BaseManager.userGameData.saveUserEntity();
         }
 
         /// <summary> ap 구매 max </summary>
         public void purchaseApMax()
         {
-            int max = BaseManager.userEntity.Coin / gameValues._apPrice;
-            BaseManager.userEntity.Coin -= gameValues._apPrice * max;
+            int max = BaseManager.userGameData.Coin / gameValues._apPrice;
+            BaseManager.userGameData.Coin -= gameValues._apPrice * max;
             _costRefresh();
 
-            BaseManager.userEntity.Ap += max;
-            mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userEntity.Ap}";
+            BaseManager.userGameData.Ap += max;
+            mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userGameData.Ap}";
             ApTxtRefresh();
 
             apPurchaseBtnRefresh();
             apMaxRefresh();
 
-            BaseManager.instance.saveUserData();
+            BaseManager.userGameData.saveUserEntity();
         }
     }
 }

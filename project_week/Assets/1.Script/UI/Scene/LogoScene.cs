@@ -88,20 +88,20 @@ namespace week
             gauge += 0.2f;
 
             //저장된 유저 데이터 로드
-            //if (ES3.KeyExists("userEntity"))
-            //{
-            //    ES3.DeleteKey("userEntity");
-            //}
+            if (ES3.KeyExists("userEntity"))
+            {
+                ES3.DeleteKey("userEntity");
+            }
 
             if (ES3.KeyExists("userEntity"))
             {
                 Debug.Log("기본 유저 데이터 존재");
-                BaseManager.userEntity = ES3.Load<UserEntity>("userEntity");
+                BaseManager.userGameData.LoadUserEntity(ES3.Load<UserEntity>("userEntity"));
             }
             else
             {
                 Debug.Log("기본 유저 데이터가 없으므로 제작함");
-                BaseManager.userEntity = new UserEntity();
+                BaseManager.userGameData = new UserGameData();
             }
             gauge += 0.15f;
 

@@ -9,7 +9,6 @@ namespace week
     {
         [SerializeField] landtem _temtype;
         [SerializeField] GameObject _tem;
-        [SerializeField] Animator _ani;
 
         GameScene _gs;
         PlayerCtrl _player;
@@ -50,6 +49,18 @@ namespace week
                 case landtem.present:
                     _gs.getEquip();
                     getEquip();
+                    break;
+                case landtem.sward:
+                    if (_player.IsHero)
+                    {
+                        Debug.Log("칼먹음");
+                        _player.setDeBuff(snowStt.att, 60f, 2);
+                        _player.setDeBuff(snowStt.def, 60f, 2);
+                    }
+                    else
+                    {
+                        return;
+                    }
                     break;
             }
 

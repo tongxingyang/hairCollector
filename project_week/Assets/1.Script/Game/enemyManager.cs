@@ -46,6 +46,9 @@ namespace week
         List<MobControl> _mobList;
         List<bossControl> _bossList;
 
+        float[] _buffStt;
+        List<BuffEffect> _bffEff;
+
         //float[] _etime;
         int _stageEnemyAmount = 1;
 
@@ -56,6 +59,7 @@ namespace week
 
         public List<MobControl> EnemyList { get => _mobList; }
         public List<bossControl> BossList { get => _bossList; }
+        public float[] BuffStt { get => _buffStt; set => _buffStt = value; }
 
         // Start is called before the first frame update
         public void Init(GameScene gs)
@@ -74,6 +78,13 @@ namespace week
             _bossList = new List<bossControl>();
             _nowTurnEnemyList = new List<Mob>();
             mobCount = new int[(int)Mob.max];
+
+            _bffEff = new List<BuffEffect>();
+            _buffStt = new float[(int)snowStt.max];
+            for(int i = 0; i < (int)snowStt.max;i++)
+            {
+                _buffStt[i] = 1f;
+            }
 
             mobDatas = new mobData[(int)Mob.max];
             for (Mob i = Mob.mob_fire; i < Mob.max; i++)
@@ -109,7 +120,7 @@ namespace week
                 {
                     for (int j = 0; j < _stageEnemyAmount; j++)
                     {
-                        makeEnemySet(Mob.mob_stick);
+                        makeEnemySet(Mob.mob_fire);
                     }
                 }
 
@@ -146,22 +157,14 @@ namespace week
 
                 yield return new WaitForEndOfFrame();
 
+                deBuffChk(deltime);
                 // ExpRefresh();
             }
         }
 
         public void makeEnemySet(Mob type)
         {
-            //if (type == Mob.mob_ant)
-            //{
-            //    Vector3 pos = mopRespawnsPos();
-            //    for (int i = 0; i < 4; i++)
-            //    {
-            //        makeEnemy(type, pos + new Vector3(i / 2, i % 2));
-            //    }
-            //}
-            //else
-                makeEnemy(type, mopRespawnsPos());
+            makeEnemy(type, mopRespawnsPos());
         }
 
         void makeEnemy(Mob type, Vector3 pos)
@@ -267,5 +270,86 @@ namespace week
 
             return bct;
         }
+
+        #region [enemy batch ctrl]
+
+        /// <summary> </summary>
+        public BuffEffect setDeBuff(snowStt stt, float term, float val, BuffEffect.buffTermType isterm = BuffEffect.buffTermType.term)
+        {
+            BuffEffect DBuff = new BuffEffect(stt, term, val, isterm);
+
+            _buffStt[(int)stt] *= DBuff.Val;
+
+            _bffEff.Add(DBuff);
+
+            return DBuff;
+        }
+
+        /// <summary> 버프 수동 삭제 </summary>
+        public void manualRemoveDeBuff(BuffEffect bff)
+        {
+            snowStt stt = bff.Stt;
+
+            _bffEff.Remove(bff);
+
+            reCalBuff(stt);
+        }
+
+        void deBuffChk(float delTime)
+        {
+            for (int i = 0; i < _bffEff.Count; i++)
+            {
+                _bffEff[i].Term -= delTime;
+
+                if (_bffEff[i].TermOver)
+                {
+                    snowStt stt = _bffEff[i].Stt;
+
+                    _bffEff.RemoveAt(i);
+
+                    reCalBuff(stt);
+                    i--;
+                }
+            }
+        }
+
+        /// <summary> 삭제된 타입 버프 일괄계산 </summary>
+        void reCalBuff(snowStt stt)
+        {
+            _buffStt[(int)stt] = 1f;
+
+            for (int i = 0; i < _bffEff.Count; i++)
+            {
+                if (_bffEff[i].Stt == stt)
+                {
+                    _buffStt[(int)stt] *= _bffEff[i].Val;
+                }
+            }
+        }
+        public void enemyFrozen(float term)
+        {
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                EnemyList[i].setFrozen(term);
+            }
+        }
+
+        public void enemyDamaged(float dmg)
+        {
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                if (EnemyList[i].IsUse)
+                {
+                    EnemyList[i].getDamaged(dmg);
+                }
+            }
+        }
+
+        public void enemySlow(float term, float val, BuffEffect.buffTermType bf = BuffEffect.buffTermType.term)
+        {
+            setDeBuff(snowStt.speed, term, val, bf);
+        }
+
+        #endregion
     }
 }

@@ -142,7 +142,7 @@ namespace week
         /// <summary> 대기 </summary>
         void idle()
         {
-            if (Vector3.Distance(transform.position, _player.transform.position) < 5f)
+            if (Vector3.Distance(transform.position, _player.transform.position) < _bossRange)
             {
                 Debug.Log(transform.position + " / " + _player.transform.position);
                 skillCoolTime = 0;
@@ -153,7 +153,7 @@ namespace week
         /// <summary> 귀환 </summary>
         void back()
         {
-            transform.position = Vector3.MoveTowards(transform.position, _homePos, _speed * 1.6f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _homePos, Speed * 1.6f * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, _homePos) < 0.5f)
             {
@@ -168,9 +168,9 @@ namespace week
             {
                 skillCoolTime += Time.deltaTime;
 
-                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
 
-                if (skillCoolTime > 5f)
+                if (skillCoolTime > _bossSkillCool)
                 {
                     skillCoolTime = 0;
                     if (Random.Range(0, 2) == 0)
@@ -196,7 +196,7 @@ namespace week
             {
                 epc = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.owl_shot);
                 epc.transform.position = skillA.position;
-
+                epc.transform.localScale = Vector3.one;
                 epc.operation(_shotDir[i]);
             }
         }
@@ -210,7 +210,7 @@ namespace week
             {
                 if (_Bmove)
                 {
-                    transform.Translate(skillB_Dir * _speed * 1.5f * Time.deltaTime);
+                    transform.Translate(skillB_Dir * Speed * 1.75f * Time.deltaTime);
                 }
 
                 yield return new WaitUntil(() => _gs.Pause == false);
@@ -220,6 +220,10 @@ namespace week
         #endregion
 
         #region [util]
+
+        public override void whenEnemyEnter()
+        {
+        }
 
         /// <summary> 목적을 향한 방향 체크 </summary>
         void checkDir()

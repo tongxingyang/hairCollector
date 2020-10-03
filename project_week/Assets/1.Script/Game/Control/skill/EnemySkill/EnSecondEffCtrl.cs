@@ -11,6 +11,15 @@ namespace week
         {
             switch (getSkillType)
             {
+                case EnShot.banana:
+                    _keep = 2f;
+                    StartCoroutine(timechk());
+                    break;
+                case EnShot.scarecrow_shot:
+                    _efm.makeEff(effAni.crowfire, transform.position);
+                    _keep = 2f;
+                    StartCoroutine(secondEff());
+                    break;
                 case EnShot.flower_mine:
                     _keep = 12f;
                     StartCoroutine(timechk());
@@ -18,6 +27,27 @@ namespace week
                 default:
                     break;
             }
+        }
+        IEnumerator secondEff()
+        {
+            Ani.SetTrigger("start");
+
+            float time = 0;
+            while (time < _keep)
+            {
+                time += Time.deltaTime;
+                yield return new WaitUntil(() => _gs.Pause == false);
+            }
+
+            Ani.SetTrigger("end");
+            time = 0;
+            while (time < 1f)
+            {
+                time += Time.deltaTime;
+                yield return new WaitUntil(() => _gs.Pause == false);
+            }
+
+            Destroy();
         }
 
         IEnumerator timechk()
@@ -48,6 +78,13 @@ namespace week
         {
             switch (getSkillType)
             {
+                case EnShot.banana:
+                    player.getDamaged(_dmg);
+                    break;
+                case EnShot.scarecrow_shot:
+                    player.getDamaged(_dmg);
+                    _efm.makeEff(effAni.lava, player.transform.position);
+                    break;
                 case EnShot.flower_mine:
                     player.getDamaged(_dmg);
                     _efm.makeEff(effAni.mine, transform.position);

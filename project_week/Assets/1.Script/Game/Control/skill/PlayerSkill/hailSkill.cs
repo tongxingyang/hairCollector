@@ -32,7 +32,7 @@ namespace week
         public void Init(Vector3 pos, float dmg)
         {
             _pos = pos;
-            _dmg = dmg * BaseManager.userEntity.AttFactor;
+            _dmg = dmg * BaseManager.userGameData.o_Att;
             transform.localScale = Vector3.one;
 
             _collider.enabled = false;

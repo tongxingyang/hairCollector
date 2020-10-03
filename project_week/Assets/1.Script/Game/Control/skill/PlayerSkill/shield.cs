@@ -47,7 +47,7 @@ namespace week
                 Destroy();
             }
 
-            _dfm.getText(transform, (int)dmg, dmgTxtType.shield, true);
+            _dfm.getText(transform, dmg, dmgTxtType.shield, true);
         }
 
         private void Destroy()

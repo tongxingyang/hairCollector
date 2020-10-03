@@ -306,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b792a8e9e3e638d47a94f96c108151c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shadow: {fileID: 3163139731867727133}
   _trees:
   - {fileID: 346454219847497142}
   - {fileID: 1530086198}

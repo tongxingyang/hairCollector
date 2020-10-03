@@ -15,12 +15,13 @@ namespace week
         [SerializeField] GameObject[] _shadows;
 
         [Header("Skill")]
+        [SerializeField] Animator _jumpArea;
         [SerializeField] Transform _skillB;
         [SerializeField] MobWeapon[] _skillBWeapon;
         EnSkill_Proj esp;
         Vector3 skillB_Dir;
         int _nowDir = -1;
-        //bool _Bmove;
+        float _skillB_cnt = 6;
 
         bool _skill_finished;
         float skillCoolTime = 0;
@@ -76,10 +77,11 @@ namespace week
                 {
                     if (_stats == stat.skill0)
                     {
+                        _jumpArea.SetTrigger("wave");
                         if (Vector3.Distance(_player.transform.position, transform.position) < 5f)
                         {
                             _player.getDamaged(_skill0);
-                            _player.setDeBuff(eDeBuff.slow, false, 3, 0.8f);
+                            _player.setDeBuff(snowStt.speed, 3, 0.8f);
                         }
                         _player.cameraShake();
                     }
@@ -142,7 +144,7 @@ namespace week
         /// <summary> 대기 </summary>
         void idle()
         {
-            if (Vector3.Distance(transform.position, _player.transform.position) < 5f)
+            if (Vector3.Distance(transform.position, _player.transform.position) < _bossRange)
             {
                 Debug.Log(transform.position + " / " + _player.transform.position);
                 skillCoolTime = 0;
@@ -153,7 +155,7 @@ namespace week
         /// <summary> 귀환 </summary>
         void back()
         {
-            transform.position = Vector3.MoveTowards(transform.position, _homePos, _speed * 1.6f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _homePos, Speed * 1.6f * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, _homePos) < 0.5f)
             {
@@ -168,9 +170,9 @@ namespace week
             {
                 skillCoolTime += Time.deltaTime;
 
-                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
 
-                if (skillCoolTime > 5f)
+                if (skillCoolTime > _bossSkillCool)
                 {
                     skillCoolTime = 0;
                     if (Random.Range(0, 2) == 0)
@@ -198,15 +200,27 @@ namespace week
         /// <summary> 2번스킬 - 투척 </summary>
         void skillBShot()
         {
-            esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bear_shot);
-            esp.transform.position = _skillB.position;
+            for (int i = 0; i < _skillB_cnt; i++)
+            {
+                esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bear_shot);
+                esp.transform.position = _skillB.position;
 
-            esp.operation(transform.position + _shotDir[_nowDir]);
+                esp.operation(transform.position + _shotDir[_nowDir], 60f);
+            }
         }
 
         #endregion
 
         #region [util]
+        public override void whenEnemyEnter()
+        {
+            _hp += 5;
+            if (MaxHp < _hp)
+            {
+                _hp = MaxHp;
+            }
+            refreshHpbar();
+        }
 
         /// <summary> 목적을 향한 방향 체크 </summary>
         void checkDir()
@@ -253,13 +267,18 @@ namespace week
             switch (st)
             {                
                 case stat.Idle:
+                    _jumpArea.gameObject.SetActive(false);
                     break;
                 case stat.back:
+                    _jumpArea.gameObject.SetActive(false);
                     break;
                 case stat.Trace:
+                    _jumpArea.gameObject.SetActive(false);
                     Debug.Log("what");
                     break;
                 case stat.skill0:
+                    _jumpArea.gameObject.SetActive(true);
+                    _jumpArea.SetTrigger("warn");
                     _skill_finished = false;
                     break;
                 case stat.skill1:

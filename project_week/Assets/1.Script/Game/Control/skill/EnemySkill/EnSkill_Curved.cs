@@ -26,7 +26,9 @@ namespace week
 
         protected override void whenRecycleInit()
         {
-
+            _bullet.gameObject.SetActive(true);
+            _eff.gameObject.SetActive(false);
+            _shadow.SetActive(true);
         }
 
         public override void operation(Vector3 target, float addAngle = 0f)

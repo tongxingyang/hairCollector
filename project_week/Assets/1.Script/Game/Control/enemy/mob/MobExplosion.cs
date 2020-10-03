@@ -8,6 +8,7 @@ namespace week
     {
         protected override void otherWhenFixInit()
         {
+            _dotDmg = new dotDmg();
         }
 
         protected override void otherWhenRepeatInit()
@@ -39,7 +40,7 @@ namespace week
                         break;
                 }
 
-                deBuffChk(deltime);
+                _dotDmg.dotDmging(deltime);
                 chkDestroy(deltime);
                 chkFrozen(deltime);
 
@@ -51,7 +52,7 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                _player.getDamaged(_att);
+                _player.getDamaged(Att);
                 enemyDie();
             }
             else if (collision.gameObject.tag.Equals("Finish"))

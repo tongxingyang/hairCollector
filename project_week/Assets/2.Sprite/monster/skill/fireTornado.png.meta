@@ -11,6 +11,15 @@ TextureImporter:
   - first:
       213: 965311849290180323
     second: fireTornado_2
+  - first:
+      213: 4910242148820227926
+    second: fireTornado_0
+  - first:
+      213: -4958074869583354592
+    second: fireTornado_1
+  - first:
+      213: -800129159535270294
+    second: fireTornado_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,15 +124,15 @@ TextureImporter:
         y: 0
         width: 512
         height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 26444cd670e4b97b0800000000000000
-      internalID: -5216489949565270942
+      spriteID: 6579491083fa42440800000000000000
+      internalID: 4910242148820227926
       vertices: []
       indices: 
       edges: []
@@ -136,15 +145,15 @@ TextureImporter:
         y: 0
         width: 512
         height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 982e30260f9c56fb0800000000000000
-      internalID: -4655092605543783799
+      spriteID: 02561b4dc21613bb0800000000000000
+      internalID: -4958074869583354592
       vertices: []
       indices: 
       edges: []
@@ -157,15 +166,15 @@ TextureImporter:
         y: 0
         width: 512
         height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e6aa62330a756d00800000000000000
-      internalID: 965311849290180323
+      spriteID: a66e777c4ce55e4f0800000000000000
+      internalID: -800129159535270294
       vertices: []
       indices: 
       edges: []

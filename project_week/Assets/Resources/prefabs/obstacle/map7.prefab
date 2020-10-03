@@ -170,7 +170,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 6490302128707509950}
   - component: {fileID: 1840581308459704040}
   m_Layer: 0
-  m_Name: map7
+  m_Name: map5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,8 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17b1fd8ea4bd498dd19047985e973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spine: {fileID: 0}
-  _type: 12
+  _type: 10
   _pocket: {fileID: 1276068662986557966}
   bosPos: []
   present: {fileID: 0}

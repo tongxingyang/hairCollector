@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
   m_Name: snowman_Atlas
   m_EditorClassIdentifier: 
-  atlasFile: {fileID: 4900000, guid: f5a7ce3a195bb7f4e88642fe0000d62a, type: 3}
+  atlasFile: {fileID: 4900000, guid: 822b7037d4e53ac4c86ba2c253e0bb6c, type: 3}
   materials:
-  - {fileID: 2100000, guid: f384c9ebf7166644799ecebacc873378, type: 2}
+  - {fileID: 2100000, guid: 2423fba513af9604d800c5106226f708, type: 2}
+  - {fileID: 2100000, guid: 8897f1cf30f33a2479bdf22c30f53c68, type: 2}

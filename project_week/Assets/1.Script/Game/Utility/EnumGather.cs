@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace week
 {
+    #region Game
+
     public enum SceneNum
     {
         BaseScene,
@@ -19,31 +21,12 @@ namespace week
         max
     }
 
-    public enum Mob
-    {
-        mob_fire,
-
-        mob_ant,
-        mob_beetle,
-        mob_snail,
-
-        mob_flamingo,
-        mob_monkey,
-        mob_crab,
-
-        mob_dragonfly,
-        mob_candle,
-        mob_rino,
-
-        mob_deer,
-        mob_stick,
-        mob_mam, 
-        
-        max
-    }
+    #endregion
 
     #region dataTable
-    public enum DataTable { skill, monster, status, boss, stage, enproj, max }
+    public enum DataTable { status, skill, skin, monster, boss, enproj, max }
+    
+    /// <summary> 스탯 </summary>
     public enum StatusData
     {
         hp,
@@ -57,106 +40,8 @@ namespace week
         max
     }
 
-    public enum SkillValData
-    {
-        name,
-        skill,
-        max_level,
-        explain,
-        information,
-        val,
-        att,
-        att_increase,
-        delay,
-        delay_reduce,
-        keep,
-        keep_increase,
-        size_increase,
-        count,
-        count_increase,
-        range,
-        note,
-        max
-    }
-
-    public enum MonsterData
-    {
-        name,
-        hp,
-        att,
-        def,
-        attspeed,
-        speed,
-        patt,
-        pspeed,
-        exp,
-        appear_term,
-        map,
-        max
-    }
-
-    public enum BossData
-    {
-        hp,
-        att,
-        def,
-        speed,
-        skill0,
-        skill1,
-        map,
-        reward,
-        coin,
-        max
-    }
-
-    public enum StageData
-    {
-        coin,
-        conditionT,
-        conditionB,
-        max
-    }
-
-    public enum ObstacleData
-    {
-        name,
-        map,
-        sizex,
-        sizey,
-        val,
-        max
-    }
-
-    public enum EnProjData
-    {
-        name,
-        speed,
-        att,
-        max
-    }
-
-    #endregion
-
-    #region gameData
-
-    public enum skills
-    {
-        snowball,
-        icefist,
-        icicle,
-        halficicle,
-        hail,
-        icewall,
-        icetornado,
-        iceage,
-        blizzard,
-        snowbomb,
-        iceshield,
-
-        max
-    }
-
-    public enum getSkillList
+    /// <summary> 스킬 리스트 </summary>
+    public enum SkillKeyList
     {
         hp,
         att,
@@ -179,7 +64,7 @@ namespace week
         blizzard,
         snowbomb,
         iceshield,
-        
+
         poison,
         hammer,
         thunder,
@@ -192,13 +77,153 @@ namespace week
         max
     }
 
+    /// <summary> 스킬 값 </summary>
+    public enum SkillValData
+    {
+        name,
+        skill,
+        max_level,
+        explain,
+        information,
+        val,
+        att,
+        att_increase,
+        delay,
+        delay_reduce,
+        keep,
+        keep_increase,
+        size_increase,
+        count,
+        count_increase,
+        range,
+        note,
+        max
+    }
+
+    /// <summary> 스킨 종류 </summary>
+    public enum SkinKeyList
+    {
+        snowman,
+        fireman,
+        grassman,
+        rockman,
+        citrusman,
+        bulbman,
+        wildman,
+        mineman,
+        robotman,
+        icecreamman,
+        goldenarmorman,
+        angelman,
+        squareman,
+        spiderman,
+        vampireman,
+        heroman,
+        max
+    }
+
+    /// <summary> 스킨 값 </summary>
+    public enum SkinValData
+    {
+        name,
+        skinname,
+
+        currency,
+        price,
+
+        season,
+
+        typeB,
+
+        typeF,
+        Fval0,
+        Fval1,
+
+        typeI,
+        Ival,
+
+        snowball,
+
+        d_hp,
+        d_att,
+        d_def,
+        d_hpgen,
+        d_cool,
+        d_exp,
+        d_coin,
+        d_speed, 
+
+        ex_hp,
+        ex_att,
+        ex_def,
+        ex_hpgen,
+        ex_cool,
+        ex_exp,
+        ex_coin,
+
+        max
+    }
+
+    public enum Mob
+    {
+        mob_fire,
+
+        mob_ant,
+        mob_beetle,
+        mob_snail,
+
+        mob_flamingo,
+        mob_monkey,
+        mob_crab,
+
+        mob_dragonfly,
+        mob_candle,
+        mob_rino,
+
+        mob_deer,
+        mob_stick,
+        mob_mam,
+
+        max
+    }
+
+    public enum MonsterData
+    {
+        name,
+        hp,
+        att,
+        def,
+        attspeed,
+        speed,
+        patt,
+        pspeed,
+        exp,
+        appear_term,
+        map,
+        max
+    }
+
     public enum Boss
     {
         boss_owl,
         boss_bear,
         boss_scarecrow,
         boss_flower,
-        //boss_bigbettle,
+        boss_butterfly,
+        max
+    }
+
+    public enum BossValData
+    {
+        hp,
+        att,
+        def,
+        speed,
+        skill0,
+        skill1,
+        map,
+        reward,
+        coin,
         max
     }
 
@@ -215,17 +240,38 @@ namespace week
         flower_mine,
 
         banana,
+        scare_fire,
+        bfly_bgPoison,
+        bfly_smPoison,
 
         max
     }
 
+    public enum EnProjValData
+    {
+        name,
+        speed,
+        att,
+        max
+    }
+
+    #region [recital Data]
+
+    public enum skinBvalue { mine, wild, rebirth, blood, invincible, light, invSlow, frozen, hero, critical, max }
+    public enum skinFvalue { mine, wild, rebirth, blood, invincible, snowball, iceHeal, criticDmg, max }
+    public enum skinIvalue { snowball, mine, max }
+    public enum snowballType { standard, citrus, square, rock }
+
+    #endregion
+
+    #endregion
+
+    #region gameData_sub
+
+
     public enum mapObstacle
     {
-        bosszone_0,
-        bosszone_1,
-        bosszone_2,
-        bosszone_3,
-        bosszone_4,
+        bosszone,
 
         map0,
         map1,
@@ -234,19 +280,11 @@ namespace week
         map4,
         map5,
         map6,
-        map7,
+        //map7,
 
         ruin0,
         ruin1,
         ruin2,
-        max
-    }
-
-    public enum obstacleType
-    {
-        map,
-        bosszone,
-        ruin,
         max
     }
 
@@ -279,7 +317,10 @@ namespace week
         bossExplosion,
         hail,
         electric,
-        mine
+        mine,
+        lava,
+        crowfire,
+        tel
     }
 
     public enum skillNote
@@ -290,26 +331,6 @@ namespace week
         continuee
     }
 
-    
-
-    public enum obstacleFab
-    {
-        static_box_0,
-        static_box_1,
-        static_box_2,
-        static_box_3,
-        static_box_4,
-        static_box_5,
-        boss_owl_zone,
-        max
-    }
-
-    public enum tileType
-    { 
-        snowFlake,
-        Lava
-    }
-
     public enum dmgTxtType
     {
         standard,
@@ -317,10 +338,15 @@ namespace week
         heal
     }
 
-    public enum eDeBuff { slow, dotDem }
+    #region 유저 데이터
+
+    public enum snowStt { maxHp, att, def, hpgen, cool, exp, size, heal, speed, max }
+    public enum dayQuest { rein, skin, ad }
+
+    #endregion
 
     public enum season { spring, summer, fall, winter, max }
-    public enum landtem { heal, gem, present }
+    public enum landtem { heal, gem, present, sward }
 
     #region [Sound]
 

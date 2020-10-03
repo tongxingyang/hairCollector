@@ -87,9 +87,9 @@ namespace week
             _bossCoin = gameValues._firstBossCoin;
 
             _player._gameOver = gameOver;
-            _player.EnemyDamage = enemyDamaged;
+            _player.EnemyDamage = _enemyMng.enemyDamaged;
             _player.Blizzard = blizzard;
-            _player.EnemyFrozen = enemyFrozen;
+            _player.EnemyFrozen = _enemyMng.enemyFrozen;
             _ExpBar.fillAmount = 0f;
 
             _pausePanel.pauseStart(this);
@@ -354,37 +354,11 @@ namespace week
             }
 
             return targetPos;
-        }
-
-        public void enemyFrozen(float term)
-        {
-            for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
-            {
-                _enemyMng.EnemyList[i].setFrozen(term);
-            }
-        }
-
-        public void enemyDamaged(float dmg)
-        {
-            for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
-            {
-                if (_enemyMng.EnemyList[i].IsUse)
-                {
-                    _enemyMng.EnemyList[i].getDamaged(dmg);
-                }
-            }
-        }
-
-        public void enemySlow(bool last, float term, float slow)
-        {
-            for (int i = 0; i < _enemyMng.EnemyList.Count; i++)
-            {
-                _enemyMng.EnemyList[i].setBuff(eDeBuff.slow, last, term, slow);
-            }
-        }
+        }        
 
         #endregion
            
+        /// <summary> 게임 종료 및 결산 </summary>
         public void gameOver()
         {
             whenPause();
@@ -393,15 +367,15 @@ namespace week
             _stagePlay = false;
             _gameOver = true;
 
-            int coinResult = _coin * BaseManager.userEntity.DoubleCoin;
-            int gemResult = _gem * BaseManager.userEntity.DoubleCoin;
-            int apResult = _ap * BaseManager.userEntity.DoubleCoin;
+            int coinResult = _coin * BaseManager.userGameData.DoubleCoin;
+            int gemResult = _gem * BaseManager.userGameData.DoubleCoin;
+            int apResult = _ap * BaseManager.userGameData.DoubleCoin;
 
-            BaseManager.userEntity.Coin += coinResult;
-            BaseManager.userEntity.Gem += gemResult;
-            BaseManager.userEntity.Ap += apResult;
+            BaseManager.userGameData.Coin += coinResult;
+            BaseManager.userGameData.Gem += gemResult;
+            BaseManager.userGameData.Ap += apResult;
 
-            BaseManager.instance.saveUserData();
+            BaseManager.userGameData.saveUserEntity();
 
             _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult);
         }

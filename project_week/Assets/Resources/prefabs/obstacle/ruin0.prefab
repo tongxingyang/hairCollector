@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17b1fd8ea4bd498dd19047985e973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spine: {fileID: 0}
-  _type: 13
+  _type: 8
   _pocket: {fileID: 5619630847163637064}
   bosPos:
   - {fileID: 0}
@@ -698,7 +697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9754aae34093c741b9d9da443f77c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spine: {fileID: 0}
   _shotPos:
   - {fileID: 968263627866923949}
   - {fileID: 3184577835861789627}

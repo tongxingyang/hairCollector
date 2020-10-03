@@ -20,7 +20,7 @@ namespace week
 
         public void Init(float dmg, float tick, float size)
         {
-            _dmg = dmg * BaseManager.userEntity.AttFactor;
+            _dmg = dmg * BaseManager.userGameData.o_Att;
             _tick = tick;
             transform.localScale = Vector3.one * size;
 

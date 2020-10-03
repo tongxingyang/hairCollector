@@ -129,7 +129,6 @@ namespace week
                     }
                 }
 
-
                 yield return new WaitForSeconds(0.1f);
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
@@ -145,7 +144,7 @@ namespace week
 
             bosss = new bossControl[bosPos.Length];
             Boss _bs = (Boss)Random.Range(0, (int)Boss.max);
-            //_bs = Boss.boss_flower;
+            // _bs = Boss.boss_owl;
 
             for (int i = 0; i < bosPos.Length; i++)
             {

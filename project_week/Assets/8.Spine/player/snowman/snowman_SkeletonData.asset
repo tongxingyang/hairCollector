@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: snowman_SkeletonData
   m_EditorClassIdentifier: 
   atlasAssets:
-  - {fileID: 11400000, guid: 7a18e914f4dc8514eaaf6ad15043c1a0, type: 2}
+  - {fileID: 11400000, guid: 03879ab9a45df8749a55d524acd266f6, type: 2}
   scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: bd536277449b73a40ae2088620a60800, type: 3}
+  skeletonJSON: {fileID: 4900000, guid: 89ebcfc24110d7f40b5c76ee4d12c652, type: 3}
   skeletonDataModifiers: []
   fromAnimation: []
   toAnimation: []

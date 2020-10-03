@@ -8,8 +8,8 @@ namespace week
     {
         [SerializeField] protected Animator _ani;
 
-        [SerializeField]  protected getSkillList _skillType;
-        public getSkillList getSkillType { get => _skillType; }
+        [SerializeField]  protected SkillKeyList _skillType;
+        public SkillKeyList getSkillType { get => _skillType; }
         protected GameScene _gs;
 
         public void setting(GameScene gs)

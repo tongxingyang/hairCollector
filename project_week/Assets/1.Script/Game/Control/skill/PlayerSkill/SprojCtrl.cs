@@ -19,6 +19,11 @@ namespace week
         public override void repeatInit(float dmg, float size, float speed = 1f, float keep = 1f)
         {
             _dmg = dmg;
+            if (getSkillType == SkillKeyList.snowball && _player.SnowballDmg > 0)
+            {
+                _dmg += _dmg * _player.SnowballDmg;
+            }
+
             _speed = gameValues._defaultSpeed * speed;
             _keep = keep;
             bounce = 0;
@@ -90,9 +95,29 @@ namespace week
                 return;
             }
 
-            id.getDamaged(_dmg);
+            if (_player.HasCritic)
+            {
+                if (Random.Range(0, 10) < 3)
+                {
+                    _dmg += _dmg * _player.CriDmg;
+                    // 치명타 이미지
+                }
+            }
 
-            if (getSkillType == getSkillList.pet)
+            float val = id.getDamaged(_dmg);
+
+            if (getSkillType == SkillKeyList.snowball) 
+            {
+                if (_player.BloodMount > 0)
+                {
+                    _player.getHealed(val * _player.BloodMount);
+                }
+                else if (_player.HasFrozen)
+                {
+                    id.setFrozen(1f);
+                }
+            } 
+            else if (getSkillType == SkillKeyList.pet)
             {
                 id.setFrozen(1f);
             }
@@ -114,15 +139,15 @@ namespace week
         {
             switch (getSkillType)
             {
-                case getSkillList.snowball:
-                case getSkillList.icefist:
-                case getSkillList.halficicle:
-                case getSkillList.pet:
+                case SkillKeyList.snowball:
+                case SkillKeyList.icefist:
+                case SkillKeyList.halficicle:
+                case SkillKeyList.pet:
                     projDestroy();
                     break;
-                case getSkillList.icicle:
+                case SkillKeyList.icicle:
                     break;
-                case getSkillList.hammer:
+                case SkillKeyList.hammer:
                     Vector3 mob = _gs.mostCloseEnemy(transform, 0.5f);
                     if (Vector3.Distance(transform.position, mob) < 2f)
                     {

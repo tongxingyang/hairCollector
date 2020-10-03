@@ -31,18 +31,17 @@ namespace week
             };
         }
 
-        public bool getDamaged(float f)
+        public float getDamaged(float val)
         {
-            _hp -= f;
+            _hp -= val;
 
             if (_hp <= 0)
             {
                 Destroy();
-                return true;
             }
 
             SetAnimation("shake", false, 1f);
-            return false;
+            return val;
         }
 
         void Destroy()

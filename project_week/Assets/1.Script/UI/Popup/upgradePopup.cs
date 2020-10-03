@@ -38,7 +38,7 @@ namespace week
 
         PlayerCtrl _player;
 
-        getSkillList _newEquip;
+        SkillKeyList _newEquip;
         int _slotCnt = 2;
         int _selectNum;
 
@@ -80,17 +80,17 @@ namespace week
         /// <summary> 업그레이드 제안 </summary>
         void suggest()
         {
-            List<getSkillList> sk = new List<getSkillList>();
-            for (getSkillList i = getSkillList.hp; i < getSkillList.poison; i++)
+            List<SkillKeyList> sk = new List<SkillKeyList>();
+            for (SkillKeyList i = SkillKeyList.hp; i < SkillKeyList.poison; i++)
             {
-                if (i < getSkillList.snowball)
+                if (i < SkillKeyList.snowball)
                 {
                     if (_player.Abils[i].chk_lvl)
                     {
                         sk.Add(i);
                     }
                 }
-                else if (i < getSkillList.poison)
+                else if (i < SkillKeyList.poison)
                 {
                     if (_player.Skills[i].chk_lvl)
                     {
@@ -99,7 +99,7 @@ namespace week
                 }
             }
 
-            getSkillList[] slct = new getSkillList[3];
+            SkillKeyList[] slct = new SkillKeyList[3];
             for (int i = 0; i < 3; i++)
             {
                 int val = UnityEngine.Random.Range(0, sk.Count);
@@ -109,7 +109,7 @@ namespace week
 
             for (int i = 0; i < 3; i++)
             {
-                int lvl = (slct[i] < getSkillList.snowball) ? _player.Abils[slct[i]].Lvl : _player.Skills[slct[i]].Lvl;
+                int lvl = (slct[i] < SkillKeyList.snowball) ? _player.Abils[slct[i]].Lvl : _player.Skills[slct[i]].Lvl;
 
                 upBtns[i].setBtn(slct[i], lvl, _player.getSkill, pressThrowBtn);
             }
@@ -148,11 +148,11 @@ namespace week
                 equipCases[i].raycastTarget = false;
             }
 
-            getSkillList eq;
+            SkillKeyList eq;
             for (int i = 0; i < _slotCnt; i++)
             {
                 eq = _player.selectEquips[i];
-                if (eq == getSkillList.max)
+                if (eq == SkillKeyList.max)
                 {
                     equips[i].sprite = _empty;
                     equipLvls[i].text = "";
@@ -177,8 +177,8 @@ namespace week
         /// <summary> 새로운 장비 고르기 </summary>
         void getNewEquip()
         {
-            List<getSkillList> eqlist = new List<getSkillList>();
-            for (getSkillList eq = getSkillList.poison; eq < getSkillList.max; eq++)
+            List<SkillKeyList> eqlist = new List<SkillKeyList>();
+            for (SkillKeyList eq = SkillKeyList.poison; eq < SkillKeyList.max; eq++)
             {
                 if (_player.Equips[eq].chk_lvl)
                 {
@@ -196,7 +196,7 @@ namespace week
         {
             for (int i = 0; i < _slotCnt; i++)
             {
-                if (_player.selectEquips[i] < getSkillList.poison)
+                if (_player.selectEquips[i] < SkillKeyList.poison)
                 {
                     Debug.LogError("잘못된 장비 요청");
                 }
@@ -298,7 +298,7 @@ namespace week
         public void selectEquipBtn(int i)
         {
             _selectNum = i;
-            setBtnTxt.text = (_player.selectEquips[i] == getSkillList.max) ? "장착" : (_player.selectEquips[i] == _newEquip) ? "강화" : "교체";
+            setBtnTxt.text = (_player.selectEquips[i] == SkillKeyList.max) ? "장착" : (_player.selectEquips[i] == _newEquip) ? "강화" : "교체";
 
             for (int n = 0; n < _slotCnt; n++)
             {
@@ -330,11 +330,11 @@ namespace week
 
             _player.setEquip(_selectNum, _newEquip);
 
-            List<getSkillList> eqlist = new List<getSkillList>();
+            List<SkillKeyList> eqlist = new List<SkillKeyList>();
 
-            for (getSkillList eq = getSkillList.poison; eq < getSkillList.max; eq++)
+            for (SkillKeyList eq = SkillKeyList.poison; eq < SkillKeyList.max; eq++)
             {
-                if (eq == getSkillList.slot)
+                if (eq == SkillKeyList.slot)
                     continue;
 
                 if (_player.Equips[eq].active)

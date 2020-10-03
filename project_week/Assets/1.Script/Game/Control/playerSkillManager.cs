@@ -30,9 +30,9 @@ public class playerSkillManager : MonoBehaviour
     }
 
     /// <summary> 투사체 생성 </summary>
-    public BaseProjControl getPrej(getSkillList sk)
+    public BaseProjControl getPrej(SkillKeyList sk)
     {
-        if (sk < getSkillList.snowball)
+        if (sk < SkillKeyList.snowball)
         {
             Debug.LogError("잘못된, 능력치 생성 요청");
             return null;
@@ -56,7 +56,7 @@ public class playerSkillManager : MonoBehaviour
     }
 
     /// <summary> 갑분등 스킬 생성 </summary>
-    public SsuddenAppearCtrl getSudden(getSkillList sk)
+    public SsuddenAppearCtrl getSudden(SkillKeyList sk)
     {
         for (int i = 0; i < _suddenList.Count; i++)
         {
@@ -87,7 +87,7 @@ public class playerSkillManager : MonoBehaviour
             }
         }
 
-        hailSkill hail = Instantiate(DataManager.ShotFabs[getSkillList.hail]).GetComponent<hailSkill>();
+        hailSkill hail = Instantiate(DataManager.ShotFabs[SkillKeyList.hail]).GetComponent<hailSkill>();
         _hailList.Add(hail);
         hail.setting(_gs, _efm);
         hail.select();

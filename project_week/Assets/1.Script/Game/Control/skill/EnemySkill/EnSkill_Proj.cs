@@ -8,20 +8,18 @@ namespace week
     public class EnSkill_Proj : EnSkillControl
     {
         [SerializeField] bool _lowHitRate;
-        [ShowIf("isLowHit")]
-        float _randAngle = 0f;
-        bool isLowHit { get => (_lowHitRate == true); }
 
         [SerializeField] bool _triggDestroy = true;
 
         float _lifeTime = 2.5f;
+        float _lifeRate = 1f;
 
         Vector3 _target;
 
 
         protected override void whenInit()
         {
-
+            _lifeRate = 1f / (_speed / gameValues._defaultSpeed);
         }
 
         protected override void whenRecycleInit()
@@ -31,7 +29,7 @@ namespace week
         public override void operation(Vector3 target, float addAngle = 0f)
         {
             _targeting = true;
-            setTarget(target - transform.position, addAngle);
+            setTarget(target, addAngle);
 
             StartCoroutine(skillUpdate());
         }
@@ -54,9 +52,8 @@ namespace week
                     Vector3 _direct = target - transform.position;
 
                     float angle = Mathf.Atan2(_direct.x, _direct.y) * Mathf.Rad2Deg;
-                    float add = Random.Range(-_randAngle, _randAngle);
+                    float add = Random.Range(-addAngle, addAngle);
                     transform.rotation = Quaternion.AngleAxis(angle + add, Vector3.back);
-
                 }
                 else
                 {
@@ -77,19 +74,36 @@ namespace week
             {
                 time += Time.deltaTime;
 
-                if (_lookRotate)
+                if (getType == EnShot.owl_shot)
                 {
-                    transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
+                    transform.Translate(_target * _speed * Time.deltaTime, Space.Self);
+
+                    var quaterion = Quaternion.Euler(0, 0, 1.5f);// time * 60f);
+                    _target = quaterion * _target;
+                    transform.localScale = Vector3.one * ((12f - time)/ 12f);
+                    if (time > 6f)
+                    {
+                        Destroy();
+                    }
                 }
                 else
                 {
-                    transform.Translate(_target * _speed * Time.deltaTime, Space.Self);
+                    if (_lookRotate)
+                    {
+                        transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
+                    }
+                    else
+                    {
+                        transform.Translate(_target * _speed * Time.deltaTime, Space.Self);
+                    }
+
+                    if (time > _lifeTime * _lifeRate)
+                    {
+                        Destroy();
+                    }
                 }
 
-                if (time > _lifeTime)
-                {
-                    Destroy();
-                }
+                
 
                 yield return new WaitUntil(()=>_gs.Pause == false);
             }

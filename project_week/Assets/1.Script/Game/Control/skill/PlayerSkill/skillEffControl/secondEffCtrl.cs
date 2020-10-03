@@ -13,15 +13,15 @@ namespace week
         {
             switch (getSkillType)
             {
-                case getSkillList.poison:
-                case getSkillList.snowbomb:                    
+                case SkillKeyList.poison:
+                case SkillKeyList.snowbomb:                    
                     StartCoroutine(secondEff());
                     break;
-                case getSkillList.blackhole:
+                case SkillKeyList.blackhole:
                     _enemies = new List<EnemyCtrl>();
                     StartCoroutine(tickEff());
                     break;
-                case getSkillList.mine:
+                case SkillKeyList.mine:
                     StartCoroutine(timechk());
                     break;
                 default:
@@ -71,7 +71,8 @@ namespace week
                         ec = _enemies[i];
                         ec.getKnock((transform.position - ec.transform.position).normalized, 0.1f, 0.25f);
 
-                        if (ec.getDamaged(_dmg))
+                        ec.getDamaged(_dmg);
+                        if (ec.IsUse == false)
                         {
                             _enemies.Remove(ec);
                             i--;
@@ -131,18 +132,18 @@ namespace week
         {
             switch (getSkillType)
             {
-                case getSkillList.snowbomb:
+                case SkillKeyList.snowbomb:
                     ec.getDamaged(_dmg);
                     break;
-                case getSkillList.poison:
-                    ec.setBuff(eDeBuff.dotDem, false, _keep, _dmg);
+                case SkillKeyList.poison:
+                    ec.DotDmg.setDotDmg(_dmg, _keep);
                     break;
-                case getSkillList.mine:
+                case SkillKeyList.mine:
                     ec.getDamaged(_dmg);
                     _efm.makeEff(effAni.mine, transform.position);
                     Destroy();
                     break;
-                case getSkillList.blackhole:
+                case SkillKeyList.blackhole:
                     _enemies.Add(ec);
                     break;
                 default:

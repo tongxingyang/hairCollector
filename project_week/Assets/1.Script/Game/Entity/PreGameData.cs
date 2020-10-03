@@ -30,10 +30,10 @@ namespace week
 
         public PreGameData()
         {
-            setBossData();
+            setBossValData();
         }
 
-        void setBossData()
+        void setBossValData()
         {
             _mapBossList = new List<Boss>();
 

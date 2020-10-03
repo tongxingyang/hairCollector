@@ -6,8 +6,8 @@ namespace week
 {
     public abstract class BaseProjControl : poolingObject
     {
-        [SerializeField] getSkillList _skillType;
-        public getSkillList getSkillType { get => _skillType; protected set => _skillType = value; }
+        [SerializeField] SkillKeyList _skillType;
+        public SkillKeyList getSkillType { get => _skillType; protected set => _skillType = value; }
         public int skillLvl { get; set; }
 
         protected float _dmg;

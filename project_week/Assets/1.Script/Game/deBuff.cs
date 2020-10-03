@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,38 +7,82 @@ namespace week
 {
     public class BuffEffect
     {
-        public eDeBuff _eDB;
-        /// <summary> 지속여부 </summary>
-        bool _lasted;
+        public enum buffTermType { term, season, infinity }
+        /// <summary> 버프 타입 </summary>
+        snowStt _stt;
+        /// <summary> 계절 </summary>
+        buffTermType _isTerm;
         /// <summary> 지속 시간 </summary>
-        float _term;
+        float? _term;
         /// <summary> 값 </summary>
-        public float _val;
+        float _val;
 
-        /// <summary> 도트뎀 텀 체크 용 시간 </summary>
-        float _oneSecond;
-
-        public float Term { get => _term; set => _term = (_lasted == false) ? value : _term; }
+        public snowStt Stt { get => _stt; }
+        public buffTermType IsSeason { get => _isTerm; }
+        public float? Term { get => _term; set => _term = (_isTerm == buffTermType.term) ? value : null; }
         public bool TermOver { get => _term < 0; }
+        public float Val { get => _val; }
 
-        public BuffEffect(eDeBuff e, bool l, float t, float v)
+        public BuffEffect(snowStt stt, float term, float val, buffTermType isterm = buffTermType.term)
         {
-            _eDB = e;
-            _lasted = l;
-            _term = t;
-            _val = v;
+            _stt = stt;
+            _isTerm = isterm;
+
+            if (isterm != buffTermType.term)
+                _term = null;
+            else
+                _term = term;
+
+            _val = val;
+        }
+    }
+
+    public class dotDmg
+    {
+        bool _used;
+
+        float _dmg;
+        float _duration;
+
+        float _time;
+        float _duTime;
+
+        public void setDotDmg(float dmg, float duration)
+        {
+            if (_used == false)
+            {
+                _used = true;
+                _dmg = dmg;
+                _duration = duration;
+            }
+            else
+            {
+                _dmg = dmg;
+                _duration = duration;
+                _duTime = 0;
+            }
         }
 
-        /// <summary> 도트뎀은 1초간격 </summary>
-        public bool chkOne(float del)
+        public float dotDmging(float delTime)
         {
-            _oneSecond += del;
-            if (_oneSecond > 1f)
+            if (_used == false)
+                return 0;
+
+            _time += delTime;
+            _duTime += delTime;
+
+            if (_duTime > _duration)
             {
-                _oneSecond = 0;
-                return true;
+                _used = false;
+                _duTime = 0;
             }
-            return false;
+            else if (_time > 1f)
+            {
+                _time = 0;
+                return _dmg;
+            }
+
+            return 0;
         }
     }
 }

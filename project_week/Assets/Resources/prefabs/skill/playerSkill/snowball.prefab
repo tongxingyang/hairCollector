@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4091083480946999884}
-  - component: {fileID: 4091083480946999885}
   - component: {fileID: 3785713715160752616}
   - component: {fileID: 8265552763054242989}
+  - component: {fileID: 8927449555029959899}
   m_Layer: 14
   m_Name: snowball
   m_TagString: p_proj
@@ -34,20 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4091083480946999885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4091083480946999883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cbcf4f371b158e42bcb342ba5be5271, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spine: {fileID: 0}
-  _skillType: 9
 --- !u!50 &3785713715160752616
 Rigidbody2D:
   serializedVersion: 4
@@ -85,6 +71,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.11
+--- !u!114 &8927449555029959899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091083480946999883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9752ee9cde2a2f41b5acb3670e75a3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillType: 9
+  _render: {fileID: 4091083482300813127}
+  _snowballs:
+  - {fileID: 21300000, guid: e15562b8f2822a84aa7bab24ce1c5ca6, type: 3}
+  - {fileID: 21300000, guid: 01503c2929fe63540b9332ce54a24636, type: 3}
+  - {fileID: 21300000, guid: 953ad25d17bfa5547a9c5b10a63d55c2, type: 3}
+  - {fileID: 21300000, guid: cdbe6caecc05b3345b71d98ce08fccc4, type: 3}
 --- !u!1 &4091083482300813123
 GameObject:
   m_ObjectHideFlags: 0

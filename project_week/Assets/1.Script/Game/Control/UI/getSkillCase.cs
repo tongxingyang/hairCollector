@@ -11,7 +11,7 @@ namespace week
         [SerializeField] Image _img;
         [SerializeField] TextMeshProUGUI _txt;
 
-        public void Init(getSkillList skill, int lvl)
+        public void Init(SkillKeyList skill, int lvl)
         {
             _img.sprite = DataManager.Skillicon[skill];
 

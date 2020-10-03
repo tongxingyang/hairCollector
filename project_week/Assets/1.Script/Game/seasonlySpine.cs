@@ -8,6 +8,7 @@ namespace week
 {
     public class seasonlySpine : seasonlyBase, IDamage
     {
+        [SerializeField] GameObject _shadow;
         [SerializeField] GameObject[] _trees;
         [SerializeField] GameObject[] _bases;
         [SerializeField] SkeletonAnimation[] _spines;
@@ -62,21 +63,22 @@ namespace week
             {
                 _trees[(int)i].SetActive(_season == i);
             }
+            _shadow.SetActive(true);
             SetAnimation("idle", true, 0.5f);
         }
 
-        public bool getDamaged(float f)
+        public float getDamaged(float val)
         {
-            _hp -= f;
+            _hp -= val;
 
             if (_hp <= 0)
             {
                 Destroy();
-                return true;
+                return 0;
             }
 
             SetAnimation("shake", false, 1f);
-            return false;
+            return val;
         }
 
         void Destroy()
@@ -88,9 +90,10 @@ namespace week
         {
             SetAnimation("break", false, 0.7f);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.5f);
             
             _trees[(int)_season].SetActive(false);
+            _shadow.SetActive(false);
         }
 
         public void getKnock(Vector3 v, float p, float d) { }

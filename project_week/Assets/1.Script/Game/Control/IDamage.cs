@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamage
 {
-    bool getDamaged(float f);
+    float getDamaged(float f);
     void getKnock(Vector3 v, float p, float d);
     void setFrozen(float f);
 }

@@ -8,6 +8,7 @@ namespace week
     {
         GameScene _gs;
         PlayerCtrl _player;
+        BuffEffect _bff;
         public void Init(GameScene gs)
         {
             _gs = gs;
@@ -18,8 +19,11 @@ namespace week
         {
             if (collision.tag.Equals("Player"))
             {
-                Debug.Log("늪에빠짐 플");
-                _player.EnvironmentSpeed = 0.8f;
+                BuffEffect bf = _player.setDeBuff(snowStt.speed, 1, 0.8f, BuffEffect.buffTermType.infinity);
+                if (bf != null)
+                {
+                    _bff = bf;
+                }
             }
         }
 
@@ -28,7 +32,8 @@ namespace week
             if (collision.tag.Equals("Player"))
             {
                 Debug.Log("늪에서 나옴");
-                _player.EnvironmentSpeed = 1f;
+                _player.manualRemoveDeBuff(_bff);
+                _bff = null;
             }
         }
     }

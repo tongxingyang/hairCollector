@@ -70,7 +70,7 @@ namespace week
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
             _store.CoinRefresh = refreshCoin;
 
-            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userEntity.Coin.ToString();
+            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
 
             _isLobby = true;
             mGos[(int)eGO.Lobby].SetActive(true);
@@ -94,14 +94,14 @@ namespace week
 
         public void refreshCoin()
         {
-            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userEntity.Coin.ToString();
-            MTmps[(int)eTmp.GemTxt].text = BaseManager.userEntity.Gem.ToString();
+            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
+            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.Gem.ToString();
         }
 
         public void PlayGame()
         {
             SoundManager.instance.StopBGM();
-            BaseManager.instance.saveUserData();
+            BaseManager.userGameData.saveUserEntity();
             BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.GameScene);
         }
 
@@ -148,7 +148,7 @@ namespace week
 
         void setStage()
         {
-            MTmps[(int)eTmp.Record].text = $"최고기록 : {BaseManager.instance.convertToTime(BaseManager.userEntity.TimeRecord)}";
+            MTmps[(int)eTmp.Record].text = $"최고기록 : {BaseManager.instance.convertToTime(BaseManager.userGameData.TimeRecord)}";
             //MTmps[(int)eTmp.st].color = Color.black;
         }
     }

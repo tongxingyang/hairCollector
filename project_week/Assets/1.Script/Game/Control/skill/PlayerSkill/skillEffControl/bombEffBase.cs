@@ -7,9 +7,9 @@ namespace week
 {
     public abstract class bombEffBase : MonoBehaviour
     {
-        [SerializeField] private getSkillList _type;
+        [SerializeField] private SkillKeyList _type;
 
-        protected getSkillList getSkillType { get => _type; }
+        protected SkillKeyList getSkillType { get => _type; }
 
         protected float _dmg;
         protected float _keep;

@@ -22,7 +22,7 @@ namespace week
         public static readonly int _tileCut = 4;
         public static float _boxSize { get { return 20.48f / _tileCut; } }
 
-        public static readonly float _defaultSpeed = 4f;
+        public static readonly float _defaultSpeed = 3.2f;
         //public static readonly float _defaultProjSpeed = 5f;
         public static readonly float _defaultCurvProjSpeed = 2f;
 

@@ -7,7 +7,7 @@ namespace week
 {
     public abstract class skillBase
     {
-        protected getSkillList type;
+        protected SkillKeyList type;
 
         protected int lvl;
         protected int max_lvl;
@@ -27,11 +27,11 @@ namespace week
     {
         public float val;
 
-        public Action<getSkillList> skUp;
+        public Action<SkillKeyList> skUp;
 
         public override void Init(int i)
         {
-            type = (getSkillList)i;
+            type = (SkillKeyList)i;
 
             upGrade = false;
             lvl = 0;
@@ -46,10 +46,7 @@ namespace week
 
         public override void skillUp()
         {
-            if (lvl == 0)
-            {
-            }
-            else if (lvl < max_lvl)
+            if (lvl < max_lvl)
             {
                 skUp(type);
             }
@@ -80,7 +77,7 @@ namespace week
 
         public override void Init(int i)
         {
-            type = (getSkillList)i;
+            type = (SkillKeyList)i;
             upGrade = false;
 
             lvl = 0;
@@ -90,7 +87,7 @@ namespace week
             information = DataManager.GetTable<string>(DataTable.skill, i.ToString(), SkillValData.information.ToString());
 
             att = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.att.ToString());
-            delay = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.delay.ToString()) * BaseManager.userEntity.Cool;
+            delay = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.delay.ToString()) * BaseManager.userGameData.o_Cool;
             keep = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.keep.ToString());
             count = DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.count.ToString());
             size = 1;

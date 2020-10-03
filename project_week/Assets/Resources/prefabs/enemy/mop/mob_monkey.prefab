@@ -193,6 +193,7 @@ MonoBehaviour:
   _ice: {fileID: 9101513862052751455}
   _shotPos:
   - {fileID: 214961498085011697}
+  _isCurved: 1
 --- !u!1 &7671662485588423108
 GameObject:
   m_ObjectHideFlags: 0

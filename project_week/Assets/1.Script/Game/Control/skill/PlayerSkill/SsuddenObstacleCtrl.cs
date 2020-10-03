@@ -11,7 +11,7 @@ namespace week
         public override void Init(skillBase status)
         {
             preInit();
-            _skillType = getSkillList.icewall;
+            _skillType = SkillKeyList.icewall;
 
             skill _skill = (skill)status;
 

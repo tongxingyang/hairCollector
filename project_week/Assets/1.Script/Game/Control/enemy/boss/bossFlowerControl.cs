@@ -29,7 +29,6 @@ namespace week
         float _normalCool = 5f;
         
         float _skillCoolTime;
-        float _skillCool = 5f;
         float _runningTime;
         float _xPos;
 
@@ -48,6 +47,7 @@ namespace week
             _stemLeng = _stem.Length;
             _stemDir = new Vector3[_stemLeng];
             _stemHight = new float[_stemLeng];
+            _standardStt[(int)snowStt.speed] = 1f;
 
             for (int i = 0; i < _stemLeng; i++)
             {
@@ -111,7 +111,7 @@ namespace week
             {
                 for (int i = 0; i < _stemLeng; i++)
                 {
-                    _stem[i].position = Vector3.MoveTowards(_stem[i].position, _stemDir[i], 3f * _speed * Time.deltaTime);
+                    _stem[i].position = Vector3.MoveTowards(_stem[i].position, _stemDir[i], 3f * Speed * Time.deltaTime);
                 }
                 
                 yield return new WaitUntil(() => _gs.Pause == false);
@@ -125,9 +125,9 @@ namespace week
             {                
                 _runningTime += delTime;
 
-                if (_speed > 1f)
+                if (_standardStt[(int)snowStt.speed] > 1f)
                 {
-                    _speed -= delTime;
+                    _standardStt[(int)snowStt.speed] -= delTime;
                 }
 
                 for (int i = 0; i < _stemLeng; i++)
@@ -138,11 +138,11 @@ namespace week
                 }
             }
 
-            if (Vector3.Distance(transform.position, _player.transform.position) < 5f)
+            if (Vector3.Distance(transform.position, _player.transform.position) < _bossRange)
             {
                 // 타임체크 - 스킬선택
                 _skillCoolTime += delTime;
-                if (_skillCoolTime > _skillCool)
+                if (_skillCoolTime > _bossSkillCool)
                 {
                     _skillCoolTime = 0;
 
@@ -202,7 +202,7 @@ namespace week
             float rPow;
             float posy;
 
-            _speed = 15f;
+            _standardStt[(int)snowStt.speed] = 15f;
             while (Vector3.Distance(_head.transform.position, targetPos) > 0.05f)
             {
                 _stemDir[_stemLeng - 1] = Vector3.MoveTowards(_head.transform.position, targetPos, 15f * Time.deltaTime);
@@ -265,11 +265,14 @@ namespace week
                 _esc.transform.position = transform.position;
                 _esc.operation(transform.position + (Vector3)(Random.insideUnitCircle * 5));
             }
-        }        
+        }
 
         #endregion
 
         #region [util]
+        public override void whenEnemyEnter()
+        {
+        }
 
         /// <summary> 목적을 향한 방향 체크 </summary>
         void checkDir()
@@ -351,7 +354,7 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                _player.getDamaged(_att);
+                _player.getDamaged(Att);
             }
         }
 

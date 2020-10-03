@@ -7,11 +7,36 @@ namespace week
     public class MobShooter : MobControl
     {
         [SerializeField] Transform[] _shotPos;
-
+        [SerializeField] bool _isCurved;
         float _shootTime;
         float _pAngle;
+
+        EnShot _shotType = EnShot.fireball;
+
+        bool isInRange
+        {
+            get 
+            {
+                if (_isCurved)
+                {
+                    return PlayerDist < 5f;
+                }
+                else
+                {
+                    return true;
+                }
+                
+            }
+        }
+
         protected override void otherWhenFixInit()
         {
+            if (getType == Mob.mob_monkey)
+            {
+                _shotType = EnShot.banana; 
+            }
+
+            _dotDmg = new dotDmg();
         }
 
         protected override void otherWhenRepeatInit()
@@ -41,7 +66,7 @@ namespace week
                 switch (_stat)
                 {
                     case stat.trace:
-                        mopTraceMove();
+                        mopTraceLongMove();
                         break;
                     case stat.die:
                         break;
@@ -52,17 +77,17 @@ namespace week
 
                 _shootTime += deltime;
 
-                if (_shootTime > _pspeed)
+                if (_shootTime > _pspeed && isInRange)
                 {
                     _shootTime = 0;
 
-                    _proj = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.fireball);
-                    _proj.transform.position = _shotPos[0].position;
+                    _esc = (EnSkillControl)_enProjMng.makeEnProj(_shotType);
+                    _esc.transform.position = _shotPos[0].position;
 
-                    _proj.operation(_player.transform.position, 0);
+                    _esc.operation(_player.transform.position, 0);
                 }
 
-                deBuffChk(deltime);
+                _dotDmg.dotDmging(deltime);
                 chkDestroy(deltime);
                 chkFrozen(deltime);
 

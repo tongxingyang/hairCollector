@@ -816,10 +816,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08724e350608c844c86a8ffc3404a646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spine: {fileID: 0}
+  _boss: 3
   _hpCase: {fileID: 8935600303268083201}
   _hpbar: {fileID: 8439979941569789678}
-  _boss: 3
   _head: {fileID: 7433933412528908158}
   _allbody:
   - {fileID: 6691864948926427035}

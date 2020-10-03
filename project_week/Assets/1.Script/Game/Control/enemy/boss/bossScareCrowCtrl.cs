@@ -15,6 +15,7 @@ namespace week
         [Header("fire")]
         [SerializeField] Transform _skillshotpos;
         EnSkill_Curved esc;
+        EnStaticControl _stc;
         [Header("jump")]
         [SerializeField] Transform _foot;
 
@@ -119,9 +120,8 @@ namespace week
         /// <summary> 대기 </summary>
         void idle()
         {
-            if (Vector3.Distance(transform.position, _player.transform.position) < 5f)
+            if (Vector3.Distance(transform.position, _player.transform.position) < _bossRange)
             {
-                Debug.Log(transform.position + " / " + _player.transform.position);
                 skillCoolTime = 0;
                 switchStat(stat.Trace);
             }
@@ -130,7 +130,7 @@ namespace week
         /// <summary> 귀환 </summary>
         void back()
         {
-            transform.position = Vector3.MoveTowards(transform.position, _homePos, _speed * 1.6f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _homePos, Speed * 1.6f * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, _homePos) < 0.5f)
             {
@@ -145,9 +145,9 @@ namespace week
             {
                 skillCoolTime += Time.deltaTime;
 
-                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
 
-                if (skillCoolTime > 5f)
+                if (skillCoolTime > _bossSkillCool)
                 {
                     skillCoolTime = 0;
                     if (Random.Range(0, 2) == 0)
@@ -169,7 +169,7 @@ namespace week
         /// <summary> 1번스킬 - 불발사 </summary>
         IEnumerator skillAShot()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
                 esc = (EnSkill_Curved)_enProjMng.makeEnProj(EnShot.scarecrow_shot);
                 esc.transform.position = _foot.position;
@@ -184,12 +184,18 @@ namespace week
         /// <summary> 2번스킬 - 점프 쿵 </summary>
         void skillBJump()
         {
-            Debug.Log("불 활활");
+            _stc = (EnStaticControl)_enProjMng.makeEnProj(EnShot.scare_fire);
+            _stc.transform.position = _foot.position;
+            _stc.operation();
         }
 
         #endregion
 
         #region [util]
+
+        public override void whenEnemyEnter()
+        {
+        }
 
         /// <summary> 목적을 향한 방향 체크 </summary>
         void checkDir()

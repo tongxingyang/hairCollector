@@ -9,7 +9,7 @@ namespace week
     {
         static public BaseManager instance;
 
-        static public UserEntity userEntity;
+        static public UserGameData userGameData;
         private static PreGameData preGameData;
 
         loadScene _loading;
@@ -67,11 +67,6 @@ namespace week
         public void convertScene(string close, SceneNum open)
         {
             StartCoroutine(LoadingScene(close, (int)open));
-        }
-
-        public void saveUserData()
-        {
-            ES3.Save<UserEntity>("userEntity", userEntity);
         }
 
         public string convertToTime(int time)

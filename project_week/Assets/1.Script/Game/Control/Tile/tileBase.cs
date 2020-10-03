@@ -83,7 +83,7 @@ namespace week
 
             if (ran < 20)//2
             {
-                mo = (mapObstacle)UnityEngine.Random.Range(0, (int)mapObstacle.map0);
+                mo = mapObstacle.bosszone;
             }
             else if(ran > 80)//98
             {
@@ -94,7 +94,7 @@ namespace week
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map0, (int)mapObstacle.ruin0);
             }
 
-            mo = (mapObstacle.bosszone_3);// UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
+            mo = (mapObstacle.bosszone);// UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
 
             if (first)
             {

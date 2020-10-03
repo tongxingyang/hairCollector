@@ -20,6 +20,12 @@ namespace week
 
         protected MapManager _map;
 
+        protected float MaxHp { get { return _standardStt[(int)snowStt.maxHp]; } set { _standardStt[(int)snowStt.maxHp] = value; } }
+        protected float Att { get { return _standardStt[(int)snowStt.att] * _enMng.BuffStt[(int)snowStt.att]; } }
+        protected float Def { get { return _standardStt[(int)snowStt.def] * _enMng.BuffStt[(int)snowStt.def]; } }
+        protected float Speed { get { return _standardStt[(int)snowStt.speed] * _enMng.BuffStt[(int)snowStt.speed]; } }
+        protected float Exp { get { return _standardStt[(int)snowStt.exp] * _enMng.BuffStt[(int)snowStt.exp]; } }
+
         protected float _patt = 1;
         protected float _pspeed = 5f;
         protected float _calSpeed;
@@ -30,7 +36,6 @@ namespace week
 
         protected bool _isAtting;
         protected bool _is2ndMotion;
-        protected float _staticCool;
         protected float _coolTime;
         protected bool _isCool;
 
@@ -41,7 +46,7 @@ namespace week
         public Mob getType { get { return _enemy; } }
 
         // 슈팅
-        protected EnSkill_Proj _proj;
+        protected EnSkillControl _esc;
         protected float _shotTerm = 2f;
         protected Animator _ani;
 
@@ -49,6 +54,7 @@ namespace week
         {
             _gs = gs;
             _player = _gs.Player;
+            _enMng = _gs.EnemyMng;
             _efMng = _gs.EfMng;
             _enProjMng = _gs.EnProjMng;
             _map = _gs.MapMng;
@@ -60,16 +66,16 @@ namespace week
         public void FixInit()
         {
             _ani = GetComponentInChildren<Animator>();
+            _standardStt = new float[(int)snowStt.max];
+            _standardStt[(int)snowStt.maxHp]    = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.hp.ToString());
+            _standardStt[(int)snowStt.att]      = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.att.ToString());
+            _standardStt[(int)snowStt.def]      = DataManager.GetTable<int>(DataTable.monster, (getType).ToString(), MonsterData.def.ToString());
+            _standardStt[(int)snowStt.speed]    = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.speed.ToString()) * gameValues._defaultSpeed;
+            _standardStt[(int)snowStt.exp]      = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.exp.ToString());
 
-            _maxhp      = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.hp.ToString());
-            _att        = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.att.ToString());
-            _patt       = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.patt.ToString());
-            _def        = DataManager.GetTable<int>(DataTable.monster, (getType).ToString(), MonsterData.def.ToString());
-            _speed      = gameValues._defaultSpeed * DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.speed.ToString());
-            _calSpeed   = _speed;
-            _pspeed     = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString());
-            _exp        = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.exp.ToString());
-            _staticCool = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.attspeed.ToString());
+            _patt       = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.patt.ToString());            
+            _calSpeed   = _standardStt[(int)snowStt.speed];
+            _pspeed     = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString()); 
 
             otherWhenFixInit();
 
@@ -85,7 +91,9 @@ namespace week
             _ice.gameObject.SetActive(false);
             _shotTerm = 2f;
             
-            _hp = _maxhp;
+            _hp = MaxHp;
+            float val = _enMng.BuffStt[(int)snowStt.size];
+            transform.localScale = new Vector3(val, val);
             _coolTime = 0;
             _isCool = false;
 
@@ -115,10 +123,19 @@ namespace week
         {
             if (_isFrozen == false)
             {
-                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _speed * _speedFactor * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
             }
+        }
 
-            //checkDist();
+        protected void mopTraceLongMove()
+        {
+            if (_isFrozen == false)
+            {
+                if (PlayerDist > 2.5f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
+                }
+            }
         }
 
         protected void switch2ndAttMove()
@@ -127,7 +144,7 @@ namespace week
             {
                 if (_isAtting == false)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _speed * _speedFactor * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
                 }
 
                 float d = PlayerDist;
@@ -153,7 +170,7 @@ namespace week
             {
                 if (_isAtting == false)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _speed * _speedFactor * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
                 }
 
                 float d = PlayerDist;
@@ -168,84 +185,9 @@ namespace week
 
         #region BuffEffect
 
-        public override void setBuff(eDeBuff type, bool last, float term, float val) 
-        {
-            if (_bffEff == null)
-            {
-                _bffEff = new List<BuffEffect>();
-            }
-
-            BuffEffect dBf = new BuffEffect(type, last, term, val);
-
-            bfApplyStat();
-
-            _bffEff.Add(dBf);
-        }
-
         protected virtual void setColor()
         {
             _render.color = _originColor;    
-        }
-
-        protected void deBuffChk(float delTime)
-        {
-            setColor();
-            _originColor = Color.white;
-
-            if (_bffEff == null)
-                return;
-
-            for (int i = 0; i < _bffEff.Count; i++)
-            {
-                _bffEff[i].Term -= delTime;
-
-                if (_bffEff[i]._eDB == eDeBuff.slow)
-                {
-                    if (_bffEff[i].TermOver)
-                    {
-                        _bffEff.RemoveAt(i);
-                        bfApplyStat();
-                        i--;
-                    }
-                }
-                else if (_bffEff[i]._eDB == eDeBuff.dotDem)
-                {
-                    _originColor = new Color(0.8f, 0.4f, 1f);
-
-                    if (_bffEff[i].chkOne(delTime))
-                    {
-                        getDamaged(_bffEff[i]._val);
-
-                        if (_isDie)
-                            break;
-                    }
-
-                    if (_bffEff[i].TermOver)
-                    {
-                        _bffEff.RemoveAt(i);
-                        bfApplyStat();
-                        i--;
-                    }
-                }
-            }
-        }
-
-        /// <summary> 버프 스탯 적용 -> 버프/해제시  </summary>
-        void bfApplyStat()
-        {
-            float _att = 1; 
-            float _def = 1;
-            float _spd = 1;
-            
-            for (int i = 0; i < _bffEff.Count; i++)
-            {
-                if (_bffEff[i]._eDB == eDeBuff.slow)
-                {
-                    _spd *= _bffEff[i]._val;
-                }
-            }
-
-            _calSpeed = _speed * _spd;
         }
 
         public override void setFrozen(float term)
@@ -291,11 +233,8 @@ namespace week
         {
             preDestroy();
 
-            _bffEff = null;
-
             _isDie = true;
             _isAtting = false;
-            _speedFactor = 1;
         }
 
         public override void enemyDie()
@@ -303,7 +242,7 @@ namespace week
             if (_isDie == false)
             {
                 // SoundManager.instance.PlaySFX(SFX.endie);
-                killFunc((int)_exp);
+                killFunc((int)Exp);
                 _efMng.makeEff(effAni.explosion, transform.position);
                 otherWhenDie();
                 Destroy();

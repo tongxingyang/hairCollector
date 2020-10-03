@@ -45,14 +45,14 @@ namespace week
 
             switch (getSkillType)
             {
-                case getSkillList.snowbomb:
+                case SkillKeyList.snowbomb:
                     StartCoroutine(twoBounce(bombExplored));
                     break;
-                case getSkillList.poison:
-                case getSkillList.blackhole:
+                case SkillKeyList.poison:
+                case SkillKeyList.blackhole:
                     StartCoroutine(oneBounce(bombExplored));
                     break;
-                case getSkillList.mine:
+                case SkillKeyList.mine:
                     StartCoroutine(rotateBounce(bombExplored));
                     break;
                 default:
@@ -192,6 +192,7 @@ namespace week
             _bomb.gameObject.SetActive(false);
             _shadow.SetActive(false);
 
+            _dmg *= BaseManager.userGameData.SkinFval[(int)skinFvalue.mine];
             _eff.Init(_dmg, _keep, () =>
              {
                  Destroy();

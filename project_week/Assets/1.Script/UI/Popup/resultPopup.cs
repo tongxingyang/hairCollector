@@ -42,13 +42,13 @@ namespace week
 
         public void resultInit(float time, int coin, int gem, int ap)
         {
-            if (BaseManager.userEntity.RemoveAD)
+            if (BaseManager.userGameData.RemoveAD)
             {
                 _AdsBtn.color = Color.gray;
                 _AdsBtn.raycastTarget = false;
             }
 
-            _isNewRecord = time > BaseManager.userEntity.TimeRecord;
+            _isNewRecord = time > BaseManager.userGameData.TimeRecord;
 
             int cnt = 1;
             cnt += (gem > 0) ? 1 : 0;
@@ -79,7 +79,7 @@ namespace week
             RectTransform topRect = (RectTransform)_top.transform;
             RectTransform botRect = (RectTransform)_bot.transform;
 
-            _bestRecord.text = BaseManager.userEntity.getLifeTime(BaseManager.userEntity.TimeRecord, false);
+            _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false);
             _record.text = "";// BaseManager.userEntity.getLifeTime(time, true);
 
             _coinTxt.text = _getCoin.ToString();
@@ -117,7 +117,7 @@ namespace week
                 yield return new WaitForEndOfFrame();
             }*/
 
-            _record.text = BaseManager.userEntity.getLifeTime(time, true);
+            _record.text = BaseManager.userGameData.getLifeTime(time, true);
             _record.transform.localScale = Vector3.one * 2;
             _record.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InCirc);
 
@@ -125,9 +125,9 @@ namespace week
 
             if (_isNewRecord)
             {
-                BaseManager.userEntity.TimeRecord = (int)time;
+                BaseManager.userGameData.TimeRecord = (int)time;
 
-                _bestRecord.text = BaseManager.userEntity.getLifeTime(BaseManager.userEntity.TimeRecord, false);
+                _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false);
 
                 _bestRecord.transform.localScale = Vector3.one * 2;
                 _bestRecord.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InCirc);
@@ -136,7 +136,7 @@ namespace week
                 _newImg.transform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.InCirc);
             }
 
-            if (BaseManager.userEntity.RemoveAD)
+            if (BaseManager.userGameData.RemoveAD)
             {
                 StartCoroutine(getDoubleReward());
             }
@@ -210,14 +210,14 @@ namespace week
             _gemTxt.text = (_getGem * 2).ToString();
             _apTxt.text = (_getAp * 2).ToString();
 
-            BaseManager.userEntity.Coin += _getCoin;
+            BaseManager.userGameData.Coin += _getCoin;
 
             _getCoin *= 2;
 
             _AdsBtn.color = Color.gray;
             _AdsBtn.raycastTarget = false;
 
-            BaseManager.instance.saveUserData();
+            BaseManager.userGameData.saveUserEntity();
         }
 
         public void doubleCoin()

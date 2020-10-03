@@ -21,16 +21,18 @@ namespace week
         static Dictionary<Mob, GameObject> _mobFabs;
         static Dictionary<Boss, GameObject> _bobFabs;
         static Dictionary<mapObstacle, GameObject> _obstacleFabs;
-        static Dictionary<getSkillList, GameObject> _shotFabs;
+        static Dictionary<SkillKeyList, GameObject> _shotFabs;
         static Dictionary<EnShot, GameObject> _enProjFabs;
         public static Dictionary<Mob, GameObject> MobFabs { get => _mobFabs; set => _mobFabs = value; }
         public static Dictionary<Boss, GameObject> BobFabs { get => _bobFabs; set => _bobFabs = value; }
         public static Dictionary<mapObstacle, GameObject> ObstacleFabs { get => _obstacleFabs; set => _obstacleFabs = value; }
-        public static Dictionary<getSkillList, GameObject> ShotFabs { get => _shotFabs; set => _shotFabs = value; }
+        public static Dictionary<SkillKeyList, GameObject> ShotFabs { get => _shotFabs; set => _shotFabs = value; }
         public static Dictionary<EnShot, GameObject> EnProjFabs { get => _enProjFabs; set => _enProjFabs = value; }
 
-        static Dictionary<getSkillList, Sprite> _skillicon;
-        public static Dictionary<getSkillList, Sprite> Skillicon { get => _skillicon; set => _skillicon = value; }
+        static Dictionary<SkillKeyList, Sprite> _skillicon;
+        static Dictionary<SkinKeyList, Sprite> _skinSprite;
+        public static Dictionary<SkillKeyList, Sprite> Skillicon { get => _skillicon; set => _skillicon = value; }
+        public static Dictionary<SkinKeyList, Sprite> SkinSprite { get => _skinSprite; set => _skinSprite = value; }
 
         public static bool LoadBGdata()
         {
@@ -40,7 +42,7 @@ namespace week
             datalist[(int)DataTable.monster] = BGRepo.I["monster"];
             datalist[(int)DataTable.status] = BGRepo.I["status"];
             datalist[(int)DataTable.boss] = BGRepo.I["boss"];
-            datalist[(int)DataTable.stage] = BGRepo.I["stage"];
+            datalist[(int)DataTable.skin] = BGRepo.I["skin"];
             datalist[(int)DataTable.enproj] = BGRepo.I["enproj"];
 
             return true;
@@ -70,16 +72,16 @@ namespace week
 
             _obstacleFabs = new Dictionary<mapObstacle, GameObject>();
 
-            for (mapObstacle i = mapObstacle.bosszone_0; i < mapObstacle.max; i++)
+            for (mapObstacle i = mapObstacle.bosszone; i < mapObstacle.max; i++)
             {
                 GameObject go = Resources.Load("prefabs/obstacle/" + $"{i.ToString()}") as GameObject;
                 _obstacleFabs.Add(i, go);
             }
 
-            _shotFabs = new Dictionary<getSkillList, GameObject>();
-            for (getSkillList i = getSkillList.snowball; i < getSkillList.max; i++)
+            _shotFabs = new Dictionary<SkillKeyList, GameObject>();
+            for (SkillKeyList i = SkillKeyList.snowball; i < SkillKeyList.max; i++)
             {
-                if (i == getSkillList.icetornado || i == getSkillList.iceshield || i == getSkillList.iceage || i == getSkillList.blizzard)
+                if (i == SkillKeyList.icetornado || i == SkillKeyList.iceshield || i == SkillKeyList.iceage || i == SkillKeyList.blizzard)
                     continue;
 
                 GameObject go = Resources.Load("prefabs/skill/playerSkill/" + i.ToString()) as GameObject;
@@ -93,18 +95,34 @@ namespace week
                 _enProjFabs.Add(i, go);
             }
 
-            _skillicon = new Dictionary<getSkillList, Sprite>();
+            _skillicon = new Dictionary<SkillKeyList, Sprite>();
             Sprite[] sps = Resources.LoadAll<Sprite>("sprite/skills");
             string name;
             for (int i = 0; i < sps.Length; i++)
             {
                 name = sps[i].name;
 
-                for (getSkillList sk= getSkillList.hp; sk < getSkillList.max; sk++)
+                for (SkillKeyList sk= SkillKeyList.hp; sk < SkillKeyList.max; sk++)
                 {
                     if (name.Equals(sk.ToString()))
                     {
                         _skillicon.Add(sk, sps[i]);
+                    }
+                }
+            }
+
+            _skinSprite = new Dictionary<SkinKeyList, Sprite>();
+            Sprite[] sks = Resources.LoadAll<Sprite>("sprite/snowmans");
+
+            for (int i = 0; i < sks.Length; i++)
+            {
+                name = sks[i].name;
+
+                for (SkinKeyList sk = SkinKeyList.snowman; sk < SkinKeyList.max; sk++)
+                {
+                    if (name.Equals(sk.ToString()))
+                    {
+                        _skinSprite.Add(sk, sks[i]);
                     }
                 }
             }

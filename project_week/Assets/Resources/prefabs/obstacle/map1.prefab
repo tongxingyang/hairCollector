@@ -176,8 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17b1fd8ea4bd498dd19047985e973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spine: {fileID: 0}
-  _type: 6
+  _type: 2
   _pocket: {fileID: 3981237554224266914}
   bosPos: []
   present: {fileID: 0}

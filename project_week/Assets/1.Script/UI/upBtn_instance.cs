@@ -14,8 +14,8 @@ namespace week
         [SerializeField] TextMeshProUGUI _lvl;
         [SerializeField] TextMeshProUGUI _explain;
 
-        getSkillList _skType;
-        Action<getSkillList> _btnFunction;
+        SkillKeyList _skType;
+        Action<SkillKeyList> _btnFunction;
         Action _close;
 
         public void selectSkill()
@@ -24,7 +24,7 @@ namespace week
             _close();
         }
 
-        public void setBtn(getSkillList sk, int lvl, Action<getSkillList> BtnFunction, Action close)
+        public void setBtn(SkillKeyList sk, int lvl, Action<SkillKeyList> BtnFunction, Action close)
         {
             _skType = sk;
             _name.text = DataManager.GetTable<string>(DataTable.skill, $"{(int)sk}", "skill");

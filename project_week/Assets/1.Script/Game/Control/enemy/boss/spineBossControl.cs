@@ -6,7 +6,7 @@ using Spine.Unity;
 
 namespace week
 {
-    public class spineBossControl : bossControl
+    public abstract class spineBossControl : bossControl
     {
         [SerializeField] protected SkeletonAnimation _spine;
 
