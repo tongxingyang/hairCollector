@@ -24,7 +24,7 @@ namespace week
     #endregion
 
     #region dataTable
-    public enum DataTable { status, skill, skin, monster, boss, enproj, max }
+    public enum DataTable { status, skill, skin, monster, boss, enproj, quest, max }
     
     /// <summary> 스탯 </summary>
     public enum StatusData
@@ -253,6 +253,29 @@ namespace week
         speed,
         att,
         max
+    }
+
+    public enum Quest
+    {
+        day_rein,
+        day_skin,
+        day_ad,
+        time,
+        boss,
+        artifact,
+        ad,
+        rein
+    }
+
+    public enum QuestValData
+    {
+        name,
+        questType,
+        questName,
+        currency,
+        reward,
+        explain,
+        val
     }
 
     #region [recital Data]
