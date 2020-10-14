@@ -26,7 +26,7 @@ namespace week
             {
                 if (_onPlayer)
                 {
-                    _player.DotDmg.setDotDmg(3f, 3f);
+                    _player.DotDmg.setDotDmg(1.5f, 3f);
                 }
 
                 yield return new WaitForSeconds(0.1f);

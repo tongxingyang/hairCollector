@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25872a0e1868acf4b870fbdc5c0d39e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shotType: 3
+  _shotType: 10
   _targeting: 1
   _lookRotate: 1
   _lowHitRate: 0

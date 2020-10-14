@@ -23,12 +23,16 @@ namespace week
         skinBox[] _skinBoxies;
         SkinKeyList _selectSkin;
 
+        Action _costRefresh;
+
         #region [초기화]
 
-        void Awake()
+        public void Init(Action act)
         {
             _selectSkin = (SkinKeyList)BaseManager.userGameData.Skin;
             showSkinInfo();
+
+            _costRefresh = act;
 
             _skinBoxies = new skinBox[(int)SkinKeyList.max];
             for (int i = 0; i < (int)SkinKeyList.max; i++)
@@ -36,7 +40,7 @@ namespace week
                 _skinBoxies[i] = Instantiate(_skinBox).GetComponent<skinBox>();
                 _skinBoxies[i].transform.SetParent(_skinBoxParent);
                 _skinBoxies[i].setSkinBox((SkinKeyList)i);
-                _skinBoxies[i].WhenSkinSelect = changeSkin;
+                _skinBoxies[i].setAction(changeSkin, _costRefresh);
             }
 
             gameObject.SetActive(false);

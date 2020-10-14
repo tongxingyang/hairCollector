@@ -41,7 +41,7 @@ namespace week
 
             BaseManager.userGameData = new UserGameData();
 
-            _lobby.refreshCoin();
+            _lobby.refreshCost();
 
             BaseManager.userGameData.saveUserEntity();
         }

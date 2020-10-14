@@ -192,7 +192,11 @@ namespace week
             _bomb.gameObject.SetActive(false);
             _shadow.SetActive(false);
 
-            _dmg *= BaseManager.userGameData.SkinFval[(int)skinFvalue.mine];
+            if (getSkillType == SkillKeyList.mine)
+            {
+                _dmg *= BaseManager.userGameData.SkinFval[(int)skinFvalue.mine];
+            }
+
             _eff.Init(_dmg, _keep, () =>
              {
                  Destroy();

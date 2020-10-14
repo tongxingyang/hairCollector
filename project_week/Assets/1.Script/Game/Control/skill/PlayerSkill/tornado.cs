@@ -44,7 +44,15 @@ namespace week
                     time = 0;
                     for(int i = 0; i < _mobs.Count; i++)
                     {
-                        _mobs[i].getDamaged(_dmg);
+                        if (_mobs[i].IsUse == false)
+                        {
+                            _mobs.RemoveAt(i);
+                            i--;
+                        }
+                        else
+                        {
+                            _mobs[i].getDamaged(_dmg);
+                        }
                     }
                 }
                 yield return new WaitForEndOfFrame();
@@ -55,7 +63,15 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Enemy"))
             {
-                _mobs.Add(collision.gameObject.GetComponent<MobControl>());
+                MobControl mc = collision.gameObject.GetComponentInParent<MobControl>();
+                if (mc != null)
+                {
+                    _mobs.Add(mc);
+                }
+                else
+                {
+                    Debug.LogError(collision.name+ "에는 MobControl이 없습니까?");
+                }
             }
         }
 

@@ -56,7 +56,6 @@ namespace week
 
         protected override IEnumerator lifeCycle()
         {
-            float deltime = 0;
             while (IsUse)
             {
                 deltime = Time.deltaTime;
@@ -81,13 +80,13 @@ namespace week
                 {
                     _shootTime = 0;
 
-                    _esc = (EnSkillControl)_enProjMng.makeEnProj(_shotType);
+                    _esc = (EnSkillControl)_enProjMng.makeEnProj(_shotType, Att);
                     _esc.transform.position = _shotPos[0].position;
 
                     _esc.operation(_player.transform.position, 0);
                 }
 
-                _dotDmg.dotDmging(deltime);
+                chkDotDmg(deltime);
                 chkDestroy(deltime);
                 chkFrozen(deltime);
 

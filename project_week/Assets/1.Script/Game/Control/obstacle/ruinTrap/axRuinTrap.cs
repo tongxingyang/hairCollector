@@ -8,19 +8,22 @@ namespace week
     {
         [SerializeField] Transform[] _axis;
 
-        float _angle = 4f;
-        float _spd = 1.5f;
+        float _outAngle = 1f;
+        float _inAngle = -1.5f;
+        float _spd = 1f;
 
         protected override void whenFixedInit()
         {
+            _att = 8f;
         }
+
         protected override void whenRepeatInit()
         {
+            Att = _att * Mathf.Pow(1.2f, _clm.Day);
         }
 
         public override void operate()
         {
-            _spd = 1f;
             StartCoroutine(rollingAx());
         }
 
@@ -50,12 +53,34 @@ namespace week
                     }
                 }
 
-                for (int i = 0; i < _axis.Length; i++)
-                {
-                    _axis[i].Rotate(Vector3.forward, _angle * chkSpd);     
-                }
+                _axis[0].Rotate(Vector3.forward, _outAngle * chkSpd);
+                _axis[1].Rotate(Vector3.forward, _inAngle * chkSpd);
+
+                //for (int i = 0; i < _axis.Length; i++)
+                //{
+                //    _axis[i].Rotate(Vector3.forward, _angle * chkSpd);     
+                //}
 
                 yield return new WaitUntil(() => (_gs.Pause == false && _onTrap));
+            }
+        }
+        
+        //private void OnTriggerEnter2D(Collider2D collision)
+        //{
+        //    if (collision.tag.Equals("Player"))
+        //    {
+        //        Vector3 knock = (_player.transform.position - transform.position).normalized;
+        //        _player.getDamaged(Att);
+        //        _player.getKnock(knock, 0.1f, 0.2f);
+        //    }
+        //}
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.tag.Equals("Player"))
+            {
+                Vector3 knock = (_player.transform.position - transform.position).normalized;
+                _player.getDamaged(Att);
+                _player.getKnock(knock, 0.1f, 0.2f);
             }
         }
 

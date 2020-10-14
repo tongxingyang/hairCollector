@@ -23,7 +23,6 @@ namespace week
 
         protected override IEnumerator lifeCycle()
         {
-            float deltime = 0;
             while (IsUse)
             {
                 deltime = Time.deltaTime;
@@ -42,7 +41,7 @@ namespace week
                         break;
                 }
 
-                _dotDmg.dotDmging(deltime);
+                chkDotDmg(deltime);
                 chkDestroy(deltime);
                 chkFrozen(deltime);
 

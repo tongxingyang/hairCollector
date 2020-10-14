@@ -26,7 +26,7 @@ namespace week
             public charger(Transform pos)
             {
                 _onCharger = true;
-                _chargeMount = 0;
+                _chargeMount = 1f;
                 _pos = pos;
                 _render = pos.GetComponentInParent<SpriteRenderer>();
             }
@@ -64,12 +64,15 @@ namespace week
             for(int i = 0; i < leng; i++)
             {
                 _chargers[i] = new charger(_shotPos[i]);
+                _chargers[i].chargingColor();
             }
+
+            _att = DataManager.GetTable<float>(DataTable.enproj, EnShot.lightning.ToString(), EnProjValData.att.ToString());
         }
 
         protected override void whenRepeatInit()
         {
-
+            Att = _att * Mathf.Pow(1.2f, _clm.Day);
         }
 
         public override void operate()
@@ -101,7 +104,7 @@ namespace week
                     {
                         if (_chargers[i].shotTermChk(time))
                         {
-                            _proj = (EnSkill_Proj)_epm.makeEnProj(EnShot.lightning);
+                            _proj = (EnSkill_Proj)_epm.makeEnProj(EnShot.lightning, Att);
                             _proj.transform.position = _shotPos[i].position;
 
                             _proj.operation(_player.transform.position, 0);

@@ -14,18 +14,14 @@ namespace week
             Lobby,
             Store,
             Status,
-            Deco,
+            Skin,
+            Quest,
             option
         }
 
         enum eImg
         {
             optionBtn,
-
-            //hair,
-            //eyebrow,
-            //beard,
-            //cloth,
 
             stageImage
         }
@@ -34,7 +30,7 @@ namespace week
         {
             CoinTxt,
             GemTxt,
-            Record
+            RecordTxt
         }
 
         protected override Enum GetEnumGameObject() { return new eGO(); }
@@ -58,17 +54,23 @@ namespace week
 
         bool _isLobby;
 
-        statusComp _status;
         storeComp _store;
+        statusComp _status;
+        skinComp _skin;
+        questComp _quest;
+
         optionComp _option;
 
         // Start is called before the first frame update
         void Start()
         {
-            _status = mGos[(int)eGO.Status].GetComponent<statusComp>();
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
+            _status = mGos[(int)eGO.Status].GetComponent<statusComp>();
+            _skin = mGos[(int)eGO.Skin].GetComponent<skinComp>();
+            _skin.Init(refreshCost);
+            _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
+
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
-            _store.CoinRefresh = refreshCoin;
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
 
@@ -76,12 +78,13 @@ namespace week
             mGos[(int)eGO.Lobby].SetActive(true);
             mGos[(int)eGO.Store].SetActive(false);
             mGos[(int)eGO.Status].SetActive(false);
-            mGos[(int)eGO.Deco].SetActive(false);
+            mGos[(int)eGO.Skin].SetActive(false);
+            mGos[(int)eGO.Quest].SetActive(false);
             mGos[(int)eGO.option].SetActive(false);
             setStage();
 
             SoundManager.instance.PlayBGM(BGM.Lobby);
-            refreshCoin();
+            refreshCost();
 
             _snow.OnMasterChanged(0.5f);
             _snow.OnSnowChanged(0.5f);
@@ -92,7 +95,7 @@ namespace week
             int val = (int)type;
         }
 
-        public void refreshCoin()
+        public void refreshCost()
         {
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
             MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.Gem.ToString();
@@ -109,24 +112,39 @@ namespace week
         {
             _isLobby = false;
             mGos[(int)eGO.Lobby].SetActive(false);
-            mGos[(int)eGO.Store].SetActive(true);
+
+            _store.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
+
+            _store.costRefresh(refreshCost);
         }
         public void openStatus()
         {
             _isLobby = false;
             mGos[(int)eGO.Lobby].SetActive(false);
+
             _status.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
-            _status.costRefresh(refreshCoin);
+
+            _status.costRefresh(refreshCost);
         }
-        public void openDeco()
+        public void openSkin()
         {
             _isLobby = false;
             mGos[(int)eGO.Lobby].SetActive(false);
-            mGos[(int)eGO.Deco].SetActive(true);
+
+            _skin.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
         }
+        public void openQuest()
+        {
+            _isLobby = false;
+
+            _quest.open();
+
+            _quest.costRefresh(refreshCost);
+        }
+
         public void openOption()
         {
             if (_isLobby)
@@ -140,7 +158,8 @@ namespace week
 
                 mGos[(int)eGO.Store].SetActive(false);
                 mGos[(int)eGO.Status].SetActive(false);
-                mGos[(int)eGO.Deco].SetActive(false);
+                mGos[(int)eGO.Skin].SetActive(false);
+                mGos[(int)eGO.Quest].SetActive(false);
 
                 mGos[(int)eGO.Lobby].SetActive(true);
             }
@@ -148,7 +167,14 @@ namespace week
 
         void setStage()
         {
-            MTmps[(int)eTmp.Record].text = $"최고기록 : {BaseManager.instance.convertToTime(BaseManager.userGameData.TimeRecord)}";
+            if (BaseManager.userGameData.TimeRecord == 0)
+            {
+                MTmps[(int)eTmp.RecordTxt].text = "응애 나 아기눈사람";
+            }
+            else
+            {
+                MTmps[(int)eTmp.RecordTxt].text = $"{BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false)}";
+            }
             //MTmps[(int)eTmp.st].color = Color.black;
         }
     }

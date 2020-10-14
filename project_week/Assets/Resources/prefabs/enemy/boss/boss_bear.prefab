@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aad48b217fb39b4a9a6dc3e47c1a8a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boss: 1
+  _boss: 4
   _hpCase: {fileID: 8935600303268083201}
   _hpbar: {fileID: 8439979941569789678}
   _spine: {fileID: 6615038513201947697}

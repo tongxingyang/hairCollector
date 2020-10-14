@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using GooglePlayGames.BasicApi.Multiplayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -89,6 +88,8 @@ namespace week
 
             while (_isDie == false)
             {
+                deltime += Time.deltaTime;
+
                 switch (_stats)
                 {
                     case stat.Idle:
@@ -109,6 +110,9 @@ namespace week
                 }
 
                 setDetailAnimation();
+
+                chkDotDmg();
+
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
 
@@ -166,12 +170,12 @@ namespace week
             }
         }
 
-        /// <summary> 1번스킬 - 불발사 </summary>
+        /// <summary> 1번스킬 - 화산 </summary>
         IEnumerator skillAShot()
         {
             for (int i = 0; i < 7; i++)
             {
-                esc = (EnSkill_Curved)_enProjMng.makeEnProj(EnShot.scarecrow_shot);
+                esc = (EnSkill_Curved)_enProjMng.makeEnProj(EnShot.scarecrow_shot, Skill0);
                 esc.transform.position = _foot.position;
 
                 Vector3 pos = transform.position + (Vector3)Random.insideUnitCircle * 5f;
@@ -181,10 +185,10 @@ namespace week
             }
         }
 
-        /// <summary> 2번스킬 - 점프 쿵 </summary>
+        /// <summary> 2번스킬 - 점프 쿵 디아 불 </summary>
         void skillBJump()
         {
-            _stc = (EnStaticControl)_enProjMng.makeEnProj(EnShot.scare_fire);
+            _stc = (EnStaticControl)_enProjMng.makeEnProj(EnShot.scare_fire, Skill1);
             _stc.transform.position = _foot.position;
             _stc.operation();
         }

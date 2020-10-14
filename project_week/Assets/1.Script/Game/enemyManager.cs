@@ -241,6 +241,7 @@ namespace week
 
         #endregion
 
+        /// <summary> 보스 만들기 </summary>
         public bossControl makeBoss(Boss boss, LandObject bo, Vector3 home)
         {
             // 있으면 찾아쓰고
@@ -261,7 +262,7 @@ namespace week
             _bossList.Add(bct);
             bct.transform.parent = transform;
 
-            bct.setting(_gs, _efm, _epm, _dmgFont.getText, _gs.getKill);
+            bct.setting(_gs, _dmgFont.getText, _gs.getBossKill);
 
             bct.setHome(bo, home);
             bct.transform.position = home;

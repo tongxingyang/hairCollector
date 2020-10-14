@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using GooglePlayGames.BasicApi.Multiplayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,7 +49,7 @@ namespace week
             setEvent();
             foreach (MobWeapon mw in _skillBWeapon)
             {
-                mw.setting(_player, _skill1);
+                mw.setting(_player, Skill0);
             }
             _scale = _body.localScale;
         }
@@ -58,6 +57,7 @@ namespace week
         protected override void otherWhenRepeatInit()
         {
             base.otherWhenRepeatInit();
+
             //_hp *= 10000;
             SetAnimation("idle", true, 1f);
         }
@@ -80,7 +80,7 @@ namespace week
                         _jumpArea.SetTrigger("wave");
                         if (Vector3.Distance(_player.transform.position, transform.position) < 5f)
                         {
-                            _player.getDamaged(_skill0);
+                            _player.getDamaged(Skill0);
                             _player.setDeBuff(snowStt.speed, 3, 0.8f);
                         }
                         _player.cameraShake();
@@ -113,6 +113,8 @@ namespace week
 
             while (_isDie == false)
             {
+                deltime += Time.deltaTime;
+
                 switch (_stats)
                 {
                     case stat.Idle:
@@ -133,6 +135,9 @@ namespace week
                 }
 
                 setDetailAnimation();
+
+                chkDotDmg();
+
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
 
@@ -202,7 +207,7 @@ namespace week
         {
             for (int i = 0; i < _skillB_cnt; i++)
             {
-                esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bear_shot);
+                esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bear_shot, Skill1);
                 esp.transform.position = _skillB.position;
 
                 esp.operation(transform.position + _shotDir[_nowDir], 60f);

@@ -1252,10 +1252,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca04aa97d34a4543a59e26e4459d475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spine: {fileID: 2906300669418221351}
+  _boss: 3
   _hpCase: {fileID: 8935600303268083201}
   _hpbar: {fileID: 8439979941569789678}
-  _boss: 0
+  _spine: {fileID: 2906300669418221351}
   _body: {fileID: 5662983591738086280}
   _shadows:
   - {fileID: 2587551381026657989}

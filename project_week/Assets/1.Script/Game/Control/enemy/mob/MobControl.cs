@@ -20,11 +20,10 @@ namespace week
 
         protected MapManager _map;
 
-        protected float MaxHp { get { return _standardStt[(int)snowStt.maxHp]; } set { _standardStt[(int)snowStt.maxHp] = value; } }
-        protected float Att { get { return _standardStt[(int)snowStt.att] * _enMng.BuffStt[(int)snowStt.att]; } }
-        protected float Def { get { return _standardStt[(int)snowStt.def] * _enMng.BuffStt[(int)snowStt.def]; } }
-        protected float Speed { get { return _standardStt[(int)snowStt.speed] * _enMng.BuffStt[(int)snowStt.speed]; } }
-        protected float Exp { get { return _standardStt[(int)snowStt.exp] * _enMng.BuffStt[(int)snowStt.exp]; } }
+        protected float MaxHp { get { return _finalStt[(int)snowStt.maxHp]; } }
+        protected float Att { get { return _finalStt[(int)snowStt.att] * _enMng.BuffStt[(int)snowStt.att]; } }
+        protected float Def { get { return _finalStt[(int)snowStt.def] * _enMng.BuffStt[(int)snowStt.def]; } }
+        protected float Speed { get { return _finalStt[(int)snowStt.speed] * _enMng.BuffStt[(int)snowStt.speed]; } }
 
         protected float _patt = 1;
         protected float _pspeed = 5f;
@@ -45,6 +44,8 @@ namespace week
 
         public Mob getType { get { return _enemy; } }
 
+        protected Action killFunc;
+
         // 슈팅
         protected EnSkillControl _esc;
         protected float _shotTerm = 2f;
@@ -57,6 +58,7 @@ namespace week
             _enMng = _gs.EnemyMng;
             _efMng = _gs.EfMng;
             _enProjMng = _gs.EnProjMng;
+            _clMng = _gs.ClockMng;
             _map = _gs.MapMng;
 
             dmgFunc = _gs.DmgfntMng.getText;
@@ -71,8 +73,7 @@ namespace week
             _standardStt[(int)snowStt.att]      = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.att.ToString());
             _standardStt[(int)snowStt.def]      = DataManager.GetTable<int>(DataTable.monster, (getType).ToString(), MonsterData.def.ToString());
             _standardStt[(int)snowStt.speed]    = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.speed.ToString()) * gameValues._defaultSpeed;
-            _standardStt[(int)snowStt.exp]      = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.exp.ToString());
-
+            
             _patt       = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.patt.ToString());            
             _calSpeed   = _standardStt[(int)snowStt.speed];
             _pspeed     = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString()); 
@@ -84,8 +85,15 @@ namespace week
 
         public void RepeatInit()
         {
-            preInit();
+            preInit(); 
+            
+            _finalStt = new float[(int)snowStt.max];
+            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(1.2f, _clMng.Day);
+            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(1.2f, _clMng.Day);
+            _finalStt[(int)snowStt.def] = _standardStt[(int)snowStt.def] * Mathf.Pow(1.1f, _clMng.Day);
+            _finalStt[(int)snowStt.speed] = _standardStt[(int)snowStt.speed];
 
+            //Debug.Log(gameObject.name + " : " + _finalStt[(int)snowStt.maxHp] + "," + _finalStt[(int)snowStt.att] + "," + _finalStt[(int)snowStt.def]);
             _isDie = false;
             _isFrozen = false;
             _ice.gameObject.SetActive(false);
@@ -225,6 +233,16 @@ namespace week
             }
         }
 
+        protected void chkDotDmg(float del)
+        {
+            _dot = _dotDmg.dotDmging(del);
+            if (_dot > 0)
+            {
+                _dot = MaxHp * _dot * 0.02f;
+                getDamaged(_dot, true);
+            }
+        }
+
         #endregion
 
         #region Destroy
@@ -242,7 +260,7 @@ namespace week
             if (_isDie == false)
             {
                 // SoundManager.instance.PlaySFX(SFX.endie);
-                killFunc((int)Exp);
+                killFunc();
                 _efMng.makeEff(effAni.explosion, transform.position);
                 otherWhenDie();
                 Destroy();

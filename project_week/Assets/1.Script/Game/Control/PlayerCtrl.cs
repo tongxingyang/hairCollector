@@ -34,6 +34,7 @@ namespace week
         playerSkillManager _psm;
         dmgFontManager _dmgFont;
         effManager _efm;
+        gameCompass _compass;
 
         #endregion        
 
@@ -274,6 +275,7 @@ namespace week
             _psm = _gs.SkillMng;
             _dmgFont = _gs.DmgfntMng;
             _efm = _gs.EfMng;
+            _compass = _gs.Compass;
 
             _isDie = false;
             _isAlmighty = false;
@@ -316,7 +318,8 @@ namespace week
             _pet.Init(_gs, () => { _skills[SkillKeyList.snowball].att *= 2; });
             
             getSkill(SkillKeyList.snowball);
-            getSkill(SkillKeyList.blizzard);
+            getSkill(SkillKeyList.poison);
+            selectEquips[1] = SkillKeyList.poison;
 
             if (BaseManager.userGameData.SkinBval[(int)skinBvalue.mine])
             {
@@ -471,13 +474,17 @@ namespace week
 
                 skinSequence(closedMob, mobDist, delTime);
 
+                _compass.comPassMove();
+
                 hpgen(delTime);
 
                 deBuffChk(delTime);
+
                 _dot = _dotDmg.dotDmging(delTime);
                 if (_dot > 0)
                 {
-                    getDamaged(_dot);
+                    _dot = MaxHp * _dot * 0.01f;
+                    getDamaged(_dot, true);
                 }
 
                 yield return new WaitUntil(() => _gs.Pause == false);
@@ -644,7 +651,7 @@ namespace week
                 _pjt = _psm.getPrej(SkillKeyList.poison);
                 _pjt.transform.position = transform.position;
                 _pjt.setTarget(closedMob);
-                _pjt.repeatInit(_equips[SkillKeyList.poison].att * Att, _equips[SkillKeyList.poison].size, 1f, _equips[SkillKeyList.poison].keep);
+                _pjt.repeatInit(_equips[SkillKeyList.poison].att, _equips[SkillKeyList.poison].size, 1f, _equips[SkillKeyList.poison].keep);
             }
 
             if (_equips[SkillKeyList.hammer].chk_shotable(delTime, Cool, mobDist)) // 망치
@@ -874,7 +881,7 @@ namespace week
             _hpbar.localScale = new Vector2(_hp / MaxHp, 1f);
         }
 
-        public void getDamaged(float dmg)
+        public void getDamaged(float dmg, bool ignoreDef = false)
         {
             if (_shield.IsUse)
             {
@@ -889,10 +896,19 @@ namespace week
                 return;
             }
 
-            if (true || dmg > Def)
+            if (dmg > Def || ignoreDef)
             {
-                dmg -= Def;
+                if (ignoreDef == false)
+                {
+                    dmg -= Def;
+                }
+
                 _dmgFont.getText(transform, dmg, dmgTxtType.standard, true);
+
+                if (ignoreDef == false)
+                {
+                    _efm.makeEff(effAni.playerhit, transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 0.5f));
+                }
 
                 _hp -= dmg;
 

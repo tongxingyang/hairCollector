@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using GooglePlayGames.BasicApi.Multiplayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,6 +62,8 @@ namespace week
 
             while (_isDie == false)
             {
+                deltime += Time.deltaTime;
+
                 switch (_stats)
                 {
                     case stat.Idle:
@@ -84,7 +85,9 @@ namespace week
                         break;
                 }
 
-                setDetailAnimation();
+                setDetailAnimation(); 
+                chkDotDmg();
+
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
 
@@ -147,7 +150,7 @@ namespace week
         {
             for (int i = 0; i < sk_A_shotCnt; i++)
             {
-                esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bfly_bgPoison);
+                esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bfly_bgPoison, Skill0);
                 esp.transform.position = _shotPos.position;
                 esp.operation(Random.Range(0f, 360f) * i);
 
@@ -171,10 +174,10 @@ namespace week
 
                 for (int j = 0; j < sk_B_shotCnt; j++)
                 {
-                    esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bfly_smPoison);
+                    esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bfly_smPoison, Skill1);
                     esp.transform.position = _shotPos.position;
                     esp.operation(120f * j - 10f);
-                    esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bfly_smPoison);
+                    esp = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.bfly_smPoison, Skill1);
                     esp.transform.position = _shotPos.position;
                     esp.operation(120f * j + 10f);
                 }

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1892835caac97a7429c858952471aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shotType: 4
+  _shotType: 7
   _targeting: 0
   _lookRotate: 0
   _eff: {fileID: 4808229052435437922}

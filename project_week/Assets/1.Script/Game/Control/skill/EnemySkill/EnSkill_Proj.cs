@@ -20,6 +20,7 @@ namespace week
         protected override void whenInit()
         {
             _lifeRate = 1f / (_speed / gameValues._defaultSpeed);
+            _lifeTime = (getType == EnShot.lightning) ? 3f : 2.5f;
         }
 
         protected override void whenRecycleInit()

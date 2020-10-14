@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using GooglePlayGames.BasicApi.Multiplayer;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,7 +33,6 @@ namespace week
 
         Vector3[] _stemDir;
         float[] _stemHight;
-        float _time;
 
         EnSkillControl _esc;
 
@@ -76,12 +74,12 @@ namespace week
 
             while (_isDie == false)
             {
-                _time = Time.deltaTime;
+                deltime = Time.deltaTime;
 
                 switch (_stats)
                 {
                     case stat.Idle:
-                        idle(_time);
+                        idle(deltime);
                         break;
                     case stat.skill0:
                         StartCoroutine(skillA());
@@ -96,6 +94,8 @@ namespace week
                 }
                 
                 checkDir();
+
+                chkDotDmg();
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
@@ -243,7 +243,7 @@ namespace week
 
                 for (int j = 0; j < 10; j++)
                 {
-                    _esc = _enProjMng.makeEnProj(EnShot.flower_thorn);
+                    _esc = _enProjMng.makeEnProj(EnShot.flower_thorn, Skill0);
                     _esc.transform.position = transform.position;
                     _esc.operation(degree * j + addAngle);
                 }
@@ -261,7 +261,7 @@ namespace week
         {
             for (int i = 0; i < 10; i++)
             {
-                _esc = _enProjMng.makeEnProj(EnShot.flower_mine);
+                _esc = _enProjMng.makeEnProj(EnShot.flower_mine, Skill1);
                 _esc.transform.position = transform.position;
                 _esc.operation(transform.position + (Vector3)(Random.insideUnitCircle * 5));
             }

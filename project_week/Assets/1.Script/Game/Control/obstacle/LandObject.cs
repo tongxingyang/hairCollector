@@ -14,6 +14,7 @@ namespace week
         protected GameScene _gs;
         protected PlayerCtrl _player;
         protected enemyManager _enm;
+        protected clockManager _clock;
 
         Transform _homePos;
 
@@ -57,6 +58,7 @@ namespace week
             _gs = gs;
             _enm = _gs.EnemyMng;
             _player = _gs.Player;
+            _clock = _gs.ClockMng;
 
             if (chk_boss)
             {
@@ -116,7 +118,7 @@ namespace week
             bool prev;
             while (_isUse)
             {
-                chk = (Mathf.Abs(_player.transform.position.x - transform.position.x) < 15f) && (Mathf.Abs(_player.transform.position.y - transform.position.y) < 16f);
+                chk = (Mathf.Abs(_player.transform.position.x - transform.position.x) < 17.5f) && (Mathf.Abs(_player.transform.position.y - transform.position.y) < 17.5f);
 
                 prev = _pocket.activeSelf;
                 _pocket.SetActive(chk);
@@ -143,8 +145,10 @@ namespace week
             _normalTem = null;
 
             bosss = new bossControl[bosPos.Length];
-            Boss _bs = (Boss)Random.Range(0, (int)Boss.max);
-            // _bs = Boss.boss_owl;
+
+            // Boss _bs = (Boss)Random.Range(0, (int)Boss.max);
+
+            Boss _bs = (Random.Range(0, 5) == 0) ? Boss.boss_bear : (Boss)((int)_clock.Season);
 
             for (int i = 0; i < bosPos.Length; i++)
             {

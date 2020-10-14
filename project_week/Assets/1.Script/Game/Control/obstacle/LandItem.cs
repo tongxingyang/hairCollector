@@ -37,6 +37,7 @@ namespace week
 
         void chkRespone()
         {
+            Debug.Log(_temtype + "먹음");
             switch (_temtype)
             {
                 case landtem.heal:
@@ -44,7 +45,7 @@ namespace week
                     StartCoroutine(respone());
                     break;
                 case landtem.gem:
-                    //_player.getGem();
+                    _gs.getGem();
                     break;
                 case landtem.present:
                     _gs.getEquip();
@@ -53,7 +54,6 @@ namespace week
                 case landtem.sward:
                     if (_player.IsHero)
                     {
-                        Debug.Log("칼먹음");
                         _player.setDeBuff(snowStt.att, 60f, 2);
                         _player.setDeBuff(snowStt.def, 60f, 2);
                     }

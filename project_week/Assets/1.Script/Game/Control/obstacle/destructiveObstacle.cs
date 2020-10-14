@@ -31,7 +31,7 @@ namespace week
             };
         }
 
-        public float getDamaged(float val)
+        public float getDamaged(float val, bool ignoreDef = false)
         {
             _hp -= val;
 

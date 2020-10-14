@@ -84,8 +84,7 @@ namespace week
         StatusData _selectStat;
         int _cost;
 
-        Action _costRefresh;
-        
+        Action _costRefresh;        
 
         #region [초기화]
 
@@ -295,6 +294,8 @@ namespace week
                 BaseManager.userGameData.statusLevelUp(_selectStat);
 
                 BaseManager.userGameData.saveUserEntity();
+
+                BaseManager.userGameData.ReinRecord += 1;
 
                 ApTxtRefresh();
                 statusPanelRefresh();

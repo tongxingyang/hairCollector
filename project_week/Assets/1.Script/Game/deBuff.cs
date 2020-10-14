@@ -41,24 +41,24 @@ namespace week
     {
         bool _used;
 
-        float _dmg;
+        float _dmgRate = 1.5f;
         float _duration;
 
         float _time;
         float _duTime;
 
-        public void setDotDmg(float dmg, float duration)
+        public void setDotDmg(float dmgRate, float duration)
         {
             if (_used == false)
             {
                 _used = true;
-                _dmg = dmg;
                 _duration = duration;
+                _dmgRate = dmgRate;
             }
             else
             {
-                _dmg = dmg;
                 _duration = duration;
+                _dmgRate = dmgRate;
                 _duTime = 0;
             }
         }
@@ -79,7 +79,7 @@ namespace week
             else if (_time > 1f)
             {
                 _time = 0;
-                return _dmg;
+                return _dmgRate;
             }
 
             return 0;

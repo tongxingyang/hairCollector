@@ -197,7 +197,6 @@ namespace week
         speed,
         patt,
         pspeed,
-        exp,
         appear_term,
         map,
         max
@@ -205,11 +204,11 @@ namespace week
 
     public enum Boss
     {
+        boss_butterfly,
+        boss_flower,
+        boss_scarecrow,
         boss_owl,
         boss_bear,
-        boss_scarecrow,
-        boss_flower,
-        boss_butterfly,
         max
     }
 
@@ -230,19 +229,17 @@ namespace week
     public enum EnShot
     {
         fireball,
-
         lightning,
-
-        owl_shot,
-        bear_shot,
-        scarecrow_shot,
-        flower_thorn,
-        flower_mine,
-
         banana,
-        scare_fire,
+
         bfly_bgPoison,
         bfly_smPoison,
+        flower_thorn,
+        flower_mine,
+        scarecrow_shot,
+        scare_fire,
+        owl_shot,
+        bear_shot,
 
         max
     }
@@ -327,12 +324,6 @@ namespace week
         max
     }
 
-    public enum cointype
-    {
-        mopCoin,
-        extraCoin
-    }
-
     public enum effAni
     {
         attack,
@@ -343,7 +334,8 @@ namespace week
         mine,
         lava,
         crowfire,
-        tel
+        tel,
+        playerhit
     }
 
     public enum skillNote

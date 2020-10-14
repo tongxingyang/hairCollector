@@ -119,6 +119,11 @@ namespace week
             googleManager.instance.LoginToStart();
             AdManager.instance.adStart();
             gauge += 0.15f;
+#if UNITY_EDITOR
+            
+#else 
+            yield return new WaitUntil(() => Social.localUser.authenticated == true);
+#endif
 
             // 윈도우 로드
             WindowManager.instance.LoadWin();
@@ -129,7 +134,7 @@ namespace week
             // 여기 끝난거 체크해서 다음 씬 진행
         }
 
-        #endregion
+#endregion
 
         void LoadingBar()
         {
@@ -147,7 +152,7 @@ namespace week
             BaseManager.instance.convertScene(SceneNum.LogoScene.ToString(), SceneNum.LobbyScene);
         }
 
-        #region 네트워크 안내판
+#region 네트워크 안내판
 
         ///// <summary> 네트워크 연결 안내문 표시 </summary>
         //public void popNetException()
@@ -173,6 +178,6 @@ namespace week
 #endif
         }
 
-        #endregion
+#endregion
     }
 }

@@ -26,6 +26,7 @@ namespace week
         [SerializeField] public DateTime _lastLogin;
         // 일일
         [SerializeField] public int[] _dayQuest;
+        [SerializeField] public int _questSkin;
         // 전체        
         [SerializeField] public int _timeRecord;
         [SerializeField] public int _getTimeReward;

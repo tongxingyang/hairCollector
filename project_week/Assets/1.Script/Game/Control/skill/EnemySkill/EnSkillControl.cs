@@ -42,7 +42,7 @@ namespace week
             _player = _gs.Player;
             _efm = efm;
 
-            _dmg = DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.att.ToString());
+            //_dmg = DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.att.ToString());
             _speed = gameValues._defaultSpeed * DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.speed.ToString());
 
             whenInit();
@@ -62,6 +62,11 @@ namespace week
         }
 
         protected abstract void whenRecycleInit();
+
+        public void setDamage(float dmg)
+        {
+            _dmg = dmg;
+        }
 
         protected abstract void setTarget(Vector3 target, float addAngle = 0f);
 

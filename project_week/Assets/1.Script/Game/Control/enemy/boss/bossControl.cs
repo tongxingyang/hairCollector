@@ -21,19 +21,24 @@ namespace week
         protected stat _stats;
         protected dir _dir;
 
+        protected Action<float> killFunc;
         protected LandObject _home;
         protected Vector3 _homePos;
         protected readonly float _bossRange = 7.5f;
         protected readonly float _bossSkillCool = 4f;
 
-        protected float MaxHp { get { return _standardStt[(int)snowStt.maxHp]; } set { _standardStt[(int)snowStt.maxHp] = value; } }
-        protected float Att { get { return _standardStt[(int)snowStt.att]; } }
-        protected float Def { get { return _standardStt[(int)snowStt.def]; } }
+        protected float MaxHp { get { return _finalStt[(int)snowStt.maxHp]; } }
+        protected float Att { get { return _finalStt[(int)snowStt.att]; } }
+        protected float Def { get { return _finalStt[(int)snowStt.def]; } }
         protected float Speed { get { return _standardStt[(int)snowStt.speed]; } }
         protected float Exp { get { return _standardStt[(int)snowStt.exp]; } }
 
-        protected int _skill0 = 1;
-        protected int _skill1 = 1;
+        protected float _coinVal = 1;
+
+        float _skill0 = 1;
+        float _skill1 = 1;
+        protected float Skill0 { get; set; }
+        protected float Skill1 { get; set; }
 
         Vector3 _direct;
         protected bool _isAppear;
@@ -43,9 +48,14 @@ namespace week
         public float Slow { get; set; }
 
         public Boss getType { get { return _boss; } }
-        public override float getDamaged(float val)//, bool knockBack = false)
+
+
+        public override float getDamaged(float val, bool ignoreDef = false)
         {
-            val = (val - Def > 0) ? val - Def : 0;
+            if (ignoreDef == false)
+            {
+                val = (val - Def > 0) ? val - Def : 0;
+            }
 
             dmgFunc(transform, (int)val, dmgTxtType.standard, false);
             _hp -= val;
@@ -61,12 +71,13 @@ namespace week
             return val;
         }
 
-        public void setting(GameScene gs, effManager ef, EnemyProjManager ep, Action<Transform, float, dmgTxtType, bool> dmg, Action<int> kill)
+        public void setting(GameScene gs, Action<Transform, float, dmgTxtType, bool> dmg, Action<float> kill)
         {
             _player = gs.Player;
             _gs = gs;
-            _efMng = ef;
-            _enProjMng = ep;
+            _efMng = gs.EfMng;
+            _enProjMng = gs.EnProjMng;
+            _clMng = gs.ClockMng;
 
             dmgFunc = dmg;
             killFunc = kill;
@@ -81,8 +92,10 @@ namespace week
             _standardStt[(int)snowStt.speed]  = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.speed.ToString()) * gameValues._defaultSpeed;
             _standardStt[(int)snowStt.exp] = 100f;
 
-            _skill0 = DataManager.GetTable<int>(DataTable.boss, _boss.ToString(), BossValData.skill0.ToString());
-            _skill1 = DataManager.GetTable<int>(DataTable.boss, _boss.ToString(), BossValData.skill1.ToString());
+            _coinVal = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.coin.ToString());
+
+            _skill0 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill0.ToString());
+            _skill1 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill1.ToString());
 
             otherWhenFixInit();
 
@@ -91,6 +104,17 @@ namespace week
 
         public void RepeatInit() 
         {
+            _dotDmg = new dotDmg();
+
+            _finalStt = new float[(int)snowStt.max];
+
+            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(1.2f, _clMng.Day);
+            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(1.2f, _clMng.Day);
+            _finalStt[(int)snowStt.def] = _standardStt[(int)snowStt.def] * Mathf.Pow(1.1f, _clMng.Day);
+
+            Skill0 = _skill0 * _finalStt[(int)snowStt.att];
+            Skill1 = _skill1 * _finalStt[(int)snowStt.att];
+
             _hp = MaxHp;
             _isDie = false;
             IsUse = true;
@@ -121,10 +145,21 @@ namespace week
             _homePos = homePos;
         }
 
+        protected void chkDotDmg()
+        {
+            _dot = _dotDmg.dotDmging(deltime);
+            if (_dot > 0)
+            {
+                _dot = MaxHp * _dot * 0.01f;
+                getDamaged(_dot, true);
+            }
+        }
+
         public override void enemyDie()
         {
             SoundManager.instance.PlaySFX(SFX.bossdie);
-            killFunc((int)Exp);
+            killFunc(_coinVal);
+
             _efMng.makeEff(effAni.bossExplosion, transform.position);
             Destroy();
         }

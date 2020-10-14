@@ -14,6 +14,9 @@ namespace week
         ObstacleManager _obm;
         MapManager _mpm;
 
+        mapObstacle _mapType;
+        public mapObstacle MapType { get => _mapType; set => _mapType = value; }
+
         public Action reclaim;
 
 
@@ -94,13 +97,14 @@ namespace week
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map0, (int)mapObstacle.ruin0);
             }
 
-            mo = (mapObstacle.bosszone);// UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
+            mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
 
             if (first)
             {
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map0, (int)mapObstacle.ruin0);
             }
 
+            _mapType = mo;
             _obm.getObstacle(mo, this, transform.position).transform.position = transform.position;
         }
     }

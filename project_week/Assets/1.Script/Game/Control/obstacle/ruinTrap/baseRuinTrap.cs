@@ -8,8 +8,12 @@ namespace week
     {
         protected GameScene _gs;
         protected EnemyProjManager _epm;
+        protected clockManager _clm;
 
         protected PlayerCtrl _player;
+
+        protected float _att;
+        protected float Att;
 
         protected bool _onTrap;
         public bool OnTrap { set => _onTrap = value; }
@@ -21,6 +25,7 @@ namespace week
             _gs = gs;
             _player = _gs.Player;
             _epm = _gs.EnProjMng;
+            _clm = _gs.ClockMng;
 
             preInit();
             whenFixedInit();

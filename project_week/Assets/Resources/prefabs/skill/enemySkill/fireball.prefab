@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shotType: 0
   _targeting: 1
-  _lookRotate: 0
+  _lookRotate: 1
   _lowHitRate: 0
   _triggDestroy: 1
 --- !u!50 &3785713715160752616

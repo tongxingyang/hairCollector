@@ -104,7 +104,7 @@ namespace week
                 }
             }
 
-            float val = id.getDamaged(_dmg);
+            float val = id.getDamaged(_dmg, false);
 
             if (getSkillType == SkillKeyList.snowball) 
             {

@@ -52,6 +52,7 @@ namespace week
         public DateTime LastLogin { get => _userEntity._lastLogin; set => _userEntity._lastLogin = value; }
         // 일일
         public int[] DayQuest { get => _userEntity._dayQuest; set => _userEntity._dayQuest = value; }
+        public int QuestSkin { get => _userEntity._questSkin; set => _userEntity._questSkin = value; }
         // 전체
         public int TimeRecord { get => _userEntity._timeRecord; set => _userEntity._timeRecord = value; }
         public int GetTimeReward { get => _userEntity._getTimeReward; set => _userEntity._getTimeReward = value; }
@@ -271,7 +272,7 @@ namespace week
 
         #endregion
 
-        /// <summary> float 기록 --> string으로 변환 </summary>
+        /// <summary> float 기록 --> 전부 string으로 변환 </summary>
         public string getLifeTime(float time, bool isTwoLine)
         {
             int year;
@@ -325,6 +326,61 @@ namespace week
                 str += $"{m}분 ";
             }
             str += $"{s}초";
+
+            return str;
+        }
+
+        /// <summary> float 기록 --> 날짜까지만 string으로 변환 </summary>
+        public string getTimeRecordToString(float time)
+        {
+            int year;
+            int season;
+            int day;
+
+            year = (int)(time / (24 * 60));
+            time -= year * 24 * 60;
+            season = (int)(time / (6 * 60));
+            time -= season * 6 * 60;
+            day = (int)(time / (2 * 60));
+            time -= day * 2 * 60;
+
+            string str = "";
+            if (year > 0)
+            {
+                str += $"{year}년 ";
+            }
+
+            switch (season)
+            {
+                case 0:
+                    str += "봄 ";
+                    break;
+                case 1:
+                    str += "여름 ";
+                    break;
+                case 2:
+                    str += "가을 ";
+                    break;
+                case 3:
+                    str += "겨울 ";
+                    break;
+            }
+
+            if (day > 0)
+            {
+                switch (day)
+                {
+                    case 0:
+                        str += "첫째날";
+                        break;
+                    case 1:
+                        str += "둘째날";
+                        break;
+                    case 2:
+                        str += "셋째날";
+                        break;
+                }
+            }
 
             return str;
         }

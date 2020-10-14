@@ -23,6 +23,7 @@ namespace week
         playerSkillManager _skillMng;
         dmgFontManager _dmgfntMng;
         [SerializeField] clockManager _clockMng = null;
+        [SerializeField] gameCompass _compass = null;
         [Header("Popup")]
         [SerializeField] upgradePopup _upgradePanel;
         [SerializeField] pausePopup _pausePanel;
@@ -36,11 +37,13 @@ namespace week
 
         int _lvl = 0;
 
-        int _coin = 0;
+        float _coin = 0;
         int _gem = 0;
         int _ap = 0;
 
-        int _kill = 0;
+        int _bossKill = 0;
+        int _mobKill = 0;
+        int _getArti = 0;
 
         Vector3 targetPos;        
 
@@ -68,7 +71,8 @@ namespace week
         public dmgFontManager DmgfntMng { get => _dmgfntMng; }
 
         public float RecordTime { get => _clockMng.RecordTime; }
-        public clockManager ClockMng { get => _clockMng; set => _clockMng = value; }
+        public clockManager ClockMng { get => _clockMng; }
+        public gameCompass Compass { get => _compass; }
 
         void test()
         {
@@ -185,6 +189,7 @@ namespace week
 
         public void getEquip()
         {
+            _getArti++;
             //whenPause();
             ////Time.timeScale = 0;
 
@@ -204,36 +209,46 @@ namespace week
 
         #endregion
 
-        public void getKill(int exp)
+        public void getKill()
         {
-            _killCount.text = (++_kill).ToString();
-            _player.getExp(exp*3);
-            getCoin(cointype.mopCoin);
+            _killCount.text = (++_mobKill).ToString();
+
+            _coin += (_clockMng.Season == season.fall) ? _mopCoin * 1.2f : _mopCoin;
+            _totalCoin.text = _coin.ToString();
+
+            _player.getExp(1 * 3);
+        }
+
+        public void getBossKill(float val)
+        {
+            Debug.Log("보스킬");
+            _bossKill++;
+
+            _coin += _bossCoin * val;
+            _totalCoin.text = _coin.ToString();
+
+            _player.getExp(50);
             ExpRefresh();
         }
 
-        public void getBossKill()
-        {
-            _player.getExp(50);
-        }
-
-        public void getCoin(cointype ctype)
+        public void getGem()
         {
             if (_gameOver)
             {
                 return;
             }
 
-            switch (ctype) 
+            _gem += 1;
+        }
+
+        public void getAp(int val)
+        {
+            if (_gameOver)
             {
-                case cointype.mopCoin:
-                    _coin += (int)_mopCoin;
-                    break;
-                case cointype.extraCoin:
-                    _coin += (int)(_bossCoin);
-                    break;
+                return;
             }
-            _totalCoin.text = _coin.ToString();
+
+            _ap += val;
         }
 
         #region 카메라 안 군중제어
@@ -367,7 +382,7 @@ namespace week
             _stagePlay = false;
             _gameOver = true;
 
-            int coinResult = _coin * BaseManager.userGameData.DoubleCoin;
+            int coinResult = (int)(_coin * BaseManager.userGameData.DoubleCoin);
             int gemResult = _gem * BaseManager.userGameData.DoubleCoin;
             int apResult = _ap * BaseManager.userGameData.DoubleCoin;
 
@@ -375,9 +390,18 @@ namespace week
             BaseManager.userGameData.Gem += gemResult;
             BaseManager.userGameData.Ap += apResult;
 
+            if (BaseManager.userGameData.BossRecord < _bossKill)
+            {
+                BaseManager.userGameData.BossRecord = _bossKill;
+            }
+            if (BaseManager.userGameData.ArtifactRecord < _getArti)
+            {
+                BaseManager.userGameData.ArtifactRecord = _getArti;
+            }
+
             BaseManager.userGameData.saveUserEntity();
 
-            _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult);
+            _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult, _mobKill, _bossKill, _getArti);
         }
 
         #region [Window]

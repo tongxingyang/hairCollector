@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b813650ab7674c4da76883fa9787132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skinName: {fileID: 9105899425267172042}
+  _skinNameTxt: {fileID: 9105899425267172042}
   _skinImg: {fileID: 4318599037071149163}
   _block: {fileID: 6528027542858953522}
   _priceBox: {fileID: 1321572998307428830}

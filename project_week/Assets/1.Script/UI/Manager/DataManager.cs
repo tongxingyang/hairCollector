@@ -44,7 +44,7 @@ namespace week
             datalist[(int)DataTable.boss] = BGRepo.I["boss"];
             datalist[(int)DataTable.skin] = BGRepo.I["skin"];
             datalist[(int)DataTable.enproj] = BGRepo.I["enproj"];
-            datalist[(int)DataTable.enproj] = BGRepo.I["quest"];
+            datalist[(int)DataTable.quest] = BGRepo.I["quest"];
 
             return true;
         }
@@ -58,14 +58,14 @@ namespace week
         public static void loadPrefabs()
         {
             _mobFabs = new Dictionary<Mob, GameObject>();
-            for (Mob i = Mob.mob_fire; i < Mob.max; i++)
+            for (Mob i = (Mob)0; i < Mob.max; i++)
             {
                 GameObject go = Resources.Load("prefabs/enemy/mop/" + i.ToString()) as GameObject;
                 _mobFabs.Add(i, go);
             }
 
             _bobFabs = new Dictionary<Boss, GameObject>();
-            for (Boss i = Boss.boss_owl; i < Boss.max; i++)
+            for (Boss i = (Boss)0; i < Boss.max; i++)
             {
                 GameObject go = Resources.Load("prefabs/enemy/boss/" + i.ToString()) as GameObject;
                 _bobFabs.Add(i, go);
@@ -73,7 +73,7 @@ namespace week
 
             _obstacleFabs = new Dictionary<mapObstacle, GameObject>();
 
-            for (mapObstacle i = mapObstacle.bosszone; i < mapObstacle.max; i++)
+            for (mapObstacle i = (mapObstacle)0; i < mapObstacle.max; i++)
             {
                 GameObject go = Resources.Load("prefabs/obstacle/" + $"{i.ToString()}") as GameObject;
                 _obstacleFabs.Add(i, go);
@@ -90,7 +90,7 @@ namespace week
             }
 
             _enProjFabs = new Dictionary<EnShot, GameObject>();
-            for (EnShot i = EnShot.fireball; i < EnShot.max; i++)
+            for (EnShot i = (EnShot)0; i < EnShot.max; i++)
             {
                 GameObject go = Resources.Load("prefabs/skill/enemySkill/" + i.ToString()) as GameObject;
                 _enProjFabs.Add(i, go);

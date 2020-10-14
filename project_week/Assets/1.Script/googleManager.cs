@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-// using GooglePlayGames;
+using GooglePlayGames;
 using UnityEngine;
 
 namespace week
@@ -15,8 +15,8 @@ namespace week
 
         public void LoginToStart()
         {
-            //PlayGamesPlatform.DebugLogEnabled = true;
-            //PlayGamesPlatform.Activate();
+            PlayGamesPlatform.DebugLogEnabled = true;
+            PlayGamesPlatform.Activate();
             Login();
         }
 

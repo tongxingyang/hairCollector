@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using GooglePlayGames.BasicApi.Multiplayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,7 +52,7 @@ namespace week
             setEvent();
             foreach (MobWeapon mw in _skillBWeapon)
             {
-                mw.setting(_player, _skill1);
+                mw.setting(_player, Skill1);
             }
             _scale = _body.localScale;
         }
@@ -104,10 +103,12 @@ namespace week
 
         protected override IEnumerator lifeCycle()
         {
-            //StartCoroutine(chkPlayer());
-            
+            //StartCoroutine(chkPlayer());            
+
             while (_isDie == false)
             {
+                deltime += Time.deltaTime;
+
                 switch (_stats)
                 {
                     case stat.Idle:
@@ -131,6 +132,9 @@ namespace week
                 }
 
                 setDetailAnimation();
+
+                chkDotDmg();
+
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
 
@@ -144,7 +148,6 @@ namespace week
         {
             if (Vector3.Distance(transform.position, _player.transform.position) < _bossRange)
             {
-                Debug.Log(transform.position + " / " + _player.transform.position);
                 skillCoolTime = 0;
                 switchStat(stat.Trace);
             }
@@ -194,7 +197,7 @@ namespace week
         {
             for (int i = 0; i < skillA_fireCount; i++)
             {
-                epc = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.owl_shot);
+                epc = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.owl_shot, Skill0);
                 epc.transform.position = skillA.position;
                 epc.transform.localScale = Vector3.one;
                 epc.operation(_shotDir[i]);

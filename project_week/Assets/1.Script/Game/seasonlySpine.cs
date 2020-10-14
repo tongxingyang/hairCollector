@@ -67,7 +67,7 @@ namespace week
             SetAnimation("idle", true, 0.5f);
         }
 
-        public float getDamaged(float val)
+        public float getDamaged(float val, bool igD = false)
         {
             _hp -= val;
 

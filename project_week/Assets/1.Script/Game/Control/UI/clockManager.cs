@@ -16,7 +16,8 @@ namespace week
         [SerializeField] nightDarkCtrl _dark;
 
         GameScene _gs;
-        readonly int _date = 30;
+        int _day;
+        readonly int _date = 120;
         float _night = 30f;
         float _degree;
         bool _isNight;
@@ -34,6 +35,7 @@ namespace week
         public bool chk1Wave { get => _monthTime > _chk1w; }
         public bool chk2Wave { get => _monthTime > 60f; }
         public bool chk3Wave { get => _monthTime > 120f; }
+        public int Day { get => _day; set => _day = value; }
 
         public Action<season> changeSS;
         public void Init(GameScene gs)
@@ -48,7 +50,7 @@ namespace week
         public void accTime(float deltime)
         {
             _recordTime += deltime;
-            _time.text = BaseManager.instance.convertToTime((int)_recordTime);
+            _time.text = BaseManager.userGameData.getLifeTime(_recordTime,false);//.convertToTime((int)_recordTime)}({})";
 
             chkDate(deltime);
 
@@ -72,6 +74,7 @@ namespace week
             else if (_dateTime > _date)
             {
                 _dateTime = 0;
+                _day++;
                 _isNight = false;
 
                 _dark.endNight();

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -96,16 +97,16 @@ namespace week
             return WindowPack[win];
         }
 
+        /// <summary> 메세지 + 메세지 후 이벤트 </summary>
+        public void showActMessage(string str, Action act)
+        {
+            MSp.showActMessage(str, act);
+        }
+
         /// <summary> 팩에 있는 메세지 창을 통한 메세지 출력 (비어 있음) </summary>
-        public void showMessage(string str, bool stop = false)
+        public void showMessage(string str)
         {
             MSp.showMessage(str);
-
-            if (stop)
-            {
-                Debug.Log("스탑 timeScale = 0");
-                Time.timeScale = 0;
-            }
         }
 
         #endregion

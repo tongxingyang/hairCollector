@@ -40,7 +40,7 @@ namespace week
             gameObject.SetActive(false);
         }
 
-        public void resultInit(float time, int coin, int gem, int ap)
+        public void resultInit(float time, int coin, int gem, int ap, int mob, int boss, int arti)
         {
             if (BaseManager.userGameData.RemoveAD)
             {
@@ -50,16 +50,9 @@ namespace week
 
             _isNewRecord = time > BaseManager.userGameData.TimeRecord;
 
-            int cnt = 1;
-            cnt += (gem > 0) ? 1 : 0;
-            cnt += (ap > 0) ? 1 : 0;
-
             _coin.SetActive(coin > 0);
-            _coin.transform.localPosition = new Vector3(-205f, 75f * (cnt - 1));
             _gem.SetActive(gem > 0);
-            _gem.transform.localPosition = new Vector3(-205f, -75f * (cnt - 2));
             _ap.SetActive(ap > 0);
-            _ap.transform.localPosition = new Vector3(-205f, -75f * (cnt - 1));
 
             gameObject.SetActive(true);
             _top.alpha = 0;

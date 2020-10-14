@@ -24,7 +24,7 @@ namespace week
             _enProjList = new List<EnSkillControl>();            
         }
 
-        public EnSkillControl makeEnProj(EnShot type)
+        public EnSkillControl makeEnProj(EnShot type, float dmg)
         {
             // 있으면 찾아쓰고
             foreach (EnSkillControl ec in _enProjList)
@@ -32,6 +32,7 @@ namespace week
                 if (ec.IsUse == false && ec.getType == type)
                 {
                     ec.recycleInit();
+                    ec.setDamage(dmg);
                     return ec;
                 }
             }
@@ -42,6 +43,7 @@ namespace week
             esc.transform.parent = transform;
 
             esc.Init(_gs, _efm);
+            esc.setDamage(dmg);
             return esc;
         }
     }
