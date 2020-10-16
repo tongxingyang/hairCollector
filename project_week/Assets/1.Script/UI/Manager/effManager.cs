@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +10,15 @@ namespace week
         [SerializeField] GameObject _effs;
         [SerializeField] GameObject _dust;
 
+        [SerializeField] GameObject _rebirthFab;
+
         GameScene _gs;
 
         List<walkDust> _dustList;
         List<effControl> _effList;
         public List<effControl> EffList { get => _effList; set => _effList = value; }
+
+        Animator _rebirth;
 
         public void Init(GameScene gs)
         {
@@ -62,6 +67,22 @@ namespace week
             wdd.transform.parent = transform;
             wdd.transform.position = pos;
             wdd.init();
+        }
+
+        public void getRebirth(Vector3 pos, Action reAct, Action endAct)
+        {
+            if (_rebirth == null)
+            {
+                _rebirth = Instantiate(_rebirthFab).GetComponent<Animator>();
+                _rebirth.transform.parent = transform;
+            }
+
+            rebirthParticle rp = _rebirth.GetComponent<rebirthParticle>();
+            rp.setAct(reAct, endAct);
+
+            _rebirth.transform.position = pos;
+            _rebirth.gameObject.SetActive(true);
+            _rebirth.SetTrigger("rebirth");
         }
     }
 }

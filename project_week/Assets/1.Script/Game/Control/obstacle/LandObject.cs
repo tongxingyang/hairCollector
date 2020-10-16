@@ -22,7 +22,7 @@ namespace week
 
         [ShowIf("chk_boss")]
         [SerializeField] Transform[] bosPos;
-        bool chk_boss { get { return _type < mapObstacle.map0; } }
+        bool chk_boss { get { return _type < mapObstacle.map_0; } }
 
         bossControl[] bosss;
 

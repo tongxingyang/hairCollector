@@ -62,6 +62,12 @@ namespace week
                         return;
                     }
                     break;
+                case landtem.rebirth:
+                    if (_player.RebirthTem == (int)checker.none)
+                    {
+                        _player.RebirthTem = (int)checker.ready;
+                    }
+                    break;
             }
 
             _tem.SetActive(false);

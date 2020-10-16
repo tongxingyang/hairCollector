@@ -219,6 +219,7 @@ namespace week
         float _wildAtt;
 
         bool _rebirth;
+        int _rebirthTem;
         bool _invSlow;
         bool _isHero;
 
@@ -247,6 +248,7 @@ namespace week
                 _isInvinc = value; 
             }
         }
+        public int RebirthTem { get => _rebirthTem; set => _rebirthTem = value; }
 
         #endregion
 
@@ -318,8 +320,6 @@ namespace week
             _pet.Init(_gs, () => { _skills[SkillKeyList.snowball].att *= 2; });
             
             getSkill(SkillKeyList.snowball);
-            getSkill(SkillKeyList.poison);
-            selectEquips[1] = SkillKeyList.poison;
 
             if (BaseManager.userGameData.SkinBval[(int)skinBvalue.mine])
             {
@@ -327,8 +327,9 @@ namespace week
                 selectEquips[0] = SkillKeyList.mine;
             }
 
+            _albar.localScale = new Vector2(0, 1f);
+
             StartCoroutine(skillUpdate());
-            //StartCoroutine(chk());
         }
 
         IEnumerator chk()
@@ -358,7 +359,7 @@ namespace week
 
             if (BaseManager.userGameData.ApplySeason == null)
             {
-                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0] * 100;
+                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0];
                 _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1];
                 _standardStt[(int)snowStt.def] = BaseManager.userGameData.o_Def * BaseManager.userGameData.AddStats[2];
                 _standardStt[(int)snowStt.hpgen] = BaseManager.userGameData.o_Hpgen * BaseManager.userGameData.AddStats[3];
@@ -367,7 +368,7 @@ namespace week
             }
             else
             {
-                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * 10;
+                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp;
                 _standardStt[(int)snowStt.att]      = BaseManager.userGameData.o_Att;
                 _standardStt[(int)snowStt.def]      = BaseManager.userGameData.o_Def;
                 _standardStt[(int)snowStt.hpgen]    = BaseManager.userGameData.o_Hpgen;
@@ -883,55 +884,38 @@ namespace week
 
         public void getDamaged(float dmg, bool ignoreDef = false)
         {
-            if (_shield.IsUse)
+            if (_shield.IsUse) // 실드
             {
                 _shield.getDamage(dmg);
                 return;
             }
 
-            damagedAni();
-
-            if (_isAlmighty || IsInvinc)
+            if (_isAlmighty || IsInvinc) // 무적
             {
                 return;
             }
 
-            if (dmg > Def || ignoreDef)
+            damagedAni(); // 데미지 모션
+
+            if (dmg > Def || ignoreDef) // 데미지>방어력 or 방어력무시
             {
                 if (ignoreDef == false)
                 {
                     dmg -= Def;
                 }
 
-                _dmgFont.getText(transform, dmg, dmgTxtType.standard, true);
+                _dmgFont.getText(transform, dmg, dmgTxtType.standard, true); // 데미지 폰트
 
-                if (ignoreDef == false)
+                if (ignoreDef == false) // 방무 아닐때만 이펙트
                 {
                     _efm.makeEff(effAni.playerhit, transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 0.5f));
                 }
 
                 _hp -= dmg;
 
-                if (_hp <= 0)
+                if (_hp <= 0) // 뒤짐
                 {
-                    _hp = 0;                    
-                    _isDie = true;
-
-                    if (_rebirth)
-                    {
-                        _rebirth = false;
-                        // 이펙
-                        Debug.Log("부활");
-                        _hp = MaxHp * BaseManager.userGameData.SkinFval[(int)skinFvalue.rebirth] * 0.01f;
-                        if (_hp > MaxHp)
-                        {
-                            MaxHp = _hp;
-                        }
-                    }
-                    else
-                    {
-                        _gameOver();
-                    }
+                    StartCoroutine(playerDie());
                 }
 
                 chkWild();
@@ -942,6 +926,74 @@ namespace week
             {
                 return;
             }
+        }
+
+        IEnumerator playerDie()
+        {
+            _hp = 0;
+            _isDie = true;
+            _spine.gameObject.SetActive(false); // 눈사람끄고
+            // 이펙트~            
+            _gs.preGameOver(); // 다멈춤
+
+            //=============================================================
+
+            if (_rebirthTem == (int)checker.ready || _rebirth)
+            {
+                yield return new WaitForSeconds(0.5f);
+
+                if (_rebirthTem == (int)checker.ready) // 광고 부활템
+                {
+                    _rebirthTem = (int)checker.complete;
+                    bool _chk = false;
+
+                    yield return new WaitForSeconds(1f);
+
+                    if (BaseManager.userGameData.RemoveAD == false)
+                    { 
+                        // 창 오픈 - 광고제거 사면 바로 부활
+                        _gs.openAdRebirthPanel(() =>
+                        {
+                            _chk = true;
+                        }, _gameOver);
+
+                        yield return new WaitUntil(() => _chk == true); // 광고 후 진행
+                    }
+
+                    _hp = MaxHp;        
+                }
+                else if (_rebirth) // 스킨 부활
+                {
+                    yield return new WaitForSeconds(1.5f);
+
+                    _rebirth = false;
+
+                    _hp = MaxHp * BaseManager.userGameData.SkinFval[(int)skinFvalue.rebirth] * 0.01f;
+                    if (_hp > MaxHp)
+                    {
+                        MaxHp = _hp;
+                    }
+                }
+
+                _efm.getRebirth(transform.position, () =>
+                {
+                    _spine.gameObject.SetActive(true);
+                },()=> 
+                {
+                    _hpbar.localScale = new Vector2(_hp / MaxHp, 1f);
+                    setAlmighty(); // 무적 주고 같이 시작
+                    _gs.whenResume();
+                    _isDie = false;
+                    StartCoroutine(skillUpdate());
+                });
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.5f);
+                _gameOver();
+            }
+
+            yield return null;
         }
 
         public void damagedAni()
@@ -1058,6 +1110,37 @@ namespace week
 
             _psm.onPause(bl);
             _pet.onPause(bl);
+        }
+
+        public void whenPlayerDie()
+        {
+            // 총알파괴
+            _psm.onClear();
+
+            // 유물제거
+            for (SkillKeyList eq = SkillKeyList.poison; eq < SkillKeyList.max; eq++)
+            {
+                _equips[eq].clear();
+            }
+
+            // 쿨타임 초기화
+            for (SkillKeyList eq = SkillKeyList.snowball; eq < SkillKeyList.poison; eq++)
+            {
+                _skills[eq]._timer = 0;
+            }
+
+            // 스킨 스킬쿨 초기화
+            _chkInvincTime = 0;
+
+            _iceage.gameObject.SetActive(false);
+            Blizzard(false);
+            IsInvinc = false;
+            _shield.Destroy();
+
+            // 디버프 제거
+
+            // 무적 제거
+
         }
     }
 }

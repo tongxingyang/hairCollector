@@ -79,6 +79,7 @@ namespace week
         {
             type = (SkillKeyList)i;
             upGrade = false;
+            _timer = 0;
 
             lvl = 0;
             max_lvl = DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.max_level.ToString());

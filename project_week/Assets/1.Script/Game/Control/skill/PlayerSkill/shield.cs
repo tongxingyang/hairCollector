@@ -50,7 +50,7 @@ namespace week
             _dfm.getText(transform, dmg, dmgTxtType.shield, true);
         }
 
-        private void Destroy()
+        public void Destroy()
         {
             IsUse = false;
             gameObject.SetActive(false);

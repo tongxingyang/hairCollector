@@ -119,11 +119,11 @@ namespace week
             googleManager.instance.LoginToStart();
             AdManager.instance.adStart();
             gauge += 0.15f;
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
             
-#else 
-            yield return new WaitUntil(() => Social.localUser.authenticated == true);
-#endif
+//#else 
+//            yield return new WaitUntil(() => Social.localUser.authenticated == true);
+//#endif
 
             // 윈도우 로드
             WindowManager.instance.LoadWin();

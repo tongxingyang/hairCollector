@@ -14,8 +14,6 @@ public class playerSkillManager : MonoBehaviour
     List<hailSkill> _hailList;
 
     GameObject _icetornado;
-    GameObject iceage;
-    GameObject blizzard;
 
     public List<SsuddenAppearCtrl> IcewallList { get => _suddenList; }
 
@@ -96,7 +94,7 @@ public class playerSkillManager : MonoBehaviour
     }
 
     public void onPause(bool bl)
-    {
+    { 
         foreach (BaseProjControl bp in _shotSkillList)
         {
             bp.onPause(bl);
@@ -105,6 +103,22 @@ public class playerSkillManager : MonoBehaviour
         foreach (SsuddenAppearCtrl sc in _suddenList)
         {
             sc.onPause(bl);
+        }
+    }
+
+    public void onClear()
+    {
+        foreach (BaseProjControl bpc in _shotSkillList)
+        {
+            bpc.Destroy();
+        }
+        foreach (SsuddenAppearCtrl sac in _suddenList)
+        {
+            sac.Destroy();
+        }
+        foreach (hailSkill hs in _hailList)
+        {
+            hs.Destroy();
         }
     }
 }

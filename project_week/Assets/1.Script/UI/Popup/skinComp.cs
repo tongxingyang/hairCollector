@@ -39,6 +39,7 @@ namespace week
             {
                 _skinBoxies[i] = Instantiate(_skinBox).GetComponent<skinBox>();
                 _skinBoxies[i].transform.SetParent(_skinBoxParent);
+                _skinBoxies[i].transform.localScale = Vector3.one;
                 _skinBoxies[i].setSkinBox((SkinKeyList)i);
                 _skinBoxies[i].setAction(changeSkin, _costRefresh);
             }

@@ -21,6 +21,8 @@ namespace week
         max
     }
 
+    public enum checker { none, ready, complete }
+
     #endregion
 
     #region dataTable
@@ -293,14 +295,16 @@ namespace week
     {
         bosszone,
 
-        map0,
-        map1,
-        map2,
-        map3,
-        map4,
-        map5,
-        map6,
-        //map7,
+        map_0,
+        map_1,
+        map_2,
+        map_3,
+        map_4,
+
+        egg_0,
+
+        gem_0,
+        gem_1,
 
         ruin0,
         ruin1,
@@ -361,7 +365,7 @@ namespace week
     #endregion
 
     public enum season { spring, summer, fall, winter, max }
-    public enum landtem { heal, gem, present, sward }
+    public enum landtem { heal, gem, present, sward, rebirth }
 
     #region [Sound]
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 namespace week
 {
@@ -28,6 +29,7 @@ namespace week
         [SerializeField] upgradePopup _upgradePanel;
         [SerializeField] pausePopup _pausePanel;
         [SerializeField] resultPopup _resultPopup;
+        [SerializeField] adRebirthPopup _adRebirthPopup;
         [Header("UI")]
         [SerializeField] Image _ExpBar;
         [SerializeField] TextMeshProUGUI _totalCoin;
@@ -217,6 +219,7 @@ namespace week
             _totalCoin.text = _coin.ToString();
 
             _player.getExp(1 * 3);
+            ExpRefresh();
         }
 
         public void getBossKill(float val)
@@ -369,10 +372,17 @@ namespace week
             }
 
             return targetPos;
-        }        
+        }
 
         #endregion
-           
+
+        public void preGameOver()
+        {            
+            _player.whenPlayerDie();
+
+            whenPause();
+        }
+
         /// <summary> 게임 종료 및 결산 </summary>
         public void gameOver()
         {
@@ -404,6 +414,7 @@ namespace week
             _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult, _mobKill, _bossKill, _getArti);
         }
 
+
         #region [Window]
 
         public void openPause()
@@ -411,11 +422,17 @@ namespace week
             _pausePanel.openPause();
         }
 
-         void closeUpgradePanel()
+        void closeUpgradePanel()
         {
             Time.timeScale = 1;
             whenResume();
             _player.setAlmighty();
+        }
+
+        public void openAdRebirthPanel(Action watch, Action skip)
+        {
+            _adRebirthPopup.setAction(watch, skip);
+            _adRebirthPopup.open();
         }
 
         #endregion

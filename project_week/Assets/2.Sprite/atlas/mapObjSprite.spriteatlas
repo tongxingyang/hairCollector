@@ -36,7 +36,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 5304590d69fef904faf1c0da6e0fcd17, type: 3}
     - {fileID: 2800000, guid: 9092bf5378ecc304e849e7c2e5ade2c5, type: 3}
     - {fileID: 102900000, guid: 106370bbbfdbbca4caef6f939ba20f94, type: 3}
-    totalSpriteSurfaceArea: 1981649
+    totalSpriteSurfaceArea: 1719505
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -93,7 +93,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 027fad6819bc2c04ca9cf9621838629b, type: 3}
   - {fileID: 21300000, guid: 855e7d29de7f4144a9aa9ef12ab68303, type: 3}
   - {fileID: 21300000, guid: a1c58a3983d496741a8d6688847136a5, type: 3}
-  - {fileID: 21300000, guid: 232c097956c33c74cb82570d81672d9f, type: 3}
   - {fileID: 21300000, guid: 9bad50b96519c884d8b6735d8b9e87ec, type: 3}
   - {fileID: 21300000, guid: d906c6b916a549542bdeb25ec82c3cdc, type: 3}
   - {fileID: 21300000, guid: caaeceb911d9cf241b31742fad1c17ab, type: 3}
@@ -174,7 +173,6 @@ SpriteAtlas:
   - sward
   - sp1
   - clock_summer
-  - ruin
   - chim
   - clock_winter
   - fl0
