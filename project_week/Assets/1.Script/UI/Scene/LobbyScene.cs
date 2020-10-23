@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace week
 {
@@ -23,14 +24,15 @@ namespace week
         {
             optionBtn,
 
-            stageImage
+            snowmanImg
         }
 
         enum eTmp
         {
             CoinTxt,
             GemTxt,
-            RecordTxt
+            RecordTxt,
+            nickName
         }
 
         protected override Enum GetEnumGameObject() { return new eGO(); }
@@ -51,6 +53,9 @@ namespace week
         [SerializeField] Sprite[] _optionImg;
         [SerializeField] SnowController _snow;
         [SerializeField] Transform _angle;
+        [SerializeField] RawImage _pattern;
+        Vector2 _offset;
+        readonly Vector2 _rect = new Vector2(1f, 2f);
 
         bool _isLobby;
 
@@ -86,8 +91,28 @@ namespace week
             SoundManager.instance.PlayBGM(BGM.Lobby);
             refreshCost();
 
+            refreshSnowImg();
+
             _snow.OnMasterChanged(0.5f);
             _snow.OnSnowChanged(0.5f);
+        }
+
+        private void Update()
+        {
+            _offset.x -= Time.deltaTime * 0.01f;
+            _offset.y -= Time.deltaTime * 0.02f;
+
+            if (_offset.x < -1f)
+            {
+                _offset.x = 0;
+            }
+
+            if (_offset.y < -1f)
+            {
+                _offset.y = 0;
+            }
+
+            _pattern.uvRect = new Rect(_offset, _rect);
         }
 
         public void setEquip(DataTable type)
@@ -149,7 +174,7 @@ namespace week
         {
             if (_isLobby)
             {
-                _option.open();                
+                _option.open();
             }
             else
             {
@@ -162,6 +187,7 @@ namespace week
                 mGos[(int)eGO.Quest].SetActive(false);
 
                 mGos[(int)eGO.Lobby].SetActive(true);
+                refreshSnowImg();
             }
         }
 
@@ -176,6 +202,11 @@ namespace week
                 MTmps[(int)eTmp.RecordTxt].text = $"{BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false)}";
             }
             //MTmps[(int)eTmp.st].color = Color.black;
+        }
+
+        void refreshSnowImg()
+        {
+            mImgs[(int)eImg.snowmanImg].sprite = DataManager.SkinSprite[BaseManager.userGameData.Skin];
         }
     }
 }

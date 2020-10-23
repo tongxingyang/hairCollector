@@ -97,11 +97,11 @@ namespace week
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map_0, (int)mapObstacle.ruin0);
             }
 
-            mo = mapObstacle.egg_0;
+            mo = (UnityEngine.Random.Range(0, 2) == 0) ? mapObstacle.bosszone : mapObstacle.ruin0;
 
             if (first)
             {
-                mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map_0, (int)mapObstacle.egg_0);
+                mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map_0, (int)mapObstacle.gem_0);
             }
 
             _mapType = mo;

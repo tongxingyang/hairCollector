@@ -300,8 +300,7 @@ namespace week
         map_2,
         map_3,
         map_4,
-
-        egg_0,
+        map_5,
 
         gem_0,
         gem_1,
@@ -365,7 +364,7 @@ namespace week
     #endregion
 
     public enum season { spring, summer, fall, winter, max }
-    public enum landtem { heal, gem, present, sward, rebirth }
+    public enum landtem { heal, gem, present, sward }
 
     #region [Sound]
 

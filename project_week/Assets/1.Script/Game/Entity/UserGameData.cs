@@ -69,8 +69,10 @@ namespace week
         public int HasSkin { get => _userEntity._hasSkin; set => _userEntity._hasSkin = value; }
 
         //  인앱결제
-        public int DoubleCoin { get => _userEntity._doubleCoin; set => _userEntity._doubleCoin = value; }
+        public bool AddGoods { get => _userEntity._addGoods; set => _userEntity._addGoods = value; }
+        public float AddGoodsValue { get => _userEntity._addGoodsValue; set => _userEntity._addGoodsValue = value; }
         public bool RemoveAD { get => _userEntity._removeAD; set => _userEntity._removeAD = value; }
+        public bool SkinPack { get => _userEntity._skinPack; set => _userEntity._skinPack = value; }
 
         public int o_Hp { get => _userEntity._hp; }
         public float o_Hpgen { get => _userEntity._hpgen; }

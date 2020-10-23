@@ -48,7 +48,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: c2be63eb849d86d409f0229fc7752ac7, type: 3}
     - {fileID: 2800000, guid: d5434fe4812048847881bf9f57fde719, type: 3}
     - {fileID: 2800000, guid: 09e7366358457614baeaf339f7c3f9a8, type: 3}
-    totalSpriteSurfaceArea: 1652056
+    totalSpriteSurfaceArea: 1827227
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -64,6 +64,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 22a73b745901a0547bcc68ae55b41428, type: 3}
   - {fileID: 21300000, guid: d5434fe4812048847881bf9f57fde719, type: 3}
   - {fileID: 21300000, guid: 65bf660522d4c3646b9dbd7bbaaa3c07, type: 3}
+  - {fileID: 21300000, guid: f9dd4d16acd2cf84eaac22b62e74fed0, type: 3}
   - {fileID: 21300000, guid: ed6b854637d91224f9b104eac763dee5, type: 3}
   - {fileID: 21300000, guid: 72d325075c26cf942b488a6694b48569, type: 3}
   - {fileID: 21300000, guid: 6aeb3c47949843a468b563b695aa6bab, type: 3}
@@ -74,6 +75,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 64185798894843e4ba74169dbaf62bdc, type: 3}
   - {fileID: 21300000, guid: a34471b8722036e4c8e0a994fe02b87f, type: 3}
   - {fileID: 21300000, guid: a7247ac8bb0d79949b16082c35f9d598, type: 3}
+  - {fileID: 21300000, guid: 1ce9205948c781448bbde90fa6d86707, type: 3}
   - {fileID: 21300000, guid: 0c8f5ad9bf9210c41af5f29d4b57eee0, type: 3}
   - {fileID: 21300000, guid: 6f82a81a41df7584a930588515dca5bd, type: 3}
   - {fileID: 21300000, guid: ffba392a9403a6447a758056a39f7323, type: 3}
@@ -89,6 +91,7 @@ SpriteAtlas:
   - {fileID: 3395401822971987535, guid: dbfe121c06b4a8e41b23a3d8810d9df8, type: 3}
   - {fileID: 5249879376208964201, guid: dbfe121c06b4a8e41b23a3d8810d9df8, type: 3}
   - {fileID: 21300000, guid: 2140f50d9a62718409a8fade703a6ce9, type: 3}
+  - {fileID: 21300000, guid: 88f0b18d5ab222c46b600ff7fba105c1, type: 3}
   - {fileID: 21300000, guid: afff259df14f6aa4f87a64934990a7d5, type: 3}
   - {fileID: 21300000, guid: 977f5b9d3a489b94ca05f7f99c0ccf4e, type: 3}
   - {fileID: 21300000, guid: 7185dd6e02d837846b443460106a3190, type: 3}
@@ -108,6 +111,7 @@ SpriteAtlas:
   - adRemove
   - login
   - doubleCoin
+  - bob
   - ap_s
   - Btn2
   - linecase
@@ -118,6 +122,7 @@ SpriteAtlas:
   - gold_s
   - Btn
   - att
+  - infoMark
   - hp
   - hpgen
   - woodcase
@@ -133,6 +138,7 @@ SpriteAtlas:
   - statIcons_6
   - statIcons_7
   - gold_l
+  - perCoin
   - upCase
   - woodbox
   - ap_m

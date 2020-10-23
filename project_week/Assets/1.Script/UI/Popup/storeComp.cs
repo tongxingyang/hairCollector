@@ -2,63 +2,183 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace week
 {
     public class storeComp : MonoBehaviour, UIInterface
     {
+        [SerializeField] Image _ad;
+        [SerializeField] Image _10p;
+        [SerializeField] Image _skin;
+
+        [SerializeField] GameObject _soldoutAd;
+        [SerializeField] GameObject _soldout10p;
+        [SerializeField] GameObject _soldoutSkin;
+
         Action _costRefresh;
 
-        public void getSmallCoin()
+        public void getRemoveAd()
         {
-            Debug.Log("골드 조금 겟또다제");
-            BaseManager.userGameData.Coin += 10000;
-            _costRefresh();
+            Debug.Log("광고 제거");
+            BaseManager.userGameData.RemoveAD = true;
+
+            _ad.raycastTarget = false;
+            _soldoutAd.SetActive(true);
         }
 
-        public void getMiddleCoin()
+        public void getAdd10per()
         {
-            Debug.Log("골드 중간 겟또다제");
-            BaseManager.userGameData.Coin += 50000;
-            _costRefresh();
+            Debug.Log("코인 추가 10퍼 겟또다제");
+            BaseManager.userGameData.AddGoods = true;
+            BaseManager.userGameData.AddGoodsValue = 1.1f;
+
+            _10p.raycastTarget = false;
+            _soldout10p.SetActive(true);
         }
 
-        public void getLargeCoin()
+        public void addPerInfo()
         {
-            Debug.Log("골드 많이 겟또다제");
-            BaseManager.userGameData.Coin += 200000;
-            _costRefresh();
+            string str = "적용 범위 : 모험코인" + System.Environment.NewLine + "골드 및 AP 구매";
+            WindowManager.instance.showActMessage(str, () => { });
         }
+
+        public void getSkinPack()
+        {
+            Debug.Log("스킨팩 구매 완료");
+            BaseManager.userGameData.SkinPack = true;
+
+            _skin.raycastTarget = false;
+            _soldoutSkin.SetActive(true);
+        }
+
+        public void chkPresent()
+        {
+            WindowManager.instance.showMessage("해당 상품은 더 이상 구매할 수 없습니눈.");
+        }
+
+        #region [ 보석 ]
 
         public void getSmallGem()
         {
-            Debug.Log("보석 조금 겟또다제");
-            BaseManager.userGameData.Gem += 10;
+            int i = 40;
+            Debug.Log($"{i}보석 겟또다제");
+            BaseManager.userGameData.Gem += i;
             _costRefresh();
         }
 
         public void getMiddleGem()
         {
-            Debug.Log("보석 중간 겟또다제");
-            BaseManager.userGameData.Gem += 50;
+            int i = 250;
+            Debug.Log($"{i}보석 겟또다제");
+            BaseManager.userGameData.Gem += i;
             _costRefresh();
         }
 
         public void getLargeGem()
         {
-            Debug.Log("보석 많이 겟또다제");
-            BaseManager.userGameData.Gem += 200;
+            int i = 600;
+            Debug.Log($"{i}보석 겟또다제");
+            BaseManager.userGameData.Gem += i;
             _costRefresh();
         }
 
-        public void getDoubleCoin()
+        #endregion
+
+        #region [ AP ]
+
+        public void getSmallAp()
         {
-            Debug.Log("코인 2배 겟또다제");
-            BaseManager.userGameData.DoubleCoin = 2;
-            BaseManager.userGameData.RemoveAD = true;
+            int i = 40;
+            Debug.Log($"{i} AP 겟또다제");
+            BaseManager.userGameData.Gem += i;
+            _costRefresh();
         }
+
+        public void getMiddleAp()
+        {
+            int i = 40;
+            Debug.Log($"{i} AP 겟또다제");
+            BaseManager.userGameData.Gem += i;
+            _costRefresh();
+        }
+
+        public void getLargeAp()
+        {
+            int i = 40;
+            Debug.Log($"{i} AP 겟또다제");
+            BaseManager.userGameData.Gem += i;
+            _costRefresh();
+        }
+
+        #endregion
+
+        #region [ 코인 ]
+
+        public void getSmallCoin()
+        {
+            int cost = 50;
+            if (BaseManager.userGameData.Gem >= cost)
+            {
+                int i = 5000;
+                Debug.Log($"{i}코인 겟또다제");
+                BaseManager.userGameData.Coin += i;
+                _costRefresh();
+            }
+            else
+            {
+                WindowManager.instance.showMessage("보석이 모자랍니눈!");
+            }
+        }
+
+        public void getMiddleCoin()
+        {
+            int cost = 175;
+            if (BaseManager.userGameData.Gem >= cost)
+            {
+                int i = 20000;
+                Debug.Log($"{i}코인 겟또다제");
+                BaseManager.userGameData.Coin += i;
+                _costRefresh();
+            }
+            else
+            {
+                WindowManager.instance.showMessage("보석이 모자랍니눈!");
+            }
+        }
+
+        public void getLargeCoin()
+        {
+            int cost = 400;
+            if (BaseManager.userGameData.Gem >= cost)
+            {
+                int i = 50000;
+                Debug.Log($"{i}코인 겟또다제");
+                BaseManager.userGameData.Coin += i;
+                _costRefresh();
+            }
+            else
+            {
+                WindowManager.instance.showMessage("보석이 모자랍니눈!");
+            }
+        }
+
+        #endregion
+
+        public void purchaseFail()
+        {
+            WindowManager.instance.showActMessage("결제에 실패했습니눈", () => { });
+        }
+        
         public void open()
         {
+            _ad.raycastTarget = !BaseManager.userGameData.RemoveAD;
+            _soldoutAd.SetActive(BaseManager.userGameData.RemoveAD);
+            _10p.raycastTarget = !BaseManager.userGameData.AddGoods;
+            _soldout10p.SetActive(BaseManager.userGameData.AddGoods);
+            _skin.raycastTarget = !BaseManager.userGameData.SkinPack;
+            _soldoutSkin.SetActive(BaseManager.userGameData.SkinPack);
+
             gameObject.SetActive(true);
         }
 

@@ -218,8 +218,8 @@ namespace week
         float _wildMount;
         float _wildAtt;
 
-        bool _rebirth;
-        int _rebirthTem;
+        bool _rebirth_skin;
+        bool _rebirth_bonus;
         bool _invSlow;
         bool _isHero;
 
@@ -248,7 +248,7 @@ namespace week
                 _isInvinc = value; 
             }
         }
-        public int RebirthTem { get => _rebirthTem; set => _rebirthTem = value; }
+        public bool RebirthBonus { get => _rebirth_bonus; set => _rebirth_bonus = value; }
 
         #endregion
 
@@ -281,6 +281,7 @@ namespace week
 
             _isDie = false;
             _isAlmighty = false;
+            _rebirth_bonus = true;
 
             _abils = new Dictionary<SkillKeyList, ability>();
             _skills = new Dictionary<SkillKeyList, skill>();
@@ -327,7 +328,7 @@ namespace week
                 selectEquips[0] = SkillKeyList.mine;
             }
 
-            _albar.localScale = new Vector2(0, 1f);
+            _almightCase.SetActive(false);
 
             StartCoroutine(skillUpdate());
         }
@@ -391,7 +392,7 @@ namespace week
             _invSlow = BaseManager.userGameData.SkinBval[(int)skinBvalue.invSlow];
             _isHero = BaseManager.userGameData.SkinBval[(int)skinBvalue.hero];
             _wildAtt = 1f;
-            _rebirth = BaseManager.userGameData.SkinBval[(int)skinBvalue.rebirth];
+            _rebirth_skin = BaseManager.userGameData.SkinBval[(int)skinBvalue.rebirth];
             _hasFrozen = BaseManager.userGameData.SkinBval[(int)skinBvalue.frozen];
             _hasCritic = BaseManager.userGameData.SkinBval[(int)skinBvalue.critical];
             _bloodMount = BaseManager.userGameData.SkinFval[(int)skinFvalue.blood] * 0.01f;
@@ -938,13 +939,25 @@ namespace week
 
             //=============================================================
 
-            if (_rebirthTem == (int)checker.ready || _rebirth)
+            if (_rebirth_skin || _rebirth_bonus)
             {
                 yield return new WaitForSeconds(0.5f);
 
-                if (_rebirthTem == (int)checker.ready) // 광고 부활템
+                if (_rebirth_skin) // 스킨 부활
                 {
-                    _rebirthTem = (int)checker.complete;
+                    yield return new WaitForSeconds(1.5f);
+
+                    _rebirth_skin = false;
+
+                    _hp = MaxHp * BaseManager.userGameData.SkinFval[(int)skinFvalue.rebirth] * 0.01f;
+                    if (_hp > MaxHp)
+                    {
+                        MaxHp = _hp;
+                    }
+                }
+                else if (_rebirth_bonus) // 광고 부활템
+                {
+                    _rebirth_bonus = false;
                     bool _chk = false;
 
                     yield return new WaitForSeconds(1f);
@@ -961,18 +974,6 @@ namespace week
                     }
 
                     _hp = MaxHp;        
-                }
-                else if (_rebirth) // 스킨 부활
-                {
-                    yield return new WaitForSeconds(1.5f);
-
-                    _rebirth = false;
-
-                    _hp = MaxHp * BaseManager.userGameData.SkinFval[(int)skinFvalue.rebirth] * 0.01f;
-                    if (_hp > MaxHp)
-                    {
-                        MaxHp = _hp;
-                    }
                 }
 
                 _efm.getRebirth(transform.position, () =>

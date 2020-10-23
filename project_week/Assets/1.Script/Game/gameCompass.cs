@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace week
 {
@@ -8,7 +9,8 @@ namespace week
     {
         [SerializeField] GameObject _niddleFab;
         [SerializeField] Transform _player;
-
+        [Space]
+        [SerializeField] Sprite[] sprites;
         class niddle
         {
             public Transform pos;
@@ -46,6 +48,8 @@ namespace week
 
                 niddles.Add(ndl);
 
+                ndl.nid.GetComponentInChildren<Image>().sprite = sprites[(isBoss) ? 0 : 1];
+
                 return;
             }
 
@@ -57,6 +61,8 @@ namespace week
             nid.pos = pos;
             nid.nid = tr;
             niddles.Add(nid);
+
+            nid.nid.GetComponentInChildren<Image>().sprite = sprites[(isBoss) ? 0 : 1];
         }
 
         public void comPassMove()

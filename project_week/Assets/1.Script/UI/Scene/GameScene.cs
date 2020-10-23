@@ -33,6 +33,7 @@ namespace week
         [Header("UI")]
         [SerializeField] Image _ExpBar;
         [SerializeField] TextMeshProUGUI _totalCoin;
+        [SerializeField] GameObject _bossKillMark;
         [SerializeField] TextMeshProUGUI _killCount;
         [Header("etc")]
         [SerializeField] TextMeshProUGUI _lvlTmp;
@@ -213,8 +214,7 @@ namespace week
 
         public void getKill()
         {
-            _killCount.text = (++_mobKill).ToString();
-
+            _mobKill++;
             _coin += (_clockMng.Season == season.fall) ? _mopCoin * 1.2f : _mopCoin;
             _totalCoin.text = _coin.ToString();
 
@@ -225,7 +225,11 @@ namespace week
         public void getBossKill(float val)
         {
             Debug.Log("보스킬");
+
+            _bossKillMark.SetActive(true);
+
             _bossKill++;
+            _killCount.text = _bossKill.ToString();
 
             _coin += _bossCoin * val;
             _totalCoin.text = _coin.ToString();
@@ -392,9 +396,9 @@ namespace week
             _stagePlay = false;
             _gameOver = true;
 
-            int coinResult = (int)(_coin * BaseManager.userGameData.DoubleCoin);
-            int gemResult = _gem * BaseManager.userGameData.DoubleCoin;
-            int apResult = _ap * BaseManager.userGameData.DoubleCoin;
+            int coinResult = (int)(_coin);
+            int gemResult = _gem;
+            int apResult = _ap;
 
             BaseManager.userGameData.Coin += coinResult;
             BaseManager.userGameData.Gem += gemResult;
@@ -429,9 +433,9 @@ namespace week
             _player.setAlmighty();
         }
 
-        public void openAdRebirthPanel(Action watch, Action skip)
+        public void openAdRebirthPanel(Action watch, Action timeover)
         {
-            _adRebirthPopup.setAction(watch, skip);
+            _adRebirthPopup.setAction(watch, timeover);
             _adRebirthPopup.open();
         }
 

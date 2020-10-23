@@ -129,9 +129,20 @@ namespace week
                 _newImg.transform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.InCirc);
             }
 
+            yield return new WaitForSeconds(0.5f);
+
+            // 10퍼 추가
+            if (BaseManager.userGameData.AddGoods)
+            {
+                yield return StartCoroutine(getMultiReward(BaseManager.userGameData.AddGoodsValue, 1f, 1f));
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            // 광고 제거
             if (BaseManager.userGameData.RemoveAD)
             {
-                StartCoroutine(getDoubleReward());
+                yield return StartCoroutine(getMultiReward(2f, 2f, 2f));
             }
         }
 
@@ -151,18 +162,19 @@ namespace week
 
         void doubleReward()
         {
-            StartCoroutine(getDoubleReward());
+            StartCoroutine(getMultiReward(2f, 2f, 2f));
         }
 
-        IEnumerator getDoubleReward()
+        IEnumerator getMultiReward(float m_c,float m_g,float m_a)
         {
-            _getCoin = 21643;
+            // 시작수
             int c = _getCoin;
             int g = _getGem;
             int a = _getAp;
 
             bool going = true;
 
+            // 코인 배수 설정
             int coinup = 1;
             if (_getCoin > 100)
             {
@@ -171,9 +183,10 @@ namespace week
 
             yield return new WaitForSeconds(1f);
 
+            // 문자변경
             while (going)
             {
-                if (_getCoin* 2 > c)
+                if (_getCoin * m_c > c)
                 {
                     c += coinup;
                     _coinTxt.text = c.ToString();
@@ -183,13 +196,13 @@ namespace week
                     going = false;
                 }
 
-                if (_getGem * 2 > g)
+                if (_getGem * m_g > g)
                 {
                     g++;
                     _gemTxt.text = g.ToString();
                 }
 
-                if (_getAp * 2 > a)
+                if (_getAp * m_a > a)
                 {
                     a++;
                     _apTxt.text = a.ToString();

@@ -43,8 +43,10 @@ namespace week
         [SerializeField] public int _hasSkin;
 
         //인앱결제
-        [SerializeField] public int _doubleCoin;
+        [SerializeField] public bool _addGoods;
+        [SerializeField] public float _addGoodsValue;
         [SerializeField] public bool _removeAD;
+        [SerializeField] public bool _skinPack;
 
         //능력치
         [SerializeField] public int _hp;
@@ -75,7 +77,7 @@ namespace week
 
             // 재화
             _coin = 99999999;
-            _gem = 200;
+            _gem = 2000;
             _ap = 0;
 
             // 스탯
@@ -107,7 +109,8 @@ namespace week
             _sfxVol = 1f;
 
             // 결제
-            _doubleCoin = 1;
+            _addGoods = false;
+            _addGoodsValue = 1f;
             _removeAD = false;
         }
 
