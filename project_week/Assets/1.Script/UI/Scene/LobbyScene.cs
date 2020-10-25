@@ -66,9 +66,15 @@ namespace week
 
         optionComp _option;
 
+        bool _refreshCoinChk;
+        bool _refreshGemChk;
+
         // Start is called before the first frame update
         void Start()
         {
+            BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
+            BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
+
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
             _status = mGos[(int)eGO.Status].GetComponent<statusComp>();
             _skin = mGos[(int)eGO.Skin].GetComponent<skinComp>();
@@ -122,8 +128,72 @@ namespace week
 
         public void refreshCost()
         {
-            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
-            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.Gem.ToString();
+            if (BaseManager.userGameData.followCoin >= BaseManager.userGameData.Coin)
+            {
+                BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
+                MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
+            }
+            else if (_refreshCoinChk == false)
+            {
+                StartCoroutine(followCoin());
+            }
+
+            if (BaseManager.userGameData.followGem >= BaseManager.userGameData.Gem)
+            {
+                BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
+                MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
+            }
+            else if (_refreshGemChk == false)
+            {
+                StartCoroutine(followGem());
+            }
+        }
+
+        IEnumerator followCoin()
+        {
+            _refreshCoinChk = true;
+
+            int c = BaseManager.userGameData.Coin - BaseManager.userGameData.followCoin;
+
+            for (int i = 0; i < 9; i++)
+            {
+                if (c > 0)
+                {
+                    BaseManager.userGameData.followCoin += (c / 10);
+                    MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
+                }
+
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
+            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
+
+            _refreshCoinChk = false;
+        }
+
+        IEnumerator followGem()
+        {
+            _refreshGemChk = true;
+
+            int g = BaseManager.userGameData.Gem - BaseManager.userGameData.followGem;
+
+            for (int i = 0; i < 9; i++)
+            {
+
+                if (g > 0)
+                {
+                    BaseManager.userGameData.followGem += (g / 10);
+                    MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
+                }
+
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
+            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
+
+            _refreshGemChk = false;
         }
 
         public void PlayGame()

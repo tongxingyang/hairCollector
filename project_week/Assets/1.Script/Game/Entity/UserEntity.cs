@@ -46,6 +46,7 @@ namespace week
         [SerializeField] public bool _addGoods;
         [SerializeField] public float _addGoodsValue;
         [SerializeField] public bool _removeAD;
+        [SerializeField] public bool _startPack;
         [SerializeField] public bool _skinPack;
 
         //능력치
@@ -91,6 +92,8 @@ namespace week
             _expFactor      = DataManager.GetTable<float>(DataTable.status, "default", StatusData.exp.ToString());
             _coinFactor     = DataManager.GetTable<float>(DataTable.status, "default", StatusData.coin.ToString());
             _skinEnhance    = DataManager.GetTable<float>(DataTable.status, "default", StatusData.skin.ToString());
+
+            _hasSkin = 1;
 
             // 퀘스트
             _dayQuest = new int[3];

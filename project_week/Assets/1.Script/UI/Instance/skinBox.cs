@@ -42,7 +42,7 @@ namespace week
         public void setSkinBox(SkinKeyList skin)
         {
             _skin = skin;
-            _skinName = DataManager.GetTable<string>(DataTable.skin, ((int)skin).ToString(), SkinValData.skinname.ToString());
+            _skinName = DataManager.GetTable<string>(DataTable.skin, skin.ToString(), SkinValData.skinname.ToString());
             _skinNameTxt.text = _skinName;
             _skinImg.sprite = DataManager.SkinSprite[skin];
 
@@ -62,9 +62,9 @@ namespace week
 
             if (result == false)
             {
-                string str = DataManager.GetTable<string>(DataTable.skin, ((int)skin).ToString(), SkinValData.currency.ToString());
+                string str = DataManager.GetTable<string>(DataTable.skin, skin.ToString(), SkinValData.currency.ToString());
                 _cur = EnumHelper.StringToEnum<cur>(str);
-                _price = DataManager.GetTable<int>(DataTable.skin, ((int)skin).ToString(), SkinValData.price.ToString());
+                _price = DataManager.GetTable<int>(DataTable.skin, skin.ToString(), SkinValData.price.ToString());
 
                 switch (_cur)
                 {
@@ -141,6 +141,7 @@ namespace week
             }
         }
 
+        /// <summary> 스킨 구매 </summary>
         void purchaseSkin()
         {
             BaseManager.userGameData.HasSkin |= (1 << (int)_skin);
@@ -163,6 +164,57 @@ namespace week
             _priceSize.sizeDelta = new Vector2(260, 80);
             _priceBox.color = Color.yellow;
             _priceTxt.text = "선택가능";
+        }
+
+        public void chkState()
+        {
+            bool result = (BaseManager.userGameData.Skin == _skin);
+            if (result)
+            {
+                _block.SetActive(false);
+                _curIcon.gameObject.SetActive(false);
+                _priceSize.anchoredPosition = new Vector2(0, 0);
+                _priceSize.sizeDelta = new Vector2(260, 80);
+                _priceBox.color = Color.yellow;
+                _priceTxt.text = "장착중";
+                return;
+            }
+
+            if ((BaseManager.userGameData.HasSkin & (1 << (int)_skin)) == 0)
+            {
+                string str = DataManager.GetTable<string>(DataTable.skin, _skin.ToString(), SkinValData.currency.ToString());
+                _cur = EnumHelper.StringToEnum<cur>(str);
+                _price = DataManager.GetTable<int>(DataTable.skin, _skin.ToString(), SkinValData.price.ToString());
+
+                switch (_cur)
+                {
+                    case cur.quest:
+                        _block.SetActive(true);
+                        _curIcon.gameObject.SetActive(false);
+                        _priceSize.anchoredPosition = new Vector2(0, 0);
+                        _priceSize.sizeDelta = new Vector2(260, 80);
+                        _priceBox.color = Color.gray;
+                        _priceTxt.text = "구매불가";
+                        break;
+                    case cur.gold:
+                    case cur.gem:
+                        _block.SetActive(true);
+                        _curIcon.gameObject.SetActive(true);
+                        _priceSize.anchoredPosition = new Vector2(30, 0);
+                        _priceSize.sizeDelta = new Vector2(200, 80);
+                        _curIcon.sprite = _curImg[(int)_cur - 2];
+                        _priceBox.color = Color.white;
+                        _priceTxt.text = _price.ToString();
+                        break;
+                    case cur.standard:
+                        possibleSelect();
+                        break;
+                }
+            }
+            else
+            {
+                possibleSelect();
+            }
         }
     }
 }

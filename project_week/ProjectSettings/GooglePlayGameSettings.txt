@@ -1,9 +1,9 @@
 lastUpgrade=01011
 proj.pluginVersion=0.10.11
-proj.AppId=146318108344
-and.BundleId=com.munzi.snowman
+proj.AppId=567071762911
+and.BundleId=com.munzi.snowAdventure
 proj.classDir=Assets
 proj.ConstantsClassName=GPGSIds
-and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--Google+Play+game+services+IDs.+Save+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.--%3e%0d%0a%3cresources%3e%0d%0a++%3c%21--app_id--%3e%0d%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e146318108344%3c%2fstring%3e%0d%0a++%3c%21--package_name--%3e%0d%0a++%3cstring+name%3d%22package_name%22+translatable%3d%22false%22%3ecom.munzi.snowman%3c%2fstring%3e%0d++%0a%3c%2fresources%3e
-and.ClientId=146318108344-voppmv94htur1edho3ub0r2907rmhupj.apps.googleusercontent.com
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--Google+Play+game+services+IDs.+Save+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.--%3e%0d%0a%3cresources%3e%0d%0a++%3c%21--app_id--%3e%0d%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e567071762911%3c%2fstring%3e%0d%0a++%3c%21--package_name--%3e%0d%0a++%3cstring+name%3d%22package_name%22+translatable%3d%22false%22%3ecom.munzi.snowAdventure%3c%2fstring%3e%0d++%0a%3c%2fresources%3e
+and.ClientId=567071762911-m04hnp7n89nea9tdnsjqa1rb72vjfk3v.apps.googleusercontent.com
 android.SetupDone=true

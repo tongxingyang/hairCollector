@@ -10,6 +10,7 @@ TagManager:
   - p_proj
   - e_proj
   - interOb
+  - Effects
   layers:
   - Default
   - TransparentFX
@@ -46,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UIparticle
+    uniqueID: 2775586263
     locked: 0

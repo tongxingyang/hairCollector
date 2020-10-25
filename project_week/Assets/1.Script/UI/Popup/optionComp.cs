@@ -9,21 +9,25 @@ namespace week
 {
     public class optionComp : MonoBehaviour
     {
+        [Header("테스트")]
         [SerializeField] LobbyScene _lobby;
+        [Header("windows")]
         [SerializeField] Transform _win;
-
+        [SerializeField] GameObject _cloud;
+        [SerializeField] GameObject _credit;
+        [Header("volume")]
         [SerializeField] Slider _bgmVol;
         [SerializeField] Slider _sfxVol;
 
-        [SerializeField] GameObject cloudWin;
-        [SerializeField] GameObject developWin;
         [SerializeField] TextMeshProUGUI _LoginTxt;
 
         private void Awake()
         {
             _bgmVol.value = SoundManager.instance.masterVolumeBGM;
             _sfxVol.value = SoundManager.instance.masterVolumeSFX;
-            cloudWin.SetActive(false);
+
+            _cloud.SetActive(false);
+            _credit.SetActive(false);
 
             if (googleManager.instance.isLogin)
             {
@@ -35,21 +39,59 @@ namespace week
             }
         }
 
-        public void statInit()
+        #region [ windows ]
+
+        /// <summary> 옵션창 오픈 </summary>
+        public void open()
         {
-            Debug.Log("초기화");
+            gameObject.SetActive(true);
 
-            BaseManager.userGameData = new UserGameData();
+            _win.localScale = new Vector3(1f, 0f);
+            _win.DOScaleY(1f, 0.3f).SetEase(Ease.OutBounce);
+        }
 
-            _lobby.refreshCost();
-
+        /// <summary> 옵션창 닫기 </summary>
+        public void close()
+        {
+            Debug.Log(BaseManager.userGameData.BgmVol + " // " + _bgmVol.value);
             BaseManager.userGameData.saveUserEntity();
+            _win.localScale = new Vector3(1f, 0f);
+
+            _cloud.SetActive(false);
+            _credit.SetActive(false);
+            gameObject.SetActive(false);
         }
 
-        public void developers()
+        /// <summary> 클라우드 저장 열기 </summary>
+        public void openCloud()
         {
-            developWin.SetActive(true);
+            if (googleManager.instance.isLogin)
+            {
+                _cloud.SetActive(true);
+            }
         }
+        
+        /// <summary> 클라우드 저장 닫기 </summary>
+        public void closeCloud()
+        {
+            _cloud.SetActive(false);
+        }
+
+        /// <summary> 크래딧 열기 </summary>
+        public void openCredit()
+        {
+            _credit.SetActive(true);
+        }
+
+        /// <summary> 크래딧 닫기 </summary>
+        public void closeCredit()
+        {
+            _credit.SetActive(false);
+            close();
+        }
+
+        #endregion
+
 
         public void manualLogin()
         {
@@ -61,6 +103,8 @@ namespace week
             });
         }
 
+        #region [ 볼륨 ]
+
         public void bgmCtrl(float val)
         {
             SoundManager.instance.SetVolumeBGM(val);
@@ -70,35 +114,17 @@ namespace week
             SoundManager.instance.SetVolumeSFX(val);
         }
 
-        public void openCloud()
-        {
-            if (googleManager.instance.isLogin)
-            {
-                cloudWin.SetActive(true);
-            }
-        }
-        public void closeCloud()
-        {
-            cloudWin.SetActive(false);
-        }
+        #endregion
 
-        public void open()
+        public void statInit()
         {
-            gameObject.SetActive(true);
+            Debug.Log("초기화");
 
-            _win.localScale = new Vector3(1f, 0f);
-            _win.DOScaleY(1f, 0.3f).SetEase(Ease.OutBounce);
-        }
+            BaseManager.userGameData = new UserGameData();
 
-        public void close()
-        {
-            Debug.Log(BaseManager.userGameData.BgmVol + " // " + _bgmVol.value);
+            _lobby.refreshCost();
+
             BaseManager.userGameData.saveUserEntity();
-            _win.localScale = new Vector3(1f, 0f);
-
-            developWin.SetActive(false);
-            cloudWin.SetActive(false);
-            gameObject.SetActive(false);
         }
     }
 }

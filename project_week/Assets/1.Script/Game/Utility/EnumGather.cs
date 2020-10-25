@@ -22,6 +22,7 @@ namespace week
     }
 
     public enum checker { none, ready, complete }
+    public enum currency { coin, gem, ap }
 
     #endregion
 
@@ -129,6 +130,8 @@ namespace week
     {
         name,
         skinname,
+
+        enable,
 
         currency,
         price,

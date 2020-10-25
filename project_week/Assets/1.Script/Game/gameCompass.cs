@@ -10,6 +10,8 @@ namespace week
         [SerializeField] GameObject _niddleFab;
         [SerializeField] Transform _player;
         [Space]
+        [SerializeField] Transform _pool;
+        [SerializeField] Transform _web;
         [SerializeField] Sprite[] sprites;
         class niddle
         {
@@ -19,6 +21,8 @@ namespace week
 
         List<niddle> niddles;
         Queue<niddle> niddlePool;
+
+        float _webAngle;
 
         private void Awake()
         {
@@ -44,7 +48,7 @@ namespace week
             {
                 niddle ndl = niddlePool.Dequeue();
                 ndl.pos = pos;
-                ndl.nid.gameObject.SetActive(true);
+                //ndl.nid.gameObject.SetActive(true);
 
                 niddles.Add(ndl);
 
@@ -54,7 +58,7 @@ namespace week
             }
 
             Transform tr = Instantiate(_niddleFab).transform;
-            tr.SetParent(transform);
+            tr.SetParent(_pool);
             tr.localPosition = Vector3.zero;
 
             niddle nid = new niddle();
@@ -67,13 +71,36 @@ namespace week
 
         public void comPassMove()
         {
+            Vector3 _direct;
+            float _dist;
+            float _far = 43f - 20.48f;
             for (int i = 0; i < niddles.Count; i++)
             {
-                Vector3 _direct = niddles[i].pos.position - _player.position;
+                niddles[i].nid.gameObject.SetActive(true);
 
-                float angle = Mathf.Atan2(_direct.x, _direct.y) * Mathf.Rad2Deg;
-                niddles[i].nid.rotation = Quaternion.AngleAxis(angle, Vector3.back);
+                _direct = niddles[i].pos.position - _player.position;
+                _dist = Vector3.Distance(niddles[i].pos.position, _player.position);
+
+                if (_dist > 20.48f)
+                {
+                    _dist -= 20.48f;
+                    _direct = _direct.normalized * 20f;
+                    niddles[i].nid.localScale = Vector3.one * ((_far - _dist) / _far + 1) * 0.5f;
+                }
+                else
+                {
+                    niddles[i].nid.localScale = Vector3.one;
+                }
+
+                niddles[i].nid.localPosition = _direct * 7f;
+
+                //Vector3 _direct = niddles[i].pos.position - _player.position;
+                //float angle = Mathf.Atan2(_direct.x, _direct.y) * Mathf.Rad2Deg;
+                //niddles[i].nid.rotation = Quaternion.AngleAxis(angle, Vector3.back);
             }
+
+            _webAngle += Time.deltaTime * 90f;
+            _web.rotation = Quaternion.AngleAxis(_webAngle, Vector3.forward);
         }
     }
 }

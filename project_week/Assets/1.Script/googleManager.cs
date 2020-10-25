@@ -22,7 +22,7 @@ namespace week
 
         public void Login(Action afterLogin = null)
         {
-            Social.localUser.Authenticate((bool success) =>
+            Social.localUser.Authenticate((bool success, string str) =>
             {
                 if (success) 
                 {
@@ -30,7 +30,7 @@ namespace week
                     if (afterLogin != null)
                         afterLogin();
                 }
-                else Debug.Log("구글 로그인 실패");
+                else Debug.Log("구글 로그인 실패 : " + str);
             });
         }
 

@@ -8,16 +8,33 @@ namespace week
 {
     public class storeComp : MonoBehaviour, UIInterface
     {
+        [Header("coinEff")]
+        [SerializeField] coingenerator _coinGen;
+        [Header("present")]
         [SerializeField] Image _ad;
         [SerializeField] Image _10p;
+        [SerializeField] Image _start;
         [SerializeField] Image _skin;
 
         [SerializeField] GameObject _soldoutAd;
         [SerializeField] GameObject _soldout10p;
+        [SerializeField] GameObject _soldoutStart;
         [SerializeField] GameObject _soldoutSkin;
 
         Action _costRefresh;
+        TweenAnim _tweenAnim;
 
+
+        void Awake()
+        {
+            _tweenAnim = GetComponentInChildren<TweenAnim>();
+            Debug.Log(_tweenAnim.name);
+            _tweenAnim.gameObject.SetActive(false);
+        }
+
+        #region [ 특별 상품 ]
+
+        /// <summary> 광고 제거 </summary>
         public void getRemoveAd()
         {
             Debug.Log("광고 제거");
@@ -27,6 +44,7 @@ namespace week
             _soldoutAd.SetActive(true);
         }
 
+        /// <summary> 추가보너스 </summary>
         public void getAdd10per()
         {
             Debug.Log("코인 추가 10퍼 겟또다제");
@@ -37,16 +55,63 @@ namespace week
             _soldout10p.SetActive(true);
         }
 
+        /// <summary> 추가보너스 정보 </summary>
         public void addPerInfo()
         {
             string str = "적용 범위 : 모험코인" + System.Environment.NewLine + "골드 및 AP 구매";
             WindowManager.instance.showActMessage(str, () => { });
         }
 
+        /// <summary> 스타터팩 </summary>
+        public void getStartPack()
+        {
+            Debug.Log("스타터팩 구매 완료");
+            BaseManager.userGameData.StartPack = true;
+
+            bool result = BaseManager.userGameData.RemoveAD;
+            if (result == false)
+            {
+                getRemoveAd();
+            }
+
+            int i = (int)(10000 * ((result) ? 1.9f : 1f));
+            BaseManager.userGameData.Coin += i;
+            i = (int)(100 * ((result) ? 1.9f : 1f));
+            BaseManager.userGameData.Gem += i;
+            i = (int)(10 * ((result) ? 1.9f : 1f));
+            BaseManager.userGameData.Ap += i;
+
+            _coinGen.getCurrent(transform.position, currency.coin, 10000, 1);
+            _coinGen.getCurrent(transform.position, currency.gem, 100, 2);
+            _coinGen.getCurrent(transform.position, currency.ap, 10, 3);
+            //_costRefresh();
+
+            _tweenAnim.gameObject.SetActive(true);
+
+            //_start.raycastTarget = false;
+            //_soldoutStart.SetActive(true);
+        }
+
+        /// <summary> 스킨팩 </summary>
         public void getSkinPack()
         {
             Debug.Log("스킨팩 구매 완료");
             BaseManager.userGameData.SkinPack = true;
+
+            SkinKeyList skl = SkinKeyList.icecreamman;
+
+            bool result = (BaseManager.userGameData.HasSkin & (1 << (int)skl)) > 0;
+            if (result == false)
+            {
+                BaseManager.userGameData.HasSkin |= (1 << (int)skl);
+            }
+
+            int i = 30000;
+            BaseManager.userGameData.Coin += i;
+            i = 300 + ((result) ? 500 : 0);
+            BaseManager.userGameData.Gem += i;
+
+            _costRefresh();
 
             _skin.raycastTarget = false;
             _soldoutSkin.SetActive(true);
@@ -56,6 +121,8 @@ namespace week
         {
             WindowManager.instance.showMessage("해당 상품은 더 이상 구매할 수 없습니눈.");
         }
+
+        #endregion
 
         #region [ 보석 ]
 

@@ -221,7 +221,7 @@ PrefabInstance:
     - target: {fileID: 1165068637851027856, guid: 79e316fcfd49d44448a399443e8d00bb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0.0009765625
       objectReference: {fileID: 0}
     - target: {fileID: 1231916871050081432, guid: 79e316fcfd49d44448a399443e8d00bb,
         type: 3}
@@ -457,6 +457,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681779071302886723, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2757478951271201353, guid: 79e316fcfd49d44448a399443e8d00bb,
         type: 3}

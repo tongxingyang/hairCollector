@@ -20,7 +20,7 @@ namespace week
         [SerializeField] Transform _skinBoxParent;
         [SerializeField] GameObject _skinBox;
 
-        skinBox[] _skinBoxies;
+        Dictionary<SkinKeyList, skinBox> _skinBoxies;
         SkinKeyList _selectSkin;
 
         Action _costRefresh;
@@ -34,14 +34,21 @@ namespace week
 
             _costRefresh = act;
 
-            _skinBoxies = new skinBox[(int)SkinKeyList.max];
-            for (int i = 0; i < (int)SkinKeyList.max; i++)
+            _skinBoxies = new Dictionary<SkinKeyList, skinBox>();
+            for (SkinKeyList i = SkinKeyList.snowman; i < SkinKeyList.max; i++)
             {
-                _skinBoxies[i] = Instantiate(_skinBox).GetComponent<skinBox>();
-                _skinBoxies[i].transform.SetParent(_skinBoxParent);
-                _skinBoxies[i].transform.localScale = Vector3.one;
-                _skinBoxies[i].setSkinBox((SkinKeyList)i);
-                _skinBoxies[i].setAction(changeSkin, _costRefresh);
+                Debug.Log(i.ToString());
+                if (DataManager.GetTable<bool>(DataTable.skin, i.ToString(), SkinValData.enable.ToString()))
+                {
+                    skinBox sb = Instantiate(_skinBox).GetComponent<skinBox>();
+
+                    sb.transform.SetParent(_skinBoxParent);
+                    sb.transform.localScale = Vector3.one;
+                    sb.setSkinBox((SkinKeyList)i);
+                    sb.setAction(changeSkin, _costRefresh);
+
+                    _skinBoxies.Add(i, sb);
+                }
             }
 
             gameObject.SetActive(false);
@@ -51,6 +58,10 @@ namespace week
         public void open()
         {
             showSkinInfo();
+            foreach (skinBox sb in _skinBoxies.Values)
+            {
+                sb.chkState();
+            }
             gameObject.SetActive(true);
         }
 
@@ -66,6 +77,11 @@ namespace week
             BaseManager.userGameData.Skin = newSkin;
             BaseManager.userGameData.applySkin();
             showSkinInfo();
+
+            foreach (skinBox sb in _skinBoxies.Values)
+            {
+                sb.chkState();
+            }
         }
 
         void showSkinInfo()

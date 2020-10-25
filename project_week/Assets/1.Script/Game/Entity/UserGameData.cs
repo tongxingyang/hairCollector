@@ -44,7 +44,9 @@ namespace week
 
         public string NickName { get => _userEntity._nickName; set => _userEntity._nickName = value; }
         public int Coin { get => _userEntity._coin; set => _userEntity._coin = value; }
+        public int followCoin { get; set; }
         public int Gem { get => _userEntity._gem; set => _userEntity._gem = value; }
+        public int followGem { get; set; }
         public int Ap { get => _userEntity._ap; set => _userEntity._ap = value; }
         public SkinKeyList Skin { get => (SkinKeyList)_userEntity._skin; set => _userEntity._skin = (int)value; }
 
@@ -73,6 +75,7 @@ namespace week
         public float AddGoodsValue { get => _userEntity._addGoodsValue; set => _userEntity._addGoodsValue = value; }
         public bool RemoveAD { get => _userEntity._removeAD; set => _userEntity._removeAD = value; }
         public bool SkinPack { get => _userEntity._skinPack; set => _userEntity._skinPack = value; }
+        public bool StartPack { get => _userEntity._startPack; set => _userEntity._startPack = value; }
 
         public int o_Hp { get => _userEntity._hp; }
         public float o_Hpgen { get => _userEntity._hpgen; }
@@ -136,7 +139,7 @@ namespace week
         public void applySkin()
         {
             SkinKeyList skin = (SkinKeyList)_userEntity._skin;
-            string key = _userEntity._skin.ToString();
+            string key = skin.ToString();
 
             string ss = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.season.ToString());
 
