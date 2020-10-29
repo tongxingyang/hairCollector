@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,9 +13,12 @@ namespace week
         static public UserGameData userGameData;
         private static PreGameData preGameData;
 
-        loadScene _loading;
         public static PreGameData PreGameData { set => preGameData = value; }
-        public loadScene Loading { set => _loading = value; }
+
+        Action _sceneLoadStart;
+        Action _sceneLoadComplete;
+        public Action SceneLoadStart { set => _sceneLoadStart = value; }
+        public Action SceneLoadComplete { set => _sceneLoadComplete = value; }
 
         // Use this for initialization
         void Start()
@@ -23,12 +27,23 @@ namespace week
             instance = this;
 
             StartCoroutine(StartLogoScene());
-        }        
+        }
+
+        // 로고 씬
+        IEnumerator StartLogoScene()
+        {
+            AsyncOperation AO = SceneManager.LoadSceneAsync(SceneNum.LogoScene.ToString(), LoadSceneMode.Additive);
+            while (!AO.isDone)
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
+        }
 
         // 씬 전환
         IEnumerator LoadingScene(string remove, int load)
         {
-            _loading.open(); 
+            _sceneLoadStart?.Invoke();
+
             yield return new WaitForSeconds(0.2f);
 
             AsyncOperation AO;
@@ -49,18 +64,9 @@ namespace week
 
             SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
 
-            _loading.close();
-            yield return new WaitForSeconds(0.2f);
-        }
+            _sceneLoadComplete?.Invoke();
 
-        // 로고 씬
-        IEnumerator StartLogoScene()
-        {
-            AsyncOperation AO = SceneManager.LoadSceneAsync(SceneNum.LogoScene.ToString(), LoadSceneMode.Additive);
-            while (!AO.isDone)
-            {
-                yield return new WaitForSeconds(0.3f);
-            }
+            yield return new WaitForSeconds(0.2f);
         }
 
         // 씬 전환

@@ -16,8 +16,12 @@ namespace week
 
     public enum Windows
     {
-        loadScene,
-        messagePopup,
+        win_loadScene,
+        win_message,
+        win_purchase,
+        win_celebrateEff,
+        win_coinAni,
+
         max
     }
 
@@ -27,7 +31,7 @@ namespace week
     #endregion
 
     #region dataTable
-    public enum DataTable { status, skill, skin, monster, boss, enproj, quest, max }
+    public enum DataTable { status, skill, skin, monster, boss, enproj, quest, product, max }
     
     /// <summary> 스탯 </summary>
     public enum StatusData
@@ -278,6 +282,42 @@ namespace week
         reward,
         explain,
         val
+    }
+
+    public enum productKeyList
+    {
+        removead,
+        bonus,
+        startpack,
+        skinpack,
+        s_gem,
+        m_gem,
+        l_gem,
+        s_ap,
+        m_ap,
+        l_ap,
+        s_coin,
+        m_coin,
+        l_coin
+    }
+
+    public enum productValData
+    {
+        name, 
+        disposable,
+        pricetype, 
+        price,
+        removead,
+        bonus,
+        rate,
+        gem, 
+        ap, 
+        coin, 
+        addgem, 
+        addap, 
+        addcoin, 
+        skin, 
+        image
     }
 
     #region [recital Data]

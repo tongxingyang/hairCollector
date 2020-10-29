@@ -23,21 +23,16 @@ namespace week
         Dictionary<SkinKeyList, skinBox> _skinBoxies;
         SkinKeyList _selectSkin;
 
-        Action _costRefresh;
-
         #region [초기화]
 
-        public void Init(Action act)
+        public void Init()
         {
             _selectSkin = (SkinKeyList)BaseManager.userGameData.Skin;
             showSkinInfo();
 
-            _costRefresh = act;
-
             _skinBoxies = new Dictionary<SkinKeyList, skinBox>();
             for (SkinKeyList i = SkinKeyList.snowman; i < SkinKeyList.max; i++)
             {
-                Debug.Log(i.ToString());
                 if (DataManager.GetTable<bool>(DataTable.skin, i.ToString(), SkinValData.enable.ToString()))
                 {
                     skinBox sb = Instantiate(_skinBox).GetComponent<skinBox>();
@@ -45,7 +40,6 @@ namespace week
                     sb.transform.SetParent(_skinBoxParent);
                     sb.transform.localScale = Vector3.one;
                     sb.setSkinBox((SkinKeyList)i);
-                    sb.setAction(changeSkin, _costRefresh);
 
                     _skinBoxies.Add(i, sb);
                 }

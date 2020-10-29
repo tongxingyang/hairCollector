@@ -26,17 +26,16 @@ namespace week
         [SerializeField] Sprite[] _curImg;
 
         Action<SkinKeyList> _whenSkinSelect;
-        Action _refreshCur;
+
         SkinKeyList _skin;
         string _skinName;
 
         cur _cur;
         int _price;
 
-        public void setAction(Action<SkinKeyList> wss, Action rfc)
+        public void setAction(Action<SkinKeyList> wss)
         {
             _whenSkinSelect = wss;
-            _refreshCur = rfc;
         }
 
         public void setSkinBox(SkinKeyList skin)
@@ -107,7 +106,8 @@ namespace week
             {
                 if ((_cur == cur.gem && _price <= BaseManager.userGameData.Gem) || (_cur == cur.gold && _price <= BaseManager.userGameData.Coin)) // 돈 있음
                 {
-                    WindowManager.instance.showActMessage(_skinName + "을 구매하시겠습눈?",()=> 
+                    WindowManager.instance.Win_message.showPresentAct(_skinName + "을 구매하시겠습눈?",
+                        DataManager.SkinSprite[_skin], ()=> 
                     {
                         if (_cur == cur.gem)
                         {
@@ -117,8 +117,6 @@ namespace week
                         {
                             BaseManager.userGameData.Coin -= _price;
                         }
-
-                        _refreshCur();
 
                         purchaseSkin();
                     });
@@ -148,6 +146,9 @@ namespace week
             if ((BaseManager.userGameData.HasSkin & (1 << (int)_skin)) > 0)
             {
                 Debug.Log(_skin.ToString() + ": 구매완료");
+                WindowManager.instance.Win_celebrate.whenPurchase();
+                WindowManager.instance.Win_purchase.setOpen(DataManager.SkinSprite[_skin]);
+
                 possibleSelect();
             }
             else

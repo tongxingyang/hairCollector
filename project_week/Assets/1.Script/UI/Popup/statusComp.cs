@@ -84,7 +84,7 @@ namespace week
         StatusData _selectStat;
         int _cost;
 
-        Action _costRefresh;        
+        //Action _costRefresh;        
 
         #region [초기화]
 
@@ -134,13 +134,6 @@ namespace week
         #endregion
 
         #region [새로고침]
-
-        /// <summary> 코인 새로고침 받아오기 </summary>
-        public void costRefresh(Action act)
-        {
-            _costRefresh = null;
-            _costRefresh = act;
-        }
 
         /// <summary> ap 새로고침 </summary>
         void ApTxtRefresh()
@@ -319,7 +312,6 @@ namespace week
         public void purchaseAp()
         {
             BaseManager.userGameData.Coin -= gameValues._apPrice;
-            _costRefresh();
 
             BaseManager.userGameData.Ap++;
             mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userGameData.Ap}";
@@ -336,7 +328,6 @@ namespace week
         {
             int max = BaseManager.userGameData.Coin / gameValues._apPrice;
             BaseManager.userGameData.Coin -= gameValues._apPrice * max;
-            _costRefresh();
 
             BaseManager.userGameData.Ap += max;
             mTmps[(int)eTmp.ApTxt].text = $"{BaseManager.userGameData.Ap}";

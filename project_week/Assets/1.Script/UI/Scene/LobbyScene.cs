@@ -24,7 +24,11 @@ namespace week
         {
             optionBtn,
 
-            snowmanImg
+            snowmanImg,
+
+            stageImage,
+            Coin,
+            Gem
         }
 
         enum eTmp
@@ -66,24 +70,31 @@ namespace week
 
         optionComp _option;
 
+        public Transform CoinTxt { get { return mImgs[(int)eImg.Coin].transform; } }
+        public Transform GemTxt { get { return mImgs[(int)eImg.Gem].transform; } }
+
         bool _refreshCoinChk;
         bool _refreshGemChk;
 
         // Start is called before the first frame update
         void Start()
         {
-            BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
-            BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
+            if (BaseManager.userGameData.followCoin == 0)
+            {
+                BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
+                BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
+            }
 
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
             _status = mGos[(int)eGO.Status].GetComponent<statusComp>();
             _skin = mGos[(int)eGO.Skin].GetComponent<skinComp>();
-            _skin.Init(refreshCost);
+            _skin.Init();
             _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
 
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
 
-            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
+            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
+            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
 
             _isLobby = true;
             mGos[(int)eGO.Lobby].SetActive(true);
@@ -95,12 +106,22 @@ namespace week
             setStage();
 
             SoundManager.instance.PlayBGM(BGM.Lobby);
-            refreshCost();
 
             refreshSnowImg();
 
             _snow.OnMasterChanged(0.5f);
             _snow.OnSnowChanged(0.5f);
+
+            WindowManager.instance.Win_coinGenerator.RefreshFollowCost = refreshFollowCost;
+
+            if (BaseManager.userGameData.GameReward != null)
+            {
+                WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.stageImage].transform.position, CoinTxt.position, currency.coin, BaseManager.userGameData.GameReward[0], 1);
+                WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.stageImage].transform.position, GemTxt.position, currency.gem, BaseManager.userGameData.GameReward[1], 2);
+                WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.stageImage].transform.position, CoinTxt.position, currency.ap, BaseManager.userGameData.GameReward[2], 3);
+
+                BaseManager.userGameData.GameReward = null;
+            }
         }
 
         private void Update()
@@ -126,74 +147,25 @@ namespace week
             int val = (int)type;
         }
 
-        public void refreshCost()
+        public void refreshFollowCost()
         {
-            if (BaseManager.userGameData.followCoin >= BaseManager.userGameData.Coin)
+            if (BaseManager.userGameData.followCoin > BaseManager.userGameData.Coin)
             {
                 BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
-                MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
             }
-            else if (_refreshCoinChk == false)
-            {
-                StartCoroutine(followCoin());
-            }
-
-            if (BaseManager.userGameData.followGem >= BaseManager.userGameData.Gem)
+            if (BaseManager.userGameData.followGem > BaseManager.userGameData.Gem)
             {
                 BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
-                MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
-            }
-            else if (_refreshGemChk == false)
-            {
-                StartCoroutine(followGem());
-            }
-        }
-
-        IEnumerator followCoin()
-        {
-            _refreshCoinChk = true;
-
-            int c = BaseManager.userGameData.Coin - BaseManager.userGameData.followCoin;
-
-            for (int i = 0; i < 9; i++)
-            {
-                if (c > 0)
-                {
-                    BaseManager.userGameData.followCoin += (c / 10);
-                    MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
-                }
-
-                yield return new WaitForSeconds(0.1f);
             }
 
-            BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
-
-            _refreshCoinChk = false;
+            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
         }
 
-        IEnumerator followGem()
+        public void refreshCost()
         {
-            _refreshGemChk = true;
-
-            int g = BaseManager.userGameData.Gem - BaseManager.userGameData.followGem;
-
-            for (int i = 0; i < 9; i++)
-            {
-
-                if (g > 0)
-                {
-                    BaseManager.userGameData.followGem += (g / 10);
-                    MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
-                }
-
-                yield return new WaitForSeconds(0.1f);
-            }
-
-            BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
-            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
-
-            _refreshGemChk = false;
+            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
+            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.Gem.ToString();
         }
 
         public void PlayGame()
@@ -210,8 +182,6 @@ namespace week
 
             _store.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
-
-            _store.costRefresh(refreshCost);
         }
         public void openStatus()
         {
@@ -220,8 +190,6 @@ namespace week
 
             _status.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
-
-            _status.costRefresh(refreshCost);
         }
         public void openSkin()
         {
@@ -236,8 +204,6 @@ namespace week
             _isLobby = false;
 
             _quest.open();
-
-            _quest.costRefresh(refreshCost);
         }
 
         public void openOption()

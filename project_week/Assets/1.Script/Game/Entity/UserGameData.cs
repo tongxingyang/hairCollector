@@ -15,6 +15,9 @@ namespace week
         /// <summary> 랭킹최저점 </summary>
         float _minRank;
 
+        /// <summary> 전투결과 </summary>
+        public int[] GameReward { get; set; }
+
         #region -------------------------[skin value]-------------------------
 
         /// <summary> 상시적용 스킨 능력치 </summary>
@@ -36,6 +39,7 @@ namespace week
         public float[] SkinFval { get => _skinFval; }
         public int[] SkinIval { get => _skinIval; }
         public snowballType BallType { get => _ballType; }
+
         #endregion
 
         #endregion
@@ -121,9 +125,13 @@ namespace week
             _skinIval = new int[(int)skinIvalue.max];
             _ballType = snowballType.standard;
 
-            applySkin();            
+            applySkin();
 
             _userEntity.saveData();
+        }
+
+        public void flashData()
+        {
         }
 
         #endregion

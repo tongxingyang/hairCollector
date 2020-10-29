@@ -279,7 +279,6 @@ namespace week
                     break;
                 case stat.Trace:
                     _jumpArea.gameObject.SetActive(false);
-                    Debug.Log("what");
                     break;
                 case stat.skill0:
                     _jumpArea.gameObject.SetActive(true);

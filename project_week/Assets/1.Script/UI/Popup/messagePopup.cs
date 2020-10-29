@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 namespace week
 {
-    public class messagePopup : MonoBehaviour
+    public class messagePopup : MonoBehaviour, UIInterface
     {
-        [Header("only_Msg")]
-        [SerializeField] GameObject _msgBox;
-        [SerializeField] CanvasGroup _msgGroup;
-        [SerializeField] Transform _pos;
-        [SerializeField] TextMeshProUGUI _onlyMsgTxt;
+        [SerializeField] CanvasGroup _MsgGroup;
+        [SerializeField] GameObject _Panel;
+        [SerializeField] RectTransform _MsgPos;
+        [Header("info")]
+        [SerializeField] TextMeshProUGUI _MsgTxt;
+        [SerializeField] GameObject _present;
+        [SerializeField] Image _presentImg;
+        [SerializeField] GameObject _actBtn;
         bool _isPlay;
         float time = 0;
 
-        [Header("act_Msg")]
-        [SerializeField] GameObject _actBox;
-        [SerializeField] TextMeshProUGUI _actMsgTxt;
         Action _act;
 
         void Awake()
@@ -30,13 +31,14 @@ namespace week
         #region [only Message]
         public void showMessage(string msg)
         {
-            gameObject.SetActive(true);
-            _msgBox.SetActive(true);
-            _actBox.SetActive(false);
+            open();
 
-            _pos.localPosition = Vector3.zero;
+            _MsgTxt.text = msg;
+            _MsgPos.anchoredPosition = Vector3.zero;
 
-            _onlyMsgTxt.text = msg;
+            _Panel.SetActive(false);
+            _present.SetActive(false);
+            _actBtn.SetActive(false);
 
             if (_isPlay == false)
             {
@@ -47,24 +49,26 @@ namespace week
                 time = 0;
             }
         }
+
         IEnumerator winMove()
         {
             _isPlay = true;
-            _msgGroup.alpha = 0;
+            _MsgGroup.alpha = 0;
 
             while (time < 2f)
             {
                 time += Time.deltaTime;
 
-                _pos.localPosition += Vector3.up * 20f * Time.deltaTime;
-                _msgGroup.alpha = (1f - (time * 0.5f));
+                _MsgPos.anchoredPosition += Vector2.up * 20f * Time.deltaTime;
+                _MsgGroup.alpha = (1f - (time * 0.5f));
 
                 yield return new WaitForEndOfFrame();
             }
 
             time = 0;
             _isPlay = false;
-            gameObject.SetActive(false);
+
+            close();
         }
 
         #endregion
@@ -75,30 +79,49 @@ namespace week
         {
             _act = act;
 
-            gameObject.SetActive(true);
-            _msgBox.SetActive(false);
-            _actBox.SetActive(true);
+            open();
 
-            _actMsgTxt.text = msg;
+            _Panel.SetActive(true);
+            _present.SetActive(false);
+            _actBtn.SetActive(true);
+
+            _MsgTxt.text = msg;
         }
 
         public void okButton()
         {
-            _act(); 
-            gameObject.SetActive(false);
-        }
-
-        public void cancel()
-        {
-            gameObject.SetActive(false);
+            _act();
+            close();
         }
 
         #endregion
 
+        #region [present act Message]
 
+        public void showPresentAct(string msg, Sprite sp, Action act)
+        {
+            _act = act;
 
+            open();
 
+            _Panel.SetActive(true);
+            _present.SetActive(true);
+            _actBtn.SetActive(true);
 
-        
+            _presentImg.sprite = sp;
+            _MsgTxt.text = msg;
+        }
+
+        #endregion
+
+        public void open()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void close()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

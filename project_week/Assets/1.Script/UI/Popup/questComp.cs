@@ -54,7 +54,7 @@ namespace week
 
         #endregion
 
-        Action _costRefresh;
+        //Action _costRefresh;
         bool[] _getable;
 
         Color _transparent = new Color(0, 0, 0, 0);
@@ -211,12 +211,5 @@ namespace week
         }
 
         #endregion
-
-        /// <summary> 코인 새로고침 받아오기 </summary>
-        public void costRefresh(Action act)
-        {
-            _costRefresh = null;
-            _costRefresh = act;
-        }
     }
 }

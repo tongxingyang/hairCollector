@@ -87,6 +87,16 @@ namespace week
             BaseManager.PreGameData = new PreGameData();
             gauge += 0.2f;
 
+            // 구글 관련
+            AuthManager.instance.Login();
+            AdManager.instance.adStart();
+            gauge += 0.15f;
+#if UNITY_EDITOR
+
+#else
+            yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true);
+#endif
+
             //저장된 유저 데이터 로드
             if (ES3.KeyExists("userEntity"))
             {
@@ -103,6 +113,8 @@ namespace week
                 Debug.Log("기본 유저 데이터가 없으므로 제작함");
                 BaseManager.userGameData = new UserGameData();
             }
+
+            BaseManager.userGameData.flashData();
             gauge += 0.15f;
 
             // 사운드매니저 로드
@@ -115,19 +127,10 @@ namespace week
             DataManager.loadPrefabs();
             gauge += 0.15f;
 
-            // 구글 관련
-            googleManager.instance.LoginToStart();
-            AdManager.instance.adStart();
-            gauge += 0.15f;
-//#if UNITY_EDITOR
-            
-//#else 
-//            yield return new WaitUntil(() => Social.localUser.authenticated == true);
-//#endif
-
             // 윈도우 로드
             WindowManager.instance.LoadWin();
-            BaseManager.instance.Loading = WindowManager.instance.getWin(Windows.loadScene).GetComponent<loadScene>();
+            BaseManager.instance.SceneLoadStart = WindowManager.instance.Win_loading.open;
+            BaseManager.instance.SceneLoadComplete = WindowManager.instance.Win_loading.close;
 
             gauge += 0.15f;
 

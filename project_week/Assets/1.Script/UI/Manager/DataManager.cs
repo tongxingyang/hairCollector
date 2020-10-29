@@ -45,6 +45,7 @@ namespace week
             datalist[(int)DataTable.skin] = BGRepo.I["skin"];
             datalist[(int)DataTable.enproj] = BGRepo.I["enproj"];
             datalist[(int)DataTable.quest] = BGRepo.I["quest"];
+            datalist[(int)DataTable.product] = BGRepo.I["product"];
 
             return true;
         }

@@ -6,10 +6,26 @@ using UnityEngine.UI;
 
 namespace week
 {
-    public class storeComp : MonoBehaviour, UIInterface
+    public class storeComp : UIBase, UIInterface
     {
-        [Header("coinEff")]
-        [SerializeField] coingenerator _coinGen;
+        #region [UIBase]
+        enum eTr
+        {
+            s_gem,
+            m_gem,
+            l_gem,
+            s_ap,
+            m_ap,
+            l_ap,
+            s_coin,
+            m_coin,
+            l_coin
+        }
+
+        protected override Enum GetEnumTransform() { return new eTr(); }
+
+        #endregion
+
         [Header("present")]
         [SerializeField] Image _ad;
         [SerializeField] Image _10p;
@@ -21,16 +37,10 @@ namespace week
         [SerializeField] GameObject _soldoutStart;
         [SerializeField] GameObject _soldoutSkin;
 
-        Action _costRefresh;
-        TweenAnim _tweenAnim;
+        [Space]
+        [SerializeField] LobbyScene _lobby;
 
-
-        void Awake()
-        {
-            _tweenAnim = GetComponentInChildren<TweenAnim>();
-            Debug.Log(_tweenAnim.name);
-            _tweenAnim.gameObject.SetActive(false);
-        }
+        //Action _costRefresh;
 
         #region [ 특별 상품 ]
 
@@ -39,6 +49,9 @@ namespace week
         {
             Debug.Log("광고 제거");
             BaseManager.userGameData.RemoveAD = true;
+
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.removead.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_celebrate.whenPurchase();
 
             _ad.raycastTarget = false;
             _soldoutAd.SetActive(true);
@@ -50,6 +63,9 @@ namespace week
             Debug.Log("코인 추가 10퍼 겟또다제");
             BaseManager.userGameData.AddGoods = true;
             BaseManager.userGameData.AddGoodsValue = 1.1f;
+
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_celebrate.whenPurchase();
 
             _10p.raycastTarget = false;
             _soldout10p.SetActive(true);
@@ -74,22 +90,29 @@ namespace week
                 getRemoveAd();
             }
 
-            int i = (int)(10000 * ((result) ? 1.9f : 1f));
-            BaseManager.userGameData.Coin += i;
-            i = (int)(100 * ((result) ? 1.9f : 1f));
-            BaseManager.userGameData.Gem += i;
-            i = (int)(10 * ((result) ? 1.9f : 1f));
-            BaseManager.userGameData.Ap += i;
+            int g, a, c;
 
-            _coinGen.getCurrent(transform.position, currency.coin, 10000, 1);
-            _coinGen.getCurrent(transform.position, currency.gem, 100, 2);
-            _coinGen.getCurrent(transform.position, currency.ap, 10, 3);
+            g = DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.gem.ToString());
+            a = DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.ap.ToString());
+            c = DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.coin.ToString());
+
+            if (result)
+            {
+                g += DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.addgem.ToString());
+                a += DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.addap.ToString());
+                c += DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.addcoin.ToString());
+            }
+
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.startpack.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_celebrate.whenPurchase();
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, c, 1);
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, g, 2);
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.ap, a, 3);
             //_costRefresh();
 
-            _tweenAnim.gameObject.SetActive(true);
-
-            //_start.raycastTarget = false;
-            //_soldoutStart.SetActive(true);
+            _start.raycastTarget = false;
+            _soldoutStart.SetActive(true);
         }
 
         /// <summary> 스킨팩 </summary>
@@ -111,7 +134,12 @@ namespace week
             i = 300 + ((result) ? 500 : 0);
             BaseManager.userGameData.Gem += i;
 
-            _costRefresh();
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.skinpack.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_celebrate.whenPurchase();
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, 30000, 1);
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, 300, 2);
+            //_costRefresh();
 
             _skin.raycastTarget = false;
             _soldoutSkin.SetActive(true);
@@ -128,26 +156,35 @@ namespace week
 
         public void getSmallGem()
         {
-            int i = 40;
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.s_gem.ToString(), productValData.gem.ToString());
             Debug.Log($"{i}보석 겟또다제");
             BaseManager.userGameData.Gem += i;
-            _costRefresh();
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 10);
+
+            //_costRefresh();
         }
 
         public void getMiddleGem()
         {
-            int i = 250;
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.m_gem.ToString(), productValData.gem.ToString());
             Debug.Log($"{i}보석 겟또다제");
             BaseManager.userGameData.Gem += i;
-            _costRefresh();
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 15);
+
+            //_costRefresh();
         }
 
         public void getLargeGem()
         {
-            int i = 600;
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.l_gem.ToString(), productValData.gem.ToString());
             Debug.Log($"{i}보석 겟또다제");
             BaseManager.userGameData.Gem += i;
-            _costRefresh();
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 22);
+
+            //_costRefresh();
         }
 
         #endregion
@@ -156,26 +193,35 @@ namespace week
 
         public void getSmallAp()
         {
-            int i = 40;
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.s_ap.ToString(), productValData.ap.ToString());
             Debug.Log($"{i} AP 겟또다제");
-            BaseManager.userGameData.Gem += i;
-            _costRefresh();
+            BaseManager.userGameData.Ap += i;
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 10);
+
+            //_costRefresh();
         }
 
         public void getMiddleAp()
         {
-            int i = 40;
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.m_ap.ToString(), productValData.ap.ToString());
             Debug.Log($"{i} AP 겟또다제");
-            BaseManager.userGameData.Gem += i;
-            _costRefresh();
+            BaseManager.userGameData.Ap += i;
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 15);
+
+            //_costRefresh();
         }
 
         public void getLargeAp()
         {
-            int i = 40;
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.l_ap.ToString(), productValData.ap.ToString());
             Debug.Log($"{i} AP 겟또다제");
-            BaseManager.userGameData.Gem += i;
-            _costRefresh();
+            BaseManager.userGameData.Ap += i;
+
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 22);
+
+            //_costRefresh();
         }
 
         #endregion
@@ -184,50 +230,81 @@ namespace week
 
         public void getSmallCoin()
         {
-            int cost = 50;
-            if (BaseManager.userGameData.Gem >= cost)
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.s_coin.ToString(), productValData.coin.ToString());
+            WindowManager.instance.Win_message.showPresentAct($"{i}코인", 
+                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_coin.ToString(), productValData.image.ToString()), () =>
             {
-                int i = 5000;
-                Debug.Log($"{i}코인 겟또다제");
-                BaseManager.userGameData.Coin += i;
-                _costRefresh();
-            }
-            else
-            {
-                WindowManager.instance.showMessage("보석이 모자랍니눈!");
-            }
+                int cost = DataManager.GetTable<int>(DataTable.product, productKeyList.s_coin.ToString(), productValData.price.ToString());
+                if (BaseManager.userGameData.Gem >= cost)
+                {
+                    BaseManager.userGameData.Gem -= cost;
+                    _lobby.refreshFollowCost();
+
+                    Debug.Log($"{i}코인 겟또다제");
+                    BaseManager.userGameData.Coin += i;
+
+                    WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 10);
+
+                    //_costRefresh();
+                }
+                else
+                {
+                    WindowManager.instance.showMessage("보석이 모자랍니눈!");
+                }
+            });
         }
 
         public void getMiddleCoin()
         {
-            int cost = 175;
-            if (BaseManager.userGameData.Gem >= cost)
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.m_coin.ToString(), productValData.coin.ToString());
+            WindowManager.instance.Win_message.showPresentAct($"{i}코인", 
+                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_coin.ToString(), productValData.image.ToString()), () =>
             {
-                int i = 20000;
-                Debug.Log($"{i}코인 겟또다제");
-                BaseManager.userGameData.Coin += i;
-                _costRefresh();
-            }
-            else
-            {
-                WindowManager.instance.showMessage("보석이 모자랍니눈!");
-            }
+                int cost = DataManager.GetTable<int>(DataTable.product, productKeyList.m_coin.ToString(), productValData.price.ToString());
+                if (BaseManager.userGameData.Gem >= cost)
+                {
+                    BaseManager.userGameData.Gem -= cost;
+                    _lobby.refreshFollowCost();
+
+                   
+                    Debug.Log($"{i}코인 겟또다제");
+                    BaseManager.userGameData.Coin += i;
+
+                    WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 15);
+
+                    //_costRefresh();
+                }
+                else
+                {
+                    WindowManager.instance.showMessage("보석이 모자랍니눈!");
+                }
+            });
         }
 
         public void getLargeCoin()
         {
-            int cost = 400;
-            if (BaseManager.userGameData.Gem >= cost)
+            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.l_coin.ToString(), productValData.coin.ToString());
+            WindowManager.instance.Win_message.showPresentAct($"{i}코인",
+                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_coin.ToString(), productValData.image.ToString()), () =>
             {
-                int i = 50000;
-                Debug.Log($"{i}코인 겟또다제");
-                BaseManager.userGameData.Coin += i;
-                _costRefresh();
-            }
-            else
-            {
-                WindowManager.instance.showMessage("보석이 모자랍니눈!");
-            }
+                int cost = DataManager.GetTable<int>(DataTable.product, productKeyList.l_coin.ToString(), productValData.price.ToString());
+                if (BaseManager.userGameData.Gem >= cost)
+                {
+                    BaseManager.userGameData.Gem -= cost;
+                    _lobby.refreshFollowCost();
+
+                    Debug.Log($"{i}코인 겟또다제");
+                    BaseManager.userGameData.Coin += i;
+
+                    WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 22);
+
+                    //_costRefresh();
+                }
+                else
+                {
+                    WindowManager.instance.showMessage("보석이 모자랍니눈!");
+                }
+            });
         }
 
         #endregion
@@ -252,13 +329,6 @@ namespace week
         public void close()
         {
             gameObject.SetActive(false);
-        }
-
-        /// <summary> 코인 새로고침 받아오기 </summary>
-        public void costRefresh(Action act)
-        {
-            _costRefresh = null;
-            _costRefresh = act;
         }
     }
 }

@@ -19,13 +19,13 @@ namespace week
         public void open()
         {
             gameObject.SetActive(true);
-            _panel.DOFade(1, 0.2f);
+            //_panel.DOFade(1, 0.2f);
         }
 
         public void close()
         {
-            _panel.DOFade(0, 0.2f)
-                .OnComplete(() => gameObject.SetActive(false));
+            //_panel.DOFade(0, 0.2f).OnComplete(() => gameObject.SetActive(false));
+            gameObject.SetActive(false);
         }
     }
 }

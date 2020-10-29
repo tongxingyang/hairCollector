@@ -14,8 +14,7 @@ namespace week
         [Space]
         [SerializeField] Sprite[] _sps;
 
-        Transform _coin;
-        Transform _gem;
+        Vector3 _lastPos;
 
         currency _cur;
         int _posNum;
@@ -23,10 +22,9 @@ namespace week
         bool _isUse;
         public bool IsUse { get => _isUse; set => _isUse = value; }
 
-        public void setLastPos(Transform coin, Transform gem)
+        public void setLastPos(Vector3 pos)
         {
-            _coin = coin;
-            _gem = gem;
+            _lastPos = pos;
         }
 
         public void setCur(currency cur, int posNum, Action act)
@@ -57,12 +55,38 @@ namespace week
             Sequence seq = DOTween.Sequence();
             seq.Append(transform.DOJump(pos, 300f, 1, 0.1f));
             seq.Append(transform.DOScale(1, 0.5f));
-            seq.Append(transform.DOMove((_cur == currency.gem) ? _gem.position : _coin.position, 1f)).SetEase(Ease.InCubic)
+            seq.Append(transform.DOMove(_lastPos, 1f)).SetEase(Ease.InCubic)
                 .OnComplete(()=> 
             {
                 useOff();
                 act();
             });
+        }
+
+        public void setCurinGame(currency cur, Action act)
+        {
+            _isUse = true;
+            gameObject.SetActive(true);
+
+            _cur = cur;
+
+            _img.sprite = _sps[(int)cur];
+            _light.color = Color.white;
+
+            moveinGame(act);
+        }
+
+        void moveinGame(Action act)
+        {
+            Vector3 pos = transform.position;
+            
+            Sequence seq = DOTween.Sequence();
+            seq.Append(transform.DOMove(_lastPos, 0.5f)).SetEase(Ease.InCubic)
+                .OnComplete(() =>
+                {
+                    useOff();
+                    act();
+                });
         }
 
         void useOff()

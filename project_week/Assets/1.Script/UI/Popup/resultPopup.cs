@@ -29,9 +29,9 @@ namespace week
 
         [SerializeField] Image _AdsBtn;
 
-        int _getCoin;
-        int _getGem;
-        int _getAp;
+        float _preCalCoin, _getCoin;
+        float _preCalGem, _getGem;
+        float _preCalAp, _getAp;
 
         bool _isNewRecord;
 
@@ -98,18 +98,7 @@ namespace week
             //=================[ 기록 ]==============================================
 
             yield return new WaitForSeconds(0.5f);
-            /*
-            string rcd = BaseManager.userEntity.getLifeTime(time, true);
-            string str = "";
-            int i = 0;
-
-            while(i < rcd.Length)
-            {
-                str += rcd[i++];
-                _record.text = str;
-                yield return new WaitForEndOfFrame();
-            }*/
-
+            
             _record.text = BaseManager.userGameData.getLifeTime(time, true);
             _record.transform.localScale = Vector3.one * 2;
             _record.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InCirc);
@@ -127,21 +116,23 @@ namespace week
 
                 _newImg.transform.localScale = Vector3.one * 3;
                 _newImg.transform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.InCirc);
+
+                WindowManager.instance.Win_celebrate.whenNewResult();
             }
 
-            yield return new WaitForSeconds(0.5f);
+            preRewardCalculator();
 
             // 10퍼 추가
             if (BaseManager.userGameData.AddGoods)
             {
+                yield return new WaitForSeconds(0.5f);
                 yield return StartCoroutine(getMultiReward(BaseManager.userGameData.AddGoodsValue, 1f, 1f));
             }
-
-            yield return new WaitForSeconds(0.5f);
 
             // 광고 제거
             if (BaseManager.userGameData.RemoveAD)
             {
+                yield return new WaitForSeconds(0.5f);
                 yield return StartCoroutine(getMultiReward(2f, 2f, 2f));
             }
         }
@@ -162,15 +153,57 @@ namespace week
 
         void doubleReward()
         {
-            StartCoroutine(getMultiReward(2f, 2f, 2f));
+            BaseManager.userGameData.Coin += (int)_preCalCoin;
+            BaseManager.userGameData.Gem += (int)_preCalGem;
+            BaseManager.userGameData.Ap += (int)_preCalAp;
+
+            BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin * 2, (int)_preCalGem * 2, (int)_preCalAp * 2 };
+
+            BaseManager.userGameData.saveUserEntity();
+
+            StartCoroutine(getMultiReward(2f, 2f, 2f)); 
+
+            _AdsBtn.color = Color.gray;
+            _AdsBtn.raycastTarget = false;
+        }
+
+        /// <summary> 일단 내가 얻을수있는건 미리 계산 </summary>
+        void preRewardCalculator()
+        {
+            _preCalCoin = _getCoin;
+            _preCalGem = _getGem;
+            _preCalAp = _getAp;
+
+            if (BaseManager.userGameData.AddGoods)
+            {
+                _preCalCoin *= 1.1f;
+                _preCalGem *= 1.1f;
+                _preCalAp *= 1.1f;
+            }
+
+            // 광고 제거
+            if (BaseManager.userGameData.RemoveAD)
+            {
+                _preCalCoin *= 2f;
+                _preCalGem *= 2f;
+                _preCalAp *= 2f;
+            }
+
+            BaseManager.userGameData.Coin += (int)_preCalCoin;
+            BaseManager.userGameData.Gem += (int)_preCalGem;
+            BaseManager.userGameData.Ap += (int)_preCalAp;
+
+            BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin, (int)_preCalGem, (int)_preCalAp };
+
+            BaseManager.userGameData.saveUserEntity();
         }
 
         IEnumerator getMultiReward(float m_c,float m_g,float m_a)
         {
             // 시작수
-            int c = _getCoin;
-            int g = _getGem;
-            int a = _getAp;
+            int c = (int)_getCoin;
+            int g = (int)_getGem;
+            int a = (int)_getAp;
 
             bool going = true;
 
@@ -212,18 +245,13 @@ namespace week
                 yield return new WaitForEndOfFrame();
             }
 
-            _coinTxt.text = (_getCoin * 2).ToString();
-            _gemTxt.text = (_getGem * 2).ToString();
-            _apTxt.text = (_getAp * 2).ToString();
+            _getCoin    = (int)(_getCoin * m_c);
+            _getGem     = (int)(_getGem * m_g);
+            _getAp      = (int)(_getAp * m_a);
 
-            BaseManager.userGameData.Coin += _getCoin;
-
-            _getCoin *= 2;
-
-            _AdsBtn.color = Color.gray;
-            _AdsBtn.raycastTarget = false;
-
-            BaseManager.userGameData.saveUserEntity();
+            _coinTxt.text   = ((int)_getCoin).ToString();
+            _gemTxt.text    = ((int)_getGem).ToString();
+            _apTxt.text     = ((int)_getAp).ToString();            
         }
 
         public void doubleCoin()
@@ -242,6 +270,7 @@ namespace week
 
         public void goHome()
         {
+            WindowManager.instance.Win_celebrate.allClose();
             SoundManager.instance.StopBGM();
             BaseManager.instance.convertScene(SceneNum.GameScene.ToString(), SceneNum.LobbyScene);
         }

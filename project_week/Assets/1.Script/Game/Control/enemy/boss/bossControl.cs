@@ -160,6 +160,29 @@ namespace week
             SoundManager.instance.PlaySFX(SFX.bossdie);
             killFunc(_coinVal);
 
+            snowStt type = snowStt.att;
+            float val = 1f;
+            
+            switch (_boss)
+            {
+                case Boss.boss_butterfly:
+                    type = snowStt.att;
+                    break;
+                case Boss.boss_flower:
+                    break;
+                case Boss.boss_scarecrow:
+                    break;
+                case Boss.boss_owl:
+                    break;
+                case Boss.boss_bear:
+                    break;
+                default:
+                    Debug.LogError("보스 : " + gameObject.name +"// _boss : " + _boss.ToString());
+                    break;
+            }
+
+            _player.setDeBuff(type, 30f, val);
+
             _efMng.makeEff(effAni.bossExplosion, transform.position);
             Destroy();
         }
@@ -198,6 +221,6 @@ namespace week
                 collision.gameObject.GetComponent<MobControl>().enemyDieToBoss();
                 whenEnemyEnter();
             }
-        }        
+        }
     }
 }

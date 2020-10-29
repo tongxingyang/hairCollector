@@ -8,61 +8,93 @@ namespace week
     public class coingenerator : MonoBehaviour
     {        
         [SerializeField] GameObject _fab;
-        [SerializeField] Transform _pool;
-
-        [SerializeField] Transform[] _l_Pos;
 
         List<curFabs> _fabs;
 
-        LobbyScene _lobby;
+        Action _refreshFollowCost;
+        public Action RefreshFollowCost { set => _refreshFollowCost = value; }
 
         private void Awake()
         {
-            _lobby = GetComponentInParent<LobbyScene>();
             _fabs = new List<curFabs>();
         }
 
-        public void getCurrent(Vector3 pos, currency cur, int count, int posNum = 0)
+        public void getWealth2Point(Vector3 pos, Vector3 pos2, currency cur, int count, int posNum = 0, int cnt = 0)
         {
-            StartCoroutine(getAnimation(pos, cur, count, posNum));
+            StartCoroutine(getAnimation(pos, pos2, cur, count, posNum, cnt));
         }
 
-        IEnumerator getAnimation(Vector3 pos, currency cur, int count, int posNum)
+        IEnumerator getAnimation(Vector3 pos, Vector3 pos2, currency cur, int cost, int posNum, int cnt)
         {
-            int chk = 0;
-            int cnt = (count > 10) ? 10 : count;
+            if (cnt == 0)
+            {
+                cnt = (cost > 10) ? 10 : (cost > 5) ? 5 : cost;
+            }
 
-            int val = count / cnt;
             curFabs cf;
 
             for (int i = 0; i < cnt; i++)
             {
-                cf = getFab();
+                cf = getFab(pos2);
                 cf.transform.position = pos;
+
+                int num = cost / (cnt - i);
+                cost -= num;
+
                 cf.setCur(cur, posNum, ()=>
                 {
-                    _lobby.refreshCost();
-                });
+                    if (cur == currency.coin)
+                        BaseManager.userGameData.followCoin += num;
+                    else if (cur == currency.gem)
+                        BaseManager.userGameData.followGem += num;
 
-                chk++;
+
+                    _refreshFollowCost?.Invoke(); 
+                });
 
                 yield return new WaitForSeconds(0.05f);
             }
         }
 
-        curFabs getFab()
+        public void getDirect(Vector3 target, currency cur, int count)
+        {
+            StartCoroutine(getDirectAni(target, cur, count));
+        }
+
+        IEnumerator getDirectAni(Vector3 target, currency cur, int count)
+        {
+            int cnt = count;
+
+            curFabs cf;
+
+            for (int i = 0; i < cnt; i++)
+            {
+                cf = getFab(target);
+                cf.transform.position = transform.position;
+
+                cf.setCurinGame(cur, () =>
+                {
+                    _refreshFollowCost?.Invoke();
+                });
+
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+
+        curFabs getFab(Vector3 pos)
         {
             for (int i = 0; i < _fabs.Count; i++)
             {
                 if (_fabs[i].IsUse == false)
                 {
+                    _fabs[i].setLastPos(pos);
                     return _fabs[i];
                 }
             }
 
             curFabs cf = Instantiate(_fab).GetComponent<curFabs>();
-            cf.setLastPos(_l_Pos[0], _l_Pos[1]);
-            cf.transform.SetParent(_pool);
+            cf.setLastPos(pos);
+            cf.transform.SetParent(transform);
             _fabs.Add(cf);
             return cf;
         }

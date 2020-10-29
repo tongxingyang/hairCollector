@@ -29,7 +29,7 @@ namespace week
             _cloud.SetActive(false);
             _credit.SetActive(false);
 
-            if (googleManager.instance.isLogin)
+            if (AuthManager.instance.isLogin)
             {
                 _LoginTxt.text = "구글 계정 로그아웃";
             }
@@ -65,7 +65,7 @@ namespace week
         /// <summary> 클라우드 저장 열기 </summary>
         public void openCloud()
         {
-            if (googleManager.instance.isLogin)
+            if (AuthManager.instance.isLogin)
             {
                 _cloud.SetActive(true);
             }
@@ -92,15 +92,14 @@ namespace week
 
         #endregion
 
-
         public void manualLogin()
         {
-            googleManager.instance.loginSwitch(()=> {
-                _LoginTxt.text = "구글 계정 로그아웃";
-            }, 
-            () => {
-                _LoginTxt.text = "구글 계정 로그인";
-            });
+            //AuthManager.instance.loginSwitch(()=> {
+            //    _LoginTxt.text = "구글 계정 로그아웃";
+            //}, 
+            //() => {
+            //    _LoginTxt.text = "구글 계정 로그인";
+            //});
         }
 
         #region [ 볼륨 ]
@@ -122,7 +121,7 @@ namespace week
 
             BaseManager.userGameData = new UserGameData();
 
-            _lobby.refreshCost();
+            //_lobby.refreshCost();
 
             BaseManager.userGameData.saveUserEntity();
         }

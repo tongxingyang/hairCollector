@@ -32,7 +32,18 @@ namespace week
         [SerializeField] adRebirthPopup _adRebirthPopup;
         [Header("UI")]
         [SerializeField] Image _ExpBar;
-        [SerializeField] TextMeshProUGUI _totalCoin;
+        [Space]
+        [SerializeField] GameObject _coinIcon;
+        [SerializeField] TextMeshProUGUI _coinTxt;
+        [SerializeField] GameObject _gemIcon;
+        [SerializeField] TextMeshProUGUI _gemTxt;
+        [SerializeField] GameObject _apIcon;
+        [SerializeField] TextMeshProUGUI _apTxt;
+
+        public bool gemIcon { set { _gemIcon.SetActive(value);_gemTxt.gameObject.SetActive(value); } }
+        public bool apIcon { set { _apIcon.SetActive(value); _apTxt.gameObject.SetActive(value); } }
+
+        [Space]
         [SerializeField] GameObject _bossKillMark;
         [SerializeField] TextMeshProUGUI _killCount;
         [Header("etc")]
@@ -87,6 +98,8 @@ namespace week
 
             _stagePlay = false;
             _gameOver = false;
+            gemIcon = false;
+            apIcon = false;
 
             managersManager();
 
@@ -107,6 +120,8 @@ namespace week
 
             StartCoroutine(move());
             StartCoroutine(_enemyMng.startMakeEnemy());
+
+            WindowManager.instance.Win_coinGenerator.RefreshFollowCost = wealthRefresh;
 
             _stagePlay = true;
         }
@@ -216,7 +231,7 @@ namespace week
         {
             _mobKill++;
             _coin += (_clockMng.Season == season.fall) ? _mopCoin * 1.2f : _mopCoin;
-            _totalCoin.text = _coin.ToString();
+            _coinTxt.text = _coin.ToString();
 
             _player.getExp(1 * 3);
             ExpRefresh();
@@ -232,7 +247,7 @@ namespace week
             _killCount.text = _bossKill.ToString();
 
             _coin += _bossCoin * val;
-            _totalCoin.text = _coin.ToString();
+            _coinTxt.text = _coin.ToString();
 
             _player.getExp(50);
             ExpRefresh();
@@ -246,6 +261,9 @@ namespace week
             }
 
             _gem += 1;
+            //_gemTxt.text = _gem.ToString();
+
+            WindowManager.instance.Win_coinGenerator.getDirect(_gemIcon.transform.position, currency.gem, 1);
         }
 
         public void getAp(int val)
@@ -256,6 +274,21 @@ namespace week
             }
 
             _ap += val;
+            //_apTxt.text = _ap.ToString();
+
+            WindowManager.instance.Win_coinGenerator.getDirect(_apIcon.transform.position, currency.ap, 1);
+        }
+
+        public void wealthRefresh()
+        {
+            _gemTxt.text = _gem.ToString();
+            _apTxt.text = _ap.ToString();
+
+            if (_gem > 0)
+                gemIcon = true;
+
+            if (_ap > 0)
+                apIcon = true;
         }
 
         #region 카메라 안 군중제어
@@ -399,10 +432,6 @@ namespace week
             int coinResult = (int)(_coin);
             int gemResult = _gem;
             int apResult = _ap;
-
-            BaseManager.userGameData.Coin += coinResult;
-            BaseManager.userGameData.Gem += gemResult;
-            BaseManager.userGameData.Ap += apResult;
 
             if (BaseManager.userGameData.BossRecord < _bossKill)
             {
