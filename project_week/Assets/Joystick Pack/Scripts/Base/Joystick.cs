@@ -38,10 +38,12 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     private Canvas canvas;
     private Camera cam;
 
+    protected Vector2 halfSize = Vector2.zero;
     private Vector2 input = Vector2.zero;
 
     protected virtual void Start()
     {
+        halfSize = new Vector2(Screen.width, Screen.height) * 0.5f;
         HandleRange = handleRange;
         DeadZone = deadZone;
         baseRect = GetComponent<RectTransform>();
@@ -69,8 +71,9 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             cam = canvas.worldCamera;
 
         Vector2 position = RectTransformUtility.WorldToScreenPoint(cam, background.position);
+        Vector2 pos2 = eventData.position - halfSize;
         Vector2 radius = background.sizeDelta / 2;
-        input = (eventData.position - position) / (radius * canvas.scaleFactor);
+        input = (pos2 - position) / (radius * canvas.scaleFactor);
         FormatInput();
         HandleInput(input.magnitude, input.normalized, radius, cam);
         handle.anchoredPosition = input * radius * handleRange;
