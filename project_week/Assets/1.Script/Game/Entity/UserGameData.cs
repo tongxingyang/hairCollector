@@ -44,56 +44,68 @@ namespace week
 
         #endregion
 
+        public UserEntity.property Property { get => _userEntity._property; set => _userEntity._property = value; }
+        public UserEntity.status Status { get => _userEntity._status; set => _userEntity._status = value; }
+        public UserEntity.quest Quest { get => _userEntity._quest; set => _userEntity._quest = value; }
+        public UserEntity.payment Payment { get => _userEntity._payment; set => _userEntity._payment = value; }
+        public UserEntity.option Option { get => _userEntity._option; set => _userEntity._option = value; }
+        public UserEntity.gameUtility Util { get => _userEntity._util; set => _userEntity._util = value; }
+
         #region [properties]
 
-        public string NickName { get => _userEntity._nickName; set => _userEntity._nickName = value; }
-        public int Coin { get => _userEntity._coin; set => _userEntity._coin = value; }
+        public string NickName { get => _userEntity._property._nickName; set => _userEntity._property._nickName = value; }
+        public int Coin { get => _userEntity._property._currency[(int)currency.coin]; set => _userEntity._property._currency[(int)currency.coin] = value; }
         public int followCoin { get; set; }
-        public int Gem { get => _userEntity._gem; set => _userEntity._gem = value; }
+        public int Gem { get => _userEntity._property._currency[(int)currency.gem]; set => _userEntity._property._currency[(int)currency.gem] = value; }
         public int followGem { get; set; }
-        public int Ap { get => _userEntity._ap; set => _userEntity._ap = value; }
-        public SkinKeyList Skin { get => (SkinKeyList)_userEntity._skin; set => _userEntity._skin = (int)value; }
+        public int Ap { get => _userEntity._property._currency[(int)currency.ap]; set => _userEntity._property._currency[(int)currency.ap] = value; }
+
+        //  스킨
+        public int HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
+        public SkinKeyList Skin { get => (SkinKeyList)_userEntity._property._skin; set => _userEntity._property._skin = (int)value; }
 
         //  기록 및 퀘스트
-        public DateTime LastLogin { get => _userEntity._lastLogin; set => _userEntity._lastLogin = value; }
         // 일일
-        public int[] DayQuest { get => _userEntity._dayQuest; set => _userEntity._dayQuest = value; }
-        public int QuestSkin { get => _userEntity._questSkin; set => _userEntity._questSkin = value; }
+        public int[] DayQuest { get => _userEntity._quest._dayQuest; set => _userEntity._quest._dayQuest = value; }
+        public int QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
         // 전체
-        public int TimeRecord { get => _userEntity._timeRecord; set => _userEntity._timeRecord = value; }
-        public int GetTimeReward { get => _userEntity._getTimeReward; set => _userEntity._getTimeReward = value; }
-        public int BossRecord { get => _userEntity._bossRecord; set => _userEntity._bossRecord = value; }
-        public int GetBossReward { get => _userEntity._getBossReward; set => _userEntity._getBossReward = value; }
-        public int ArtifactRecord { get => _userEntity._artifactRecord; set => _userEntity._artifactRecord = value; }
-        public int GetArtifactReward { get => _userEntity._getArtifactReward; set => _userEntity._getArtifactReward = value; }
-        public int AdRecord { get => _userEntity._adRecord; set => _userEntity._adRecord = value; }
-        public int ReinRecord { get => _userEntity._reinRecord; set => _userEntity._reinRecord = value; }
+        public int TimeRecord { get => _userEntity._quest._timeRecord; set => _userEntity._quest._timeRecord = value; }
+        public int GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
+        public int BossRecord { get => _userEntity._quest._bossRecord; set => _userEntity._quest._bossRecord = value; }
+        public int GetBossReward { get => _userEntity._quest._getBossReward; set => _userEntity._quest._getBossReward = value; }
+        public int ArtifactRecord { get => _userEntity._quest._artifactRecord; set => _userEntity._quest._artifactRecord = value; }
+        public int GetArtifactReward { get => _userEntity._quest._getArtifactReward; set => _userEntity._quest._getArtifactReward = value; }
+        public int AdRecord { get => _userEntity._quest._adRecord; set => _userEntity._quest._adRecord = value; }
+        public int ReinRecord { get => _userEntity._quest._reinRecord; set => _userEntity._quest._reinRecord = value; }
 
         //  스탯
-        public int[] StatusLevel { get => _userEntity._statusLevel; set => _userEntity._statusLevel = value; }
-        //  스킨
-        public int HasSkin { get => _userEntity._hasSkin; set => _userEntity._hasSkin = value; }
+        public int[] StatusLevel { get => _userEntity._status._statusLevel; set => _userEntity._status._statusLevel = value; }
 
         //  인앱결제
-        public bool AddGoods { get => _userEntity._addGoods; set => _userEntity._addGoods = value; }
-        public float AddGoodsValue { get => _userEntity._addGoodsValue; set => _userEntity._addGoodsValue = value; }
-        public bool RemoveAD { get => _userEntity._removeAD; set => _userEntity._removeAD = value; }
-        public bool SkinPack { get => _userEntity._skinPack; set => _userEntity._skinPack = value; }
-        public bool StartPack { get => _userEntity._startPack; set => _userEntity._startPack = value; }
+        public bool AddGoods { get => _userEntity._payment._addGoods; set => _userEntity._payment._addGoods = value; }
+        public float AddGoodsValue { get => _userEntity._payment._addGoodsValue; set => _userEntity._payment._addGoodsValue = value; }
+        public bool RemoveAD { get => _userEntity._payment._removeAD; set => _userEntity._payment._removeAD = value; }
+        public bool SkinPack { get => _userEntity._payment._skinPack; set => _userEntity._payment._skinPack = value; }
+        public bool StartPack { get => _userEntity._payment._startPack; set => _userEntity._payment._startPack = value; }
 
-        public int o_Hp { get => _userEntity._hp; }
-        public float o_Hpgen { get => _userEntity._hpgen; }
-        public int o_Def { get => _userEntity._def; }
-        public float o_Att { get => _userEntity._att; }
-        public float o_Cool { get => _userEntity._cool; }
-        public float o_ExpFactor { get => _userEntity._expFactor; }
-        public float o_CoinFactor { get => _userEntity._coinFactor; }
-        public float SkinEnhance { get => _userEntity._skinEnhance; }
+        public int o_Hp { get => _userEntity._status._hp; }
+        public float o_Hpgen { get => _userEntity._status._hpgen; }
+        public int o_Def { get => _userEntity._status._def; }
+        public float o_Att { get => _userEntity._status._att; }
+        public float o_Cool { get => _userEntity._status._cool; }
+        public float o_ExpFactor { get => _userEntity._status._expFactor; }
+        public float o_CoinFactor { get => _userEntity._status._coinFactor; }
+        public float SkinEnhance { get => _userEntity._status._skinEnhance; }
 
 
         //  옵션
-        public float BgmVol { get => _userEntity._bgmVol; set => _userEntity._bgmVol = value; }
-        public float SfxVol { get => _userEntity._sfxVol; set => _userEntity._sfxVol = value; }
+        public float BgmVol { get => _userEntity._option._bgmVol; set => _userEntity._option._bgmVol = value; }
+        public float SfxVol { get => _userEntity._option._sfxVol; set => _userEntity._option._sfxVol = value; }        
+
+        //  유틸
+        public long Join { get => _userEntity._util._join; set => _userEntity._util._join = value; }
+        public bool IsSavedServer { get => _userEntity._util._isSavedServer; set => _userEntity._util._isSavedServer = value; }
+        public long LastSave { get => _userEntity._util._lastSave; set => _userEntity._util._lastSave = value; }
 
         #endregion
 
@@ -126,8 +138,6 @@ namespace week
             _ballType = snowballType.standard;
 
             applySkin();
-
-            _userEntity.saveData();
         }
 
         public void flashData()
@@ -146,7 +156,7 @@ namespace week
         /// <summary>  </summary>
         public void applySkin()
         {
-            SkinKeyList skin = (SkinKeyList)_userEntity._skin;
+            SkinKeyList skin = (SkinKeyList)_userEntity._property._skin;
             string key = skin.ToString();
 
             string ss = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.season.ToString());
@@ -167,7 +177,7 @@ namespace week
 
                 if (i < defaultStat.speed)
                 {
-                    add = _userEntity._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.ex_hp + j).ToString());
+                    add = _userEntity._status._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.ex_hp + j).ToString());
                 }
 
                 _addStats[(int)i] += add;
@@ -191,7 +201,7 @@ namespace week
                 skinFvalue sfv = EnumHelper.StringToEnum<skinFvalue>(t_F);
                 
                 _skinFval[(int)sfv] = DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval0.ToString());
-                _skinFval[(int)sfv] += _userEntity._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
+                _skinFval[(int)sfv] += _userEntity._status._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
             }
 
             string t_I = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeI.ToString());
@@ -397,5 +407,13 @@ namespace week
 
             return str;
         }
+
+        /// <summary> 데이터 저장 </summary>
+        public string getUserData()
+        {
+            return _userEntity.saveData();
+        }
+
+        
     }
 }

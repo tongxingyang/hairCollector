@@ -14,6 +14,7 @@ namespace week
         {
             TeamLogo,
             GameLogo,
+            Accountchk,
                         
             Fill,
 
@@ -27,6 +28,7 @@ namespace week
         public bool isDataLoadSuccess { get; private set; }
         float time = 0f;
         float gauge = 0f;
+        bool selectAccount;
 
         // Start is called before the first frame update
         void Start()
@@ -52,6 +54,7 @@ namespace week
         /// <summary> 로고 오프닝 (로그인) </summary>
         IEnumerator showLogo()
         {
+            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
             // 로고 보여주는 부분
             mImgs[(int)E_IMAGE.TeamLogo].gameObject.SetActive(true);
             mImgs[(int)E_IMAGE.GameLogo].gameObject.SetActive(false);
@@ -86,35 +89,9 @@ namespace week
             // 사전 게임 데이터 제작 [bg필요?]
             BaseManager.PreGameData = new PreGameData();
             gauge += 0.2f;
-
-            // 구글 관련
-            AuthManager.instance.Login();
-            AdManager.instance.adStart();
-            gauge += 0.15f;
-#if UNITY_EDITOR
-
-#else
-            yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true);
-#endif
-
-            //저장된 유저 데이터 로드
-            if (ES3.KeyExists("userEntity"))
-            {
-                ES3.DeleteKey("userEntity");
-            }
-
-            if (ES3.KeyExists("userEntity"))
-            {
-                Debug.Log("기본 유저 데이터 존재");
-                BaseManager.userGameData.LoadUserEntity(ES3.Load<UserEntity>("userEntity"));
-            }
-            else
-            {
-                Debug.Log("기본 유저 데이터가 없으므로 제작함");
-                BaseManager.userGameData = new UserGameData();
-            }
-
-            BaseManager.userGameData.flashData();
+                        
+            // 인터넷 - 데이터 체크 
+            yield return StartCoroutine(userDataAfterNetChk());            
             gauge += 0.15f;
 
             // 사운드매니저 로드
@@ -132,7 +109,7 @@ namespace week
             BaseManager.instance.SceneLoadStart = WindowManager.instance.Win_loading.open;
             BaseManager.instance.SceneLoadComplete = WindowManager.instance.Win_loading.close;
 
-            gauge += 0.15f;
+            gauge += 0.5f;
 
             // 여기 끝난거 체크해서 다음 씬 진행
         }
@@ -155,21 +132,142 @@ namespace week
             BaseManager.instance.convertScene(SceneNum.LogoScene.ToString(), SceneNum.LobbyScene);
         }
 
-#region 네트워크 안내판
+        #region 네트워크 안내판
 
-        ///// <summary> 네트워크 연결 안내문 표시 </summary>
-        //public void popNetException()
-        //{
-        //    m_pkImages[(int)E_IMAGE.networkExcep].gameObject.SetActive(true);
-        //}
+        /// <summary> 인터넷 체크 </summary>
+        bool networkCheck()
+        {
+            return (Application.internetReachability != NetworkReachability.NotReachable);
+        }
 
-        ///// <summary> 접속 재시도 </summary>
-        //public void reConnect()
-        //{
-        //    m_pkImages[(int)E_IMAGE.networkExcep].gameObject.SetActive(false);
+        IEnumerator userDataAfterNetChk()
+        {
+            if (true || networkCheck()) // 인터넷 연결
+            {
+                // 구글 관련
+                AuthManager.instance.Login();
+                AdManager.instance.adStart();
 
-        //    StartCoroutine(showLogo());
-        //}
+                yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true);
+
+                if (ES3.KeyExists("userEntity")) // 기본 유저 데이터 존재
+                {
+                    ES3.DeleteKey("userEntity");
+                    BaseManager.userGameData = new UserGameData(); // 만들고
+
+                    Debug.Log("인터넷 연결 : 기기에 유저 데이터 있음");
+                    
+                    // 기기에 저장된 데이터 가져오기
+                    BaseManager.userGameData.LoadUserEntity(ES3.Load<UserEntity>("userEntity"));
+
+                    // 서버에 데이터 있는지 체크
+                    yield return StartCoroutine(AuthManager.instance.chkExistData());
+
+                    bool result = AuthManager.instance.IsExist;
+                    if (result)
+                    {
+                        Debug.Log("서버에 데이터 있음");
+                        // 서버에 저장된 최초가입 날짜 가져옴
+                        yield return StartCoroutine(AuthManager.instance.loadFirstJoinDate());
+
+                        result = (BaseManager.userGameData.Join == AuthManager.instance.LoadedFirstJoin);
+                        if (result) // 같은 데이터
+                        {
+                            Debug.Log("같은 데이터임");
+                            // 서버에 저장된 마지막 저장 날짜 가져옴
+                            yield return StartCoroutine(AuthManager.instance.loadLastSaveDate());
+
+                            if (AuthManager.instance.LoadedLastSave > BaseManager.userGameData.LastSave) // 서버꺼 (처음, 다시깔거나?)
+                            {
+                                Debug.Log("서버꺼");
+                                AuthManager.instance.loadData();
+                            }
+                            else if (AuthManager.instance.LoadedLastSave > BaseManager.userGameData.LastSave) // 기기꺼
+                            {
+                                Debug.Log("기기꺼");
+                                AuthManager.instance.saveData(); // 기기 내용 그대로 서버로
+                            }
+                            else // 같음
+                            {
+                                Debug.Log("정상 작동");
+                                // ok.
+                            }
+                        }
+                        else // 이거 데이터 다른데??
+                        {
+                            Debug.Log("서버랑 기기 데이터 상이");
+                            selectAccount = false;
+                            accountException();
+
+                            yield return new WaitUntil(() => selectAccount == true);
+                        }
+                    }
+                    else // 기기에는 데이터 있는데 서버에는 데이터 없어??
+                    {
+                        Debug.Log("기기에는 데이터 있는데 서버에 데이터 없음");
+                        AuthManager.instance.saveData(); // 서버저장
+                    }
+                }
+                else // 기기에 유저 데이터 없음
+                {
+                    Debug.Log("인터넷 연결 : 기기에 유저 데이터 없음");
+                    BaseManager.userGameData = new UserGameData(); // 만들고
+                    Debug.Log("ㅁㅁㅁ");
+                    BaseManager.userGameData.saveUserEntity(); // 기기저장
+                    Debug.Log("ㄴㄴㄴ");
+                    AuthManager.instance.saveData(); // 서버저장
+                }
+            }
+            else // 인터넷 연결해제
+            {
+                if (ES3.KeyExists("userEntity")) // 기본 유저 데이터 존재
+                {
+                    Debug.Log("인터넷 연결해제 : 기기에 유저 데이터 있음");
+                    BaseManager.userGameData.LoadUserEntity(ES3.Load<UserEntity>("userEntity"));
+                }
+                else // 기본 유저 데이터 없음
+                {
+                    Debug.Log("인터넷 연결해제 : 기기에 유저 데이터 없음");
+                    BaseManager.userGameData = new UserGameData();
+                    BaseManager.userGameData.saveUserEntity(); // 기기저장
+                }
+            }
+
+            gauge += 0.15f;
+
+            ////저장된 유저 데이터 로드
+            //if (ES3.KeyExists("userEntity"))
+            //{
+            //    ES3.DeleteKey("userEntity");
+            //}
+
+            BaseManager.userGameData.flashData();
+            Debug.Log("데이터 완료");
+        }
+
+        /// <summary> 계정 문제 창 </summary>
+        public void accountException()
+        {
+            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(true);
+        }
+
+        /// <summary> 구글 계정선택 </summary>
+        public void selectGoogleAccount()
+        {
+            AuthManager.instance.loadData();
+
+            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
+            selectAccount = true;
+        }
+
+        /// <summary> 기기 계정선택 </summary>
+        public void selectPhoneAccount()
+        {
+            AuthManager.instance.saveData();
+
+            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
+            selectAccount = true;
+        }
 
         /// <summary> 종료 </summary>
         public void Quit()

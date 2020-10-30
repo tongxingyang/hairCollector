@@ -122,6 +122,8 @@ namespace week
 
                 BaseManager.userGameData.GameReward = null;
             }
+
+            MTmps[(int)eTmp.nickName].text = BaseManager.userGameData.NickName;
         }
 
         private void Update()

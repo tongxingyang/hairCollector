@@ -10,7 +10,7 @@ namespace week
         public void dayQuestCheck()
         {
             DateTime now = DateTime.Now;
-            if (BaseManager.userGameData.LastLogin.ToString("MM/dd/yyyy").Equals(now.ToString("MM/dd/yyyy")))
+            if (true || BaseManager.userGameData.LastSave.ToString("MM/dd/yyyy").Equals(now.ToString("MM/dd/yyyy")))
             {
 
             }
