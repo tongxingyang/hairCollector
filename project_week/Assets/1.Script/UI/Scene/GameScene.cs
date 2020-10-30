@@ -61,8 +61,7 @@ namespace week
 
         Vector3 targetPos;        
 
-        float _mopCoin;
-        float _bossCoin;
+        float _mobCoin;
 
         bool _pause;
         bool _gameOver;
@@ -103,8 +102,7 @@ namespace week
 
             managersManager();
 
-            _mopCoin = gameValues._firstMopCoin;
-            _bossCoin = gameValues._firstBossCoin;
+            _mobCoin = gameValues._firstMopCoin;
 
             _player._gameOver = gameOver;
             _player.EnemyDamage = _enemyMng.enemyDamaged;
@@ -230,14 +228,14 @@ namespace week
         public void getKill()
         {
             _mobKill++;
-            _coin += (_clockMng.Season == season.fall) ? _mopCoin * 1.2f : _mopCoin;
-            _coinTxt.text = _coin.ToString();
+            
+            getCoin(_mobCoin);
 
             _player.getExp(1 * 3);
             ExpRefresh();
         }
 
-        public void getBossKill(float val)
+        public void getBossKill(float _bossCoin)
         {
             Debug.Log("보스킬");
 
@@ -246,11 +244,28 @@ namespace week
             _bossKill++;
             _killCount.text = _bossKill.ToString();
 
-            _coin += _bossCoin * val;
-            _coinTxt.text = _coin.ToString();
+            getCoin(_bossCoin);
 
             _player.getExp(50);
             ExpRefresh();
+        }
+
+        public void getCoin(float coin, bool isAni = false)
+        {
+            if (_gameOver)
+                return;
+
+            float seasonCoin = ((_clockMng.Season == season.fall) ? 1.2f : 1f);
+            _coin += coin * _player.Coin * seasonCoin;
+
+            if (isAni)
+            {
+                WindowManager.instance.Win_coinGenerator.getDirect(_coinIcon.transform.position, currency.coin, 1);
+            }
+            else
+            {
+                _coinTxt.text = Convert.ToInt32(_coin).ToString();
+            }
         }
 
         public void getGem()
@@ -442,7 +457,7 @@ namespace week
                 BaseManager.userGameData.ArtifactRecord = _getArti;
             }
 
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
 
             _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult, _mobKill, _bossKill, _getArti);
         }

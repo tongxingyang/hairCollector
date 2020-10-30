@@ -33,7 +33,7 @@ namespace week
         protected float Speed { get { return _standardStt[(int)snowStt.speed]; } }
         protected float Exp { get { return _standardStt[(int)snowStt.exp]; } }
 
-        protected float _coinVal = 1;
+        protected float _bossCoin = 1;
 
         float _skill0 = 1;
         float _skill1 = 1;
@@ -92,7 +92,7 @@ namespace week
             _standardStt[(int)snowStt.speed]  = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.speed.ToString()) * gameValues._defaultSpeed;
             _standardStt[(int)snowStt.exp] = 100f;
 
-            _coinVal = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.coin.ToString());
+            _bossCoin = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.coin.ToString());
 
             _skill0 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill0.ToString());
             _skill1 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill1.ToString());
@@ -114,6 +114,7 @@ namespace week
 
             Skill0 = _skill0 * _finalStt[(int)snowStt.att];
             Skill1 = _skill1 * _finalStt[(int)snowStt.att];
+
 
             _hp = MaxHp;
             _isDie = false;
@@ -158,30 +159,9 @@ namespace week
         public override void enemyDie()
         {
             SoundManager.instance.PlaySFX(SFX.bossdie);
-            killFunc(_coinVal);
+            killFunc(_bossCoin);
 
-            snowStt type = snowStt.att;
-            float val = 1f;
-            
-            switch (_boss)
-            {
-                case Boss.boss_butterfly:
-                    type = snowStt.att;
-                    break;
-                case Boss.boss_flower:
-                    break;
-                case Boss.boss_scarecrow:
-                    break;
-                case Boss.boss_owl:
-                    break;
-                case Boss.boss_bear:
-                    break;
-                default:
-                    Debug.LogError("보스 : " + gameObject.name +"// _boss : " + _boss.ToString());
-                    break;
-            }
-
-            _player.setDeBuff(type, 30f, val);
+            _player.getNamedBuff(_boss);            
 
             _efMng.makeEff(effAni.bossExplosion, transform.position);
             Destroy();

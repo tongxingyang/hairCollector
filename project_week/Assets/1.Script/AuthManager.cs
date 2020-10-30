@@ -220,7 +220,7 @@ namespace week
             yield return new WaitUntil(() => complete == true);
         }
 
-        public void saveData()
+        public void saveDataToFB()
         {
             //FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://snowadventure-91260115.firebaseio.com/");
             reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -233,7 +233,7 @@ namespace week
             reference.Child("User").Child(Social.localUser.id).SetRawJsonValueAsync(json);
         }
 
-        public void loadData()
+        public void loadDataFromFB()
         {
             //FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://snowadventure-91260115.firebaseio.com/");
             //reference = FirebaseDatabase.DefaultInstance.RootReference;            
@@ -254,7 +254,7 @@ namespace week
 
                 string userData = (string)task.Result.GetRawJsonValue();
 
-                BaseManager.userGameData.LoadUserEntity(JsonUtility.FromJson<UserEntity>(userData));
+                BaseManager.userGameData.loadDataFromLocal(JsonUtility.FromJson<UserEntity>(userData));
             });
         }
 

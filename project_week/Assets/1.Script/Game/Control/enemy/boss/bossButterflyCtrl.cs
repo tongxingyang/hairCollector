@@ -46,6 +46,9 @@ namespace week
         protected override void otherWhenRepeatInit()
         {
             base.otherWhenRepeatInit();
+
+            switchStat(stat.Idle);
+
             //_hp *= 10000;
             SetAnimation("front-trace", true, 1f);
         }

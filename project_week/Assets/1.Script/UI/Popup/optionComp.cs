@@ -54,7 +54,7 @@ namespace week
         public void close()
         {
             Debug.Log(BaseManager.userGameData.BgmVol + " // " + _bgmVol.value);
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
             _win.localScale = new Vector3(1f, 0f);
 
             _cloud.SetActive(false);
@@ -123,7 +123,7 @@ namespace week
 
             //_lobby.refreshCost();
 
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
         }
     }
 }

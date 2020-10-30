@@ -6,14 +6,11 @@ namespace week
 {
     public static class gameValues
     {
-
         /// <summary> 어빌리티 포인트 </summary>
         public static readonly int _apPrice = 1000;
 
-        public static readonly int _firstMopCoin = 1;
+        public static readonly float _firstMopCoin = 1;
         public static readonly float _mopCoinIncrease = 1.15f;
-
-        public static readonly int _firstBossCoin = 100;
         public static readonly float _bossCoinIncrease = 1.2f;
 
         public static readonly int _firstRoundCoin = 20;

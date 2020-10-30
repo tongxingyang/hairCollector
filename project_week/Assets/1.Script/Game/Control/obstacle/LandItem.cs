@@ -54,8 +54,8 @@ namespace week
                 case landtem.sward:
                     if (_player.IsHero)
                     {
-                        _player.setDeBuff(snowStt.att, 60f, 2);
-                        _player.setDeBuff(snowStt.def, 60f, 2);
+                        _player.setDeBuff(eBuff.att, 60f, 2);
+                        _player.setDeBuff(eBuff.def, 60f, 2);
                     }
                     else
                     {

@@ -402,6 +402,7 @@ namespace week
     #region 유저 데이터
 
     public enum snowStt { maxHp, att, def, hpgen, cool, exp, size, heal, speed, max }
+    public enum eBuff { att, def, hpgen, cool, exp, size, heal, speed, coin, snowball, max }
     public enum dayQuest { rein, skin, ad }
 
     #endregion

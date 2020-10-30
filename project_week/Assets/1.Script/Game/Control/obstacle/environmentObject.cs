@@ -19,7 +19,7 @@ namespace week
         {
             if (collision.tag.Equals("Player"))
             {
-                BuffEffect bf = _player.setDeBuff(snowStt.speed, 1, 0.8f, BuffEffect.buffTermType.infinity);
+                BuffEffect bf = _player.setDeBuff(eBuff.speed, 1, 0.8f, BuffEffect.buffTermType.infinity);
                 if (bf != null)
                 {
                     _bff = bf;

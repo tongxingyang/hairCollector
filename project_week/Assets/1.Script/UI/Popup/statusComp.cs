@@ -286,7 +286,7 @@ namespace week
 
                 BaseManager.userGameData.statusLevelUp(_selectStat);
 
-                BaseManager.userGameData.saveUserEntity();
+                BaseManager.userGameData.saveDataToLocal();
 
                 BaseManager.userGameData.ReinRecord += 1;
 
@@ -320,7 +320,7 @@ namespace week
             apPurchaseBtnRefresh();
             apMaxRefresh();
 
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
         }
 
         /// <summary> ap 구매 max </summary>
@@ -336,7 +336,7 @@ namespace week
             apPurchaseBtnRefresh();
             apMaxRefresh();
 
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
         }
     }
 }

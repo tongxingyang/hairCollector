@@ -89,10 +89,20 @@ namespace week
             // 사전 게임 데이터 제작 [bg필요?]
             BaseManager.PreGameData = new PreGameData();
             gauge += 0.2f;
-                        
+
+#if UNITY_EDITOR
+            if (ES3.KeyExists("userEntity")) // 기본 유저 데이터 존재
+            {
+                ES3.DeleteKey("userEntity");
+            }
+            BaseManager.userGameData = new UserGameData(); // 만들고
+            BaseManager.userGameData.saveDataToLocal(); // 기기저장
+#else
             // 인터넷 - 데이터 체크 
             yield return StartCoroutine(userDataAfterNetChk());            
             gauge += 0.15f;
+#endif
+
 
             // 사운드매니저 로드
             BaseManager.instance.GetComponent<SoundManager>().startSound();
@@ -158,7 +168,7 @@ namespace week
                     Debug.Log("인터넷 연결 : 기기에 유저 데이터 있음");
                     
                     // 기기에 저장된 데이터 가져오기
-                    BaseManager.userGameData.LoadUserEntity(ES3.Load<UserEntity>("userEntity"));
+                    BaseManager.userGameData.loadDataFromLocal(ES3.Load<UserEntity>("userEntity"));
 
                     // 서버에 데이터 있는지 체크
                     yield return StartCoroutine(AuthManager.instance.chkExistData());
@@ -180,12 +190,12 @@ namespace week
                             if (AuthManager.instance.LoadedLastSave > BaseManager.userGameData.LastSave) // 서버꺼 (처음, 다시깔거나?)
                             {
                                 Debug.Log("서버꺼");
-                                AuthManager.instance.loadData();
+                                AuthManager.instance.loadDataFromFB();
                             }
                             else if (AuthManager.instance.LoadedLastSave > BaseManager.userGameData.LastSave) // 기기꺼
                             {
                                 Debug.Log("기기꺼");
-                                AuthManager.instance.saveData(); // 기기 내용 그대로 서버로
+                                AuthManager.instance.saveDataToFB(); // 기기 내용 그대로 서버로
                             }
                             else // 같음
                             {
@@ -205,17 +215,15 @@ namespace week
                     else // 기기에는 데이터 있는데 서버에는 데이터 없어??
                     {
                         Debug.Log("기기에는 데이터 있는데 서버에 데이터 없음");
-                        AuthManager.instance.saveData(); // 서버저장
+                        AuthManager.instance.saveDataToFB(); // 서버저장
                     }
                 }
                 else // 기기에 유저 데이터 없음
                 {
                     Debug.Log("인터넷 연결 : 기기에 유저 데이터 없음");
                     BaseManager.userGameData = new UserGameData(); // 만들고
-                    Debug.Log("ㅁㅁㅁ");
-                    BaseManager.userGameData.saveUserEntity(); // 기기저장
-                    Debug.Log("ㄴㄴㄴ");
-                    AuthManager.instance.saveData(); // 서버저장
+                    BaseManager.userGameData.saveDataToLocal(); // 기기저장
+                    AuthManager.instance.saveDataToFB(); // 서버저장
                 }
             }
             else // 인터넷 연결해제
@@ -223,13 +231,13 @@ namespace week
                 if (ES3.KeyExists("userEntity")) // 기본 유저 데이터 존재
                 {
                     Debug.Log("인터넷 연결해제 : 기기에 유저 데이터 있음");
-                    BaseManager.userGameData.LoadUserEntity(ES3.Load<UserEntity>("userEntity"));
+                    BaseManager.userGameData.loadDataFromLocal(ES3.Load<UserEntity>("userEntity"));
                 }
                 else // 기본 유저 데이터 없음
                 {
                     Debug.Log("인터넷 연결해제 : 기기에 유저 데이터 없음");
                     BaseManager.userGameData = new UserGameData();
-                    BaseManager.userGameData.saveUserEntity(); // 기기저장
+                    BaseManager.userGameData.saveDataToLocal(); // 기기저장
                 }
             }
 
@@ -254,7 +262,7 @@ namespace week
         /// <summary> 구글 계정선택 </summary>
         public void selectGoogleAccount()
         {
-            AuthManager.instance.loadData();
+            AuthManager.instance.loadDataFromFB();
 
             mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
             selectAccount = true;
@@ -263,7 +271,7 @@ namespace week
         /// <summary> 기기 계정선택 </summary>
         public void selectPhoneAccount()
         {
-            AuthManager.instance.saveData();
+            AuthManager.instance.saveDataToFB();
 
             mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
             selectAccount = true;

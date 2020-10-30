@@ -57,6 +57,9 @@ namespace week
         protected override void otherWhenRepeatInit()
         {
             setAllColor(Color.white);
+
+            switchStat(stat.Idle);
+
             _isNormalPlay = false;
             _normalCoolTime = UnityEngine.Random.Range(3f, 5f);
             StartCoroutine(setStemPosAni());

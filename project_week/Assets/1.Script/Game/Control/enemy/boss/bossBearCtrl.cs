@@ -58,6 +58,7 @@ namespace week
         {
             base.otherWhenRepeatInit();
 
+            switchStat(stat.Idle);
             //_hp *= 10000;
             SetAnimation("idle", true, 1f);
         }
@@ -81,7 +82,7 @@ namespace week
                         if (Vector3.Distance(_player.transform.position, transform.position) < 5f)
                         {
                             _player.getDamaged(Skill0);
-                            _player.setDeBuff(snowStt.speed, 3, 0.8f);
+                            _player.setDeBuff(eBuff.speed, 3, 0.8f);
                         }
                         _player.cameraShake();
                     }

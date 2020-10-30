@@ -275,11 +275,11 @@ namespace week
         #region [enemy batch ctrl]
 
         /// <summary> </summary>
-        public BuffEffect setDeBuff(snowStt stt, float term, float val, BuffEffect.buffTermType isterm = BuffEffect.buffTermType.term)
+        public BuffEffect setDeBuff(eBuff bff, float term, float val, BuffEffect.buffTermType isterm = BuffEffect.buffTermType.term)
         {
-            BuffEffect DBuff = new BuffEffect(stt, term, val, isterm);
+            BuffEffect DBuff = new BuffEffect(bff, term, val, isterm);
 
-            _buffStt[(int)stt] *= DBuff.Val;
+            _buffStt[(int)bff] *= DBuff.Val;
 
             _bffEff.Add(DBuff);
 
@@ -289,11 +289,11 @@ namespace week
         /// <summary> 버프 수동 삭제 </summary>
         public void manualRemoveDeBuff(BuffEffect bff)
         {
-            snowStt stt = bff.Stt;
+            eBuff ebff = bff.Bff;
 
             _bffEff.Remove(bff);
 
-            reCalBuff(stt);
+            reCalBuff(ebff);
         }
 
         void deBuffChk(float delTime)
@@ -304,26 +304,26 @@ namespace week
 
                 if (_bffEff[i].TermOver)
                 {
-                    snowStt stt = _bffEff[i].Stt;
+                    eBuff bff = _bffEff[i].Bff;
 
                     _bffEff.RemoveAt(i);
 
-                    reCalBuff(stt);
+                    reCalBuff(bff);
                     i--;
                 }
             }
         }
 
         /// <summary> 삭제된 타입 버프 일괄계산 </summary>
-        void reCalBuff(snowStt stt)
+        void reCalBuff(eBuff bff)
         {
-            _buffStt[(int)stt] = 1f;
+            _buffStt[(int)bff] = 1f;
 
             for (int i = 0; i < _bffEff.Count; i++)
             {
-                if (_bffEff[i].Stt == stt)
+                if (_bffEff[i].Bff == bff)
                 {
-                    _buffStt[(int)stt] *= _bffEff[i].Val;
+                    _buffStt[(int)bff] *= _bffEff[i].Val;
                 }
             }
         }
@@ -348,7 +348,7 @@ namespace week
 
         public void enemySlow(float term, float val, BuffEffect.buffTermType bf = BuffEffect.buffTermType.term)
         {
-            setDeBuff(snowStt.speed, term, val, bf);
+            setDeBuff(eBuff.speed, term, val, bf);
         }
 
         #endregion

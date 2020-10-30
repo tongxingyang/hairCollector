@@ -28,6 +28,7 @@ namespace week
         [SerializeField] GameObject _almightCase;
         [SerializeField] Transform _albar;
         [SerializeField] Camera _main;
+        [SerializeField] BuffParticleManager _bffParticle;
 
         GameScene _gs;
         enemyManager _enm;
@@ -66,7 +67,7 @@ namespace week
         {
             get
             {
-                float calAtt = _standardStt[(int)snowStt.att] * _skillStt[(int)snowStt.att] * _buffStt[(int)snowStt.att];
+                float calAtt = _standardStt[(int)snowStt.att] * _skillStt[(int)snowStt.att] * _buffStt[(int)eBuff.att];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -85,7 +86,7 @@ namespace week
         {
             get
             {
-                float calDef = _standardStt[(int)snowStt.def] * _skillStt[(int)snowStt.def] * _buffStt[(int)snowStt.def];
+                float calDef = _standardStt[(int)snowStt.def] * _skillStt[(int)snowStt.def] * _buffStt[(int)eBuff.def];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -102,7 +103,7 @@ namespace week
         {
             get
             {
-                float calHpgen = _standardStt[(int)snowStt.def] * _skillStt[(int)snowStt.def] * _buffStt[(int)snowStt.def];
+                float calHpgen = _standardStt[(int)snowStt.hpgen] * _skillStt[(int)snowStt.hpgen] * _buffStt[(int)eBuff.hpgen];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -118,7 +119,7 @@ namespace week
         {
             get
             {
-                float calCool = _standardStt[(int)snowStt.cool] * _skillStt[(int)snowStt.cool] * _buffStt[(int)snowStt.cool];
+                float calCool = _standardStt[(int)snowStt.cool] * _skillStt[(int)snowStt.cool] * _buffStt[(int)eBuff.cool];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -134,7 +135,7 @@ namespace week
         {
             get
             {
-                float calExp = _standardStt[(int)snowStt.exp] * _skillStt[(int)snowStt.exp] * _buffStt[(int)snowStt.exp];
+                float calExp = _standardStt[(int)snowStt.exp] * _skillStt[(int)snowStt.exp] * _buffStt[(int)eBuff.exp];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -149,7 +150,7 @@ namespace week
         {
             get
             {
-                float calSize = _standardStt[(int)snowStt.size] * _skillStt[(int)snowStt.size] * _buffStt[(int)snowStt.size];
+                float calSize = _standardStt[(int)snowStt.size] * _skillStt[(int)snowStt.size] * _buffStt[(int)eBuff.size];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -164,7 +165,7 @@ namespace week
         {
             get
             {
-                float calHealMount = _standardStt[(int)snowStt.heal] * _skillStt[(int)snowStt.heal] * _buffStt[(int)snowStt.heal];
+                float calHealMount = _standardStt[(int)snowStt.heal] * _skillStt[(int)snowStt.heal] * _buffStt[(int)eBuff.heal];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -180,7 +181,7 @@ namespace week
         {
             get
             {
-                float calSpeed = gameValues._defaultSpeed * _standardStt[(int)snowStt.speed] * _skillStt[(int)snowStt.speed] * _buffStt[(int)snowStt.speed];
+                float calSpeed = gameValues._defaultSpeed * _standardStt[(int)snowStt.speed] * _skillStt[(int)snowStt.speed] * _buffStt[(int)eBuff.speed];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -188,6 +189,15 @@ namespace week
                 }
 
                 return calSpeed;
+            }
+        }
+
+        public float Coin
+        {
+            get 
+            {
+                float calCoin = 1f * _buffStt[(int)eBuff.coin];
+                return calCoin;
             }
         }
 
@@ -331,13 +341,14 @@ namespace week
             _almightCase.SetActive(false);
 
             StartCoroutine(skillUpdate());
+            StartCoroutine(chk());
         }
 
         IEnumerator chk()
         {
             while (true)
             {
-                Debug.Log(Att);
+                Debug.Log(Att + "/" + Def + "/" + Hpgen + "/" + Cool + "/" + Coin);
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -348,22 +359,27 @@ namespace week
 
             _standardStt    = new float[len];
             _skillStt       = new float[len];
-            _buffStt        = new float[len];
-            _seasonStt      = new float[len];
+            _seasonStt      = new float[len];                        
             for (int i = 0; i < len; i++)
             {
                 _standardStt[i] = 1f;
                 _skillStt[i] = 1f;
-                _buffStt[i] = 1f;
                 _seasonStt[i] = 1f;
+            }
+
+            len = (int)eBuff.max;
+            _buffStt = new float[len];
+            for (int i = 0; i < len; i++)
+            {
+                _buffStt[i] = 1f;
             }
 
             if (BaseManager.userGameData.ApplySeason == null)
             {
-                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0];
-                _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1];
-                _standardStt[(int)snowStt.def] = BaseManager.userGameData.o_Def * BaseManager.userGameData.AddStats[2];
-                _standardStt[(int)snowStt.hpgen] = BaseManager.userGameData.o_Hpgen * BaseManager.userGameData.AddStats[3];
+                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0]   * 100;
+                _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1]          * 100;
+                _standardStt[(int)snowStt.def] = BaseManager.userGameData.o_Def * BaseManager.userGameData.AddStats[2]          + 50;
+                _standardStt[(int)snowStt.hpgen] = BaseManager.userGameData.o_Hpgen * BaseManager.userGameData.AddStats[3]      + 50;
                 _standardStt[(int)snowStt.cool] = BaseManager.userGameData.o_Cool * BaseManager.userGameData.AddStats[4];
                 _standardStt[(int)snowStt.exp] = BaseManager.userGameData.o_ExpFactor * BaseManager.userGameData.AddStats[5];
             }
@@ -772,26 +788,27 @@ namespace week
 
                 if (_buffList[i].TermOver)
                 {
-                    snowStt stt = _buffList[i].Stt;
+                    eBuff bff = _buffList[i].Bff;
+                    _buffList[i].whenOver();
 
                     _buffList.RemoveAt(i);
 
-                    reCalBuff(stt);
+                    reCalBuff(bff);
                     i--;
                 }
             }
         }
 
         /// <summary> 삭제된 타입 버프 일괄계산 </summary>
-        void reCalBuff(snowStt stt)
+        void reCalBuff(eBuff bff)
         {
-            _buffStt[(int)stt] = 1f;
+            _buffStt[(int)bff] = 1f;
 
             for (int i = 0; i < _buffList.Count; i++)
             {
-                if (_buffList[i].Stt == stt)
+                if (_buffList[i].Bff == bff)
                 {
-                    _buffStt[(int)stt] *= _buffList[i].Val;
+                    _buffStt[(int)bff] *= _buffList[i].Val;
                 }
             }
         }
@@ -1065,21 +1082,92 @@ namespace week
             _speed = gameValues._defaultSpeed;
         }
 
-        /// <summary> </summary>
-        public BuffEffect setDeBuff(snowStt stt, float term, float val, BuffEffect.buffTermType isterm = BuffEffect.buffTermType.term)
+        /// <summary> 버프 세팅 </summary>
+        /// <param name="bff"> 버프 종류 </param>
+        /// <param name="term"> 버프 기간 </param>
+        /// <param name="val"> 버프 값 </param>
+        /// <param name="isterm"> 버프 타입 </param>
+        public BuffEffect setDeBuff(eBuff bff, float term, float val, BuffEffect.buffTermType isterm = BuffEffect.buffTermType.term)
         {
-            if (stt == snowStt.speed && _invSlow)
-            { 
-                return null; 
+            // 감속 무시 && 감속
+            if (bff == eBuff.speed && _invSlow && (val < 1f))
+            {
+                return null;
             }
 
-            BuffEffect DBuff = new BuffEffect(stt, term, val, isterm);
+            BuffEffect DBuff = new BuffEffect(bff, term, val, isterm);
 
-            _buffStt[(int)stt] *= DBuff.Val;
+            _buffStt[(int)bff] *= DBuff.Val;
 
             _buffList.Add(DBuff);
 
             return DBuff;
+        }
+
+        public BuffEffect setNamedDeBuff(eBuff bff, float term, float val, BuffEffect.buffTermType isterm = BuffEffect.buffTermType.term)
+        {
+            if (bff == eBuff.hpgen)
+            {
+                val = (Hpgen * (val - 1) > 5f) ? val : 5f;
+            }
+
+            BuffEffect DBuff = new BuffEffect(bff, term, val, isterm);
+
+            return DBuff;
+        }
+
+        public void getNamedBuff(Boss _boss)
+        {
+            BuffEffect bEff = null;            
+            BuffEffect.buffNamed bfn = (BuffEffect.buffNamed)_boss;
+            eBuff ebf = eBuff.att;
+
+            switch (_boss)
+            {
+                case Boss.boss_butterfly:
+                    bEff = setNamedDeBuff(ebf, 30f, 1.2f);
+                    break;
+                case Boss.boss_flower:
+                    ebf = eBuff.def;
+                    bEff = setNamedDeBuff(ebf, 30f, 1.1f);
+                    break;
+                case Boss.boss_scarecrow:
+                    ebf = eBuff.hpgen;
+                    bEff = setNamedDeBuff(ebf, 30f, 1.3f);
+                    break;
+                case Boss.boss_owl:
+                    ebf = eBuff.cool;
+                    bEff = setNamedDeBuff(ebf, 30f, 0.85f);
+                    break;
+                case Boss.boss_bear:
+                    ebf = eBuff.coin;
+                    bEff = setNamedDeBuff(ebf, 30f, 1.25f);
+                    break;
+                default:
+                    Debug.LogError("보스 : " + gameObject.name + "// _boss : " + _boss.ToString());
+                    break;
+            }
+
+            bool exist = false;
+            for (int i = 0; i < _buffList.Count; i++)
+            {
+                if (_buffList[i].Name == bfn)
+                {
+                    _buffList[i].Term += 30f;
+                    exist = true;
+                    break;
+                }
+            }
+
+            if (exist == false)
+            {
+                _bffParticle.getBuffParticle(bfn);
+                bEff.setNamed(bfn, () => { _bffParticle.Buffoff(bfn); });
+
+                _buffStt[(int)ebf] *= bEff.Val;
+
+                _buffList.Add(bEff);
+            }
         }
 
         /// <summary> 버프 수동 삭제 </summary>
@@ -1087,11 +1175,11 @@ namespace week
         {
             if (bff != null)
             {
-                snowStt stt = bff.Stt;
+                eBuff ebff = bff.Bff;
 
                 _buffList.Remove(bff);
 
-                reCalBuff(stt);
+                reCalBuff(ebff);
             }
         }
 

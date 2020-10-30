@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7470093613143243918}
   - component: {fileID: 3585402213123096814}
   - component: {fileID: 6526181134974751414}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: dmgFont
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 7013986569271856845}
   - component: {fileID: 1850900983083388329}
   - component: {fileID: 8062911189969450261}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: dmgFontPf
   m_TagString: Untagged
   m_Icon: {fileID: 0}

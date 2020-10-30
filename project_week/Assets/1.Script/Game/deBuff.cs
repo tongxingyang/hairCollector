@@ -8,8 +8,10 @@ namespace week
     public class BuffEffect
     {
         public enum buffTermType { term, season, infinity }
+        public enum buffNamed { Attack, Defence, HpGen, CoolTime, BonusCoin, None }
+
         /// <summary> 버프 타입 </summary>
-        snowStt _stt;
+        eBuff _bff;
         /// <summary> 계절 </summary>
         buffTermType _isTerm;
         /// <summary> 지속 시간 </summary>
@@ -17,15 +19,21 @@ namespace week
         /// <summary> 값 </summary>
         float _val;
 
-        public snowStt Stt { get => _stt; }
+        /// <summary> 스킬네임드 </summary>
+        buffNamed _name;
+        /// <summary> 끝날때 </summary>
+        Action _whenOver;
+
+        public eBuff Bff { get => _bff; }
         public buffTermType IsSeason { get => _isTerm; }
         public float? Term { get => _term; set => _term = (_isTerm == buffTermType.term) ? value : null; }
         public bool TermOver { get => _term < 0; }
         public float Val { get => _val; }
+        public buffNamed Name { get => _name; }
 
-        public BuffEffect(snowStt stt, float term, float val, buffTermType isterm = buffTermType.term)
+        public BuffEffect(eBuff bff, float term, float val, buffTermType isterm = buffTermType.term)
         {
-            _stt = stt;
+            _bff = bff;
             _isTerm = isterm;
 
             if (isterm != buffTermType.term)
@@ -34,6 +42,22 @@ namespace week
                 _term = term;
 
             _val = val;
+
+            _name = buffNamed.None;
+            _whenOver = null;
+        }
+
+        public BuffEffect setNamed(buffNamed name, Action over)
+        {
+            _name = name;
+            _whenOver = over;
+
+            return this;
+        }
+
+        public void whenOver()
+        {
+            _whenOver?.Invoke();
         }
     }
 

@@ -112,15 +112,24 @@ namespace week
         #region [ES3 저장/로드]
 
         /// <summary> 저장 </summary>
-        public void saveUserEntity()
+        public void saveDataToLocal()
         {
             ES3.Save<UserEntity>("userEntity", _userEntity);
         }
 
         /// <summary>  </summary>
-        public void LoadUserEntity(UserEntity userEntity)
+        public void loadDataFromLocal(UserEntity userEntity)
         {
             _userEntity = userEntity;
+        }
+
+        /// <summary> 기기+서버 저장 </summary>
+        public void AllSaveUserEntity()
+        {
+            saveDataToLocal();
+#if UNITY_ANDROID
+            AuthManager.instance.saveDataToFB();
+#endif
         }
 
         #endregion

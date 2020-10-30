@@ -173,7 +173,7 @@ namespace week
         public void PlayGame()
         {
             SoundManager.instance.StopBGM();
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
             BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.GameScene);
         }
 

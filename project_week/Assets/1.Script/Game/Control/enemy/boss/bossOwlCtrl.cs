@@ -60,6 +60,9 @@ namespace week
         protected override void otherWhenRepeatInit()
         {
             base.otherWhenRepeatInit();
+
+            switchStat(stat.Idle);
+
             //_hp *= 10000;
             SetAnimation("idle", true, 1f);
         }

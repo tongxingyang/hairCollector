@@ -159,7 +159,7 @@ namespace week
 
             BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin * 2, (int)_preCalGem * 2, (int)_preCalAp * 2 };
 
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
 
             StartCoroutine(getMultiReward(2f, 2f, 2f)); 
 
@@ -195,7 +195,7 @@ namespace week
 
             BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin, (int)_preCalGem, (int)_preCalAp };
 
-            BaseManager.userGameData.saveUserEntity();
+            BaseManager.userGameData.saveDataToLocal();
         }
 
         IEnumerator getMultiReward(float m_c,float m_g,float m_a)
