@@ -7,66 +7,66 @@ namespace week
 {
     public class gameCompass : MonoBehaviour
     {
-        [SerializeField] GameObject _niddleFab;
+        [SerializeField] GameObject _iconFab;
         [SerializeField] Transform _player;
         [Space]
         [SerializeField] Transform _pool;
         [SerializeField] Transform _web;
-        [SerializeField] Sprite[] sprites;
-        class niddle
+        [SerializeField] Sprite[] sprites; // 0:보스 1:유적
+        class Icon
         {
-            public Transform pos;
-            public Transform nid;
+            public Transform pos; // 담당하고 있는 실제위치
+            public Transform mark; // 레이더 마크 위치
         }
 
-        List<niddle> niddles;
-        Queue<niddle> niddlePool;
+        List<Icon> niddles;
+        Queue<Icon> niddlePool;
 
         float _webAngle;
 
         private void Awake()
         {
-            niddles = new List<niddle>();
-            niddlePool = new Queue<niddle>();
+            niddles = new List<Icon>();
+            niddlePool = new Queue<Icon>();
         }
 
         public void newArea()
         {
             for (; 0 < niddles.Count;)
             {
-                niddle nd = niddles[0];
+                Icon nd = niddles[0];
                 niddles.RemoveAt(0);
-                nd.nid.gameObject.SetActive(false);
+                nd.mark.gameObject.SetActive(false);
 
                 niddlePool.Enqueue(nd);
             }
         }
 
-        public void chkCompass(Transform pos, bool isBoss)
+        public void chkCompass(Transform pos, bool isBoss) // bool에서 enum으로 변경
         {
             if (niddlePool.Count > 0)
             {
-                niddle ndl = niddlePool.Dequeue();
+                Icon ndl = niddlePool.Dequeue();
                 ndl.pos = pos;
                 //ndl.nid.gameObject.SetActive(true);
 
                 niddles.Add(ndl);
 
-                ndl.nid.GetComponentInChildren<Image>().sprite = sprites[(isBoss) ? 0 : 1];
+                ndl.mark.GetComponentInChildren<Image>().sprite = sprites[(isBoss) ? 0 : 1];
 
                 return;
             }
 
-            Transform tr = Instantiate(_niddleFab).transform;
+            Transform tr = Instantiate(_iconFab).transform;
             tr.SetParent(_pool);
             tr.localPosition = Vector3.zero;
 
-            niddle nid = new niddle();
+            Icon nid = new Icon();
             nid.pos = pos;
-            nid.nid = tr;
+            nid.mark = tr;
             niddles.Add(nid);
 
-            nid.nid.GetComponentInChildren<Image>().sprite = sprites[(isBoss) ? 0 : 1];
+            nid.mark.GetComponentInChildren<Image>().sprite = sprites[(isBoss) ? 0 : 1];
         }
 
         public void comPassMove()
@@ -76,7 +76,7 @@ namespace week
             float _far = 43f - 20.48f;
             for (int i = 0; i < niddles.Count; i++)
             {
-                niddles[i].nid.gameObject.SetActive(true);
+                niddles[i].mark.gameObject.SetActive(true);
 
                 _direct = niddles[i].pos.position - _player.position;
                 _dist = Vector3.Distance(niddles[i].pos.position, _player.position);
@@ -85,14 +85,14 @@ namespace week
                 {
                     _dist -= 20.48f;
                     _direct = _direct.normalized * 20f;
-                    niddles[i].nid.localScale = Vector3.one * ((_far - _dist) / _far + 1) * 0.5f;
+                    niddles[i].mark.localScale = Vector3.one * ((_far - _dist) / _far + 1) * 0.5f;
                 }
                 else
                 {
-                    niddles[i].nid.localScale = Vector3.one;
+                    niddles[i].mark.localScale = Vector3.one;
                 }
 
-                niddles[i].nid.localPosition = _direct * 7f;
+                niddles[i].mark.localPosition = _direct * 7f;
 
                 //Vector3 _direct = niddles[i].pos.position - _player.position;
                 //float angle = Mathf.Atan2(_direct.x, _direct.y) * Mathf.Rad2Deg;

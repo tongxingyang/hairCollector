@@ -55,7 +55,7 @@ namespace week
             _gs = gs;
             _obm = _gs.ObtMng;
             _clm = _gs.ClockMng;
-            _compass = _gs.Compass;
+            // _compass = _gs.Compass;
             _temp = new Tile[3];
 
             setMapObj(true); 
@@ -81,22 +81,22 @@ namespace week
                 }
             }
 
-            _compass.newArea();
+            //_compass.newArea();
 
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (_tiles[i * 3 + j]._map.MapType == mapObstacle.bosszone)
-                    {
-                        _compass.chkCompass(_tiles[i * 3 + j].Tr, true);
-                    }
-                    else if(_tiles[i * 3 + j]._map.MapType >= mapObstacle.ruin0)
-                    {
-                        _compass.chkCompass(_tiles[i * 3 + j].Tr, false);
-                    }
-                }
-            }
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    for (int j = 0; j < 3; j++)
+            //    {
+            //        if (_tiles[i * 3 + j]._map.MapType == mapObstacle.bosszone)
+            //        {
+            //            _compass.chkCompass(_tiles[i * 3 + j].Tr, true);
+            //        }
+            //        else if(_tiles[i * 3 + j]._map.MapType >= mapObstacle.ruin0)
+            //        {
+            //            _compass.chkCompass(_tiles[i * 3 + j].Tr, false);
+            //        }
+            //    }
+            //}
         }
 
         #region [map move]

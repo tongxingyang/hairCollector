@@ -13,7 +13,9 @@ namespace week
         UserEntity _userEntity;
 
         /// <summary> 랭킹최저점 </summary>
-        float _minRank;
+        public float _minRank { get; set; }
+        /// <summary> 가장 최근 랭킹 최신화 시간 </summary>
+        public DateTime _rankRefreshTime { get; set; }
 
         /// <summary> 전투결과 </summary>
         public int[] GameReward { get; set; }
@@ -53,40 +55,39 @@ namespace week
 
         #region [properties]
 
+        // 기본 정보 ==============================================================
+        // - 닉 / 재화 
         public string NickName { get => _userEntity._property._nickName; set => _userEntity._property._nickName = value; }
         public int Coin { get => _userEntity._property._currency[(int)currency.coin]; set => _userEntity._property._currency[(int)currency.coin] = value; }
-        public int followCoin { get; set; }
         public int Gem { get => _userEntity._property._currency[(int)currency.gem]; set => _userEntity._property._currency[(int)currency.gem] = value; }
-        public int followGem { get; set; }
         public int Ap { get => _userEntity._property._currency[(int)currency.ap]; set => _userEntity._property._currency[(int)currency.ap] = value; }
 
-        //  스킨
+        public int followCoin { get; set; }
+        public int followGem { get; set; }
+
+        // - 스킨
         public int HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
         public SkinKeyList Skin { get => (SkinKeyList)_userEntity._property._skin; set => _userEntity._property._skin = (int)value; }
 
-        //  기록 및 퀘스트
-        // 일일
+        // 기록 ==============================================================
+        public int TimeRecord { get => _userEntity._record._timeRecord; }
+        public int RecordSkin { get => _userEntity._record._recordSkin; }
+        public int BossRecord { get => _userEntity._record._bossRecord; set => _userEntity._record._bossRecord = value; }
+        public int ArtifactRecord { get => _userEntity._record._artifactRecord; set => _userEntity._record._artifactRecord = value; }
+        public int AdRecord { get => _userEntity._record._adRecord; set => _userEntity._record._adRecord = value; }
+        public int ReinRecord { get => _userEntity._record._reinRecord; set => _userEntity._record._reinRecord = value; }
+
+        // 퀘스트 ==============================================================
+        // - 일일
         public int[] DayQuest { get => _userEntity._quest._dayQuest; set => _userEntity._quest._dayQuest = value; }
         public int QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
-        // 전체
-        public int TimeRecord { get => _userEntity._quest._timeRecord; set => _userEntity._quest._timeRecord = value; }
+        // - 전체
         public int GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
-        public int BossRecord { get => _userEntity._quest._bossRecord; set => _userEntity._quest._bossRecord = value; }
         public int GetBossReward { get => _userEntity._quest._getBossReward; set => _userEntity._quest._getBossReward = value; }
-        public int ArtifactRecord { get => _userEntity._quest._artifactRecord; set => _userEntity._quest._artifactRecord = value; }
         public int GetArtifactReward { get => _userEntity._quest._getArtifactReward; set => _userEntity._quest._getArtifactReward = value; }
-        public int AdRecord { get => _userEntity._quest._adRecord; set => _userEntity._quest._adRecord = value; }
-        public int ReinRecord { get => _userEntity._quest._reinRecord; set => _userEntity._quest._reinRecord = value; }
 
-        //  스탯
+        // 스탯 ==============================================================
         public int[] StatusLevel { get => _userEntity._status._statusLevel; set => _userEntity._status._statusLevel = value; }
-
-        //  인앱결제
-        public bool AddGoods { get => _userEntity._payment._addGoods; set => _userEntity._payment._addGoods = value; }
-        public float AddGoodsValue { get => _userEntity._payment._addGoodsValue; set => _userEntity._payment._addGoodsValue = value; }
-        public bool RemoveAD { get => _userEntity._payment._removeAD; set => _userEntity._payment._removeAD = value; }
-        public bool SkinPack { get => _userEntity._payment._skinPack; set => _userEntity._payment._skinPack = value; }
-        public bool StartPack { get => _userEntity._payment._startPack; set => _userEntity._payment._startPack = value; }
 
         public int o_Hp { get => _userEntity._status._hp; }
         public float o_Hpgen { get => _userEntity._status._hpgen; }
@@ -97,15 +98,40 @@ namespace week
         public float o_CoinFactor { get => _userEntity._status._coinFactor; }
         public float SkinEnhance { get => _userEntity._status._skinEnhance; }
 
+        // 인앱결제 ==============================================================
+        public mulCoinChkList AddMulCoinList { set => _userEntity._payment._mulCoinList |= (1 << (int)value); }
+        public bool chkMulCoinList(mulCoinChkList index)
+        {
+            return (_userEntity._payment._mulCoinList & (1 << (int)index)) > 0;
+        }
+        public int PaymentChkList { get => _userEntity._payment._chkList; set => _userEntity._payment._chkList = value; }
+        public bool RemoveAd { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.removeAD)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.removeAD) : 0; }
+        public bool MulCoin { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.mulCoins)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.mulCoins) : 0; }
+        public bool StartPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.startPack)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.startPack) : 0; }
+        public bool SkinPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.skinPack)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.skinPack) : 0; }
 
-        //  옵션
+        // 옵션 ==============================================================
         public float BgmVol { get => _userEntity._option._bgmVol; set => _userEntity._option._bgmVol = value; }
-        public float SfxVol { get => _userEntity._option._sfxVol; set => _userEntity._option._sfxVol = value; }        
+        public float SfxVol { get => _userEntity._option._sfxVol; set => _userEntity._option._sfxVol = value; }
 
-        //  유틸
-        public long Join { get => _userEntity._util._join; set => _userEntity._util._join = value; }
-        public bool IsSavedServer { get => _userEntity._util._isSavedServer; set => _userEntity._util._isSavedServer = value; }
-        public long LastSave { get => _userEntity._util._lastSave; set => _userEntity._util._lastSave = value; }
+        // 유틸 ==============================================================
+        public long Join { get => _userEntity._util._join; }
+        public long LastSave { get => _userEntity._util._lastSave;
+            set
+            {
+                if (AuthManager.instance.networkCheck()) 
+                { _userEntity._util._lastSave = value; };
+            }
+        }
+        public int UtilChkList { get => _userEntity._util._chkList; set => _userEntity._util._chkList = value; }
+        public bool FreeNichkChange { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.freeNickChange)) > 0;
+                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.freeNickChange) : 0; }
+        public bool IsSavedServer   { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.isSavedServer)) > 0;
+                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.isSavedServer) : 0; }
 
         #endregion
 
@@ -121,15 +147,6 @@ namespace week
         public void loadDataFromLocal(UserEntity userEntity)
         {
             _userEntity = userEntity;
-        }
-
-        /// <summary> 기기+서버 저장 </summary>
-        public void AllSaveUserEntity()
-        {
-            saveDataToLocal();
-#if UNITY_ANDROID
-            AuthManager.instance.saveDataToFB();
-#endif
         }
 
         #endregion
@@ -304,6 +321,16 @@ namespace week
 
         #endregion
 
+        #region [ 기타 설정 함수 ]
+
+        public void setNewRecord(int newRecord)
+        {
+            _userEntity._record._timeRecord = newRecord;
+            _userEntity._record._recordSkin = _userEntity._property._skin;
+        }
+
+        #endregion
+
         /// <summary> float 기록 --> 전부 string으로 변환 </summary>
         public string getLifeTime(float time, bool isTwoLine)
         {
@@ -423,6 +450,23 @@ namespace week
             return _userEntity.saveData();
         }
 
-        
+        public Dictionary<string, object> getRankData(string uid)
+        {
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data["_uid"] = uid;
+            data["_nick"] = NickName;
+            data["_time"] = TimeRecord;
+            data["_boss"] = BossRecord;
+            data["_skin"] = RecordSkin;
+            data["_version"] = gameValues._version;
+
+            return data;
+        }
+
+        public DateTime getEpochDate()
+        {
+            DateTime utcCreated = gameValues.epoch.AddMilliseconds(AuthManager.instance.LastLogin);
+            return utcCreated;
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace week
                     sb.transform.SetParent(_skinBoxParent);
                     sb.transform.localScale = Vector3.one;
                     sb.setSkinBox((SkinKeyList)i);
+                    sb.setAction(changeSkin);
 
                     _skinBoxies.Add(i, sb);
                 }

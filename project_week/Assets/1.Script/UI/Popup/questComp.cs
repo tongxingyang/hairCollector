@@ -173,6 +173,8 @@ namespace week
                 mImgs[(int)eImg.dqr_black + i].color = _dayBlack;
 
                 refreshDayQuest();
+
+                AuthManager.instance.AllSaveUserEntity();
             }
         }
 
@@ -207,6 +209,8 @@ namespace week
                 }
 
                 refreshQuest(i);
+
+                AuthManager.instance.AllSaveUserEntity();
             }
         }
 

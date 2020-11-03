@@ -30,7 +30,32 @@ namespace week
 
     #endregion
 
+    #region [ user Data ]
+
+    public enum mulCoinChkList
+    {
+        removeAD,
+        mul_1st_10p,
+        max
+    }
+    public enum paymentChkList
+    {
+        removeAD,
+        mulCoins,        
+        startPack,
+        skinPack
+    }
+
+    public enum utilityChkList
+    {
+        freeNickChange,     // 무료 닉변
+        isSavedServer       // 서버에 저장 여부
+    }
+
+    #endregion
+
     #region dataTable
+
     public enum DataTable { status, skill, skin, monster, boss, enproj, quest, product, max }
     
     /// <summary> 스탯 </summary>

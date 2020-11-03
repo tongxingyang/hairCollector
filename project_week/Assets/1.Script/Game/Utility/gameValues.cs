@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,14 @@ namespace week
 {
     public static class gameValues
     {
-        /// <summary> 어빌리티 포인트 </summary>
+        /// <summary> 버전 </summary>
+        public static readonly int _version = 1;
+        /// <summary> 유닉스 시대 </summary>
+        public static readonly DateTime epoch = new DateTime(1970, 1, 1, 9, 0, 0, DateTimeKind.Utc);
+        /// <summary> 어빌리티 포인트 가격 </summary>
         public static readonly int _apPrice = 1000;
+        /// <summary> 닉변 가격 </summary>
+        public static readonly int _nickPrice = 50;
 
         public static readonly float _firstMopCoin = 1;
         public static readonly float _mopCoinIncrease = 1.15f;
@@ -22,6 +29,13 @@ namespace week
         public static readonly float _defaultSpeed = 3.2f;
         //public static readonly float _defaultProjSpeed = 5f;
         public static readonly float _defaultCurvProjSpeed = 2f;
+
+        // 추가코인 ==============================
+        public static readonly Vector3[] _mulCoinVal = new Vector3[2] {
+            new Vector3(2f,2f,2f),  // 광고제거
+            new Vector3(1.1f,1f,1f) // 10퍼
+        };
+        // ======================================
 
         public static  Vector3 _firstbox
         {

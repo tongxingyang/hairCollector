@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
+using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace week
 {
@@ -63,36 +64,48 @@ namespace week
             }
         }
 
+        /// <summary> 기록 </summary>
+        [Serializable]
+        public struct record
+        {
+            [SerializeField] public int _timeRecord;
+            [SerializeField] public int _bossRecord;
+            [SerializeField] public int _artifactRecord;
+            [SerializeField] public int _adRecord;
+            [SerializeField] public int _reinRecord;
+            [SerializeField] public int _recordSkin; // 신기록 당시의 스킨
+
+            public record(int timeRecord, int bossRecord, int artifactRecord, int adRecord, int reinRecord, int recordSkin)
+            {
+                _timeRecord = timeRecord;
+                _bossRecord = bossRecord;
+                _artifactRecord = artifactRecord;
+                _adRecord = adRecord;
+                _reinRecord = reinRecord;
+                _recordSkin = recordSkin;
+            }
+        }
+
         /// <summary> 퀘스트 </summary>
         [Serializable]
         public struct quest
         {
-            // 기록 및 퀘스트
+            // 퀘스트
             // 일일
             [SerializeField] public int[] _dayQuest;
             [SerializeField] public int _questSkin;
             // 전체        
-            [SerializeField] public int _timeRecord;
             [SerializeField] public int _getTimeReward;
-            [SerializeField] public int _bossRecord;
             [SerializeField] public int _getBossReward;
-            [SerializeField] public int _artifactRecord;
             [SerializeField] public int _getArtifactReward;
-            [SerializeField] public int _adRecord;
-            [SerializeField] public int _reinRecord;
 
-            public quest(int[] dayQuest, int questSkin, int timeRecord, int getTimeReward, int bossRecord, int getBossReward, int artifactRecord, int getArtifactReward, int adRecord, int reinRecord)
+            public quest(int[] dayQuest, int questSkin, int getTimeReward, int getBossReward, int getArtifactReward)
             {
                 _dayQuest = dayQuest;
                 _questSkin = questSkin;
-                _timeRecord = timeRecord;
                 _getTimeReward = getTimeReward;
-                _bossRecord = bossRecord;
                 _getBossReward = getBossReward;
-                _artifactRecord = artifactRecord;
                 _getArtifactReward = getArtifactReward;
-                _adRecord = adRecord;
-                _reinRecord = reinRecord;
             }
         }
 
@@ -100,20 +113,15 @@ namespace week
         [Serializable]
         public struct payment
         {
-            //인앱결제
-            [SerializeField] public bool _addGoods;
-            [SerializeField] public float _addGoodsValue;
-            [SerializeField] public bool _removeAD;
-            [SerializeField] public bool _startPack;
-            [SerializeField] public bool _skinPack;
+            /// <summary> 코인 추가 배율 </summary>
+            [SerializeField] public int _mulCoinList;
+            /// <summary> 인앱결제 - 일회성 구매 상품 체크리스트 </summary>
+            [SerializeField] public int _chkList;
 
-            public payment(bool addGoods, float addGoodsValue, bool removeAD, bool startPack, bool skinPack)
+            public payment(int mullist, int chklist)
             {
-                _addGoods = addGoods;
-                _addGoodsValue = addGoodsValue;
-                _removeAD = removeAD;
-                _startPack = startPack;
-                _skinPack = skinPack;
+                _mulCoinList = mullist;
+                _chkList = chklist;
             }
         }
 
@@ -136,15 +144,16 @@ namespace week
         public struct gameUtility
         {
             [SerializeField] public long _join;             // 최초 가입
-            [SerializeField] public bool _isSavedServer;    // 서버에 저장 여부
-
             [SerializeField] public long _lastSave;         // 마지막 저장
+ 
+            /// <summary> 유틸 체크리스트 </summary>
+            [SerializeField] public int _chkList;
 
-            public gameUtility(long join, bool isSavedServer, long lastSave)
+            public gameUtility(long join, long lastSave, int chklist)
             {
                 _join = join;
-                _isSavedServer = isSavedServer;
                 _lastSave = lastSave;
+                _chkList = chklist;
             }
         }
 
@@ -154,6 +163,7 @@ namespace week
 
         public property _property;  // 자산
         public status _status;      // 능력치
+        public record _record;      // 기록
         public quest _quest;        // 퀘스트
         public payment _payment;    // 결제
         public option _option;      // 옵션
@@ -164,60 +174,65 @@ namespace week
         /// <summary> 초기화 생성 </summary>
         public UserEntity()
         {
-            _property = new property();
-            {
-                _property._nickName = "ready_Player_1";                 // 닉                
-                _property._currency = new int[3] { 99999999, 2000, 0 }; // 재화                
-                _property._hasSkin = 1;                                 // 스킨
-            }
+            // 유저 기본정보
+            _property = new property(    
+                nic     : "ready_Player_1",                     // 닉                
+                cur     : new int[3] { 1000, 10, 1 },           // 재화       
+                hasskin : 1,                                    // 보유스킨
+                skin    : 0                                     // 스킨
+            );
 
-            _status = new status();// 스탯
-            {
-                _status._statusLevel = new int[(int)StatusData.max];
+            // 스탯
+            _status = new status(
+                statusLevel : new int[(int)StatusData.max],
+                hp          : DataManager.GetTable<int>(DataTable.status, "default", StatusData.hp.ToString()),
+                hpgen       : DataManager.GetTable<float>(DataTable.status, "default", StatusData.hpgen.ToString()),
+                def         : DataManager.GetTable<int>(DataTable.status, "default", StatusData.def.ToString()),
+                att         : DataManager.GetTable<float>(DataTable.status, "default", StatusData.att.ToString()),
+                cool        : DataManager.GetTable<float>(DataTable.status, "default", StatusData.cool.ToString()),
+                expFactor   : DataManager.GetTable<float>(DataTable.status, "default", StatusData.exp.ToString()),
+                coinFactor  : DataManager.GetTable<float>(DataTable.status, "default", StatusData.coin.ToString()),
+                skinEnhance : DataManager.GetTable<float>(DataTable.status, "default", StatusData.skin.ToString())
+            );
 
-                _status._hp = DataManager.GetTable<int>(DataTable.status, "default", StatusData.hp.ToString());
-                _status._hpgen = DataManager.GetTable<float>(DataTable.status, "default", StatusData.hpgen.ToString());
-                _status._def = DataManager.GetTable<int>(DataTable.status, "default", StatusData.def.ToString());
-                _status._att = DataManager.GetTable<float>(DataTable.status, "default", StatusData.att.ToString());
-                _status._cool = DataManager.GetTable<float>(DataTable.status, "default", StatusData.cool.ToString());
-                _status._expFactor = DataManager.GetTable<float>(DataTable.status, "default", StatusData.exp.ToString());
-                _status._coinFactor = DataManager.GetTable<float>(DataTable.status, "default", StatusData.coin.ToString());
-                _status._skinEnhance = DataManager.GetTable<float>(DataTable.status, "default", StatusData.skin.ToString());
-            }
+            // 기록
+            _record = new record(
+                timeRecord      : 0,
+                bossRecord      : 0,
+                artifactRecord  : 0,
+                adRecord        : 0,
+                reinRecord      : 0,
+                recordSkin      : 1
+            );
 
-            _quest = new quest();   // 퀘스트
-            {
-                _quest._dayQuest = new int[3];
+            // 업적
+            _quest = new quest(
+                dayQuest            : new int[3],
+                questSkin           : 0,
 
-                _quest._timeRecord = 0;
-                _quest._getTimeReward = 0;
-                _quest._bossRecord = 0;
-                _quest._getBossReward = 0;
-                _quest._artifactRecord = 0;
-                _quest._getArtifactReward = 0;
-                _quest._adRecord = 0;
-                _quest._reinRecord = 0;
-            }
+                getTimeReward       : 0,
+                getBossReward       : 0,
+                getArtifactReward   : 0
+            );
 
-            _payment = new payment();   // 결제
-            {
-                _payment._addGoods = false;
-                _payment._addGoodsValue = 1f;
-                _payment._removeAD = false;
-            }
+            // 인앱결제
+            _payment = new payment(
+                mullist : 0,
+                chklist : 0
+            );
 
-            _option = new option();     // 옵션
-            {
-                _option._bgmVol = 1f;
-                _option._sfxVol = 1f;
-            }
+            // 옵션
+            _option = new option(
+                bgmVol  : 1f,
+                sfxVol  : 1f
+            );
 
-            _util = new gameUtility(); // 유틸
-            {
-                _util._join = getLoginTime();
-                _util._isSavedServer = false;
-                _util._lastSave = _util._join;
-            }
+            // 유틸
+            _util = new gameUtility(
+                join        : (AuthManager.instance.networkCheck()) ? AuthManager.instance.LastLogin : 0,                
+                lastSave    : (AuthManager.instance.networkCheck()) ? AuthManager.instance.LastLogin : 0,
+                chklist     : 0
+            );
         }
 
         /// <summary> 스탯 레벨 -> 스탯에 적용 </summary>
@@ -275,13 +290,6 @@ namespace week
         public string saveData()
         {
             return JsonUtility.ToJson(this);
-        }
-
-        public long getLoginTime()
-        {
-            DateTime dateDate = DateTime.Now;
-            long result = dateDate.Year * 10000000000 + dateDate.Month * 100000000 + dateDate.Day * 1000000 + dateDate.Hour * 10000 + dateDate.Minute * 100 + dateDate.Second;
-            return result;
         }
     }
 }

@@ -17,7 +17,10 @@ namespace week
             Status,
             Skin,
             Quest,
-            option
+            Rank,
+            option,
+            nicChangePanel,
+            updatePanel
         }
 
         enum eImg
@@ -36,7 +39,8 @@ namespace week
             CoinTxt,
             GemTxt,
             RecordTxt,
-            nickName
+            nickName,
+            upVersion
         }
 
         protected override Enum GetEnumGameObject() { return new eGO(); }
@@ -67,8 +71,10 @@ namespace week
         statusComp _status;
         skinComp _skin;
         questComp _quest;
+        rankComp _rank;
 
         optionComp _option;
+        nickChangePopup _nickPanel;
 
         public Transform CoinTxt { get { return mImgs[(int)eImg.Coin].transform; } }
         public Transform GemTxt { get { return mImgs[(int)eImg.Gem].transform; } }
@@ -87,11 +93,16 @@ namespace week
 
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
             _status = mGos[(int)eGO.Status].GetComponent<statusComp>();
+            _status.CostRefresh = refreshCost;
             _skin = mGos[(int)eGO.Skin].GetComponent<skinComp>();
             _skin.Init();
             _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
+            _rank = mGos[(int)eGO.Rank].GetComponent<rankComp>();
+            _rank.Init();
 
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
+            _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();
+            _nickPanel.completeChange = () => { setStage(); refreshCost(); };
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
             MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
@@ -102,7 +113,10 @@ namespace week
             mGos[(int)eGO.Status].SetActive(false);
             mGos[(int)eGO.Skin].SetActive(false);
             mGos[(int)eGO.Quest].SetActive(false);
+            mGos[(int)eGO.Rank].SetActive(false);
             mGos[(int)eGO.option].SetActive(false);
+            mGos[(int)eGO.nicChangePanel].SetActive(false);
+            mGos[(int)eGO.updatePanel].SetActive(false);
             setStage();
 
             SoundManager.instance.PlayBGM(BGM.Lobby);
@@ -123,7 +137,18 @@ namespace week
                 BaseManager.userGameData.GameReward = null;
             }
 
-            MTmps[(int)eTmp.nickName].text = BaseManager.userGameData.NickName;
+            if (BaseManager.userGameData.FreeNichkChange == false) 
+            {
+                _nickPanel.open();
+            }
+            if (BaseManager.userGameData.IsSavedServer == false)
+            {
+                AuthManager.instance.AllSaveUserEntity();
+            }
+            if(AuthManager.instance.LastVersion > gameValues._version)
+            {
+                openUpdate();    
+            }
         }
 
         private void Update()
@@ -173,14 +198,14 @@ namespace week
         public void PlayGame()
         {
             SoundManager.instance.StopBGM();
-            BaseManager.userGameData.saveDataToLocal();
+            //BaseManager.userGameData.saveDataToLocal();
             BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.GameScene);
         }
 
         public void openStore()
         {
             _isLobby = false;
-            mGos[(int)eGO.Lobby].SetActive(false);
+            allClose(false);
 
             _store.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
@@ -188,7 +213,7 @@ namespace week
         public void openStatus()
         {
             _isLobby = false;
-            mGos[(int)eGO.Lobby].SetActive(false);
+            allClose(false);
 
             _status.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
@@ -196,7 +221,7 @@ namespace week
         public void openSkin()
         {
             _isLobby = false;
-            mGos[(int)eGO.Lobby].SetActive(false);
+            allClose(false);
 
             _skin.open();
             mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
@@ -204,8 +229,18 @@ namespace week
         public void openQuest()
         {
             _isLobby = false;
+            allClose(true);
 
             _quest.open();
+        }
+
+        public void openRank()
+        {
+            _isLobby = false;
+            allClose(false);
+
+            _rank.open();
+            mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
         }
 
         public void openOption()
@@ -219,18 +254,44 @@ namespace week
                 _isLobby = true;
                 mImgs[(int)eImg.optionBtn].sprite = _optionImg[0];
 
-                mGos[(int)eGO.Store].SetActive(false);
-                mGos[(int)eGO.Status].SetActive(false);
-                mGos[(int)eGO.Skin].SetActive(false);
-                mGos[(int)eGO.Quest].SetActive(false);
-
-                mGos[(int)eGO.Lobby].SetActive(true);
+                allClose(true);
                 refreshSnowImg();
             }
         }
 
+        public void openNick()
+        {
+            _nickPanel.open();
+        }
+
+        public void openUpdate()
+        {
+            MTmps[(int)eTmp.RecordTxt].text = $"{AuthManager.instance.LastVersion}.버전이 출시되었습니다." + System.Environment.NewLine + "업데이트 해주세요.";
+            mGos[(int)eGO.updatePanel].SetActive(true);
+        }
+
+        public void connectDownLoadURL()
+        { 
+        
+        }
+
+        void allClose(bool lobby)
+        {
+            mGos[(int)eGO.Lobby].SetActive(lobby);
+
+            mGos[(int)eGO.Store].SetActive(false);
+            mGos[(int)eGO.Status].SetActive(false);
+            mGos[(int)eGO.Skin].SetActive(false);
+            mGos[(int)eGO.Quest].SetActive(false);
+            mGos[(int)eGO.Rank].SetActive(false);
+            mGos[(int)eGO.option].SetActive(false);
+            mGos[(int)eGO.nicChangePanel].SetActive(false);
+        }
+
         void setStage()
         {
+            MTmps[(int)eTmp.nickName].text = BaseManager.userGameData.NickName;
+
             if (BaseManager.userGameData.TimeRecord == 0)
             {
                 MTmps[(int)eTmp.RecordTxt].text = "응애 나 아기눈사람";

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System;
 
 namespace week
 {
@@ -26,8 +27,9 @@ namespace week
         [SerializeField] GameObject _coin;
         [SerializeField] GameObject _gem;
         [SerializeField] GameObject _ap;
-
+        [Header("button")]
         [SerializeField] Image _AdsBtn;
+        [SerializeField] Image _lobbyBtn;
 
         float _preCalCoin, _getCoin;
         float _preCalGem, _getGem;
@@ -42,11 +44,14 @@ namespace week
 
         public void resultInit(float time, int coin, int gem, int ap, int mob, int boss, int arti)
         {
-            if (BaseManager.userGameData.RemoveAD)
+            if (BaseManager.userGameData.RemoveAd)
             {
                 _AdsBtn.color = Color.gray;
                 _AdsBtn.raycastTarget = false;
             }
+
+            _AdsBtn.raycastTarget = false;
+            _lobbyBtn.raycastTarget = false;
 
             _isNewRecord = time > BaseManager.userGameData.TimeRecord;
 
@@ -82,8 +87,15 @@ namespace week
             _newImg.gameObject.SetActive(false);
             if (_isNewRecord)
             {
+                BaseManager.userGameData.setNewRecord(Convert.ToInt32(time));
+                if (BaseManager.userGameData._minRank < Convert.ToInt32(time))
+                {
+                    AuthManager.instance.saveRankDataFromFB();
+                }
                 StartCoroutine(newRecord());
             }
+
+            preRewardCalculator();
 
             //=================[ 창 열기 ]==============================================
 
@@ -106,9 +118,7 @@ namespace week
             yield return new WaitForSeconds(0.25f);
 
             if (_isNewRecord)
-            {
-                BaseManager.userGameData.TimeRecord = (int)time;
-
+            {            
                 _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false);
 
                 _bestRecord.transform.localScale = Vector3.one * 2;
@@ -118,22 +128,19 @@ namespace week
                 _newImg.transform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.InCirc);
 
                 WindowManager.instance.Win_celebrate.whenNewResult();
-            }
+            }            
 
-            preRewardCalculator();
+            _AdsBtn.raycastTarget = true;
+            _lobbyBtn.raycastTarget = true;
 
-            // 10퍼 추가
-            if (BaseManager.userGameData.AddGoods)
+            for (mulCoinChkList i = mulCoinChkList.removeAD; i < mulCoinChkList.max; i++)
             {
-                yield return new WaitForSeconds(0.5f);
-                yield return StartCoroutine(getMultiReward(BaseManager.userGameData.AddGoodsValue, 1f, 1f));
-            }
-
-            // 광고 제거
-            if (BaseManager.userGameData.RemoveAD)
-            {
-                yield return new WaitForSeconds(0.5f);
-                yield return StartCoroutine(getMultiReward(2f, 2f, 2f));
+                if (BaseManager.userGameData.chkMulCoinList(i))
+                {
+                    Debug.Log(i.ToString());
+                    yield return new WaitForSeconds(0.5f);
+                    yield return StartCoroutine(getMultiReward(gameValues._mulCoinVal[(int)i]));
+                }
             }
         }
 
@@ -159,9 +166,9 @@ namespace week
 
             BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin * 2, (int)_preCalGem * 2, (int)_preCalAp * 2 };
 
-            BaseManager.userGameData.saveDataToLocal();
+            AuthManager.instance.AllSaveUserEntity();
 
-            StartCoroutine(getMultiReward(2f, 2f, 2f)); 
+            StartCoroutine(getMultiReward(gameValues._mulCoinVal[(int)mulCoinChkList.removeAD]));
 
             _AdsBtn.color = Color.gray;
             _AdsBtn.raycastTarget = false;
@@ -174,15 +181,18 @@ namespace week
             _preCalGem = _getGem;
             _preCalAp = _getAp;
 
-            if (BaseManager.userGameData.AddGoods)
+            for (mulCoinChkList i = mulCoinChkList.removeAD; i < mulCoinChkList.max; i++)
             {
-                _preCalCoin *= 1.1f;
-                _preCalGem *= 1.1f;
-                _preCalAp *= 1.1f;
+                if (BaseManager.userGameData.chkMulCoinList(i))
+                {
+                    _preCalCoin *= gameValues._mulCoinVal[(int)i].x;
+                    _preCalGem  *= gameValues._mulCoinVal[(int)i].y;
+                    _preCalAp   *= gameValues._mulCoinVal[(int)i].z;
+                }
             }
 
             // 광고 제거
-            if (BaseManager.userGameData.RemoveAD)
+            if (BaseManager.userGameData.RemoveAd)
             {
                 _preCalCoin *= 2f;
                 _preCalGem *= 2f;
@@ -195,10 +205,11 @@ namespace week
 
             BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin, (int)_preCalGem, (int)_preCalAp };
 
-            BaseManager.userGameData.saveDataToLocal();
+            AuthManager.instance.AllSaveUserEntity();
         }
 
-        IEnumerator getMultiReward(float m_c,float m_g,float m_a)
+        /// <summary> 코인얻는거 시연용 (실질적 기능 X) </summary>
+        IEnumerator getMultiReward(Vector3 mul)
         {
             // 시작수
             int c = (int)_getCoin;
@@ -219,7 +230,7 @@ namespace week
             // 문자변경
             while (going)
             {
-                if (_getCoin * m_c > c)
+                if (_getCoin * mul.x > c)
                 {
                     c += coinup;
                     _coinTxt.text = c.ToString();
@@ -229,13 +240,13 @@ namespace week
                     going = false;
                 }
 
-                if (_getGem * m_g > g)
+                if (_getGem * mul.y > g)
                 {
                     g++;
                     _gemTxt.text = g.ToString();
                 }
 
-                if (_getAp * m_a > a)
+                if (_getAp * mul.y > a)
                 {
                     a++;
                     _apTxt.text = a.ToString();
@@ -245,9 +256,9 @@ namespace week
                 yield return new WaitForEndOfFrame();
             }
 
-            _getCoin    = (int)(_getCoin * m_c);
-            _getGem     = (int)(_getGem * m_g);
-            _getAp      = (int)(_getAp * m_a);
+            _getCoin    = (int)(_getCoin * mul.x);
+            _getGem     = (int)(_getGem * mul.y);
+            _getAp      = (int)(_getAp * mul.z);
 
             _coinTxt.text   = ((int)_getCoin).ToString();
             _gemTxt.text    = ((int)_getGem).ToString();
@@ -272,6 +283,7 @@ namespace week
         {
             WindowManager.instance.Win_celebrate.allClose();
             SoundManager.instance.StopBGM();
+            AuthManager.instance.AllSaveUserEntity();
             BaseManager.instance.convertScene(SceneNum.GameScene.ToString(), SceneNum.LobbyScene);
         }
     }

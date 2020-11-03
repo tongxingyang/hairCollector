@@ -48,12 +48,14 @@ namespace week
         public void getRemoveAd()
         {
             Debug.Log("광고 제거");
-            BaseManager.userGameData.RemoveAD = true;
+            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
+            BaseManager.userGameData.RemoveAd = true;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.removead.ToString(), productValData.image.ToString()));
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             _ad.raycastTarget = false;
+            AuthManager.instance.AllSaveUserEntity();
             _soldoutAd.SetActive(true);
         }
 
@@ -61,13 +63,14 @@ namespace week
         public void getAdd10per()
         {
             Debug.Log("코인 추가 10퍼 겟또다제");
-            BaseManager.userGameData.AddGoods = true;
-            BaseManager.userGameData.AddGoodsValue = 1.1f;
+            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_10p;
+            BaseManager.userGameData.MulCoin = true;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus.ToString(), productValData.image.ToString()));
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             _10p.raycastTarget = false;
+            AuthManager.instance.AllSaveUserEntity();
             _soldout10p.SetActive(true);
         }
 
@@ -81,10 +84,12 @@ namespace week
         /// <summary> 스타터팩 </summary>
         public void getStartPack()
         {
-            Debug.Log("스타터팩 구매 완료");
+            Debug.Log("스타터팩 구매 완료"); 
+            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
+            BaseManager.userGameData.RemoveAd = true;
             BaseManager.userGameData.StartPack = true;
 
-            bool result = BaseManager.userGameData.RemoveAD;
+            bool result = BaseManager.userGameData.RemoveAd;
             if (result == false)
             {
                 getRemoveAd();
@@ -112,6 +117,7 @@ namespace week
             //_costRefresh();
 
             _start.raycastTarget = false;
+            AuthManager.instance.AllSaveUserEntity();
             _soldoutStart.SetActive(true);
         }
 
@@ -142,6 +148,7 @@ namespace week
             //_costRefresh();
 
             _skin.raycastTarget = false;
+            AuthManager.instance.AllSaveUserEntity();
             _soldoutSkin.SetActive(true);
         }
 
@@ -162,7 +169,7 @@ namespace week
 
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 10);
 
-            //_costRefresh();
+            AuthManager.instance.AllSaveUserEntity();
         }
 
         public void getMiddleGem()
@@ -173,7 +180,7 @@ namespace week
 
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 15);
 
-            //_costRefresh();
+            AuthManager.instance.AllSaveUserEntity();
         }
 
         public void getLargeGem()
@@ -184,7 +191,7 @@ namespace week
 
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 22);
 
-            //_costRefresh();
+            AuthManager.instance.AllSaveUserEntity();
         }
 
         #endregion
@@ -198,8 +205,8 @@ namespace week
             BaseManager.userGameData.Ap += i;
 
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 10);
-
-            //_costRefresh();
+            
+            AuthManager.instance.AllSaveUserEntity();
         }
 
         public void getMiddleAp()
@@ -210,7 +217,7 @@ namespace week
 
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 15);
 
-            //_costRefresh();
+            AuthManager.instance.AllSaveUserEntity();
         }
 
         public void getLargeAp()
@@ -221,7 +228,7 @@ namespace week
 
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 22);
 
-            //_costRefresh();
+            AuthManager.instance.AllSaveUserEntity();
         }
 
         #endregion
@@ -245,7 +252,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 10);
 
-                    //_costRefresh();
+                    AuthManager.instance.AllSaveUserEntity();
                 }
                 else
                 {
@@ -272,7 +279,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 15);
 
-                    //_costRefresh();
+                    AuthManager.instance.AllSaveUserEntity();
                 }
                 else
                 {
@@ -298,7 +305,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 22);
 
-                    //_costRefresh();
+                    AuthManager.instance.AllSaveUserEntity();
                 }
                 else
                 {
@@ -311,15 +318,15 @@ namespace week
 
         public void purchaseFail()
         {
-            WindowManager.instance.showActMessage("결제에 실패했습니눈", () => { });
+            WindowManager.instance.showActMessage("결제에 실패했습눈다", () => { });
         }
         
         public void open()
         {
-            _ad.raycastTarget = !BaseManager.userGameData.RemoveAD;
-            _soldoutAd.SetActive(BaseManager.userGameData.RemoveAD);
-            _10p.raycastTarget = !BaseManager.userGameData.AddGoods;
-            _soldout10p.SetActive(BaseManager.userGameData.AddGoods);
+            _ad.raycastTarget = !BaseManager.userGameData.RemoveAd;
+            _soldoutAd.SetActive(BaseManager.userGameData.RemoveAd);
+            _10p.raycastTarget = !BaseManager.userGameData.MulCoin;
+            _soldout10p.SetActive(BaseManager.userGameData.MulCoin);
             _skin.raycastTarget = !BaseManager.userGameData.SkinPack;
             _soldoutSkin.SetActive(BaseManager.userGameData.SkinPack);
 

@@ -22,6 +22,7 @@ namespace week
             _gs = gs;
             _player = gs.Player;
             getEquip = _getEquip;
+            _tem.SetActive(true);
         }
 
         IEnumerator respone()
@@ -49,7 +50,7 @@ namespace week
                     break;
                 case landtem.present:
                     _gs.getEquip();
-                    getEquip();
+                    getEquip?.Invoke();
                     break;
                 case landtem.sward:
                     if (_player.IsHero)

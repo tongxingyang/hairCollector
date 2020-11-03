@@ -14,9 +14,9 @@ namespace week
         enum eTmp
         {
             hpEx,
-            hpgenEx,
-            defEx,
             attEx,
+            defEx,
+            hpgenEx,
             coolEx,
             expEx,
             coinEx,
@@ -84,7 +84,8 @@ namespace week
         StatusData _selectStat;
         int _cost;
 
-        //Action _costRefresh;        
+        Action _costRefresh;
+        public Action CostRefresh{ set => _costRefresh = value; }
 
         #region [초기화]
 
@@ -286,7 +287,7 @@ namespace week
 
                 BaseManager.userGameData.statusLevelUp(_selectStat);
 
-                BaseManager.userGameData.saveDataToLocal();
+                AuthManager.instance.AllSaveUserEntity();
 
                 BaseManager.userGameData.ReinRecord += 1;
 
@@ -320,7 +321,8 @@ namespace week
             apPurchaseBtnRefresh();
             apMaxRefresh();
 
-            BaseManager.userGameData.saveDataToLocal();
+            _costRefresh?.Invoke();
+            AuthManager.instance.AllSaveUserEntity();
         }
 
         /// <summary> ap 구매 max </summary>
@@ -336,7 +338,8 @@ namespace week
             apPurchaseBtnRefresh();
             apMaxRefresh();
 
-            BaseManager.userGameData.saveDataToLocal();
+            _costRefresh?.Invoke();
+            AuthManager.instance.AllSaveUserEntity();
         }
     }
 }

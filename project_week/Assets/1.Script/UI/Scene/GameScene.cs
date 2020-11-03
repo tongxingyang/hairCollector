@@ -24,7 +24,7 @@ namespace week
         playerSkillManager _skillMng;
         dmgFontManager _dmgfntMng;
         [SerializeField] clockManager _clockMng = null;
-        [SerializeField] gameCompass _compass = null;
+        // [SerializeField] gameCompass _compass = null;
         [Header("Popup")]
         [SerializeField] upgradePopup _upgradePanel;
         [SerializeField] pausePopup _pausePanel;
@@ -85,7 +85,7 @@ namespace week
 
         public float RecordTime { get => _clockMng.RecordTime; }
         public clockManager ClockMng { get => _clockMng; }
-        public gameCompass Compass { get => _compass; }
+        // public gameCompass Compass { get => _compass; }
 
         void test()
         {
@@ -457,7 +457,7 @@ namespace week
                 BaseManager.userGameData.ArtifactRecord = _getArti;
             }
 
-            BaseManager.userGameData.saveDataToLocal();
+            // BaseManager.userGameData.AllSaveUserEntity();
 
             _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult, _mobKill, _bossKill, _getArti);
         }

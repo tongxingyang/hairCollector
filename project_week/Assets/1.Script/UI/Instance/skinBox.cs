@@ -100,7 +100,7 @@ namespace week
         {
             if ((BaseManager.userGameData.HasSkin & (1 << (int)_skin)) > 0) // 있어서 선택
             {
-                _whenSkinSelect(_skin);
+                _whenSkinSelect?.Invoke(_skin);
             }
             else // 없어서 구매
             {
@@ -150,6 +150,8 @@ namespace week
                 WindowManager.instance.Win_purchase.setOpen(DataManager.SkinSprite[_skin]);
 
                 possibleSelect();
+
+                AuthManager.instance.AllSaveUserEntity();
             }
             else
             {

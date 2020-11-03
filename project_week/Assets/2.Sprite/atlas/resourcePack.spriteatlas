@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: resourcePack
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: f11af6bef39f1a14095464874d637c9c, type: 3}
+    totalSpriteSurfaceArea: 2451744
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 54991f80853056e42bdd2d04629cadae, type: 3}
+  - {fileID: 21300000, guid: 71c20642d95fcdc4492ced8289033b79, type: 3}
+  - {fileID: 21300000, guid: ba5267a2134560c45871ef36902d788f, type: 3}
+  - {fileID: 21300000, guid: 8f2c0724ceb553549bb50e502074dd81, type: 3}
+  - {fileID: 21300000, guid: 22a73b745901a0547bcc68ae55b41428, type: 3}
+  - {fileID: 21300000, guid: ed6b854637d91224f9b104eac763dee5, type: 3}
+  - {fileID: -3921087108199702177, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 7961999306597196276, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 3534807678236495575, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 359565531509693294, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -6802124631727338565, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -3270749691070897954, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 8371138620016785461, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -936124954036847002, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 9122645907860882979, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 1260598644945743368, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -8065029926712156904, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -7637036698441226068, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 3837553764291604187, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 8616979712302491551, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 1381141789245080190, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -3610600748765567780, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 4327745837452563964, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 1216849358509855973, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 8444848628205088410, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 3403258472632580065, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 1272625545277882964, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 6151629929949816017, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 1676308008278888504, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 7116899043160303953, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -2863861358245869155, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 291482919000558167, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -591448513898628455, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -2882701144099320679, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -979634279710815963, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -8137839267706186765, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 1259471636057757339, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -2660724389008253964, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: -1902042640447476195, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -7686202315340627061, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -8495300114308787323, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 1635055861421886099, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -4119737044834620640, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 6080536018806788060, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 8324481844719395650, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 6349210309166641485, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 5558478475039901937, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 4793782148570310912, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -4650935894319457, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -5877225852943743422, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -3890927340157898577, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 4553243302448354405, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -7998336624724643453, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -506931616367580828, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 21300000, guid: 2513f848f6fdb41429b3b751560df879, type: 3}
+  - {fileID: 21300000, guid: 64185798894843e4ba74169dbaf62bdc, type: 3}
+  - {fileID: 21300000, guid: 53a27c9ce5b2e0944bfc2b32de9b404e, type: 3}
+  - {fileID: 21300000, guid: 2140f50d9a62718409a8fade703a6ce9, type: 3}
+  - {fileID: 21300000, guid: 7185dd6e02d837846b443460106a3190, type: 3}
+  - {fileID: 21300000, guid: 2c2523cf81170b14584dfb7fb41238c3, type: 3}
+  - {fileID: 21300000, guid: db9ed5ff94b4b1e4294c84ddcd6d3cbe, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - ap_l
+  - gem_s
+  - skinPack
+  - gem_m
+  - adRemove
+  - ap_s
+  - skills_28
+  - skills_29
+  - icetornado
+  - thunder
+  - icewall
+  - def
+  - poison
+  - spd
+  - icicle
+  - hail
+  - cool
+  - hpgen
+  - skills_30
+  - icefist
+  - iceage
+  - healmount
+  - snowbomb
+  - size
+  - halficicle
+  - att
+  - iceshield
+  - blackhole
+  - hp
+  - snowball
+  - pet
+  - slot
+  - exp
+  - hammer
+  - blizzard
+  - skills_26
+  - skills_27
+  - mine
+  - vampireman
+  - citrusman
+  - heroman
+  - spiderman
+  - icecreamman
+  - robotman
+  - angelman
+  - goldenarmorman
+  - mineman
+  - grassman
+  - wildman
+  - fireman
+  - snowman
+  - squareman
+  - rockman
+  - bulbman
+  - gem_l
+  - coin_s
+  - startPack
+  - coin_l
+  - ap_m
+  - coin_m
+  - 10perCoin
+  m_Tag: resourcePack
+  m_IsVariant: 0

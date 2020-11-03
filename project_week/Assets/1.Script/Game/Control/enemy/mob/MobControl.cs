@@ -256,7 +256,7 @@ namespace week
         }
 
         public override void enemyDie()
-        {
+        {            
             if (_isDie == false)
             {
                 // SoundManager.instance.PlaySFX(SFX.endie);

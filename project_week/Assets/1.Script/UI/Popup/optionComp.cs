@@ -54,7 +54,7 @@ namespace week
         public void close()
         {
             Debug.Log(BaseManager.userGameData.BgmVol + " // " + _bgmVol.value);
-            BaseManager.userGameData.saveDataToLocal();
+            // AuthManager.instance.AllSaveUserEntity();
             _win.localScale = new Vector3(1f, 0f);
 
             _cloud.SetActive(false);
@@ -120,8 +120,14 @@ namespace week
             Debug.Log("초기화");
 
             BaseManager.userGameData = new UserGameData();
+        }
 
-            //_lobby.refreshCost();
+        public void getMoney()
+        {
+            Debug.Log("초기화");
+            BaseManager.userGameData.Coin += 10000;
+            BaseManager.userGameData.Gem += 500;
+            BaseManager.userGameData.Ap += 10;
 
             BaseManager.userGameData.saveDataToLocal();
         }

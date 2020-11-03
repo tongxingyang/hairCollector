@@ -287,7 +287,7 @@ namespace week
             _psm = _gs.SkillMng;
             _dmgFont = _gs.DmgfntMng;
             _efm = _gs.EfMng;
-            _compass = _gs.Compass;
+            // _compass = _gs.Compass;
 
             _isDie = false;
             _isAlmighty = false;
@@ -341,7 +341,7 @@ namespace week
             _almightCase.SetActive(false);
 
             StartCoroutine(skillUpdate());
-            StartCoroutine(chk());
+            //StartCoroutine(chk());
         }
 
         IEnumerator chk()
@@ -376,10 +376,10 @@ namespace week
 
             if (BaseManager.userGameData.ApplySeason == null)
             {
-                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0]   * 100;
-                _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1]          * 100;
-                _standardStt[(int)snowStt.def] = BaseManager.userGameData.o_Def * BaseManager.userGameData.AddStats[2]          + 50;
-                _standardStt[(int)snowStt.hpgen] = BaseManager.userGameData.o_Hpgen * BaseManager.userGameData.AddStats[3]      + 50;
+                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0];
+                _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1];
+                _standardStt[(int)snowStt.def] = BaseManager.userGameData.o_Def * BaseManager.userGameData.AddStats[2];
+                _standardStt[(int)snowStt.hpgen] = BaseManager.userGameData.o_Hpgen * BaseManager.userGameData.AddStats[3];
                 _standardStt[(int)snowStt.cool] = BaseManager.userGameData.o_Cool * BaseManager.userGameData.AddStats[4];
                 _standardStt[(int)snowStt.exp] = BaseManager.userGameData.o_ExpFactor * BaseManager.userGameData.AddStats[5];
             }
@@ -492,7 +492,7 @@ namespace week
 
                 skinSequence(closedMob, mobDist, delTime);
 
-                _compass.comPassMove();
+                // _compass.comPassMove();
 
                 hpgen(delTime);
 
@@ -979,7 +979,7 @@ namespace week
 
                     yield return new WaitForSeconds(1f);
 
-                    if (BaseManager.userGameData.RemoveAD == false)
+                    if (BaseManager.userGameData.RemoveAd == false)
                     { 
                         // 창 오픈 - 광고제거 사면 바로 부활
                         _gs.openAdRebirthPanel(() =>

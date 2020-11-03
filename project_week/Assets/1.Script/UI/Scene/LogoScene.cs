@@ -95,6 +95,8 @@ namespace week
             {
                 ES3.DeleteKey("userEntity");
             }
+            AuthManager.instance.firebaseDatabaseEventInit(); // 지워
+            StartCoroutine(AuthManager.instance.loadVersionFromFB()); // 지워
             BaseManager.userGameData = new UserGameData(); // 만들고
             BaseManager.userGameData.saveDataToLocal(); // 기기저장
 #else
@@ -144,26 +146,23 @@ namespace week
 
         #region 네트워크 안내판
 
-        /// <summary> 인터넷 체크 </summary>
-        bool networkCheck()
-        {
-            return (Application.internetReachability != NetworkReachability.NotReachable);
-        }
-
         IEnumerator userDataAfterNetChk()
         {
-            if (true || networkCheck()) // 인터넷 연결
+            if (true || AuthManager.instance.networkCheck()) // 인터넷 연결
             {
                 // 구글 관련
                 AuthManager.instance.Login();
                 AdManager.instance.adStart();
 
                 yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true);
+                yield return StartCoroutine(AuthManager.instance.loadVersionFromFB());  // 버전 가져오기
+                yield return StartCoroutine(AuthManager.instance.getTimestamp());       // 서버시간 가져오기
 
                 if (ES3.KeyExists("userEntity")) // 기본 유저 데이터 존재
                 {
-                    ES3.DeleteKey("userEntity");
-                    BaseManager.userGameData = new UserGameData(); // 만들고
+                    //ES3.DeleteKey("userEntity");
+                    //BaseManager.userGameData = new UserGameData(); // 만들고
+                    //BaseManager.userGameData.saveDataToLocal(); // 기기저장
 
                     Debug.Log("인터넷 연결 : 기기에 유저 데이터 있음");
                     
@@ -183,29 +182,24 @@ namespace week
                         result = (BaseManager.userGameData.Join == AuthManager.instance.LoadedFirstJoin);
                         if (result) // 같은 데이터
                         {
-                            Debug.Log("같은 데이터임");
+                            Debug.Log("같은 데이터임(시작날짜기준)");
                             // 서버에 저장된 마지막 저장 날짜 가져옴
                             yield return StartCoroutine(AuthManager.instance.loadLastSaveDate());
 
-                            if (AuthManager.instance.LoadedLastSave > BaseManager.userGameData.LastSave) // 서버꺼 (처음, 다시깔거나?)
-                            {
-                                Debug.Log("서버꺼");
-                                AuthManager.instance.loadDataFromFB();
-                            }
-                            else if (AuthManager.instance.LoadedLastSave > BaseManager.userGameData.LastSave) // 기기꺼
-                            {
-                                Debug.Log("기기꺼");
-                                AuthManager.instance.saveDataToFB(); // 기기 내용 그대로 서버로
-                            }
-                            else // 같음
+                            if (AuthManager.instance.LoadedLastSave == BaseManager.userGameData.LastSave) // 같음
                             {
                                 Debug.Log("정상 작동");
                                 // ok.
                             }
+                            else // 내용 다르면 기기껄로
+                            {
+                                Debug.Log("기기꺼");
+                                yield return StartCoroutine(AuthManager.instance.saveDataToFB()); // 기기 내용 그대로 서버로
+                            }
                         }
                         else // 이거 데이터 다른데??
                         {
-                            Debug.Log("서버랑 기기 데이터 상이");
+                            Debug.Log("서버랑 기기 데이터 상이(시작날짜기준)");
                             selectAccount = false;
                             accountException();
 
@@ -215,15 +209,28 @@ namespace week
                     else // 기기에는 데이터 있는데 서버에는 데이터 없어??
                     {
                         Debug.Log("기기에는 데이터 있는데 서버에 데이터 없음");
-                        AuthManager.instance.saveDataToFB(); // 서버저장
+                        yield return StartCoroutine(AuthManager.instance.saveDataToFB()); // 서버저장
                     }
                 }
                 else // 기기에 유저 데이터 없음
                 {
                     Debug.Log("인터넷 연결 : 기기에 유저 데이터 없음");
-                    BaseManager.userGameData = new UserGameData(); // 만들고
-                    BaseManager.userGameData.saveDataToLocal(); // 기기저장
-                    AuthManager.instance.saveDataToFB(); // 서버저장
+                    // 서버에 데이터 있는지 체크
+                    yield return StartCoroutine(AuthManager.instance.chkExistData());
+
+                    bool result = AuthManager.instance.IsExist;
+                    if (result)
+                    {
+                        Debug.Log("기기에는 없으나 서버에는 있음");
+                        yield return StartCoroutine(AuthManager.instance.loadDataFromFB());
+                        BaseManager.userGameData.saveDataToLocal(); // 서버 -> 기기 저장
+                    }
+                    else
+                    {
+                        Debug.Log("저는 이 게임 처음입니다.");
+                        BaseManager.userGameData = new UserGameData(); // 만들고
+                        AuthManager.instance.AllSaveUserEntity(); // 다 저장
+                    }
                 }
             }
             else // 인터넷 연결해제
@@ -262,7 +269,12 @@ namespace week
         /// <summary> 구글 계정선택 </summary>
         public void selectGoogleAccount()
         {
-            AuthManager.instance.loadDataFromFB();
+            StartCoroutine(getGoogleAccount());
+        }
+
+        IEnumerator getGoogleAccount()
+        {
+            yield return StartCoroutine(AuthManager.instance.loadDataFromFB());
 
             mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
             selectAccount = true;
@@ -271,7 +283,12 @@ namespace week
         /// <summary> 기기 계정선택 </summary>
         public void selectPhoneAccount()
         {
-            AuthManager.instance.saveDataToFB();
+            StartCoroutine(getPhoneAccount());
+        }
+
+        IEnumerator getPhoneAccount()
+        {
+            yield return StartCoroutine(AuthManager.instance.saveDataToFB());
 
             mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
             selectAccount = true;

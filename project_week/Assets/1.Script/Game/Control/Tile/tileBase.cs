@@ -81,14 +81,14 @@ namespace week
 
         public void makeOb(bool first = false)
         { 
-            int ran = UnityEngine.Random.Range(0, 101);
+            int ran = UnityEngine.Random.Range(0, 201);
             mapObstacle mo;
 
-            if (ran < 5)//2
+            if (ran < 5) // 2.5퍼
             {
                 mo = mapObstacle.bosszone;
             }
-            else if(ran > 95)//98
+            else if(ran > 195) // 2.5퍼
             {
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
             }
@@ -96,8 +96,6 @@ namespace week
             {
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.map_0, (int)mapObstacle.ruin0);
             }
-
-            mo = mapObstacle.bosszone;
 
             if (first)
             {
