@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using System;
+using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace week
 {
@@ -164,7 +165,7 @@ namespace week
             BaseManager.userGameData.Gem += (int)_preCalGem;
             BaseManager.userGameData.Ap += (int)_preCalAp;
 
-            BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin * 2, (int)_preCalGem * 2, (int)_preCalAp * 2 };
+            BaseManager.userGameData.GameReward = new ObscuredInt[3] { (int)_preCalCoin * 2, (int)_preCalGem * 2, (int)_preCalAp * 2 };
 
             AuthManager.instance.AllSaveUserEntity();
 
@@ -203,7 +204,7 @@ namespace week
             BaseManager.userGameData.Gem += (int)_preCalGem;
             BaseManager.userGameData.Ap += (int)_preCalAp;
 
-            BaseManager.userGameData.GameReward = new int[3] { (int)_preCalCoin, (int)_preCalGem, (int)_preCalAp };
+            BaseManager.userGameData.GameReward = new ObscuredInt[3] { (int)_preCalCoin, (int)_preCalGem, (int)_preCalAp };
 
             AuthManager.instance.AllSaveUserEntity();
         }
@@ -270,13 +271,17 @@ namespace week
 #if UNITY_EDITOR
             doubleReward();
 #elif UNITY_ANDROID
+            if (AuthManager.instance.networkCheck() == false)
+            {                
+                return;
+            }
+
             AdManager.instance.adReward = () =>
             {
                 doubleReward();
             };
             AdManager.instance.UserChoseToWatchAd();
 #endif
-
         }
 
         public void goHome()

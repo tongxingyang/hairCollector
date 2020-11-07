@@ -101,8 +101,8 @@ namespace week
             _pauseCase.gameObject.SetActive(false);
             _optionPanel.SetActive(true);
 
-            _bgmHandle.sprite = (BaseManager.userGameData.BgmVol < 0.1f) ? _imgs[0] : _imgs[1];
-            _sfxHandle.sprite = (BaseManager.userGameData.SfxVol < 0.1f) ? _imgs[0] : _imgs[1];
+            _bgmHandle.sprite = (BaseManager.option.BgmVol < 0.1f) ? _imgs[0] : _imgs[1];
+            _sfxHandle.sprite = (BaseManager.option.SfxVol < 0.1f) ? _imgs[0] : _imgs[1];
         }
 
         public void optionClose()

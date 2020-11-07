@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
 using CodeStage.AntiCheat.ObscuredTypes;
+using Newtonsoft.Json;
 
 namespace week
 {
+    [Serializable]
     public class UserEntity
     {
         #region [ classification ]
@@ -16,15 +18,15 @@ namespace week
         public struct property
         {
             /// <summary> 닉넴 </summary>
-            [SerializeField] public string _nickName;
+            [SerializeField] public ObscuredString _nickName;
             /// <summary> 재화 (코인, 젬, ap) </summary>
-            [SerializeField] public int[] _currency;
+            [SerializeField] public ObscuredInt[] _currency;
             /// <summary> 스킨 </summary>
-            [SerializeField] public int _hasSkin;
+            [SerializeField] public ObscuredInt _hasSkin;
             /// <summary> 장착중인 스킨 </summary>
-            [SerializeField] public int _skin;
+            [SerializeField] public ObscuredInt _skin;
 
-            public property(string nic, int[] cur, int hasskin, int skin)
+            public property(ObscuredString nic, ObscuredInt[] cur, ObscuredInt hasskin, ObscuredInt skin)
             {
                 _nickName = nic;
                 _currency = cur;
@@ -38,19 +40,19 @@ namespace week
         public struct status
         {
             /// <summary> 강화레벨 </summary>
-            [SerializeField] public int[] _statusLevel;
+            [SerializeField] public ObscuredInt[] _statusLevel;
 
             //능력치
-            [SerializeField] public int _hp;
-            [SerializeField] public float _att;
-            [SerializeField] public int _def;
-            [SerializeField] public float _hpgen;
-            [SerializeField] public float _cool;
-            [SerializeField] public float _expFactor;
-            [SerializeField] public float _coinFactor;
-            [SerializeField] public float _skinEnhance;
+            [SerializeField] public ObscuredInt _hp;
+            [SerializeField] public ObscuredFloat _att;
+            [SerializeField] public ObscuredInt _def;
+            [SerializeField] public ObscuredFloat _hpgen;
+            [SerializeField] public ObscuredFloat _cool;
+            [SerializeField] public ObscuredFloat _expFactor;
+            [SerializeField] public ObscuredFloat _coinFactor;
+            [SerializeField] public ObscuredFloat _skinEnhance;
 
-            public status(int[] statusLevel, int hp, float att, int def, float hpgen, float cool, float expFactor, float coinFactor, float skinEnhance)
+            public status(ObscuredInt[] statusLevel, ObscuredInt hp, ObscuredFloat att, ObscuredInt def, ObscuredFloat hpgen, ObscuredFloat cool, ObscuredFloat expFactor, ObscuredFloat coinFactor, ObscuredFloat skinEnhance)
             {
                 _statusLevel = statusLevel;
                 _hp = hp;
@@ -68,14 +70,14 @@ namespace week
         [Serializable]
         public struct record
         {
-            [SerializeField] public int _timeRecord;
-            [SerializeField] public int _bossRecord;
-            [SerializeField] public int _artifactRecord;
-            [SerializeField] public int _adRecord;
-            [SerializeField] public int _reinRecord;
-            [SerializeField] public int _recordSkin; // 신기록 당시의 스킨
+            [SerializeField] public ObscuredInt _timeRecord;
+            [SerializeField] public ObscuredInt _bossRecord;
+            [SerializeField] public ObscuredInt _artifactRecord;
+            [SerializeField] public ObscuredInt _adRecord;
+            [SerializeField] public ObscuredInt _reinRecord;
+            [SerializeField] public ObscuredInt _recordSkin; // 신기록 당시의 스킨
 
-            public record(int timeRecord, int bossRecord, int artifactRecord, int adRecord, int reinRecord, int recordSkin)
+            public record(ObscuredInt timeRecord, ObscuredInt bossRecord, ObscuredInt artifactRecord, ObscuredInt adRecord, ObscuredInt reinRecord, ObscuredInt recordSkin)
             {
                 _timeRecord = timeRecord;
                 _bossRecord = bossRecord;
@@ -92,14 +94,14 @@ namespace week
         {
             // 퀘스트
             // 일일
-            [SerializeField] public int[] _dayQuest;
-            [SerializeField] public int _questSkin;
+            [SerializeField] public ObscuredInt[] _dayQuest;
+            [SerializeField] public ObscuredInt _questSkin;
             // 전체        
-            [SerializeField] public int _getTimeReward;
-            [SerializeField] public int _getBossReward;
-            [SerializeField] public int _getArtifactReward;
+            [SerializeField] public ObscuredInt _getTimeReward;
+            [SerializeField] public ObscuredInt _getBossReward;
+            [SerializeField] public ObscuredInt _getArtifactReward;
 
-            public quest(int[] dayQuest, int questSkin, int getTimeReward, int getBossReward, int getArtifactReward)
+            public quest(ObscuredInt[] dayQuest, ObscuredInt questSkin, ObscuredInt getTimeReward, ObscuredInt getBossReward, ObscuredInt getArtifactReward)
             {
                 _dayQuest = dayQuest;
                 _questSkin = questSkin;
@@ -114,28 +116,14 @@ namespace week
         public struct payment
         {
             /// <summary> 코인 추가 배율 </summary>
-            [SerializeField] public int _mulCoinList;
+            [SerializeField] public ObscuredInt _mulCoinList;
             /// <summary> 인앱결제 - 일회성 구매 상품 체크리스트 </summary>
-            [SerializeField] public int _chkList;
+            [SerializeField] public ObscuredInt _chkList;
 
-            public payment(int mullist, int chklist)
+            public payment(ObscuredInt mullist, ObscuredInt chklist)
             {
                 _mulCoinList = mullist;
                 _chkList = chklist;
-            }
-        }
-
-        /// <summary> 옵션 </summary>
-        [Serializable]
-        public struct option
-        {            
-            [SerializeField] public float _bgmVol;
-            [SerializeField] public float _sfxVol;
-
-            public option(float bgmVol, float sfxVol)
-            {
-                _bgmVol = bgmVol;
-                _sfxVol = sfxVol;
             }
         }
 
@@ -143,15 +131,15 @@ namespace week
         [Serializable]
         public struct gameUtility
         {
-            [SerializeField] public long _join;             // 최초 가입
-            [SerializeField] public long _lastSave;         // 마지막 저장
+            [SerializeField] public ObscuredString _uniqueNumber;   // 고유번호
+            [SerializeField] public ObscuredLong _lastSave;         // 마지막 저장
  
             /// <summary> 유틸 체크리스트 </summary>
-            [SerializeField] public int _chkList;
+            [SerializeField] public ObscuredInt _chkList;
 
-            public gameUtility(long join, long lastSave, int chklist)
+            public gameUtility(string uniqueNumber, long lastSave, ObscuredInt chklist)
             {
-                _join = join;
+                _uniqueNumber = uniqueNumber;
                 _lastSave = lastSave;
                 _chkList = chklist;
             }
@@ -161,30 +149,31 @@ namespace week
 
         #region private
 
-        public property _property;  // 자산
-        public status _status;      // 능력치
-        public record _record;      // 기록
-        public quest _quest;        // 퀘스트
-        public payment _payment;    // 결제
-        public option _option;      // 옵션
-        public gameUtility _util;   // 유틸
+        [SerializeField] public property _property;  // 자산
+        [SerializeField] public status _status;      // 능력치
+        [SerializeField] public record _record;      // 기록
+        [SerializeField] public quest _quest;        // 퀘스트
+        [SerializeField] public payment _payment;    // 결제
+        [SerializeField] public gameUtility _util;   // 유틸
 
         #endregion
 
         /// <summary> 초기화 생성 </summary>
-        public UserEntity()
+        public UserEntity(bool network)
         {
+            Debug.Log("entity 초기화");
+
             // 유저 기본정보
             _property = new property(    
                 nic     : "ready_Player_1",                     // 닉                
-                cur     : new int[3] { 1000, 10, 1 },           // 재화       
+                cur     : new ObscuredInt[3] { 1000, 10, 1 },           // 재화       
                 hasskin : 1,                                    // 보유스킨
                 skin    : 0                                     // 스킨
             );
 
             // 스탯
             _status = new status(
-                statusLevel : new int[(int)StatusData.max],
+                statusLevel : new ObscuredInt[(int)StatusData.max],
                 hp          : DataManager.GetTable<int>(DataTable.status, "default", StatusData.hp.ToString()),
                 hpgen       : DataManager.GetTable<float>(DataTable.status, "default", StatusData.hpgen.ToString()),
                 def         : DataManager.GetTable<int>(DataTable.status, "default", StatusData.def.ToString()),
@@ -207,7 +196,7 @@ namespace week
 
             // 업적
             _quest = new quest(
-                dayQuest            : new int[3],
+                dayQuest            : new ObscuredInt[3],
                 questSkin           : 0,
 
                 getTimeReward       : 0,
@@ -221,16 +210,18 @@ namespace week
                 chklist : 0
             );
 
-            // 옵션
-            _option = new option(
-                bgmVol  : 1f,
-                sfxVol  : 1f
-            );
+            const string strPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; //문자 생성 풀
+            char[] chRandom = new char[8];
+            for (int i = 0; i < 8; i++ ) 
+            {
+                chRandom[i] = strPool[UnityEngine.Random.Range(0, strPool.Length)];
+            } 
+            string strRet = ((network) ? AuthManager.instance.LastLogin.ToString() : "000") + new String(chRandom); 
 
             // 유틸
             _util = new gameUtility(
-                join        : (AuthManager.instance.networkCheck()) ? AuthManager.instance.LastLogin : 0,                
-                lastSave    : (AuthManager.instance.networkCheck()) ? AuthManager.instance.LastLogin : 0,
+                uniqueNumber: strRet,
+                lastSave    : (network) ? AuthManager.instance.LastLogin : 0,
                 chklist     : 0
             );
         }
@@ -289,7 +280,7 @@ namespace week
         /// <summary> 데이터 저장 </summary>
         public string saveData()
         {
-            return JsonUtility.ToJson(this);
+            return JsonConvert.SerializeObject(this, Formatting.None, new ObscuredValueConverter());
         }
     }
 }

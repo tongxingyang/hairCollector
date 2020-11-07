@@ -190,44 +190,6 @@ namespace ES3Internal
 
 		#region Seeking Methods
 
-		/*
-		 * 	Resets the stream and seeks to the given key.
-		 */
-		internal override bool Goto(string key)
-		{
-			if(settings.encryptionType == ES3.EncryptionType.None && settings.compressionType == ES3.CompressionType.None)
-				Reset();
-
-			string currentKey;
-			while((currentKey = ReadPropertyName()) != key)
-			{
-				if(currentKey == null)
-					return false;
-				Skip();
-			}
-			return true;
-		}
-
-		/* Resets the stream back to the beginning, resetting any buffers. */
-		protected void Reset()
-		{
-			// If we're already at the beginning of the stream, do nothing.
-			if(baseReader.BaseStream.Position == 0)
-				return;
-
-			baseReader.BaseStream.Position = 0;
-			// Discard the buffer and start from the beginning. See note below.
-			// Note: 	Some people have reported that resetting in this way for encodings
-			//			with a byte order mark causes it to read the byte order mark.
-			//			However, in my tests this does not seem to be the case with .NET 3.5.
-			//			If this does become the case, the solution is to create a new StreamReader,
-			//			but prevent it from disposing of the stream (using a wrapper and overriding Dispose).
-			baseReader.DiscardBufferedData();
-
-			// Read opening brace from file if we're loading straight from file.
-			SkipOpeningBraceOfFile();
-		}
-
 		/* 
 		 * 	Reads a string value into a StreamWriter.
 		 * 	Reader should be positioned after the opening quotation mark.
@@ -319,7 +281,7 @@ namespace ES3Internal
 						case '[': 
 							nesting++;
 							break;
-						case '}': // Exited a level of nesting.
+                        case '}': // Exited a level of nesting.
 						case ']':
 							nesting--;
 							// If nesting < 1, we've come to the end of the object.
@@ -491,7 +453,7 @@ namespace ES3Internal
 
 		private static bool IsEndOfValue(char c)
 		{
-			return (c == '}' || c == ' ' || c == '\t' || c == ']' || c == ',' || c== ':' || c == endOfStreamChar);
+			return (c == '}' || c == ' ' || c == '\t' || c == ']' || c == ',' || c== ':' || c == endOfStreamChar || c == '\n' || c == '\r');
 		}
 
 		private static bool IsTerminator(char c)

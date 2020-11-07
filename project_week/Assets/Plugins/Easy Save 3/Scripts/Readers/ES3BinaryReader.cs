@@ -70,7 +70,13 @@ namespace ES3Internal
 			return dataType;
 		}
 
-		protected override void ReadKeySuffix(){}
+		protected override void ReadKeySuffix()
+        {
+            var suffix = baseReader.ReadString();
+            if(suffix != ES3Binary.ObjectTerminator)
+                throw new FormatException("This data is not Easy Save Key Value data. Expected terminator, found \"" + suffix + "\".");
+        }
+
 		internal override bool StartReadObject() { /* Read the Type byte as we won't need this*/ baseReader.ReadByte(); return base.StartReadObject(); }
 		internal override void EndReadObject(){ base.EndReadObject(); }
 		internal override bool StartReadDictionary() {  /* Read the Type byte as we won't need this*/ baseReader.ReadByte(); return true; }
@@ -87,32 +93,6 @@ namespace ES3Internal
 		#endregion
 
 		#region Seeking Methods
-
-		/*
-		 * 	Resets the stream and seeks to the given key.
-		 */
-		internal override bool Goto(string key)
-		{
-			if(settings.encryptionType == ES3.EncryptionType.None && settings.compressionType == ES3.CompressionType.None)
-				Reset();
-
-			string currentKey;
-			while((currentKey = ReadPropertyName()) != key)
-			{
-				if(currentKey == null)
-					return false;
-				Skip();
-			}
-			return true;
-		}
-
-		/* Resets the stream back to the beginning, resetting any buffers. */
-		protected void Reset()
-		{
-			// If we're already at the beginning of the stream, do nothing.
-			if(baseReader.BaseStream.Position == 0)
-				return;
-		}
 
         internal override byte[] ReadElement(bool skip = false)
         {
@@ -151,17 +131,17 @@ namespace ES3Internal
             return long.Parse(baseReader.ReadString());
         }
 
-        internal override string    Read_string()   { baseReader.ReadByte(); return baseReader.ReadString();   }
-        internal override char		Read_char()		{ baseReader.ReadByte(); return baseReader.ReadChar();     }
-		internal override float		Read_float()	{ baseReader.ReadByte(); return baseReader.ReadSingle();   }
-		internal override int 		Read_int()		{ baseReader.ReadByte(); return Read7BitEncodedInt();      }
+        internal override string    Read_string()   { baseReader.ReadByte(); return baseReader.ReadString();    }
+        internal override char		Read_char()		{ baseReader.ReadByte(); return baseReader.ReadChar();      }
+		internal override float		Read_float()	{ baseReader.ReadByte(); return baseReader.ReadSingle();    }
+		internal override int 		Read_int()		{ baseReader.ReadByte(); return Read7BitEncodedInt();       }
 		internal override bool 		Read_bool()		{ baseReader.ReadByte(); return baseReader.ReadBoolean(); 	}
 		internal override decimal 	Read_decimal()	{ baseReader.ReadByte(); return baseReader.ReadDecimal(); 	}
 		internal override double 	Read_double()	{ baseReader.ReadByte(); return baseReader.ReadDouble(); 	}
-		internal override long 		Read_long()		{ baseReader.ReadByte(); return baseReader.ReadInt64();	}
+		internal override long 		Read_long()		{ baseReader.ReadByte(); return baseReader.ReadInt64();	    }
 		internal override ulong 	Read_ulong()	{ baseReader.ReadByte(); return baseReader.ReadUInt64();	}
 		internal override uint 		Read_uint()		{ baseReader.ReadByte(); return baseReader.ReadUInt32(); 	}
-		internal override byte 		Read_byte()		{ baseReader.ReadByte(); return baseReader.ReadByte(); 	}
+		internal override byte 		Read_byte()		{ baseReader.ReadByte(); return baseReader.ReadByte(); 	    }
 		internal override sbyte 	Read_sbyte()	{ baseReader.ReadByte(); return baseReader.ReadSByte(); 	}
 		internal override short 	Read_short()	{ baseReader.ReadByte(); return baseReader.ReadInt16(); 	}
 		internal override ushort 	Read_ushort()	{ baseReader.ReadByte(); return baseReader.ReadUInt16(); 	}

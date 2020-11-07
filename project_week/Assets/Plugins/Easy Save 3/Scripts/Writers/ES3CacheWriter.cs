@@ -95,6 +95,7 @@ namespace ES3Internal
 
 		internal override void StartWriteProperty(string name)
 		{
+            base.StartWriteProperty(name);
 		}
 
 		internal override void EndWriteProperty(string name)

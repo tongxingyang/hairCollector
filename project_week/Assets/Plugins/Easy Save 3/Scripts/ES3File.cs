@@ -101,13 +101,16 @@ public class ES3File
 	/// <param name="settings">The settings we want to use to override the default settings.</param>
 	public void Sync(ES3Settings settings=null)
 	{
-		if(cache.Count == 0)
-			return;
-
         if (settings == null)
             settings = new ES3Settings();
-		
-		using(var baseWriter = ES3Writer.Create(settings, true, !syncWithFile, false))
+
+        if (cache.Count == 0)
+        {
+            ES3.DeleteFile(settings);
+            return;
+        }
+
+        using (var baseWriter = ES3Writer.Create(settings, true, !syncWithFile, false))
 		{
 			foreach (var kvp in cache) 
 			{
@@ -350,9 +353,22 @@ public class ES3File
 
     internal static void CacheFile(ES3Settings settings)
     {
+        // If we're still using cached settings, default to file.
+        if (settings.location == ES3.Location.Cache)
+        {
+            settings = (ES3Settings)settings.Clone();
+            settings.location = ES3.Location.File;
+        }
+
         if (!ES3.FileExists(settings))
-            throw new FileNotFoundException("Could not cache file "+settings.path+" because it does not exist");
-        cachedFiles[settings.path] = new ES3File(ES3.LoadRawBytes(settings));
+            return;
+
+
+        // Disable compression when loading the raw bytes, and the ES3File constructor will expect compressed bytes.
+        var loadSettings = (ES3Settings)settings.Clone();
+        loadSettings.compressionType = ES3.CompressionType.None;
+
+        cachedFiles[settings.path] = new ES3File(ES3.LoadRawBytes(loadSettings), settings);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -360,16 +376,16 @@ public class ES3File
     {
         if (settings == null)
             settings = new ES3Settings();
+        // If we're still using cached settings, default to file.
+        else if (settings.location == ES3.Location.Cache)
+        {
+            settings = (ES3Settings)settings.Clone();
+            settings.location = ES3.Location.File;
+        }
 
         ES3File cachedFile;
         if (!cachedFiles.TryGetValue(settings.path, out cachedFile))
             throw new FileNotFoundException("The file '"+ settings.path +"' could not be stored because it could not be found in the cache.");
-        if (settings.location == ES3.Location.Cache)
-        {
-            settings = (ES3Settings)settings.Clone();
-            settings.location = ES3.Location.File;
-            ES3Debug.LogWarning("Location is set to 'Cache' when trying to store a cached file, but this should be set to a location in persistent storage (e.g. File, PlayerPrefs). Easy Save will store this cached file to ES3.Location.File.");
-        }
         cachedFile.Sync(settings);
     }
 

@@ -90,7 +90,7 @@ namespace ES3Types
 					case "receiveShadows":
 						instance.receiveShadows = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
-					case "materials":
+					case "sharedMaterials":
 						instance.sharedMaterials = reader.Read<UnityEngine.Material[]>();
 						break;
 					case "lightmapIndex":

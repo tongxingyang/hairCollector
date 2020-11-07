@@ -66,7 +66,6 @@ namespace ES3Internal
 			else if(ES3Reflection.TypeIsArray(type))
 			{
 				int rank = ES3Reflection.GetArrayRank(type);
-
 				if(rank == 1)
 					es3Type = new ES3ArrayType(type);
 				else if(rank == 2)

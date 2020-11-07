@@ -22,13 +22,18 @@ namespace ES3Editor
 			if(settings == null || editorSettings == null || assemblyNamesProperty == null)
 				Init();
 
-			var style = EditorStyle.Get;
+            var style = EditorStyle.Get;
 
-			EditorGUI.BeginChangeCheck();
+            var labelWidth = EditorGUIUtility.labelWidth;
+
+
+            EditorGUI.BeginChangeCheck();
 
             using (var scrollView = new EditorGUILayout.ScrollViewScope(scrollPos, style.area))
             {
                 scrollPos = scrollView.scrollPosition;
+
+                EditorGUIUtility.labelWidth = 160;
 
                 GUILayout.Label("Runtime Settings", style.heading);
 
@@ -37,28 +42,27 @@ namespace ES3Editor
                     ES3SettingsEditor.Draw(settings);
                 }
 
-                var wideLabel = new GUIStyle();
-                wideLabel.fixedWidth = 400;
-
                 GUILayout.Label("Debug Settings", style.heading);
 
                 using (new EditorGUILayout.VerticalScope(style.area))
                 {
+                    EditorGUIUtility.labelWidth = 100;
+
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.PrefixLabel("Log Info", wideLabel);
+                        EditorGUILayout.PrefixLabel("Log Info");
                         editorSettings.logDebugInfo = EditorGUILayout.Toggle(editorSettings.logDebugInfo);
                     }
 
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.PrefixLabel("Log Warnings", wideLabel);
+                        EditorGUILayout.PrefixLabel("Log Warnings");
                         editorSettings.logWarnings = EditorGUILayout.Toggle(editorSettings.logWarnings);
                     }
 
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.PrefixLabel("Log Errors", wideLabel);
+                        EditorGUILayout.PrefixLabel("Log Errors");
                         editorSettings.logErrors = EditorGUILayout.Toggle(editorSettings.logErrors);
                     }
 
@@ -69,15 +73,17 @@ namespace ES3Editor
 
                 using (new EditorGUILayout.VerticalScope(style.area))
                 {
+                    EditorGUIUtility.labelWidth = 170;
+
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.PrefixLabel("Auto Update References", wideLabel);
+                        EditorGUILayout.PrefixLabel("Auto Update References");
                         editorSettings.autoUpdateReferences = EditorGUILayout.Toggle(editorSettings.autoUpdateReferences);
                     }
 
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.PrefixLabel("Use Global References", wideLabel);
+                        EditorGUILayout.PrefixLabel("Use Global References");
 
                         var symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
                         bool useGlobalReferences = !symbols.Contains("ES3GLOBAL_DISABLED");
@@ -98,12 +104,20 @@ namespace ES3Editor
                         }
                     }
 
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.PrefixLabel("Add All Prefabs to Manager");
+                        editorSettings.addAllPrefabsToManager = EditorGUILayout.Toggle(editorSettings.addAllPrefabsToManager);
+                    }
+
                     EditorGUILayout.Space();
                 }
             }
 
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(editorSettings);
+
+            EditorGUIUtility.labelWidth = labelWidth; // Set the label width back to default
 		}
 
 		public void Init()

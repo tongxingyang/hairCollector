@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeStage.AntiCheat.ObscuredTypes;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +12,9 @@ namespace week
     {
         static public BaseManager instance;
 
-        static public UserGameData userGameData;
-        private static PreGameData preGameData;
+        public static UserGameData userGameData;
+        public static Option option;
+        private static PreGameData preGameData;        
 
         public static PreGameData PreGameData { set => preGameData = value; }
 
@@ -20,11 +23,53 @@ namespace week
         public Action SceneLoadStart { set => _sceneLoadStart = value; }
         public Action SceneLoadComplete { set => _sceneLoadComplete = value; }
 
+        #region [ test ]
+
+        public class t1
+        {
+            [SerializeField] public ObscuredInt[] arrayI;
+
+            public t1(ObscuredInt[] arrayI)
+            {
+                this.arrayI = arrayI;
+            }
+        }
+
+        public class t2
+        {
+            [SerializeField] public List<ObscuredInt> listI;
+
+            public t2(List<ObscuredInt> listI)
+            {
+                this.listI = listI;
+            }
+        }
+
+        void Test()
+        {
+            t1 tt1 = new t1(new ObscuredInt[] { 0, 1, 2 });
+            string t1json = JsonConvert.SerializeObject(tt1, new ObscuredValueConverter());
+            //Debug.Log(t1json);
+            t1 t1s = JsonConvert.DeserializeObject<t1>(t1json, new ObscuredValueConverter());
+            Debug.Log(t1s.arrayI[0]);
+
+            t2 tt2 = new t2(new List<ObscuredInt>() { 3, 4, 5 });
+            string t2json = JsonConvert.SerializeObject(tt2, new ObscuredValueConverter());
+            //Debug.Log(t2json);
+            t2 t2s = JsonConvert.DeserializeObject<t2>(t2json, new ObscuredValueConverter());
+            Debug.Log(t2s.listI[0]);
+        }
+
+        #endregion
+
         // Use this for initialization
         void Start()
         {
             Debug.Log("베이스 스타트");
             instance = this;
+            option = new Option();
+
+            Test();
 
             StartCoroutine(StartLogoScene());
         }
@@ -33,6 +78,7 @@ namespace week
         IEnumerator StartLogoScene()
         {
             AsyncOperation AO = SceneManager.LoadSceneAsync(SceneNum.LogoScene.ToString(), LoadSceneMode.Additive);
+
             while (!AO.isDone)
             {
                 yield return new WaitForSeconds(0.3f);
@@ -88,6 +134,20 @@ namespace week
             else
             {
                 return $"{m:D2}:{s:D2}";
+            }
+        }
+
+        public void saveOption()
+        {
+            ES3.Save("option", JsonUtility.ToJson(option));
+        }
+
+        public void loadOption()
+        {
+            if (ES3.KeyExists("option"))
+            {
+                string str = ES3.Load<string>("option");
+                option = JsonUtility.FromJson<Option>(str);
             }
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 namespace week
 {
@@ -15,6 +16,7 @@ namespace week
         [SerializeField] Transform _win;
         [SerializeField] GameObject _cloud;
         [SerializeField] GameObject _credit;
+        [SerializeField] Image _offChange;
         [Header("volume")]
         [SerializeField] Slider _bgmVol;
         [SerializeField] Slider _sfxVol;
@@ -28,6 +30,9 @@ namespace week
 
             _cloud.SetActive(false);
             _credit.SetActive(false);
+
+            _offChange.color = (AuthManager.instance.networkCheck()) ? Color.grey : Color.white;
+            _offChange.raycastTarget = (AuthManager.instance.networkCheck() == false);
 
             if (AuthManager.instance.isLogin)
             {
@@ -53,8 +58,8 @@ namespace week
         /// <summary> 옵션창 닫기 </summary>
         public void close()
         {
-            Debug.Log(BaseManager.userGameData.BgmVol + " // " + _bgmVol.value);
-            // AuthManager.instance.AllSaveUserEntity();
+            Debug.Log(BaseManager.option.BgmVol + " // " + _bgmVol.value);
+            BaseManager.instance.saveOption();
             _win.localScale = new Vector3(1f, 0f);
 
             _cloud.SetActive(false);
@@ -92,14 +97,15 @@ namespace week
 
         #endregion
 
-        public void manualLogin()
+        public void offLineAccount()
         {
-            //AuthManager.instance.loginSwitch(()=> {
-            //    _LoginTxt.text = "구글 계정 로그아웃";
-            //}, 
-            //() => {
-            //    _LoginTxt.text = "구글 계정 로그인";
-            //});
+            WindowManager.instance.Win_accountList.open((account) =>
+            {
+                BaseManager.userGameData.saveDataToLocal();
+
+                AuthManager.instance.Uid = account;
+                BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.LobbyScene);
+            }, true, true);
         }
 
         #region [ 볼륨 ]

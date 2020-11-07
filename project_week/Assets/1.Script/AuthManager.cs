@@ -12,6 +12,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace week
 {
@@ -43,16 +45,21 @@ namespace week
         {
             get { return FirebaseDatabase.DefaultInstance.RootReference; }
         }
-        DatabaseReference serverTime;
+        DatabaseReference serverTime
+        {
+            get { return reference.Child("Profile").Child("serverTime"); }
+        }
 
-        string _uid = "abcdefg";
+        ObscuredString _uid = "SinglePlay";
 
         int _lastVersion;
         long _lastLogin;
         List<rankData> _leaders;
+        // [SerializeField] string[] _dataIndex;
 
         public bool IsExist { get; set; }
-        public long LoadedFirstJoin { get; set; }
+        string _uniqueNum;
+        public string UniqueNum { get { return _uniqueNum; } set { Debug.Log(value); _uniqueNum = value; } }
         public long LoadedLastSave { get; set; }
         
         public bool isLogin
@@ -64,6 +71,7 @@ namespace week
         public List<rankData> Leaders { get => _leaders; }
         public int LastVersion { get => _lastVersion; }
         public long LastLogin { get => _lastLogin; }
+        public ObscuredString Uid { get => _uid; set => _uid = value; }
 
         /// <summary> 인터넷 체크 </summary>
         public bool networkCheck()
@@ -85,7 +93,7 @@ namespace week
 
             auth = FirebaseAuth.DefaultInstance;
             IsExist = false;
-            LoadedFirstJoin = 0;
+            UniqueNum = "";
             LoadedLastSave = 0;
             isLoginFb = false;
 
@@ -182,9 +190,8 @@ namespace week
         /// <summary> 파이어 베이스 초기화 </summary>
         public void firebaseDatabaseEventInit()
         {
+            Debug.Log("파이어 데이터 베이스 초기화");
             FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://snowadventure-91260115.firebaseio.com/");
-
-            serverTime = reference.Child("Profile").Child("serverTime");
 
             serverTime.ValueChanged += (object sender, ValueChangedEventArgs args) => {
 
@@ -214,30 +221,33 @@ namespace week
                 if (task.IsCanceled)
                 {
                     Debug.LogError("Exist Check was canceled.");
+                    complete = true;
                     return;
                 }
 
                 if (task.IsFaulted)
                 {
-                    Debug.LogError("Exist Check an error. : " + task.Exception);
+                    Debug.LogError("Exist Check an error. : " + _uid + "//" + task.Exception);
+                    complete = true;
                     return;
                 }
-
+                Debug.Log(_uid);
                 DataSnapshot snap = task.Result;
                 IsExist = snap.HasChildren;
+                Debug.Log(snap.ChildrenCount);
                 complete = true;
             });
 
             yield return new WaitUntil(() => complete == true);
         }
 
-        /// <summary> 최초 가입 날짜 가져오기 </summary>
-        public IEnumerator loadFirstJoinDate()
+        /// <summary> 고유번호 가져오기 </summary>
+        public IEnumerator loadUniqueNumDate()
         {
             Debug.Log("최초 가입날짜 가져오기");
             bool complete = false;
-            LoadedFirstJoin = 0;
-            FirebaseDatabase.DefaultInstance.GetReference("User").Child(_uid).Child("_util").Child("_join").GetValueAsync().ContinueWith(task =>
+            UniqueNum = "";
+            FirebaseDatabase.DefaultInstance.GetReference("User").Child(_uid).Child("_util").Child("_uniqueNumber").GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsCanceled)
                 {
@@ -252,7 +262,7 @@ namespace week
                 }
 
                 DataSnapshot snapshot = task.Result;
-                LoadedFirstJoin = (long)snapshot.Value;
+                UniqueNum = (string)snapshot.Value;
 
                 complete = true;
             });
@@ -296,7 +306,7 @@ namespace week
             yield return StartCoroutine(getTimestamp());
 
             string json = BaseManager.userGameData.getUserData();
-            Debug.Log(json);
+            // Debug.Log(json);
 
             reference.Child("User").Child(_uid).SetRawJsonValueAsync(json).ContinueWith(task => {
                 complete = true;
@@ -307,6 +317,7 @@ namespace week
 
         public IEnumerator loadDataFromFB()
         {
+            Debug.Log("서버에서 데이터 로드 시도");
             bool complete = false;       
 
             reference.Child("User").Child(_uid).GetValueAsync().ContinueWith(task =>
@@ -325,11 +336,66 @@ namespace week
 
                 string userData = (string)task.Result.GetRawJsonValue();
 
-                BaseManager.userGameData.loadDataFromLocal(JsonUtility.FromJson<UserEntity>(userData));
+                UserEntity entity = JsonConvert.DeserializeObject<UserEntity>(userData, new ObscuredValueConverter());
+                
+                if (BaseManager.userGameData == null)
+                {
+                    BaseManager.userGameData = new UserGameData();
+                }
+                BaseManager.userGameData.loadDataFromLocal(entity);
+
                 complete = true;
             });
 
             yield return new WaitUntil(() => complete == true);
+            Debug.Log("서버에서 데이터 로드 완료");
+        }
+
+        public IEnumerator loadAndChangeDataFromFB(string remove)
+        {
+            Debug.Log("서버 데이터로 로컬 데이터 교체 시도");
+            bool complete = false;
+            Debug.Log(111);
+
+            reference.Child("User").Child(_uid).GetValueAsync().ContinueWith(task =>
+            {
+                Debug.Log("222 : "+ _uid);
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("Load SignInWithCredentialAsync was canceled.");
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Load SignInWithCredentialAsync encountered an error. : " + task.Exception);
+                    return;
+                }
+                Debug.Log(333);
+                string userData = (string)task.Result.GetRawJsonValue();
+                Debug.Log(userData);
+                Debug.Log(444);
+                UserEntity entity = JsonConvert.DeserializeObject<UserEntity>(userData, new ObscuredValueConverter());
+                Debug.Log(555);
+                
+                if (BaseManager.userGameData == null)
+                {
+                    Debug.Log(666);
+                    BaseManager.userGameData = new UserGameData();
+                }
+
+                BaseManager.userGameData.loadDataFromLocal(entity);
+                ES3.Save(_uid, userData);
+
+                // 교체 ==================================================
+
+                removeAndSaveDataToLocal(remove);
+
+                complete = true;
+            });
+
+            yield return new WaitUntil(() => complete == true);
+            Debug.Log("서버에서 데이터 로드 완료");
         }
 
         public IEnumerator loadVersionFromFB()
@@ -405,8 +471,8 @@ namespace week
                 _leaders.Clear();
 
                 foreach (DataSnapshot leader in snap.Children)
-                {
-                    rankData rankBox = JsonUtility.FromJson<rankData>(leader.GetRawJsonValue());
+                { 
+                    rankData rankBox = JsonConvert.DeserializeObject<rankData>(leader.GetRawJsonValue(), new ObscuredValueConverter());
 
                     _leaders.Add(rankBox);
                 }
@@ -560,6 +626,96 @@ namespace week
             //    else
             //        Debug.Log("실패2");
             //});
+        }
+
+        #endregion
+
+        #region [ data load / save ]
+                
+        /// <summary> 기기에서 uid와 일치하는 데이터 불러오기 </summary>
+        public bool showDataInDevice()
+        {
+            string[] _deviceList;
+            if (ES3.KeyExists(gameValues._deviceListKey))
+            {
+                ObscuredString _deviceListJson = ES3.Load<string>(gameValues._deviceListKey);
+                _deviceList = JsonConvert.DeserializeObject<string[]>(_deviceListJson, new ObscuredValueConverter());
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (string.IsNullOrEmpty(_deviceList[i]) == false)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary> 기기에서 uid와 일치하는 데이터 불러오기 </summary>
+        public bool loadMatchingData()
+        {
+            string[] _deviceList;
+            if (ES3.KeyExists(gameValues._deviceListKey))
+            {
+                // Debug.Log(ES3.Load<string>(gameValues._deviceListKey));
+                ObscuredString _deviceListJson = ES3.Load<string>(gameValues._deviceListKey);
+
+                _deviceList = JsonConvert.DeserializeObject<string[]>(_deviceListJson, new ObscuredValueConverter());
+            }
+            else
+            {
+                _deviceList = new string[] { "", "", "" };
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (_deviceList[i] == _uid)
+                {
+                    Debug.Log(_deviceList[i] + " ~ " + _uid);
+                    string load = ES3.Load<string>(_deviceList[i]);
+                    UserEntity _entity = JsonConvert.DeserializeObject<UserEntity>(load, new ObscuredValueConverter());
+
+                    BaseManager.userGameData.loadDataFromLocal(_entity);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary> (데이터 리스트) 삭제 및 저장 </summary>
+        public void removeAndSaveDataToLocal(string remove = "")
+        {
+            ObscuredString[] _deviceList;
+            if (ES3.KeyExists(gameValues._deviceListKey))
+            {
+                ObscuredString _deviceListJson = ES3.Load<string>(gameValues._deviceListKey);
+                _deviceList = JsonConvert.DeserializeObject<ObscuredString[]>(_deviceListJson, new ObscuredValueConverter());
+            }
+            else
+            {
+                _deviceList = new ObscuredString[] { "", "", "" };
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (_deviceList[i].Equals(remove))
+                {
+                    _deviceList[i] = _uid;
+
+                    if (ES3.KeyExists(remove))
+                    {
+                        ES3.DeleteKey(remove);
+                    }
+
+                    break;
+                }
+            }
+
+            string str = JsonConvert.SerializeObject(_deviceList, new ObscuredValueConverter());
+            ES3.Save(gameValues._deviceListKey, str);
         }
 
         #endregion

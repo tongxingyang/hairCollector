@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Spine.Unity;
 using UnityEngine.Rendering;
-using ES3Types;
 using DG.DemiLib;
 
 namespace week

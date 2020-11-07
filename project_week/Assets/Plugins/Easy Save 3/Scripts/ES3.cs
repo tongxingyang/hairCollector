@@ -510,6 +510,17 @@ public static class ES3
         }
     }
 
+    /* LoadString method, as this can be difficult with overloads. */
+
+    /// <summary>Loads the value from a file with the given key.</summary>
+    /// <param name="key">The key which identifies the value we want to load.</param>
+    /// <param name="defaultValue">The value we want to return if the file or key does not exist.</param>
+    /// <param name="filePath">The relative or absolute path of the file we want to load from.</param>
+    public static string LoadString(string key, string defaultValue, string filePath="")
+    {
+        return Load<string>(key, defaultValue, new ES3Settings(filePath));
+    }
+
     #endregion
 
     #region Other ES3.Load Methods
@@ -544,9 +555,21 @@ public static class ES3
 
         using (var stream = ES3Stream.CreateStream(settings, ES3FileMode.Read))
         {
-            var bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            return bytes;
+            if (stream.GetType() == typeof(System.IO.Compression.GZipStream))
+            {
+                var gZipStream = (System.IO.Compression.GZipStream)stream;
+                using (var ms = new System.IO.MemoryStream())
+                {
+                    ES3Stream.CopyTo(gZipStream, ms);
+                    return ms.ToArray();
+                }
+            }
+            else
+            {
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                return bytes;
+            }
         }
 
         /*if(settings.location == Location.File)

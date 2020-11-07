@@ -369,6 +369,7 @@ public class ES3SerializableSettings : ES3Settings
 	public ES3SerializableSettings() : base(false){}
 	public ES3SerializableSettings(bool applyDefaults) : base(applyDefaults){}
     public ES3SerializableSettings(string path) : base(false) { this.path = path; }
+    public ES3SerializableSettings(string path, ES3.Location location) : base(false) { this.location = location; }
 
 #if UNITY_EDITOR
     public bool showAdvancedSettings = false;

@@ -32,7 +32,8 @@ namespace ES3Internal
         {
             get
             {
-                if (_current == null || _current.gameObject.scene != SceneManager.GetActiveScene())
+                // If the reference manager hasn't been assigned, or we've got a reference to a manager in a different scene which isn't marked as DontDestroyOnLoad, look for this scene's manager.
+                if (_current == null || (_current.gameObject.scene.buildIndex != -1 && _current.gameObject.scene != SceneManager.GetActiveScene()))
                 {
                     var scene = SceneManager.GetActiveScene();
 
@@ -88,15 +89,21 @@ namespace ES3Internal
 
         public void Awake()
         {
-            /* We intentionally use Current and _current here, as _current may contain a reference to a manager in another scene, 
-             * but Current only returns the Manager for the active scene. */
-            if (_current != null && _current != this && Current != null)
+            if (_current != null && _current != this)
             {
-                _current.Merge(this);
-                if (gameObject.name.Contains("Easy Save 3 Manager"))
-                    Destroy(this.gameObject);
-                else
-                    Destroy(this);
+                var existing = _current;
+
+                /* We intentionally use Current rather than _current here, as _current may contain a reference to a manager in another scene, 
+                 * but Current only returns the Manager for the active scene. */
+                if (Current != null)
+                {
+                    existing.Merge(this);
+                    if (gameObject.name.Contains("Easy Save 3 Manager"))
+                        Destroy(this.gameObject);
+                    else
+                        Destroy(this);
+                    _current = existing; // Undo the call to Current, which may have set it to NULL.
+                }
             }
             else
                 _current = this;
@@ -223,10 +230,14 @@ namespace ES3Internal
             return id;
         }
 
-        public void AddPrefab(ES3Prefab prefab)
+        public bool AddPrefab(ES3Prefab prefab)
         {
             if (!prefabs.Contains(prefab))
+            {
                 prefabs.Add(prefab);
+                return true;
+            }
+            return false;
         }
 
         public void Remove(UnityEngine.Object obj)
@@ -320,9 +331,17 @@ namespace ES3Internal
                     continue;
 
                 var type = obj.GetType();
+
                 // Skip types which don't need processing
-                if (type == typeof(ES3ReferenceMgr) || type == typeof(ES3Prefab) || type == typeof(ES3AutoSaveMgr) || type == typeof(ES3AutoSave) || type == typeof(ES3InspectorInfo))
+                if (type == typeof(ES3ReferenceMgr) || type == typeof(ES3AutoSaveMgr) || type == typeof(ES3AutoSave) || type == typeof(ES3InspectorInfo))
                     continue;
+
+                // Add the prefab to the manager but don't process it. We'll use this to work out what prefabs to add to the prefabs list later.
+                if (type == typeof(ES3Prefab))
+                {
+                    dependencies.Add(obj);
+                    continue;
+                }
 
                 // If it's a GameObject, get the GameObject's Components and collect their dependencies.
                 if (type == typeof(GameObject))
@@ -389,6 +408,13 @@ namespace ES3Internal
                     return;
                 }
 
+                if(type == typeof(Mesh))
+                {
+                    if (UnityEditor.AssetDatabase.Contains(obj))
+                        dependencies.Add(obj);
+                    return;
+                }
+
                 if (type == typeof(Material))
                 {
                     dependencies.Add(((Material)obj).shader);
@@ -398,6 +424,15 @@ namespace ES3Internal
                 if (type == typeof(MeshFilter))
                 {
                     dependencies.Add(((MeshFilter)obj).sharedMesh);
+                    return;
+                }
+
+                if(type == typeof(MeshCollider))
+                {
+                    var mc = (MeshCollider)obj;
+                    dependencies.Add(mc.sharedMesh);
+                    dependencies.Add(mc.sharedMaterial);
+                    dependencies.Add(mc.attachedRigidbody);
                     return;
                 }
 
@@ -491,6 +526,17 @@ namespace ES3Internal
                     }
                 }
                 catch { }
+            }
+        }
+
+        // Called in the Editor when this Component is added.
+        private void Reset()
+        {
+            // Ensure that Component can only be added by going to Assets > Easy Save 3 > Add Manager to Scene.
+            if (gameObject.name != "Easy Save 3 Manager")
+            {
+                UnityEditor.EditorUtility.DisplayDialog("Cannot add ES3ReferenceMgr directly", "Please go to 'Assets > Easy Save 3 > Add Manager to Scene' to add an Easy Save 3 Manager to your scene.", "Ok");
+                DestroyImmediate(this);
             }
         }
 #endif

@@ -46,7 +46,13 @@ namespace week
 #if UNITY_EDITOR
             _watch();
             close();
+
 #elif UNITY_ANDROID
+            if (AuthManager.instance.networkCheck() == false)
+            {                
+                return;
+            }
+
             AdManager.instance.adReward = () =>
             {
                 _watch();

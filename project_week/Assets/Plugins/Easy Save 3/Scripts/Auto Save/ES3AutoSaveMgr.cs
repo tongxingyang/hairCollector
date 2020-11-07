@@ -41,30 +41,44 @@ public class ES3AutoSaveMgr : MonoBehaviour
 	public string key = System.Guid.NewGuid().ToString();
 	public SaveEvent saveEvent = SaveEvent.OnApplicationQuit;
 	public LoadEvent loadEvent = LoadEvent.Awake;
-	public ES3SerializableSettings settings = new ES3SerializableSettings("AutoSave.es3");
+	public ES3SerializableSettings settings = new ES3SerializableSettings("AutoSave.es3", ES3.Location.Cache);
 
 	public HashSet<ES3AutoSave> autoSaves = new HashSet<ES3AutoSave>();
 
 	public void Save()
 	{
         if (autoSaves == null || autoSaves.Count == 0)
+            return;
+
+            // If we're using caching and we've not already cached this file, cache it.
+            if (settings.location == ES3.Location.Cache && !ES3.FileExists(settings))
+            ES3.CacheFile(settings);
+
+        if (autoSaves == null || autoSaves.Count == 0)
         {
             ES3.DeleteKey(key, settings);
-            return;
+        }
+        else
+        {
+            var gameObjects = new List<GameObject>();
+            foreach (var autoSave in autoSaves)
+                // If the ES3AutoSave component is disabled, don't save it.
+                if (autoSave.enabled)
+                    gameObjects.Add(autoSave.gameObject);
+            ES3.Save<GameObject[]>(key, gameObjects.ToArray(), settings);
         }
 
-        var gameObjects = new List<GameObject>();
-        foreach (var autoSave in autoSaves)
-            // If the ES3AutoSave component is disabled, don't save it.
-            if (autoSave.enabled)
-                gameObjects.Add(autoSave.gameObject);
-
-		ES3.Save<GameObject[]>(key, gameObjects.ToArray(), settings);
+        if(settings.location == ES3.Location.Cache && ES3.FileExists(settings))
+            ES3.StoreCachedFile(settings);
 	}
 
 	public void Load()
 	{
-		ES3.Load<GameObject[]>(key, new GameObject[0], settings);
+        // If we're using caching and we've not already cached this file, cache it.
+        if (settings.location == ES3.Location.Cache && !ES3.FileExists(settings))
+            ES3.CacheFile(settings);
+
+        ES3.Load<GameObject[]>(key, new GameObject[0], settings);
 	}
 
 	void Start()

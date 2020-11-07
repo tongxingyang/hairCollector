@@ -102,5 +102,17 @@ namespace ES3Internal
                     throw e;
             }
         }
+
+        public static void CopyTo(Stream source, Stream destination)
+        {
+        #if UNITY_2019_1_OR_NEWER
+            source.CopyTo(destination);
+        #else
+            byte[] buffer = new byte[2048];
+            int bytesRead;
+            while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                destination.Write(buffer, 0, bytesRead);
+        #endif
+        }
 	}
 }

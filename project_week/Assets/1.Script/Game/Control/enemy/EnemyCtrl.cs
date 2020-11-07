@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using DG.Tweening;
-using ES3Types;
 
 namespace week
 {

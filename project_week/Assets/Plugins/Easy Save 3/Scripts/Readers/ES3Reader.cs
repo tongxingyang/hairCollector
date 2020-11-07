@@ -39,11 +39,27 @@ public abstract class ES3Reader : System.IDisposable
 	protected abstract Type ReadKeyPrefix(bool ignore = false);
 	protected abstract void ReadKeySuffix();
 	internal abstract byte[] ReadElement(bool skip=false);
-	internal abstract bool Goto(string key);
+
 	/// <summary>Disposes of the reader and it's underlying stream.</summary>
 	public abstract void Dispose();
 
-	internal virtual bool StartReadObject()
+	// Seeks to the given key. Note that the stream position will not be reset.
+    internal virtual bool Goto(string key)
+    {
+        if (key == null)
+            throw new ArgumentNullException("Key cannot be NULL when loading data.");
+
+        string currentKey;
+        while ((currentKey = ReadPropertyName()) != key)
+        {
+            if (currentKey == null)
+                return false;
+            Skip();
+        }
+        return true;
+    }
+
+    internal virtual bool StartReadObject()
     {
         serializationDepth++;
         return false;
@@ -180,7 +196,7 @@ public abstract class ES3Reader : System.IDisposable
 
 		T obj = Read<T>(ES3TypeMgr.GetOrCreateES3Type(type));
 
-		ReadKeySuffix();
+		//ReadKeySuffix(); //No need to read key suffix as we're returning. Doing so would throw an error at this point for BinaryReaders.
 		return obj;
 	}
 
@@ -195,8 +211,8 @@ public abstract class ES3Reader : System.IDisposable
 		Type type = ReadTypeFromHeader<T>();
 		T obj = Read<T>(ES3TypeMgr.GetOrCreateES3Type(type));
 
-		ReadKeySuffix();
-		return obj;
+        //ReadKeySuffix(); //No need to read key suffix as we're returning. Doing so would throw an error at this point for BinaryReaders.
+        return obj;
 	}
 
 	/// <summary>Reads a value from the reader with the given key into the provided object.</summary>
@@ -211,10 +227,10 @@ public abstract class ES3Reader : System.IDisposable
 
 		ReadInto<T>(obj, ES3TypeMgr.GetOrCreateES3Type(type));
 
-		ReadKeySuffix();
-	}
+        //ReadKeySuffix(); //No need to read key suffix as we're returning. Doing so would throw an error at this point for BinaryReaders.
+    }
 
-	protected virtual void ReadObject<T>(object obj, ES3Type type)
+    protected virtual void ReadObject<T>(object obj, ES3Type type)
 	{
 		// Check for null.
 		if(StartReadObject())
@@ -428,11 +444,13 @@ public abstract class ES3Reader : System.IDisposable
 				string key = reader.ReadPropertyName();
 				if(key == null)
 					yield break;
-				Type type = reader.ReadKeyPrefix();
+
+                Type type = reader.ReadTypeFromHeader<object>();
 
 				byte[] bytes = reader.ReadElement();
 
-				reader.ReadKeySuffix();
+                reader.ReadKeySuffix();
+
 				yield return new KeyValuePair<string,ES3Data>(key, new ES3Data(type, bytes));
 			}
 		}

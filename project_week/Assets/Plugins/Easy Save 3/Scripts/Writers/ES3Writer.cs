@@ -42,6 +42,8 @@ public abstract class ES3Writer : IDisposable
 
 	internal virtual void StartWriteProperty(string name)
     {
+        if (name == null)
+            throw new ArgumentNullException("Key or field name cannot be NULL when saving data.");
         ES3Debug.Log("<b>"+name +"</b> (writing property)", null, serializationDepth);
     }
 
@@ -121,7 +123,10 @@ public abstract class ES3Writer : IDisposable
     /// <param name="value">The value we want to write.</param>
     public virtual void Write<T>(string key, object value)
     {
-        Write(typeof(T), key, value);
+        if(typeof(T) == typeof(object))
+            Write(value.GetType(), key, value);
+        else
+            Write(typeof(T), key, value);
     }
 
     /// <summary>Writes a value to the writer with the given key, using the given type rather than the generic parameter.</summary>
@@ -159,6 +164,23 @@ public abstract class ES3Writer : IDisposable
 	[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
 	public virtual void Write(object value, ES3Type type, ES3.ReferenceMode memberReferenceMode = ES3.ReferenceMode.ByRef)
 	{
+        // Deal with System.Objects
+        if (type.type == typeof(object))
+        {
+            var valueType = value.GetType();
+            type = ES3TypeMgr.GetOrCreateES3Type(valueType);
+            if (!type.isCollection && !type.isDictionary)
+            {
+                StartWriteObject(null);
+                WriteType(valueType);
+
+                type.Write(value, this);
+
+                EndWriteObject(null);
+                return;
+            }
+        }
+
         // Note that we have to check UnityEngine.Object types for null by casting it first, otherwise
         // it will always return false.
         if (value == null || (type.isES3TypeUnityObject && ((UnityEngine.Object)value) == null))

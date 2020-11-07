@@ -21,6 +21,7 @@ namespace week
         win_purchase,
         win_celebrateEff,
         win_coinAni,
+        win_accountList,
 
         max
     }

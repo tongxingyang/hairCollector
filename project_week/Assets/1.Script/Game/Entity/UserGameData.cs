@@ -2,9 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace week
 {
+    [Serializable]
+    public class Option
+    {
+        [SerializeField] public float BgmVol;
+        [SerializeField] public float SfxVol;
+        public Option()
+        {
+            BgmVol = SfxVol = 1f;
+        }
+    }
+
     public class UserGameData
     {
         public enum defaultStat { hp, att, def, hpgen, cool, exp, coin, speed, max }
@@ -13,33 +25,33 @@ namespace week
         UserEntity _userEntity;
 
         /// <summary> 랭킹최저점 </summary>
-        public float _minRank { get; set; }
+        public ObscuredFloat _minRank { get; set; }
         /// <summary> 가장 최근 랭킹 최신화 시간 </summary>
         public DateTime _rankRefreshTime { get; set; }
 
         /// <summary> 전투결과 </summary>
-        public int[] GameReward { get; set; }
+        public ObscuredInt[] GameReward { get; set; }
 
         #region -------------------------[skin value]-------------------------
 
         /// <summary> 상시적용 스킨 능력치 </summary>
-        float[] _addStats;
+        ObscuredFloat[] _addStats;
 
         /// <summary> 적용할 계절 </summary>
         season? _applySeason = null;
 
         bool[] _skinBval;
-        float[] _skinFval;
-        int[] _skinIval;
+        ObscuredFloat[] _skinFval;
+        ObscuredInt[] _skinIval;
         snowballType _ballType;
 
         #region [skin properties]
 
-        public float[] AddStats { get => _addStats; set => _addStats = value; }
+        public ObscuredFloat[] AddStats { get => _addStats; set => _addStats = value; }
         public season? ApplySeason { get => _applySeason; set => _applySeason = value; }
         public bool[] SkinBval { get => _skinBval; }
-        public float[] SkinFval { get => _skinFval; }
-        public int[] SkinIval { get => _skinIval; }
+        public ObscuredFloat[] SkinFval { get => _skinFval; }
+        public ObscuredInt[] SkinIval { get => _skinIval; }
         public snowballType BallType { get => _ballType; }
 
         #endregion
@@ -50,7 +62,6 @@ namespace week
         public UserEntity.status Status { get => _userEntity._status; set => _userEntity._status = value; }
         public UserEntity.quest Quest { get => _userEntity._quest; set => _userEntity._quest = value; }
         public UserEntity.payment Payment { get => _userEntity._payment; set => _userEntity._payment = value; }
-        public UserEntity.option Option { get => _userEntity._option; set => _userEntity._option = value; }
         public UserEntity.gameUtility Util { get => _userEntity._util; set => _userEntity._util = value; }
 
         #region [properties]
@@ -58,45 +69,45 @@ namespace week
         // 기본 정보 ==============================================================
         // - 닉 / 재화 
         public string NickName { get => _userEntity._property._nickName; set => _userEntity._property._nickName = value; }
-        public int Coin { get => _userEntity._property._currency[(int)currency.coin]; set => _userEntity._property._currency[(int)currency.coin] = value; }
-        public int Gem { get => _userEntity._property._currency[(int)currency.gem]; set => _userEntity._property._currency[(int)currency.gem] = value; }
-        public int Ap { get => _userEntity._property._currency[(int)currency.ap]; set => _userEntity._property._currency[(int)currency.ap] = value; }
+        public ObscuredInt Coin { get => _userEntity._property._currency[(int)currency.coin]; set => _userEntity._property._currency[(int)currency.coin] = value; }
+        public ObscuredInt Gem { get => _userEntity._property._currency[(int)currency.gem]; set => _userEntity._property._currency[(int)currency.gem] = value; }
+        public ObscuredInt Ap { get => _userEntity._property._currency[(int)currency.ap]; set => _userEntity._property._currency[(int)currency.ap] = value; }
 
-        public int followCoin { get; set; }
-        public int followGem { get; set; }
+        public ObscuredInt followCoin { get; set; }
+        public ObscuredInt followGem { get; set; }
 
         // - 스킨
-        public int HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
-        public SkinKeyList Skin { get => (SkinKeyList)_userEntity._property._skin; set => _userEntity._property._skin = (int)value; }
+        public ObscuredInt HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
+        public SkinKeyList Skin { get => (SkinKeyList)((int)_userEntity._property._skin); set => _userEntity._property._skin = (int)value; }
 
         // 기록 ==============================================================
-        public int TimeRecord { get => _userEntity._record._timeRecord; }
-        public int RecordSkin { get => _userEntity._record._recordSkin; }
-        public int BossRecord { get => _userEntity._record._bossRecord; set => _userEntity._record._bossRecord = value; }
-        public int ArtifactRecord { get => _userEntity._record._artifactRecord; set => _userEntity._record._artifactRecord = value; }
-        public int AdRecord { get => _userEntity._record._adRecord; set => _userEntity._record._adRecord = value; }
-        public int ReinRecord { get => _userEntity._record._reinRecord; set => _userEntity._record._reinRecord = value; }
+        public ObscuredInt TimeRecord { get => _userEntity._record._timeRecord; }
+        public ObscuredInt RecordSkin { get => _userEntity._record._recordSkin; }
+        public ObscuredInt BossRecord { get => _userEntity._record._bossRecord; set => _userEntity._record._bossRecord = value; }
+        public ObscuredInt ArtifactRecord { get => _userEntity._record._artifactRecord; set => _userEntity._record._artifactRecord = value; }
+        public ObscuredInt AdRecord { get => _userEntity._record._adRecord; set => _userEntity._record._adRecord = value; }
+        public ObscuredInt ReinRecord { get => _userEntity._record._reinRecord; set => _userEntity._record._reinRecord = value; }
 
         // 퀘스트 ==============================================================
         // - 일일
-        public int[] DayQuest { get => _userEntity._quest._dayQuest; set => _userEntity._quest._dayQuest = value; }
-        public int QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
+        public ObscuredInt[] DayQuest { get => _userEntity._quest._dayQuest; set => _userEntity._quest._dayQuest = value; }
+        public ObscuredInt QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
         // - 전체
-        public int GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
-        public int GetBossReward { get => _userEntity._quest._getBossReward; set => _userEntity._quest._getBossReward = value; }
-        public int GetArtifactReward { get => _userEntity._quest._getArtifactReward; set => _userEntity._quest._getArtifactReward = value; }
+        public ObscuredInt GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
+        public ObscuredInt GetBossReward { get => _userEntity._quest._getBossReward; set => _userEntity._quest._getBossReward = value; }
+        public ObscuredInt GetArtifactReward { get => _userEntity._quest._getArtifactReward; set => _userEntity._quest._getArtifactReward = value; }
 
         // 스탯 ==============================================================
-        public int[] StatusLevel { get => _userEntity._status._statusLevel; set => _userEntity._status._statusLevel = value; }
+        public ObscuredInt[] StatusLevel { get => _userEntity._status._statusLevel; set => _userEntity._status._statusLevel = value; }
 
-        public int o_Hp { get => _userEntity._status._hp; }
-        public float o_Hpgen { get => _userEntity._status._hpgen; }
-        public int o_Def { get => _userEntity._status._def; }
-        public float o_Att { get => _userEntity._status._att; }
-        public float o_Cool { get => _userEntity._status._cool; }
-        public float o_ExpFactor { get => _userEntity._status._expFactor; }
-        public float o_CoinFactor { get => _userEntity._status._coinFactor; }
-        public float SkinEnhance { get => _userEntity._status._skinEnhance; }
+        public ObscuredInt o_Hp { get => _userEntity._status._hp; }
+        public ObscuredFloat o_Hpgen { get => _userEntity._status._hpgen; }
+        public ObscuredInt o_Def { get => _userEntity._status._def; }
+        public ObscuredFloat o_Att { get => _userEntity._status._att; }
+        public ObscuredFloat o_Cool { get => _userEntity._status._cool; }
+        public ObscuredFloat o_ExpFactor { get => _userEntity._status._expFactor; }
+        public ObscuredFloat o_CoinFactor { get => _userEntity._status._coinFactor; }
+        public ObscuredFloat SkinEnhance { get => _userEntity._status._skinEnhance; }
 
         // 인앱결제 ==============================================================
         public mulCoinChkList AddMulCoinList { set => _userEntity._payment._mulCoinList |= (1 << (int)value); }
@@ -104,7 +115,7 @@ namespace week
         {
             return (_userEntity._payment._mulCoinList & (1 << (int)index)) > 0;
         }
-        public int PaymentChkList { get => _userEntity._payment._chkList; set => _userEntity._payment._chkList = value; }
+        public ObscuredInt PaymentChkList { get => _userEntity._payment._chkList; set => _userEntity._payment._chkList = value; }
         public bool RemoveAd { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.removeAD)) > 0;
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.removeAD) : 0; }
         public bool MulCoin { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.mulCoins)) > 0;
@@ -113,13 +124,10 @@ namespace week
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.startPack) : 0; }
         public bool SkinPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.skinPack)) > 0;
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.skinPack) : 0; }
-
-        // 옵션 ==============================================================
-        public float BgmVol { get => _userEntity._option._bgmVol; set => _userEntity._option._bgmVol = value; }
-        public float SfxVol { get => _userEntity._option._sfxVol; set => _userEntity._option._sfxVol = value; }
+                
 
         // 유틸 ==============================================================
-        public long Join { get => _userEntity._util._join; }
+        public string UniqueNumber { get => _userEntity._util._uniqueNumber; }
         public long LastSave { get => _userEntity._util._lastSave;
             set
             {
@@ -127,11 +135,12 @@ namespace week
                 { _userEntity._util._lastSave = value; };
             }
         }
-        public int UtilChkList { get => _userEntity._util._chkList; set => _userEntity._util._chkList = value; }
+        public ObscuredInt UtilChkList { get => _userEntity._util._chkList; set => _userEntity._util._chkList = value; }
         public bool FreeNichkChange { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.freeNickChange)) > 0;
                                         set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.freeNickChange) : 0; }
         public bool IsSavedServer   { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.isSavedServer)) > 0;
                                         set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.isSavedServer) : 0; }
+        
 
         #endregion
 
@@ -139,8 +148,8 @@ namespace week
 
         /// <summary> 저장 </summary>
         public void saveDataToLocal()
-        {
-            ES3.Save<UserEntity>("userEntity", _userEntity);
+        {            
+            ES3.Save(AuthManager.instance.Uid, _userEntity.saveData());
         }
 
         /// <summary>  </summary>
@@ -155,12 +164,12 @@ namespace week
 
         public UserGameData()
         {
-            _userEntity = new UserEntity();
+            _userEntity = new UserEntity(AuthManager.instance.networkCheck());
             _userEntity.applyLevel();
 
             _skinBval = new bool[(int)skinBvalue.max];
-            _skinFval = new float[(int)skinFvalue.max];
-            _skinIval = new int[(int)skinIvalue.max];
+            _skinFval = new ObscuredFloat[(int)skinFvalue.max];
+            _skinIval = new ObscuredInt[(int)skinIvalue.max];
             _ballType = snowballType.standard;
 
             applySkin();
@@ -182,16 +191,16 @@ namespace week
         /// <summary>  </summary>
         public void applySkin()
         {
-            SkinKeyList skin = (SkinKeyList)_userEntity._property._skin;
+            SkinKeyList skin = (SkinKeyList)((int)_userEntity._property._skin);
             string key = skin.ToString();
 
             string ss = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.season.ToString());
 
-            int j;
-            float chk;
-            float add = 0;
+            ObscuredInt j;
+            ObscuredFloat chk;
+            ObscuredFloat add = 0;
 
-            _addStats = new float[(int)defaultStat.max];
+            _addStats = new ObscuredFloat[(int)defaultStat.max];
             for (defaultStat i = defaultStat.hp; i < defaultStat.max; i++)
             {
                 j = (int)i;
@@ -249,7 +258,7 @@ namespace week
         public string getSkinExplain(SkinKeyList skin)
         {
             string str = "";
-            int statVal = 0;
+            ObscuredInt statVal = 0;
             switch (skin)
             {
                 case SkinKeyList.snowman:
@@ -268,7 +277,7 @@ namespace week
                     str = "눈 대신 돌을 던진다." + System.Environment.NewLine + $"체력 {statVal}% 증가";
                     break;
                 case SkinKeyList.citrusman:
-                    float val = _addStats[(int)defaultStat.coin] * 100 - 100;
+                    ObscuredFloat val = _addStats[(int)defaultStat.coin] * 100 - 100;
                     str = "눈 대신 귤을 던진다." + System.Environment.NewLine + "겨울한정!" + System.Environment.NewLine + string.Format("코인획득량 {0:0.0}% 증가", val);
                     break;
                 case SkinKeyList.bulbman:
@@ -306,7 +315,7 @@ namespace week
                     str = $"눈덩이로 준 피해의 {_skinFval[(int)skinFvalue.blood]}%만큼 체력을 회복한다." + System.Environment.NewLine + $"공격력 {statVal}% 증가";
                     break;
                 case SkinKeyList.heroman:
-                    int[] stt = new int[3] { Convert.ToInt32(_addStats[(int)defaultStat.hp] * 100) - 100,
+                    ObscuredInt[] stt = new ObscuredInt[3] { Convert.ToInt32(_addStats[(int)defaultStat.hp] * 100) - 100,
                         Convert.ToInt32(_addStats[(int)defaultStat.att] * 100) - 100, 
                         Convert.ToInt32(_addStats[(int)defaultStat.def] * 100) - 100 };
 
@@ -323,7 +332,7 @@ namespace week
 
         #region [ 기타 설정 함수 ]
 
-        public void setNewRecord(int newRecord)
+        public void setNewRecord(ObscuredInt newRecord)
         {
             _userEntity._record._timeRecord = newRecord;
             _userEntity._record._recordSkin = _userEntity._property._skin;
@@ -331,8 +340,8 @@ namespace week
 
         #endregion
 
-        /// <summary> float 기록 --> 전부 string으로 변환 </summary>
-        public string getLifeTime(float time, bool isTwoLine)
+        /// <summary> ObscuredFloat 기록 --> 전부 string으로 변환 </summary>
+        public string getLifeTime(ObscuredFloat time, bool isTwoLine)
         {
             int year;
             int season;
@@ -389,12 +398,12 @@ namespace week
             return str;
         }
 
-        /// <summary> float 기록 --> 날짜까지만 string으로 변환 </summary>
-        public string getTimeRecordToString(float time)
+        /// <summary> ObscuredFloat 기록 --> 날짜까지만 string으로 변환 </summary>
+        public string getTimeRecordToString(ObscuredFloat time)
         {
-            int year;
-            int season;
-            int day;
+            ObscuredInt year;
+            ObscuredInt season;
+            ObscuredInt day;
 
             year = (int)(time / (24 * 60));
             time -= year * 24 * 60;

@@ -113,7 +113,10 @@ public class ES3ReferenceMgrEditor : Editor
             EditorGUI.indentLevel--;
         }
 
-        if(GUILayout.Button("Refresh"))
+        EditorGUILayout.LabelField("Reference count", mgr.refId.Count.ToString());
+        EditorGUILayout.LabelField("Prefab count", mgr.prefabs.Count.ToString());
+
+        if (GUILayout.Button("Refresh"))
         {
             mgr.RefreshDependencies();
         }

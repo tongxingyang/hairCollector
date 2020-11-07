@@ -9,9 +9,16 @@ namespace ES3Internal
 #if !UNITY_EDITOR || ES3GLOBAL_DISABLED
         public static ES3GlobalReferences Instance{ get{ return null; } }
         public UnityEngine.Object Get(long id){return null;}
-        public long GetOrAdd(UnityEngine.Object obj){return 0;}
+        public long GetOrAdd(UnityEngine.Object obj){return -1;}
         public void RemoveInvalidKeys(){}
 #else
+
+#if ES3GLOBAL_DISABLED
+        private static bool useGlobalReferences = false;
+#else
+        private static bool useGlobalReferences = true;
+#endif
+
         private const string globalReferencesPath = "ES3/ES3GlobalReferences";
 
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -23,7 +30,7 @@ namespace ES3Internal
             get
             {
                 // If Global References is disabled, we still keep it enabled unless we're playing so that ES3ReferenceMgrs in different scenes still use the same IDs.
-                if (Application.isPlaying)
+                if (Application.isPlaying && !useGlobalReferences)
                     return null;
 
                 if (_globalReferences == null)
@@ -97,15 +104,10 @@ namespace ES3Internal
 
         public long GetOrAdd(UnityEngine.Object obj)
         {
-            if (Application.isPlaying)
-            {
-                ES3Debug.LogError("GetOrAdd can only be called in the Editor, not during runtime");
-                return -1;
-            }
-
             var id = Get(obj);
 
-            if (id == -1 && UnityEditor.AssetDatabase.Contains(obj) && ES3ReferenceMgr.CanBeSaved(obj))
+            // Only add items to global references when it's not playing.
+            if (!Application.isPlaying && id == -1 && UnityEditor.AssetDatabase.Contains(obj) && ES3ReferenceMgr.CanBeSaved(obj))
             {
                 id = ES3ReferenceMgrBase.GetNewRefID();
                 refId.Add(obj, id);

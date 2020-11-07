@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace week
 {
@@ -16,7 +17,7 @@ namespace week
             }
             else 
             {
-                BaseManager.userGameData.DayQuest = new int[3];
+                BaseManager.userGameData.DayQuest = new ObscuredInt[3];
 
                 int qSkin = 0;
                 

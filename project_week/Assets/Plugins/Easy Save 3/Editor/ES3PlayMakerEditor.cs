@@ -100,10 +100,11 @@ namespace ES3PlayMaker
 			{
 				EditorGUI.indentLevel++;
 
-				EditField("path");
-				EditField("location");
+                EditField("path");
+                EditField("location");
 				EditField("encryptionType");
 				EditField("encryptionPassword");
+                EditField("compressionType");
 				EditField("directory");
 				EditField("format");
 				EditField("bufferSize");

@@ -110,7 +110,7 @@ namespace ES3Types
 
         public override void ReadInto(ES3Reader reader, object obj)
 		{
-			var array = (Array)obj;
+            var array = (Array)obj;
 
 			if(reader.StartReadCollection())
 				throw new NullReferenceException("The Collection we are trying to load is stored as null, which is not allowed when using ReadInto methods.");

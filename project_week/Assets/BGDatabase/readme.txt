@@ -1,7 +1,7 @@
-BG Database v.1.5.x by BancheeGz, 2018-2020
+BG Database v.1.6.x by BancheeGz, 2018-2020
 Fast, InMemory, No SQL, Extendable Database for your Unity 3D in-game data with export/import to Excel/OpenOffice and Google Sheets
 
-http://www.bansheegz.com/BGDatabase
+https://www.bansheegz.com/BGDatabase
 support email: support@bansheegz.com
 
 Copyright (c) 2018-2020 All Rights Reserved

@@ -23,8 +23,8 @@ namespace ES3Internal
 
         internal override void Write(string key, Type type, byte[] value)
         {
-            StartWriteProperty(key);
 
+            StartWriteProperty(key);
             using (var ms = new MemoryStream())
             {
                 using (var writer = ES3Writer.Create(ms, new ES3Settings(ES3.EncryptionType.None, ES3.CompressionType.None, ES3.Format.Binary_Alpha), false, false))
@@ -40,7 +40,6 @@ namespace ES3Internal
             }
 
             EndWriteProperty(key);
-            MarkKeyForDeletion(key);
         }
 
         /// <summary>Writes a value to the writer with the given key, using the given type rather than the generic parameter.</summary>
@@ -189,8 +188,14 @@ namespace ES3Internal
 		#region Overridden methods
 
 		internal override void WriteRawProperty(string name, byte[] value)
-		{ 
-			StartWriteProperty(name); baseWriter.Write(value); EndWriteProperty(name);
+		{
+            StartWriteProperty(name);
+
+                Write7BitEncodedInt(value.Length);
+                baseWriter.Write(value);
+            
+
+            EndWriteProperty(name);
 		}
 
 
@@ -201,7 +206,8 @@ namespace ES3Internal
             base.StartWriteFile(); 
         }
         internal override void EndWriteFile()
-        { 
+        {
+            baseWriter.Write(ES3Binary.ObjectTerminator);
             base.EndWriteFile(); 
         }
 
@@ -212,7 +218,6 @@ namespace ES3Internal
 		{
             base.StartWriteProperty(name);
 			baseWriter.Write(name);
-
         }
 
 		internal override void EndWriteProperty(string name)
