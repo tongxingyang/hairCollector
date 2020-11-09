@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace week
 {
@@ -99,9 +100,11 @@ namespace week
         void refreshDayQuest()
         {
             int day = 0;
+
             for (int i = 0; i < 3; i++)
             {
-                day = BaseManager.userGameData.DayQuest[i];
+                    day = (AuthManager.instance.networkCheck()) ? (int)BaseManager.userGameData.DayQuest[i] : -1;
+
                 if (day == 0) // 새거 미달성
                 {
                     mImgs[(int)eImg.dayQst_Rein + i].color = _dayStandard;
@@ -112,10 +115,16 @@ namespace week
                     mImgs[(int)eImg.dayQst_Rein + i].color = _orange;
                     mImgs[(int)eImg.dqr_black + i].color = _transparent;
                 }
-                else // 보상 완료
+                else if (day == 2)// 보상 완료
                 {
                     mTmps[(int)eTmp.reinQstTxt + i].text = "완료";
-                    mImgs[(int)eImg.dayQst_Rein + i].color = _transparent; 
+                    mImgs[(int)eImg.dayQst_Rein + i].color = _transparent;
+                    mImgs[(int)eImg.dqr_black + i].color = _dayBlack;
+                }
+                else
+                {
+                    mTmps[(int)eTmp.reinQstTxt + i].text = "네트워크 해제";
+                    mImgs[(int)eImg.dayQst_Rein + i].color = _transparent;
                     mImgs[(int)eImg.dqr_black + i].color = _dayBlack;
                 }
             }
@@ -183,7 +192,7 @@ namespace week
         {
             if (_getable[i])
             {
-                int _Val = 0;
+                int _Val = 10;
                 switch (i)
                 {
                     case 0:
@@ -215,5 +224,25 @@ namespace week
         }
 
         #endregion
+
+        public void setNextDay()
+        {
+            BaseManager.userGameData.DayQuest = new ObscuredInt[] { 0, 0, 0 };
+
+            List<int> skins = new List<int>();
+            for (int i = 0; i < (int)SkinKeyList.max; i++)
+            {
+                if ((BaseManager.userGameData.HasSkin & (1 << i)) > 0)
+                {
+                    skins.Add(i);
+                }
+            }
+            int sk = UnityEngine.Random.Range(0, skins.Count);
+            mTmps[(int)eTmp.skinQstTxt].text = $"{DataManager.GetTable<string>(DataTable.skin, ((SkinKeyList)skins[sk]).ToString(), SkinValData.skinname.ToString())}으로"
+                + System.Environment.NewLine + "1회 플레이";
+            BaseManager.userGameData.QuestSkin = skins[sk];
+
+            refreshDayQuest();
+        }
     }
 }

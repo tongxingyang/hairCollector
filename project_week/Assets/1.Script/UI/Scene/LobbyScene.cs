@@ -81,27 +81,36 @@ namespace week
 
         bool _refreshCoinChk;
         bool _refreshGemChk;
+        bool _chkTomorrow = false;
 
         // Start is called before the first frame update
         void Start()
         {
+            // 재화 텍스트 이벤트를 위한 초기화
             if (BaseManager.userGameData.followCoin == 0)
             {
                 BaseManager.userGameData.followCoin = BaseManager.userGameData.Coin;
                 BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
             }
+            WindowManager.instance.Win_coinGenerator.RefreshFollowCost = refreshFollowCost;
 
+            // 로비에서 연결되는 창 초기화
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
             _status = mGos[(int)eGO.Status].GetComponent<statusComp>();
             _status.CostRefresh = refreshCost;
             _skin = mGos[(int)eGO.Skin].GetComponent<skinComp>();
-            _skin.Init();
+            _skin.Init(refreshCost);
             _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
             _rank = mGos[(int)eGO.Rank].GetComponent<rankComp>();
             _rank.Init();
 
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
             _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();
+            _option.NickChange = () =>
+            {
+                mGos[(int)eGO.option].SetActive(false);
+                _nickPanel.open();
+            };
             _nickPanel.completeChange = () => { setStage(); refreshCost(); };
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
@@ -119,15 +128,23 @@ namespace week
             mGos[(int)eGO.updatePanel].SetActive(false);
             setStage();
 
+            // 날짜체크 초기화
+            //AuthManager.instance.WhenTomorrow = null;
+            AuthManager.instance.WhenTomorrow = _quest.setNextDay;
+            StartCoroutine(AuthManager.instance.checkNextDay());
+            _chkTomorrow = true;
+
+            // bgm
             SoundManager.instance.PlayBGM(BGM.Lobby);
 
+            // 로비 눈사람 이미지
             refreshSnowImg();
 
+            // 로비 눈 이펙트
             _snow.OnMasterChanged(0.5f);
             _snow.OnSnowChanged(0.5f);
 
-            WindowManager.instance.Win_coinGenerator.RefreshFollowCost = refreshFollowCost;
-
+            // 게임 종료후 코인 이펙트 관련
             if (BaseManager.userGameData.GameReward != null)
             {
                 WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.stageImage].transform.position, CoinTxt.position, currency.coin, BaseManager.userGameData.GameReward[0], 1);
@@ -137,18 +154,21 @@ namespace week
                 BaseManager.userGameData.GameReward = null;
             }
 
-            if (BaseManager.userGameData.FreeNichkChange == false) 
+            // 기타
+            if (BaseManager.userGameData.FreeNichkChange == false) // 닉네임
             {
                 _nickPanel.open();
             }
-            if (BaseManager.userGameData.IsSavedServer == false)
+            if (BaseManager.userGameData.IsSavedServer == false) // 서버 저장
             {
                 AuthManager.instance.AllSaveUserEntity();
             }
-            if(AuthManager.instance.LastVersion > gameValues._version)
+            if(AuthManager.instance.LastVersion > gameValues._version) // 버전창
             {
                 openUpdate();    
             }
+
+            refreshCost();
         }
 
         private void Update()
@@ -167,6 +187,19 @@ namespace week
             }
 
             _pattern.uvRect = new Rect(_offset, _rect);
+
+            if (DateTime.Now.Minute % 10 == 0)
+            {
+                if (_chkTomorrow == false)
+                {
+                    _chkTomorrow = true;
+                    StartCoroutine(AuthManager.instance.checkNextDay());
+                }
+            }
+            else 
+            {
+                _chkTomorrow = false;
+            }
         }
 
         public void setEquip(DataTable type)
@@ -257,11 +290,6 @@ namespace week
                 allClose(true);
                 refreshSnowImg();
             }
-        }
-
-        public void openNick()
-        {
-            _nickPanel.open();
         }
 
         public void openUpdate()

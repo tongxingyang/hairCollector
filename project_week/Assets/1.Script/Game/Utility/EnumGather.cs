@@ -73,6 +73,15 @@ namespace week
         max
     }
 
+    public enum statusKeyList
+    {
+        origin,
+        addition,
+        additrate,
+        cost,
+        costTerm
+    }
+
     /// <summary> 스킬 리스트 </summary>
     public enum SkillKeyList
     {
@@ -346,6 +355,8 @@ namespace week
         image
     }
 
+
+
     #region [recital Data]
 
     public enum skinBvalue { mine, wild, rebirth, blood, invincible, light, invSlow, frozen, hero, critical, max }
@@ -407,7 +418,8 @@ namespace week
         lava,
         crowfire,
         tel,
-        playerhit
+        playerhit,
+        selfEx
     }
 
     public enum skillNote

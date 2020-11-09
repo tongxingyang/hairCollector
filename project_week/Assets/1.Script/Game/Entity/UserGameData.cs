@@ -91,6 +91,9 @@ namespace week
         // 퀘스트 ==============================================================
         // - 일일
         public ObscuredInt[] DayQuest { get => _userEntity._quest._dayQuest; set => _userEntity._quest._dayQuest = value; }
+        public ObscuredInt DayQuestRein { get => _userEntity._quest._dayQuest[0]; set => _userEntity._quest._dayQuest[0] = value; }
+        public ObscuredInt DayQuestSkin { get => _userEntity._quest._dayQuest[1]; set => _userEntity._quest._dayQuest[1] = value; }
+        public ObscuredInt DayQuestAd { get => _userEntity._quest._dayQuest[2]; set => _userEntity._quest._dayQuest[2] = value; }
         public ObscuredInt QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
         // - 전체
         public ObscuredInt GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
@@ -100,14 +103,14 @@ namespace week
         // 스탯 ==============================================================
         public ObscuredInt[] StatusLevel { get => _userEntity._status._statusLevel; set => _userEntity._status._statusLevel = value; }
 
-        public ObscuredInt o_Hp { get => _userEntity._status._hp; }
-        public ObscuredFloat o_Hpgen { get => _userEntity._status._hpgen; }
-        public ObscuredInt o_Def { get => _userEntity._status._def; }
-        public ObscuredFloat o_Att { get => _userEntity._status._att; }
-        public ObscuredFloat o_Cool { get => _userEntity._status._cool; }
-        public ObscuredFloat o_ExpFactor { get => _userEntity._status._expFactor; }
-        public ObscuredFloat o_CoinFactor { get => _userEntity._status._coinFactor; }
-        public ObscuredFloat SkinEnhance { get => _userEntity._status._skinEnhance; }
+        public ObscuredFloat o_Hp           { get; set; }
+        public ObscuredFloat o_Att          { get; set; }
+        public ObscuredFloat o_Hpgen        { get; set; }
+        public ObscuredFloat o_Def          { get; set; }
+        public ObscuredFloat o_Cool         { get; set; }
+        public ObscuredFloat o_ExpFactor    { get; set; }
+        public ObscuredFloat o_CoinFactor   { get; set; }
+        public ObscuredFloat SkinEnhance    { get; set; }
 
         // 인앱결제 ==============================================================
         public mulCoinChkList AddMulCoinList { set => _userEntity._payment._mulCoinList |= (1 << (int)value); }
@@ -165,7 +168,7 @@ namespace week
         public UserGameData()
         {
             _userEntity = new UserEntity(AuthManager.instance.networkCheck());
-            _userEntity.applyLevel();
+            applyLevel();
 
             _skinBval = new bool[(int)skinBvalue.max];
             _skinFval = new ObscuredFloat[(int)skinFvalue.max];
@@ -179,13 +182,67 @@ namespace week
         {
         }
 
+        /// <summary> 스탯 레벨 -> 스탯에 적용 </summary>
+        public void applyLevel()
+        {
+            o_Hp            = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hp.ToString())
+                                        + (getAddit(StatusData.hp) * StatusLevel[(int)StatusData.hp]);
+            o_Att           = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.att.ToString())
+                                        + (getAddit(StatusData.att) * StatusLevel[(int)StatusData.att]);
+            o_Def           = getAddit(StatusData.def) * StatusLevel[(int)StatusData.def];
+            o_Hpgen         = getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen];
+
+            o_Cool          = Mathf.Pow(getAddit(StatusData.cool), StatusLevel[(int)StatusData.cool]);
+            o_ExpFactor     = Mathf.Pow(getAddit(StatusData.exp), StatusLevel[(int)StatusData.exp]);
+            o_CoinFactor    = Mathf.Pow(getAddit(StatusData.coin), StatusLevel[(int)StatusData.coin]);
+            SkinEnhance     = getAddit(StatusData.skin) * StatusLevel[(int)StatusData.skin];
+        }
+
+        public ObscuredFloat getAddit(StatusData type)
+        {
+            float add = (float)DataManager.GetTable<int>(DataTable.status, statusKeyList.addition.ToString(), type.ToString());
+            float rate = (float)DataManager.GetTable<int>(DataTable.status, statusKeyList.additrate.ToString(), type.ToString());
+            return (add / rate);
+        }
+
         #endregion
 
         #region [강화/스킨/적용]
 
+        /// <summary> 스탯 레벨 업 </summary>
         public void statusLevelUp(StatusData stat)
         {
-            _userEntity.statusLevelUp(stat);
+            StatusLevel[(int)stat]++;
+
+            switch (stat)
+            {
+                case StatusData.hp:
+                    o_Hp = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hp.ToString())
+                                        + (getAddit(StatusData.hp) * StatusLevel[(int)StatusData.hp]);
+                    break;
+                case StatusData.att:
+                    o_Att = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.att.ToString())
+                                        + (getAddit(StatusData.att) * StatusLevel[(int)StatusData.att]);
+                    break;
+                case StatusData.def:
+                    o_Def = getAddit(StatusData.def) * StatusLevel[(int)StatusData.def];
+                    break;
+                case StatusData.hpgen:
+                    o_Hpgen = getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen];
+                    break;
+                case StatusData.cool:
+                    o_Cool = Mathf.Pow(getAddit(StatusData.cool), StatusLevel[(int)StatusData.cool]);
+                    break;
+                case StatusData.exp:
+                    o_ExpFactor = Mathf.Pow(getAddit(StatusData.exp), StatusLevel[(int)StatusData.exp]);
+                    break;
+                case StatusData.coin:
+                    o_CoinFactor = Mathf.Pow(getAddit(StatusData.coin), StatusLevel[(int)StatusData.coin]);
+                    break;
+                case StatusData.skin:
+                    SkinEnhance = getAddit(StatusData.skin) * StatusLevel[(int)StatusData.skin];
+                    break;
+            }
         }
 
         /// <summary>  </summary>

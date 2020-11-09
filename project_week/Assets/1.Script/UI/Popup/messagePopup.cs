@@ -20,6 +20,7 @@ namespace week
         bool _isPlay;
         float time = 0;
 
+        Coroutine _onlyMsg;
         Action _act;
 
         void Awake()
@@ -42,7 +43,7 @@ namespace week
 
             if (_isPlay == false)
             {
-                StartCoroutine(winMove());
+                _onlyMsg = StartCoroutine(winMove());
             }
             else
             {
@@ -54,6 +55,7 @@ namespace week
         {
             _isPlay = true;
             _MsgGroup.alpha = 0;
+            time = 0;
 
             while (time < 2f)
             {
@@ -69,6 +71,7 @@ namespace week
             _isPlay = false;
 
             close();
+            _onlyMsg = null;
         }
 
         #endregion
@@ -77,15 +80,24 @@ namespace week
 
         public void showActMessage(string msg, Action act)
         {
-            _act = act;
+            if (_onlyMsg != null)
+            {
+                StopCoroutine(_onlyMsg);
+                _isPlay = false;
+            }
 
-            open();
+            _act = act;
+            _MsgPos.anchoredPosition = Vector3.zero;
+
+            _MsgGroup.alpha = 1f;
 
             _Panel.SetActive(true);
             _present.SetActive(false);
             _actBtn.SetActive(true);
 
             _MsgTxt.text = msg;
+
+            open();
         }
 
         public void okButton()
@@ -100,9 +112,16 @@ namespace week
 
         public void showPresentAct(string msg, Sprite sp, Action act)
         {
-            _act = act;
+            if (_onlyMsg != null)
+            {
+                StopCoroutine(_onlyMsg);
+                _isPlay = false;
+            }
 
-            open();
+            _act = act;
+            _MsgPos.anchoredPosition = Vector3.zero;
+            
+            _MsgGroup.alpha = 1f;
 
             _Panel.SetActive(true);
             _present.SetActive(true);
@@ -110,6 +129,8 @@ namespace week
 
             _presentImg.sprite = sp;
             _MsgTxt.text = msg;
+
+            open();
         }
 
         #endregion

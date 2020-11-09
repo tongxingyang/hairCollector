@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace week
 {
@@ -14,34 +15,22 @@ namespace week
         [SerializeField] LobbyScene _lobby;
         [Header("windows")]
         [SerializeField] Transform _win;
-        [SerializeField] GameObject _cloud;
-        [SerializeField] GameObject _credit;
+        [SerializeField] GameObject _developWin;
         [SerializeField] Image _offChange;
         [Header("volume")]
         [SerializeField] Slider _bgmVol;
         [SerializeField] Slider _sfxVol;
 
-        [SerializeField] TextMeshProUGUI _LoginTxt;
+        Action _nickChange;
+        public Action NickChange { set => _nickChange = value; }
 
         private void Awake()
         {
             _bgmVol.value = SoundManager.instance.masterVolumeBGM;
             _sfxVol.value = SoundManager.instance.masterVolumeSFX;
 
-            _cloud.SetActive(false);
-            _credit.SetActive(false);
-
             _offChange.color = (AuthManager.instance.networkCheck()) ? Color.grey : Color.white;
             _offChange.raycastTarget = (AuthManager.instance.networkCheck() == false);
-
-            if (AuthManager.instance.isLogin)
-            {
-                _LoginTxt.text = "구글 계정 로그아웃";
-            }
-            else
-            {
-                _LoginTxt.text = "구글 계정 로그인";
-            }
         }
 
         #region [ windows ]
@@ -62,40 +51,31 @@ namespace week
             BaseManager.instance.saveOption();
             _win.localScale = new Vector3(1f, 0f);
 
-            _cloud.SetActive(false);
-            _credit.SetActive(false);
             gameObject.SetActive(false);
         }
 
-        /// <summary> 클라우드 저장 열기 </summary>
-        public void openCloud()
+        /// <summary> 닉변 창 열기 </summary>
+        public void openNickChange()
         {
-            if (AuthManager.instance.isLogin)
-            {
-                _cloud.SetActive(true);
-            }
+            _nickChange?.Invoke();
         }
         
-        /// <summary> 클라우드 저장 닫기 </summary>
-        public void closeCloud()
+        /// <summary> 까페 열기 </summary>
+        public void openCafe()
         {
-            _cloud.SetActive(false);
+            Application.OpenURL("https://heroesofthestorm.com/ko-kr/");
         }
 
-        /// <summary> 크래딧 열기 </summary>
         public void openCredit()
         {
-            _credit.SetActive(true);
+            _developWin.SetActive(true);
         }
 
-        /// <summary> 크래딧 닫기 </summary>
         public void closeCredit()
         {
-            _credit.SetActive(false);
+            _developWin.SetActive(false);
             close();
         }
-
-        #endregion
 
         public void offLineAccount()
         {
@@ -107,6 +87,29 @@ namespace week
                 BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.LobbyScene);
             }, true, true);
         }
+
+        public void ExitGame()
+        {
+            StartCoroutine(whenQuit());
+        }
+
+        IEnumerator whenQuit()
+        {
+            BaseManager.userGameData.saveDataToLocal();
+
+#if UNITY_EDITOR
+
+#else
+            if(AuthManager.instance.networkCheck())
+            {            
+                yield return StartCoroutine(AuthManager.instance.saveDataToFB());
+            }
+#endif
+            yield return null;
+            Application.Quit();
+        }
+
+        #endregion
 
         #region [ 볼륨 ]
 

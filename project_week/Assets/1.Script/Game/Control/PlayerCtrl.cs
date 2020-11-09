@@ -767,6 +767,8 @@ namespace week
             _genTime += time;
             if (_genTime > 1f)
             {
+                _genTime = 0f;
+
                 _hp += MaxHp * Hpgen;
                 if (_hp > MaxHp)
                 {

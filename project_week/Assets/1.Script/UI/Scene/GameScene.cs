@@ -194,8 +194,7 @@ namespace week
                 return;
             }
 
-            whenPause();            
-            //Time.timeScale = 0;
+            whenPause();        
 
             _lvl++;
             _lvlTmp.text = $"lvl.{_lvl.ToString()}";
@@ -205,11 +204,13 @@ namespace week
 
         public void getEquip()
         {
-            _getArti++;
-            //whenPause();
-            ////Time.timeScale = 0;
+            if (_gameOver)
+            {
+                return;
+            }
 
-            //_upgradePanel.presentOpen();
+            _getArti++;
+
             StartCoroutine(getEquipCo());
         }
 
@@ -218,7 +219,6 @@ namespace week
             yield return new WaitUntil(() => Pause == false);
 
             whenPause();
-            //Time.timeScale = 0;
 
             _upgradePanel.presentOpen();
         }
@@ -459,6 +459,10 @@ namespace week
 
             // BaseManager.userGameData.AllSaveUserEntity();
 
+            _upgradePanel.gameObject.SetActive(false);
+            _pausePanel.gameObject.SetActive(false);
+            _adRebirthPopup.gameObject.SetActive(false);
+
             _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult, _mobKill, _bossKill, _getArti);
         }
 
@@ -467,6 +471,11 @@ namespace week
 
         public void openPause()
         {
+            if (_gameOver)
+            {
+                return;
+            }
+
             _pausePanel.openPause();
         }
 

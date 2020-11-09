@@ -156,7 +156,10 @@ namespace week
         void upgradePanelRefresh()
         { 
             int stat = (int)_selectStat;
-            _upgradePrice = (int)(BaseManager.userGameData.StatusLevel[stat] / 5) + 1;
+            int div = DataManager.GetTable<int>(DataTable.status, statusKeyList.costTerm.ToString(), _selectStat.ToString());
+            int rate = DataManager.GetTable<int>(DataTable.status, statusKeyList.cost.ToString(), _selectStat.ToString());
+
+            _upgradePrice = ((int)(BaseManager.userGameData.StatusLevel[stat] / div) + 1) * rate;
 
             bool bl = (BaseManager.userGameData.Ap >= _upgradePrice);
             mTmps[(int)eTmp.upgradePrice].text = _upgradePrice.ToString();
@@ -249,28 +252,28 @@ namespace week
             switch (stat)
             {
                 case StatusData.hp:
-                    num = (next) ? DataManager.GetTable<int>(DataTable.status, "addition", StatusData.hp.ToString()) : 0;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.hp) : 0;
                     return string.Format("체력 +{0:0}", BaseManager.userGameData.o_Hp + num);
                 case StatusData.att:
-                    num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.att.ToString()) : 0;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.att) : 0;
                     return string.Format("공격력 +{0:0}", BaseManager.userGameData.o_Att + num);
                 case StatusData.def:
-                    num = (next) ? DataManager.GetTable<int>(DataTable.status, "addition", StatusData.def.ToString()) : 0;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.def) : 0;
                     return string.Format("방어력 +{0:0}", BaseManager.userGameData.o_Def + num);
                 case StatusData.hpgen:
-                    num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.hpgen.ToString()) : 0;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.hpgen) : 0;
                     return string.Format("체력회복 {0:0.00}", BaseManager.userGameData.o_Hpgen + num);
                 case StatusData.cool:
-                    num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.cool.ToString()) : 1;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.cool) : 1;
                     return string.Format("공격속도 {0:0.00}", BaseManager.userGameData.o_Cool * num);
                 case StatusData.exp:
-                    num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.exp.ToString()) : 1;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.exp) : 1;
                     return string.Format("경험치획득량 x{0:0.00}", BaseManager.userGameData.o_ExpFactor * num);
                 case StatusData.coin:
-                    num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.coin.ToString()) : 1;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.coin) : 1;
                     return string.Format("코인추가획득 x{0:0.00}", BaseManager.userGameData.o_CoinFactor * num);
                 case StatusData.skin:
-                    num = (next) ? DataManager.GetTable<float>(DataTable.status, "addition", StatusData.skin.ToString()) : 0;
+                    num = (next) ? BaseManager.userGameData.getAddit(StatusData.skin) : 0;
                     return string.Format("스킨 강화율 {0:0.0}%", BaseManager.userGameData.SkinEnhance + num);
                 default:
                     Debug.LogError($"잘못된 능력치 : {_selectStat}");
@@ -290,6 +293,8 @@ namespace week
                 AuthManager.instance.AllSaveUserEntity();
 
                 BaseManager.userGameData.ReinRecord += 1;
+                if (BaseManager.userGameData.DayQuestRein == 0)
+                    BaseManager.userGameData.DayQuestRein++;
 
                 ApTxtRefresh();
                 statusPanelRefresh();

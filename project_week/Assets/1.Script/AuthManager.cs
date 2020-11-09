@@ -55,7 +55,8 @@ namespace week
         int _lastVersion;
         long _lastLogin;
         List<rankData> _leaders;
-        // [SerializeField] string[] _dataIndex;
+        public Action WhenTomorrow { get; set; }
+        bool _succesGetTime;
 
         public bool IsExist { get; set; }
         string _uniqueNum;
@@ -203,7 +204,8 @@ namespace week
 
                 _lastLogin = (long)args.Snapshot.Value;
                 DateTime utcCreated = gameValues.epoch.AddMilliseconds(_lastLogin);
-                Debug.Log(utcCreated.ToString());
+
+                _succesGetTime = true;
             };
         }
 
@@ -298,6 +300,7 @@ namespace week
             yield return new WaitUntil(() => complete == true);
         }
 
+        /// <summary> 서버에 데이터 저장(과 동시에 마지막 저장시간 갱신) </summary>
         public IEnumerator saveDataToFB()
         {
             BaseManager.userGameData.IsSavedServer = true;
@@ -398,6 +401,7 @@ namespace week
             Debug.Log("서버에서 데이터 로드 완료");
         }
 
+        /// <summary> 버전 가져오기 (_lastVersion에서 버전 확인가능) </summary>
         public IEnumerator loadVersionFromFB()
         {
             Debug.Log("버전 요청");
@@ -513,6 +517,8 @@ namespace week
 
                         if (childid.Equals(_uid))
                         {
+                            ((rankData)child)._uid = BaseManager.userGameData.NickName;
+                            ((rankData)child)._version = gameValues._version;
                             ((rankData)child)._time = BaseManager.userGameData.TimeRecord;
                             ((rankData)child)._boss = BaseManager.userGameData.BossRecord;
                             ((rankData)child)._nick = BaseManager.userGameData.NickName;
@@ -569,20 +575,34 @@ namespace week
 
         #region [ 특정요소 저장/로드 ]
 
-        public IEnumerator saveAfterPurchase()
+        /// <summary> 서버에 시간 갱신하기 (ValueChanged로 시간가져옴) </summary>
+        public IEnumerator getTimestamp()
         {
-            yield break;
+            Debug.Log("서버에 시간 갱신하기 (ValueChanged로 시간가져옴)");
+            bool complete = false;
+
+            serverTime.SetValueAsync(ServerValue.Timestamp).ContinueWith(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    Debug.Log("성공");
+                }
+                complete = true;
+            });
+
+            yield return new WaitUntil(() => complete == true);
         }
 
-        /// <summary> 최근 저장 시간 </summary>
+        /// <summary> 최근 저장 시간 저장 - (시간만 갱신) - 기기, 서버 </summary>
         public IEnumerator saveLastLogin()
         {
-            yield return StartCoroutine(getTimestamp());
-            BaseManager.userGameData.LastSave = _lastLogin;
-            BaseManager.userGameData.saveDataToLocal();
+            yield return StartCoroutine(getTimestamp());    // 시간가져오고
+            BaseManager.userGameData.LastSave = _lastLogin; // 현재 유저데이터 변경
+            BaseManager.userGameData.saveDataToLocal();     // 기기에 저장
 
             bool complete = false;
 
+            // 서버에도 저장
             reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").SetValueAsync(_lastLogin).ContinueWith(task =>
             {
                 if (task.IsCompleted)
@@ -596,36 +616,38 @@ namespace week
             yield return new WaitUntil(() => complete == true);
         }
 
-        /// <summary> 서버 시간 가져오기 </summary>
-        public IEnumerator getTimestamp()
+        /// <summary> 서버 마지막 저장시간-지금 시간 비교(저장/로드없고 오로지 비교) 
+        /// - 로비에서만 (1. 로비 오픈시, 2. 일정시간마다) </summary>
+        public IEnumerator checkNextDay()
         {
-            Debug.Log("서버시간 가져오기");
+            // 서버시간
+            _succesGetTime = false;
+            yield return StartCoroutine(getTimestamp());
+            yield return new WaitUntil(() => _succesGetTime == true);
+            // 서버에 저장된 마지막 저장 시간
             bool complete = false;
-            // string json = @"{""serverTime"":{"".sv"":""timestamp""}}";
+            long lastTime = 0;
+            reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").GetValueAsync().ContinueWith(task => {
 
-            serverTime.SetValueAsync(ServerValue.Timestamp).ContinueWith(task =>
-            {
-                if (task.IsCompleted)
-                {
-                    Debug.Log("성공");
-                }
+                lastTime = (long)task.Result.Value;
                 complete = true;
             });
-
             yield return new WaitUntil(() => complete == true);
 
-            // Set JSON for this document
-            //profiles.SetRawJsonValueAsync(json).ContinueWith(t => {
-            //    if (t.IsCompleted)
-            //    {
-            //        Debug.Log("성공");
-            //        // Set the Firebase server timestamp on the datetime object
-            //        //profiles.Child("timeStamp").UpdateChildrenAsync(new Dictionary<string, object> { { "utcCreatedUnix", ServerValue.Timestamp } });
-            //        //profiles.Child("timeStamp").Child("utcCreatedUnix").SetValueAsync(ServerValue.Timestamp);
-            //    }
-            //    else
-            //        Debug.Log("실패2");
-            //});
+            // 비교
+            DateTime lastDate = gameValues.epoch.AddMilliseconds(lastTime);
+            DateTime nowDate = gameValues.epoch.AddMilliseconds(_lastLogin);
+
+            Debug.Log(nowDate.Day + " > " + lastDate.Day);
+            if (nowDate.Day > lastDate.Day)
+            {
+                Debug.Log(nowDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                Debug.Log(lastDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                
+                WhenTomorrow?.Invoke();
+
+                yield return StartCoroutine(saveLastLogin());
+            }
         }
 
         #endregion
@@ -719,48 +741,6 @@ namespace week
         }
 
         #endregion
-
-        //public void getTimestamp()
-        //{
-        //    Debug.Log("시간 가져오기");
-        //    string json = @"{""serverTime"":{"".sv"":""timestamp""}}";
-
-        //    DatabaseReference profiles = reference.Child("Profile");
-
-        //    profiles.Child("timeStamp").ChildChanged += (object sender, ChildChangedEventArgs args) => {
-
-        //        if (args.DatabaseError != null)
-        //        {
-        //            Debug.Log("실패1" + args.DatabaseError.Message);
-        //            return;
-        //        }
-
-        //        Debug.Log(args.Snapshot.Key + ", 개수 : " + args.Snapshot.ChildrenCount);
-
-        //        long milliseconds = (long)args.Snapshot.Value;
-        //        DateTime utcCreated = gameValues.epoch.AddMilliseconds(milliseconds);
-        //        Debug.Log(args.Snapshot.Key + "-val : " + milliseconds + " = " + utcCreated.ToString());
-
-        //        //foreach (DataSnapshot ds in args.Snapshot.Children)
-        //        //{
-        //        //    long milliseconds = (long)ds.Value;
-        //        //    DateTime utcCreated = gameValues.epoch.AddMilliseconds(milliseconds);
-        //        //    Debug.Log(ds.Key + "-val : " + milliseconds + " = " + utcCreated.ToString());
-        //        //}
-        //    };
-
-        //    // Set JSON for this document
-        //    profiles.Child("timeStamp").SetRawJsonValueAsync(json).ContinueWith(t => {
-        //        if (t.IsCompleted)
-        //        {
-        //            Debug.Log("성공");
-        //            // Set the Firebase server timestamp on the datetime object
-        //            profiles.Child("timeStamp").UpdateChildrenAsync(new Dictionary<string, object> { { "utcCreatedUnix", ServerValue.Timestamp } });
-        //        }
-        //        else
-        //            Debug.Log("실패2");
-        //    });
-        //}
     }
 
 

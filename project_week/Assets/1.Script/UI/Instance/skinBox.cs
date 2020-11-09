@@ -26,6 +26,7 @@ namespace week
         [SerializeField] Sprite[] _curImg;
 
         Action<SkinKeyList> _whenSkinSelect;
+        Action _refreshCost;
 
         SkinKeyList _skin;
         string _skinName;
@@ -33,9 +34,10 @@ namespace week
         cur _cur;
         int _price;
 
-        public void setAction(Action<SkinKeyList> wss)
+        public void setAction(Action<SkinKeyList> wss, Action refresh)
         {
             _whenSkinSelect = wss;
+            _refreshCost = refresh;
         }
 
         public void setSkinBox(SkinKeyList skin)
@@ -150,6 +152,7 @@ namespace week
                 WindowManager.instance.Win_purchase.setOpen(DataManager.SkinSprite[_skin]);
 
                 possibleSelect();
+                _refreshCost?.Invoke();
 
                 AuthManager.instance.AllSaveUserEntity();
             }

@@ -47,6 +47,18 @@ namespace week
             }
         }
 
+        public override void enemyDie()
+        {
+            if (_isDie == false)
+            {
+                // SoundManager.instance.PlaySFX(SFX.endie);
+                killFunc();
+                _efMng.makeEff(effAni.selfEx, transform.position);
+                otherWhenDie();
+                Destroy();
+            }
+        }
+
         void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag.Equals("Player"))

@@ -42,27 +42,10 @@ namespace week
             /// <summary> 강화레벨 </summary>
             [SerializeField] public ObscuredInt[] _statusLevel;
 
-            //능력치
-            [SerializeField] public ObscuredInt _hp;
-            [SerializeField] public ObscuredFloat _att;
-            [SerializeField] public ObscuredInt _def;
-            [SerializeField] public ObscuredFloat _hpgen;
-            [SerializeField] public ObscuredFloat _cool;
-            [SerializeField] public ObscuredFloat _expFactor;
-            [SerializeField] public ObscuredFloat _coinFactor;
-            [SerializeField] public ObscuredFloat _skinEnhance;
 
-            public status(ObscuredInt[] statusLevel, ObscuredInt hp, ObscuredFloat att, ObscuredInt def, ObscuredFloat hpgen, ObscuredFloat cool, ObscuredFloat expFactor, ObscuredFloat coinFactor, ObscuredFloat skinEnhance)
+            public status(ObscuredInt[] statusLevel)
             {
                 _statusLevel = statusLevel;
-                _hp = hp;
-                _att = att;
-                _def = def;
-                _hpgen = hpgen;
-                _cool = cool;
-                _expFactor = expFactor;
-                _coinFactor = coinFactor;
-                _skinEnhance = skinEnhance;
             }
         }
 
@@ -173,15 +156,7 @@ namespace week
 
             // 스탯
             _status = new status(
-                statusLevel : new ObscuredInt[(int)StatusData.max],
-                hp          : DataManager.GetTable<int>(DataTable.status, "default", StatusData.hp.ToString()),
-                hpgen       : DataManager.GetTable<float>(DataTable.status, "default", StatusData.hpgen.ToString()),
-                def         : DataManager.GetTable<int>(DataTable.status, "default", StatusData.def.ToString()),
-                att         : DataManager.GetTable<float>(DataTable.status, "default", StatusData.att.ToString()),
-                cool        : DataManager.GetTable<float>(DataTable.status, "default", StatusData.cool.ToString()),
-                expFactor   : DataManager.GetTable<float>(DataTable.status, "default", StatusData.exp.ToString()),
-                coinFactor  : DataManager.GetTable<float>(DataTable.status, "default", StatusData.coin.ToString()),
-                skinEnhance : DataManager.GetTable<float>(DataTable.status, "default", StatusData.skin.ToString())
+                statusLevel : new ObscuredInt[(int)StatusData.max]
             );
 
             // 기록
@@ -226,56 +201,7 @@ namespace week
             );
         }
 
-        /// <summary> 스탯 레벨 -> 스탯에 적용 </summary>
-        public void applyLevel()
-        {
-            _status._hp             = DataManager.GetTable<int>(DataTable.status, "default", StatusData.hp.ToString())
-                             + DataManager.GetTable<int>(DataTable.status, "addition", StatusData.hp.ToString()) * _status._statusLevel[(int)StatusData.hp];
-            _status._hpgen          = DataManager.GetTable<float>(DataTable.status, "addition", StatusData.hpgen.ToString()) * _status._statusLevel[(int)StatusData.hpgen];
-            _status._def            = DataManager.GetTable<int>(DataTable.status, "addition", StatusData.def.ToString()) * _status._statusLevel[(int)StatusData.def];
-            _status._att            = DataManager.GetTable<float>(DataTable.status, "default", StatusData.att.ToString())
-                             + DataManager.GetTable<float>(DataTable.status, "addition", StatusData.att.ToString()) * _status._statusLevel[(int)StatusData.att];
-            _status._cool           = Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.cool.ToString()), _status._statusLevel[(int)StatusData.cool]);
-            _status._expFactor      = Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.exp.ToString()), _status._statusLevel[(int)StatusData.exp]);
-            _status._coinFactor     = Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.coin.ToString()), _status._statusLevel[(int)StatusData.coin]);
-            _status._skinEnhance    = DataManager.GetTable<float>(DataTable.status, "addition", StatusData.skin.ToString()) * _status._statusLevel[(int)StatusData.skin];
-        }
-
-        /// <summary> 스탯 레벨 업 </summary>
-        public void statusLevelUp(StatusData stat)
-        {
-            _status._statusLevel[(int)stat]++;
-
-            switch (stat)
-            {
-                case StatusData.hp:
-                    _status._hp = DataManager.GetTable<int>(DataTable.status, "default", StatusData.hp.ToString())
-                        + DataManager.GetTable<int>(DataTable.status, "addition", StatusData.hp.ToString()) * _status._statusLevel[(int)StatusData.hp];
-                    break;
-                case StatusData.att:
-                    _status._att = DataManager.GetTable<float>(DataTable.status, "default", StatusData.att.ToString())
-                        + DataManager.GetTable<float>(DataTable.status, "addition", StatusData.att.ToString()) * _status._statusLevel[(int)StatusData.att];
-                    break;
-                case StatusData.def:
-                    _status._def = DataManager.GetTable<int>(DataTable.status, "addition", StatusData.def.ToString()) * _status._statusLevel[(int)StatusData.def];
-                    break;
-                case StatusData.hpgen:
-                    _status._hpgen = DataManager.GetTable<float>(DataTable.status, "addition", StatusData.hpgen.ToString()) * _status._statusLevel[(int)StatusData.hpgen];
-                    break;
-                case StatusData.cool:
-                    _status._cool = Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.cool.ToString()), _status._statusLevel[(int)StatusData.cool]);
-                    break;                
-                case StatusData.exp:
-                    _status._expFactor = Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.exp.ToString()), _status._statusLevel[(int)StatusData.exp]);
-                    break;
-                case StatusData.coin:
-                    _status._coinFactor = Mathf.Pow(DataManager.GetTable<float>(DataTable.status, "addition", StatusData.coin.ToString()), _status._statusLevel[(int)StatusData.coin]);
-                    break;
-                case StatusData.skin:
-                    _status._skinEnhance = DataManager.GetTable<float>(DataTable.status, "addition", StatusData.skin.ToString()) * _status._statusLevel[(int)StatusData.skin];
-                    break;
-            }
-        }
+        
 
         /// <summary> 데이터 저장 </summary>
         public string saveData()

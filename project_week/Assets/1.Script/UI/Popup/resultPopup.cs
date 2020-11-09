@@ -89,11 +89,18 @@ namespace week
             if (_isNewRecord)
             {
                 BaseManager.userGameData.setNewRecord(Convert.ToInt32(time));
+                Debug.Log(BaseManager.userGameData._minRank +" < "+ Convert.ToInt32(time));
                 if (BaseManager.userGameData._minRank < Convert.ToInt32(time))
                 {
                     AuthManager.instance.saveRankDataFromFB();
                 }
                 StartCoroutine(newRecord());
+            }
+
+            if (((int)BaseManager.userGameData.Skin == BaseManager.userGameData.QuestSkin) 
+                && (BaseManager.userGameData.DayQuestSkin == 0))
+            {
+                BaseManager.userGameData.DayQuestSkin = 1;
             }
 
             preRewardCalculator();
@@ -270,6 +277,7 @@ namespace week
         {
 #if UNITY_EDITOR
             doubleReward();
+
 #elif UNITY_ANDROID
             if (AuthManager.instance.networkCheck() == false)
             {                
@@ -279,6 +287,9 @@ namespace week
             AdManager.instance.adReward = () =>
             {
                 doubleReward();
+                BaseManager.userGameData.AdRecord++;
+                if (BaseManager.userGameData.DayQuestAd == 0)
+                    BaseManager.userGameData.DayQuestAd = 1;
             };
             AdManager.instance.UserChoseToWatchAd();
 #endif

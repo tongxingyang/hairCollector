@@ -25,7 +25,7 @@ namespace week
 
         #region [초기화]
 
-        public void Init()
+        public void Init(Action refresh)
         {
             _selectSkin = (SkinKeyList)BaseManager.userGameData.Skin;
             showSkinInfo();
@@ -40,7 +40,7 @@ namespace week
                     sb.transform.SetParent(_skinBoxParent);
                     sb.transform.localScale = Vector3.one;
                     sb.setSkinBox((SkinKeyList)i);
-                    sb.setAction(changeSkin);
+                    sb.setAction(changeSkin, refresh);
 
                     _skinBoxies.Add(i, sb);
                 }

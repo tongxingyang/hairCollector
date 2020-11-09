@@ -195,7 +195,6 @@ namespace week
                         else // 이거 데이터 다른데??---------------------------
                         {
                             Debug.Log("서버랑 기기 데이터 고유번호 비일치");
-                            Debug.Log(AuthManager.instance.UniqueNum + " == " + BaseManager.userGameData.UniqueNumber);
 
                             string removekey = "";
                             result = false;

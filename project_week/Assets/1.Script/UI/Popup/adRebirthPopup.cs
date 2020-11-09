@@ -56,6 +56,10 @@ namespace week
             AdManager.instance.adReward = () =>
             {
                 _watch();
+                BaseManager.userGameData.AdRecord++;
+                if (BaseManager.userGameData.DayQuestAd == 0)
+                    BaseManager.userGameData.DayQuestAd = 1;
+
                 close();
             };
             AdManager.instance.UserChoseToWatchAd();
