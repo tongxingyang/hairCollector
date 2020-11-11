@@ -41,9 +41,10 @@ namespace week
         #region ----------------[Stat]----------------
 
         float _playerExp = 0;
-        float _playerMaxExp = 20f * 3f;
+        float _playerMaxExp = 50f;
+        bool _isUpgrading;
         public float ExpRate { get { return _playerExp / _playerMaxExp; } }
-        
+        public bool levelUpable { get { return (_playerExp > _playerMaxExp); } }
 
         float[] _standardStt;
         float[] _skillStt;
@@ -878,14 +879,29 @@ namespace week
         {
             _playerExp += exp * Exp;
 
-            if (_playerExp > _playerMaxExp)
+            if (levelUpable && (_isUpgrading == false))
             {
+                _isUpgrading = true;
                 // 레벨업 
+                StartCoroutine(levelUpCo());
+            }
+        }
+
+        IEnumerator levelUpCo()
+        {
+            yield return new WaitUntil(() => _gs.Pause == false);
+
+            while (levelUpable) 
+            {
+                _playerExp -= _playerMaxExp;
+                _playerMaxExp = _playerMaxExp * gameValues._expIncrease;
+
                 _gs.levelUp();
 
-                _playerExp -= _playerMaxExp;
-                _playerMaxExp = _playerMaxExp * 1.3f;
+                yield return new WaitUntil(() => _gs.Pause == false);
             }
+
+            _isUpgrading = false;
         }
 
         public void getHealed(float heal)

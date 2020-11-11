@@ -47,12 +47,11 @@ namespace week
             }
         }
 
-        public override void enemyDie()
+        public void selfEnemyDie()
         {
             if (_isDie == false)
             {
                 // SoundManager.instance.PlaySFX(SFX.endie);
-                killFunc();
                 _efMng.makeEff(effAni.selfEx, transform.position);
                 otherWhenDie();
                 Destroy();
@@ -64,7 +63,7 @@ namespace week
             if (collision.gameObject.tag.Equals("Player"))
             {
                 _player.getDamaged(Att);
-                enemyDie();
+                selfEnemyDie();
             }
             else if (collision.gameObject.tag.Equals("Finish"))
             {

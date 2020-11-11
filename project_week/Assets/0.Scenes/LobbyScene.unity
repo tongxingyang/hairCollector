@@ -121,7 +121,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!21 &1372769739
+--- !u!21 &2005832656
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -343,6 +343,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6214801514593278588, guid: 7073a1145a4f04b4faa41d9ad9cd9479,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6864512740816744786, guid: 7073a1145a4f04b4faa41d9ad9cd9479,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -351,6 +356,11 @@ PrefabInstance:
     - target: {fileID: 6864512740816744786, guid: 7073a1145a4f04b4faa41d9ad9cd9479,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7898590685477293708, guid: 7073a1145a4f04b4faa41d9ad9cd9479,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8181776198237823363, guid: 7073a1145a4f04b4faa41d9ad9cd9479,

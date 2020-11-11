@@ -30,6 +30,7 @@ namespace week
         public rankData() { }
         public rankData(string uid, string nick, int time, int boss, int skin)
         {
+            _version = gameValues._version;
             _uid = uid;
             _nick = nick;
             _time = time;
@@ -498,13 +499,14 @@ namespace week
             
                 List<object> tLeaders = MutableData.Value as List<object>;
 
+                Debug.Log("랭커 수 : " + tLeaders.Count);
                 if (tLeaders == null)
                 {
                     tLeaders = new List<object>();
                 }
                 else if (MutableData.ChildrenCount >= 28)
                 {
-                    long min = int.MaxValue;
+                    long min = long.MaxValue;
                     object minData = null;
 
                     foreach (var child in tLeaders)
@@ -517,12 +519,11 @@ namespace week
 
                         if (childid.Equals(_uid))
                         {
-                            ((rankData)child)._uid = BaseManager.userGameData.NickName;
-                            ((rankData)child)._version = gameValues._version;
-                            ((rankData)child)._time = BaseManager.userGameData.TimeRecord;
-                            ((rankData)child)._boss = BaseManager.userGameData.BossRecord;
-                            ((rankData)child)._nick = BaseManager.userGameData.NickName;
-                            ((rankData)child)._skin = BaseManager.userGameData.RecordSkin;
+                            ((Dictionary<string, object>)child)["_nick"] = BaseManager.userGameData.NickName;
+                            ((Dictionary<string, object>)child)["_version"] = ((int)gameValues._version);
+                            ((Dictionary<string, object>)child)["_time"] = ((int)BaseManager.userGameData.TimeRecord);
+                            ((Dictionary<string, object>)child)["_boss"] = ((int)BaseManager.userGameData.BossRecord);
+                            ((Dictionary<string, object>)child)["_skin"] = ((int)BaseManager.userGameData.RecordSkin);
 
                             MutableData.Value = tLeaders;
                             return TransactionResult.Success(MutableData);
@@ -540,6 +541,29 @@ namespace week
                     }
 
                     tLeaders.Remove(minData);
+                }
+                else
+                {
+                    foreach (var child in tLeaders)
+                    {
+                        if (!(child is Dictionary<string, object>))
+                            continue;
+
+                        string childid = (string)((Dictionary<string, object>)child)["_uid"];
+
+                        Debug.Log(childid + " => " + (childid.Equals(_uid)) + " <= " + _uid);
+                        if (childid.Equals(_uid))
+                        {
+                            ((Dictionary<string, object>)child)["_nick"] = BaseManager.userGameData.NickName;
+                            ((Dictionary<string, object>)child)["_version"] = ((int)gameValues._version);
+                            ((Dictionary<string, object>)child)["_time"] = ((int)BaseManager.userGameData.TimeRecord);
+                            ((Dictionary<string, object>)child)["_boss"] = ((int)BaseManager.userGameData.BossRecord);
+                            ((Dictionary<string, object>)child)["_skin"] = ((int)BaseManager.userGameData.RecordSkin);
+
+                            MutableData.Value = tLeaders;
+                            return TransactionResult.Success(MutableData);
+                        }
+                    }
                 }
 
                 tLeaders.Add(BaseManager.userGameData.getRankData(_uid));

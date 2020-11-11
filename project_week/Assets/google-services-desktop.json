@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "567071762911",
+    "firebase_url": "https://snowadventure-91260115.firebaseio.com",
+    "project_id": "snowadventure-91260115",
+    "storage_bucket": "snowadventure-91260115.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567071762911:android:d22616ab2251ecf9d6fc6a",
+        "android_client_info": {
+          "package_name": "com.munzi.snowAdventure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567071762911-3tt4k1dm4alif3b2o4gq96dj4j3s2jpf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAiljMk1t6J3F3KztDDwtugoW8PsP8cvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567071762911-3tt4k1dm4alif3b2o4gq96dj4j3s2jpf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

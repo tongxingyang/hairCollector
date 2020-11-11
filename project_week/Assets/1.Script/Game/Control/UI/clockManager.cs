@@ -31,10 +31,10 @@ namespace week
         public float RecordTime { get => _recordTime; set => _recordTime = value; }
         public season Season { get => _season; set => _season = value; }
 
-        float _chk1w = 30f;
+        float _chk1w = 45f;
         public bool chk1Wave { get => _monthTime > _chk1w; }
-        public bool chk2Wave { get => _monthTime > 60f; }
-        public bool chk3Wave { get => _monthTime > 120f; }
+        public bool chk2Wave { get => _monthTime > 120f; }
+        public bool chk3Wave { get => _monthTime > 240f; }
         public int Day { get => _day; set => _day = value; }
 
         public Action<season> changeSS;

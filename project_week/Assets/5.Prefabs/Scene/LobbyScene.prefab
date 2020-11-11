@@ -403,7 +403,7 @@ MonoBehaviour:
   - {fileID: 1970272590653494474}
   _optionImg:
   - {fileID: 21300000, guid: 51dc52aa5a6d7f84aafc19bdf30ec3ac, type: 3}
-  - {fileID: 21300000, guid: 82569ac06f686b94e95306e906518516, type: 3}
+  - {fileID: 21300000, guid: 254d47e3bd4a7c244a5546fd0ffafa57, type: 3}
   _snow: {fileID: 1031003491727476213}
   _angle: {fileID: 7203344963696359252}
   _pattern: {fileID: 5264148252434161321}

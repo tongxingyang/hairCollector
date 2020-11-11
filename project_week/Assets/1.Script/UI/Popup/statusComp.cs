@@ -259,7 +259,7 @@ namespace week
                     return string.Format("공격력 +{0:0}", BaseManager.userGameData.o_Att + num);
                 case StatusData.def:
                     num = (next) ? BaseManager.userGameData.getAddit(StatusData.def) : 0;
-                    return string.Format("방어력 +{0:0}", BaseManager.userGameData.o_Def + num);
+                    return string.Format("방어력 +{0:0.0}", BaseManager.userGameData.o_Def + num);
                 case StatusData.hpgen:
                     num = (next) ? BaseManager.userGameData.getAddit(StatusData.hpgen) : 0;
                     return string.Format("체력회복 {0:0.00}", BaseManager.userGameData.o_Hpgen + num);

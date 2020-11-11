@@ -147,7 +147,7 @@ namespace week
             bosss = new bossControl[bosPos.Length];
                       
             Boss _bs = (Random.Range(0, 5) == 0) ? Boss.boss_bear : (Boss)((int)_clock.Season);
-            _bs = (Boss)Random.Range(0, (int)Boss.max);
+            // _bs = (Boss)Random.Range(0, (int)Boss.max);
 
             for (int i = 0; i < bosPos.Length; i++)
             {

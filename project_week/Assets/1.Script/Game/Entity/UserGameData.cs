@@ -94,6 +94,7 @@ namespace week
         public ObscuredInt DayQuestRein { get => _userEntity._quest._dayQuest[0]; set => _userEntity._quest._dayQuest[0] = value; }
         public ObscuredInt DayQuestSkin { get => _userEntity._quest._dayQuest[1]; set => _userEntity._quest._dayQuest[1] = value; }
         public ObscuredInt DayQuestAd { get => _userEntity._quest._dayQuest[2]; set => _userEntity._quest._dayQuest[2] = value; }
+        /// <summary> 오늘의 스킨 퀘스트 </summary>
         public ObscuredInt QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
         // - 전체
         public ObscuredInt GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
@@ -521,10 +522,10 @@ namespace week
             Dictionary<string, object> data = new Dictionary<string, object>();
             data["_uid"] = uid;
             data["_nick"] = NickName;
-            data["_time"] = TimeRecord;
-            data["_boss"] = BossRecord;
-            data["_skin"] = RecordSkin;
-            data["_version"] = gameValues._version;
+            data["_time"] = (int)TimeRecord;
+            data["_boss"] = (int)BossRecord;
+            data["_skin"] = (int)RecordSkin;
+            data["_version"] = (int)gameValues._version;
 
             return data;
         }

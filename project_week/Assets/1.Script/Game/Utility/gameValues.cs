@@ -30,11 +30,15 @@ namespace week
         public static readonly ObscuredFloat _stageCoinIncrease = 1.2f;
 
         public static readonly ObscuredInt _tileCut = 4;
-        public static float _boxSize { get { return 20.48f / _tileCut; } }
+        public static float _boxSize { get { return 20f / _tileCut; } }
 
         public static readonly ObscuredFloat _defaultSpeed = 3.2f;
         //public static readonly float _defaultProjSpeed = 5f;
         public static readonly ObscuredFloat _defaultCurvProjSpeed = 2f;
+
+        // 게임 값 ==============================
+
+        public static readonly ObscuredFloat _expIncrease = 1.2f;
 
         // 추가코인 ==============================
         public static readonly Vector3[] _mulCoinVal = new Vector3[2] {
@@ -47,7 +51,7 @@ namespace week
         {
             get
             {
-                float d = (20.48f - _boxSize) / 2f;
+                float d = (20f - _boxSize) / 2f;
                 return new Vector3(-d, d);
             }
         }

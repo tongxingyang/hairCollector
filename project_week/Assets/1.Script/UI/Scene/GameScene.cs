@@ -49,7 +49,7 @@ namespace week
         [Header("etc")]
         [SerializeField] TextMeshProUGUI _lvlTmp;
 
-        int _lvl = 0;
+        int _lvl = 1;
 
         float _coin = 0;
         int _gem = 0;
@@ -231,7 +231,7 @@ namespace week
             
             getCoin(_mobCoin);
 
-            _player.getExp(1 * 3);
+            _player.getExp(3);
             ExpRefresh();
         }
 

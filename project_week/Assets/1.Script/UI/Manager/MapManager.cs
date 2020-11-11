@@ -105,7 +105,7 @@ namespace week
         {
             for (int i = 0; i < 3; i++)
             {
-                _tiles[6 + i].Tr.position = _tiles[i].Tr.position + new Vector3(0, 20.48f);
+                _tiles[6 + i].Tr.position = _tiles[i].Tr.position + new Vector3(0, 20f);
                 _tiles[6 + i]._isUse = false;
                 _temp[i] = _tiles[6 + i];
             }
@@ -127,7 +127,7 @@ namespace week
         {
             for (int i = 0; i < 3; i++)
             {
-                _tiles[i].Tr.position = _tiles[6 + i].Tr.position + new Vector3(0, -20.48f);
+                _tiles[i].Tr.position = _tiles[6 + i].Tr.position + new Vector3(0, -20f);
                 _tiles[i]._isUse = false;
                 _temp[i] = _tiles[i];
             }
@@ -149,7 +149,7 @@ namespace week
         {
             for (int i = 0; i < 3; i++)
             {
-                _tiles[i * 3].Tr.position = _tiles[i * 3 + 2].Tr.position + new Vector3(20.48f, 0);
+                _tiles[i * 3].Tr.position = _tiles[i * 3 + 2].Tr.position + new Vector3(20f, 0);
                 _tiles[i * 3]._isUse = false;
                 _temp[i] = _tiles[i * 3];
             }
@@ -172,7 +172,7 @@ namespace week
         {
             for (int i = 0; i < 3; i++)
             {
-                _tiles[i * 3 + 2].Tr.position = _tiles[i * 3].Tr.position + new Vector3(-20.48f, 0);
+                _tiles[i * 3 + 2].Tr.position = _tiles[i * 3].Tr.position + new Vector3(-20f, 0);
                 _tiles[i * 3 + 2]._isUse = false;
                 _temp[i] = _tiles[i * 3 + 2];
             }

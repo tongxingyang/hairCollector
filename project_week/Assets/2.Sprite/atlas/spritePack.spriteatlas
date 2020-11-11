@@ -49,7 +49,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 578e513cc70e5f24e9c25b943c105710, type: 3}
     - {fileID: 102900000, guid: 4f489253b1c3a37408a270925b8bd3b7, type: 3}
     - {fileID: 102900000, guid: ffee5b2594a591642a555b7802b3ced1, type: 3}
-    totalSpriteSurfaceArea: 18284432
+    totalSpriteSurfaceArea: 18296807
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -118,6 +118,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 39b0dc93dd51b9e4d9a59e642746532c, type: 3}
   - {fileID: 21300000, guid: 3d671fa3f50d77747b3a62a778e31292, type: 3}
   - {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
+  - {fileID: 21300000, guid: 254d47e3bd4a7c244a5546fd0ffafa57, type: 3}
   - {fileID: 21300000, guid: 7c0d55243d1bcd04494f4bb763cec627, type: 3}
   - {fileID: -306787472437928336, guid: 1ce253345c221ef46a5cbd4c1afe44d9, type: 3}
   - {fileID: 5753333257145404389, guid: 1ce253345c221ef46a5cbd4c1afe44d9, type: 3}
@@ -387,6 +388,7 @@ SpriteAtlas:
   - purchaseShadow
   - arrow 1
   - tower
+  - back
   - coin
   - stick_0
   - stick_1

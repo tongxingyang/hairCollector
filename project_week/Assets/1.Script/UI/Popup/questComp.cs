@@ -101,6 +101,9 @@ namespace week
         {
             int day = 0;
 
+            mTmps[(int)eTmp.skinQstTxt].text = $"{DataManager.GetTable<string>(DataTable.skin, ((SkinKeyList)(int)BaseManager.userGameData.QuestSkin).ToString(), SkinValData.skinname.ToString())}으로"
+                + System.Environment.NewLine + "1회 플레이";
+
             for (int i = 0; i < 3; i++)
             {
                     day = (AuthManager.instance.networkCheck()) ? (int)BaseManager.userGameData.DayQuest[i] : -1;
