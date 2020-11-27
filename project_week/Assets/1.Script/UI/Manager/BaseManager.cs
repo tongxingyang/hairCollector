@@ -18,6 +18,9 @@ namespace week
 
         public static PreGameData PreGameData { set => preGameData = value; }
 
+        /// <summary> 패치 </summary>
+        public static bool NeedPatch { get; set; } = false;
+
         Action _sceneLoadStart;
         Action _sceneLoadComplete;
         public Action SceneLoadStart { set => _sceneLoadStart = value; }
@@ -49,15 +52,11 @@ namespace week
         {
             t1 tt1 = new t1(new ObscuredInt[] { 0, 1, 2 });
             string t1json = JsonConvert.SerializeObject(tt1, new ObscuredValueConverter());
-            //Debug.Log(t1json);
             t1 t1s = JsonConvert.DeserializeObject<t1>(t1json, new ObscuredValueConverter());
-            Debug.Log(t1s.arrayI[0]);
 
             t2 tt2 = new t2(new List<ObscuredInt>() { 3, 4, 5 });
             string t2json = JsonConvert.SerializeObject(tt2, new ObscuredValueConverter());
-            //Debug.Log(t2json);
             t2 t2s = JsonConvert.DeserializeObject<t2>(t2json, new ObscuredValueConverter());
-            Debug.Log(t2s.listI[0]);
         }
 
         #endregion

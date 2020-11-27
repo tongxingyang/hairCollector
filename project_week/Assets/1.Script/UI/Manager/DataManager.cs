@@ -29,8 +29,10 @@ namespace week
         public static Dictionary<SkillKeyList, GameObject> ShotFabs { get => _shotFabs; set => _shotFabs = value; }
         public static Dictionary<EnShot, GameObject> EnProjFabs { get => _enProjFabs; set => _enProjFabs = value; }
 
+        static Dictionary<StatusData, Sprite> _statusicon;
         static Dictionary<SkillKeyList, Sprite> _skillicon;
         static Dictionary<SkinKeyList, Sprite> _skinSprite;
+        public static Dictionary<StatusData, Sprite> Statusicon { get => _statusicon; set => _statusicon = value; }
         public static Dictionary<SkillKeyList, Sprite> Skillicon { get => _skillicon; set => _skillicon = value; }
         public static Dictionary<SkinKeyList, Sprite> SkinSprite { get => _skinSprite; set => _skinSprite = value; }
 
@@ -97,9 +99,25 @@ namespace week
                 _enProjFabs.Add(i, go);
             }
 
+            _statusicon = new Dictionary<StatusData, Sprite>();
+            Sprite[] sts = Resources.LoadAll<Sprite>("sprite/statIcons");
+            string name;
+            for (int i = 0; i < sts.Length; i++)
+            {
+                name = sts[i].name;
+
+                for (StatusData sd = StatusData.hp; sd < StatusData.max; sd++)
+                {
+                    if (name.Equals(sd.ToString()))
+                    {
+                        _statusicon.Add(sd, sts[i]);
+                    }
+                }
+            }
+
             _skillicon = new Dictionary<SkillKeyList, Sprite>();
             Sprite[] sps = Resources.LoadAll<Sprite>("sprite/skills");
-            string name;
+
             for (int i = 0; i < sps.Length; i++)
             {
                 name = sps[i].name;

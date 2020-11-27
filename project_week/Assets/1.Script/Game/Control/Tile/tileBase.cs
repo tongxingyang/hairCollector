@@ -84,11 +84,11 @@ namespace week
             int ran = UnityEngine.Random.Range(0, 201);
             mapObstacle mo;
 
-            if (ran < 5) // 2.5퍼
+            if (ran < 4) // 2퍼
             {
                 mo = mapObstacle.bosszone;
             }
-            else if(ran > 195) // 2.5퍼
+            else if(ran > 196) // 2퍼
             {
                 mo = (mapObstacle)UnityEngine.Random.Range((int)mapObstacle.ruin0, (int)mapObstacle.max);
             }

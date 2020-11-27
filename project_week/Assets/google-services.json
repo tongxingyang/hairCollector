@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "567071762911-199l5fjjm3cs6pn0g4cklku0sp3ok7bq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.munzi.snowAdventure",
+            "certificate_hash": "c4097a4d6f0bde6c1b2ad667123d9299aeea5cfa"
+          }
+        },
+        {
+          "client_id": "567071762911-2lqdla8mo07j7gng0bh9jnv6n60iq85m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.munzi.snowAdventure",
+            "certificate_hash": "2d1ccd22cf255c1b954aa7d853725b373f1c3220"
+          }
+        },
+        {
           "client_id": "567071762911-3tt4k1dm4alif3b2o4gq96dj4j3s2jpf.apps.googleusercontent.com",
           "client_type": 3
         }

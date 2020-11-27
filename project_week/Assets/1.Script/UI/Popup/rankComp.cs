@@ -22,7 +22,7 @@ namespace week
             _refTime = _cool + 1f;
             _reqTime = _cool + 1f;
 
-            StartCoroutine(settingRankBoxes());
+            settingRankBoxes();
         }
 
         /// <summary> 랭킹 로드 </summary>
@@ -37,7 +37,7 @@ namespace week
             if (_refTime > _cool)
             {
                 _refTime -= _cool;
-                StartCoroutine(settingRankBoxes());
+                settingRankBoxes();
             }
             else
             {
@@ -45,22 +45,29 @@ namespace week
             }
         }
 
-        IEnumerator settingRankBoxes()
+        void settingRankBoxes()
         {
-            yield return StartCoroutine(AuthManager.instance.loadRankDataFromFB());
-
-            int count = (AuthManager.instance.Leaders.Count > 30) ? 30 : AuthManager.instance.Leaders.Count;
-            for (int i = 0; i < count; i++)
+            // yield return StartCoroutine(AuthManager.instance.loadRankDataFromFB());
+            NanooManager.instance.getRankingTotal((dictionary) => 
             {
-                if (_boxes.Count <= i)
-                {
-                    rankBox box = Instantiate(_rankBoxFab).GetComponent<rankBox>();
-                    box.transform.SetParent(_boxParent);
-                    _boxes.Add(box);
-                }
+                ArrayList list = (ArrayList)dictionary["list"];
+                int i = 0;
 
-                _boxes[i].setRankBox(i, AuthManager.instance.Leaders[i]);
-            }
+                foreach (Dictionary<string, object> rank in list)
+                {
+                    if (_boxes.Count <= i)
+                    {
+                        rankBox box = Instantiate(_rankBoxFab).GetComponent<rankBox>();
+                        box.transform.SetParent(_boxParent);
+                        _boxes.Add(box);
+                    }
+
+                    rankData data = JsonUtility.FromJson<rankData>((string)rank["data"]);
+
+                    _boxes[i].setRankBox(i, rank["nickname"].ToString(), int.Parse((string)rank["score"]), data);
+                    i++; 
+                }
+            });
         }
 
         /// <summary> 내 랭킹 어필 </summary>
@@ -77,7 +84,7 @@ namespace week
                 if (_reqTime > _cool)
                 {
                     _reqTime -= _cool;
-                    AuthManager.instance.saveRankDataFromFB();
+                    // AuthManager.instance.saveRankDataFromFB();
                     WindowManager.instance.Win_message.showMessage("접수되었습니다." + System.Environment.NewLine + "반영까지 쬐금만 기달려주세요");
                 }
                 else
@@ -111,7 +118,7 @@ namespace week
             if (_refTime > _cool)
             {
                 _refTime -= _cool;
-                StartCoroutine(settingRankBoxes());
+                settingRankBoxes();
             }
         }
 

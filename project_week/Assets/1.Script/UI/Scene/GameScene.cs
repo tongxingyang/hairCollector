@@ -231,7 +231,7 @@ namespace week
             
             getCoin(_mobCoin);
 
-            _player.getExp(3);
+            _player.getExp(gameValues._startMobExp);
             ExpRefresh();
         }
 
@@ -246,7 +246,7 @@ namespace week
 
             getCoin(_bossCoin);
 
-            _player.getExp(50);
+            _player.getExp(gameValues._startBobExp);
             ExpRefresh();
         }
 
@@ -457,7 +457,7 @@ namespace week
                 BaseManager.userGameData.ArtifactRecord = _getArti;
             }
 
-            // BaseManager.userGameData.AllSaveUserEntity();
+            // BaseManager.userGameData.SaveUserEntity();
 
             _upgradePanel.gameObject.SetActive(false);
             _pausePanel.gameObject.SetActive(false);

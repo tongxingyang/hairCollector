@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 namespace week
 {
@@ -14,10 +15,10 @@ namespace week
         {
             Lobby,
             Store,
-            Status,
-            Skin,
+            Snowman,
             Quest,
             Rank,
+            Post,
             option,
             nicChangePanel,
             updatePanel
@@ -58,7 +59,6 @@ namespace week
 
         #endregion
 
-        [SerializeField] Sprite[] _optionImg;
         [SerializeField] SnowController _snow;
         [SerializeField] Transform _angle;
         [SerializeField] RawImage _pattern;
@@ -68,10 +68,10 @@ namespace week
         bool _isLobby;
 
         storeComp _store;
-        statusComp _status;
-        skinComp _skin;
+        snowmanComp _snowman;
         questComp _quest;
         rankComp _rank;
+        postComp _post;
 
         optionComp _option;
         nickChangePopup _nickPanel;
@@ -96,13 +96,14 @@ namespace week
 
             // 로비에서 연결되는 창 초기화
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
-            _status = mGos[(int)eGO.Status].GetComponent<statusComp>();
-            _status.CostRefresh = refreshCost;
-            _skin = mGos[(int)eGO.Skin].GetComponent<skinComp>();
-            _skin.Init(refreshCost);
+            _store.Init();
+            _snowman = mGos[(int)eGO.Snowman].GetComponent<snowmanComp>();
+            _snowman.Init(refreshCost);
             _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
             _rank = mGos[(int)eGO.Rank].GetComponent<rankComp>();
             _rank.Init();
+            _post = mGos[(int)eGO.Post].GetComponent<postComp>();
+            _post.Init(this);
 
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
             _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();
@@ -111,16 +112,14 @@ namespace week
                 mGos[(int)eGO.option].SetActive(false);
                 _nickPanel.open();
             };
-            _nickPanel.completeChange = () => { setStage(); refreshCost(); };
+            _nickPanel.completeChange = () => { setStage(); refreshCost();
+                Debug.Log("쎗8");
+            };
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
             MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
 
             _isLobby = true;
-            mGos[(int)eGO.Lobby].SetActive(true);
-            mGos[(int)eGO.Store].SetActive(false);
-            mGos[(int)eGO.Status].SetActive(false);
-            mGos[(int)eGO.Skin].SetActive(false);
             mGos[(int)eGO.Quest].SetActive(false);
             mGos[(int)eGO.Rank].SetActive(false);
             mGos[(int)eGO.option].SetActive(false);
@@ -161,14 +160,17 @@ namespace week
             }
             if (BaseManager.userGameData.IsSavedServer == false) // 서버 저장
             {
-                AuthManager.instance.AllSaveUserEntity();
-            }
-            if(AuthManager.instance.LastVersion > gameValues._version) // 버전창
-            {
-                openUpdate();    
+                AuthManager.instance.SaveUserEntity();
             }
 
+            //if(AuthManager.instance.Version > gameValues._version) // 버전창
+            //{
+            //    openUpdate();    
+            //}
+
             refreshCost();
+            NanooManager.instance.AccessEvent();
+            //AccessEvent();
         }
 
         private void Update()
@@ -224,8 +226,9 @@ namespace week
 
         public void refreshCost()
         {
-            MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.Coin.ToString();
-            MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.Gem.ToString();
+            MTmps[(int)eTmp.CoinTxt].text = ((int)BaseManager.userGameData.Coin).ToString();
+            MTmps[(int)eTmp.GemTxt].text = ((int)BaseManager.userGameData.Gem).ToString();
+            Debug.Log("쎗7");
         }
 
         public void PlayGame()
@@ -234,36 +237,11 @@ namespace week
             //BaseManager.userGameData.saveDataToLocal();
             BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.GameScene);
         }
-
-        public void openStore()
-        {
-            _isLobby = false;
-            allClose(false);
-
-            _store.open();
-            mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
-        }
-        public void openStatus()
-        {
-            _isLobby = false;
-            allClose(false);
-
-            _status.open();
-            mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
-        }
-        public void openSkin()
-        {
-            _isLobby = false;
-            allClose(false);
-
-            _skin.open();
-            mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
-        }
+      
         public void openQuest()
         {
             _isLobby = false;
             allClose(true);
-
             _quest.open();
         }
 
@@ -273,7 +251,14 @@ namespace week
             allClose(false);
 
             _rank.open();
-            mImgs[(int)eImg.optionBtn].sprite = _optionImg[1];
+        }
+
+        public void openPost()
+        {
+            _isLobby = false;
+            allClose(false);
+
+            _post.open();
         }
 
         public void openOption()
@@ -285,7 +270,6 @@ namespace week
             else
             {
                 _isLobby = true;
-                mImgs[(int)eImg.optionBtn].sprite = _optionImg[0];
 
                 allClose(true);
                 refreshSnowImg();
@@ -294,7 +278,7 @@ namespace week
 
         public void openUpdate()
         {
-            MTmps[(int)eTmp.RecordTxt].text = $"{AuthManager.instance.LastVersion}.버전이 출시되었습니다." + System.Environment.NewLine + "업데이트 해주세요.";
+            MTmps[(int)eTmp.RecordTxt].text = $"{AuthManager.instance.Version}.버전이 출시되었습니다." + System.Environment.NewLine + "업데이트 해도 되고 안해도 되고요.";
             mGos[(int)eGO.updatePanel].SetActive(true);
         }
 
@@ -305,11 +289,6 @@ namespace week
 
         void allClose(bool lobby)
         {
-            mGos[(int)eGO.Lobby].SetActive(lobby);
-
-            mGos[(int)eGO.Store].SetActive(false);
-            mGos[(int)eGO.Status].SetActive(false);
-            mGos[(int)eGO.Skin].SetActive(false);
             mGos[(int)eGO.Quest].SetActive(false);
             mGos[(int)eGO.Rank].SetActive(false);
             mGos[(int)eGO.option].SetActive(false);
@@ -328,12 +307,20 @@ namespace week
             {
                 MTmps[(int)eTmp.RecordTxt].text = $"{BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false)}";
             }
-            //MTmps[(int)eTmp.st].color = Color.black;
         }
 
         void refreshSnowImg()
         {
             mImgs[(int)eImg.snowmanImg].sprite = DataManager.SkinSprite[BaseManager.userGameData.Skin];
+        }
+
+        [Button]
+        public void getMoney()
+        {
+            BaseManager.userGameData.Gem += 2000;
+            BaseManager.userGameData.Coin += 500000;
+
+            refreshCost();
         }
     }
 }

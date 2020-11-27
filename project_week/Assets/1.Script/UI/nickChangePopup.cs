@@ -31,70 +31,51 @@ namespace week
                 return;
             }
 
-            // 인터넷 체크
-            if (AuthManager.instance.networkCheck())
+            // 닉변 비용체크
+            if (BaseManager.userGameData.FreeNichkChange == false)
             {
-                // 닉변 비용체크
-                if (BaseManager.userGameData.FreeNichkChange == false)
-                {
-                }
-                else if (BaseManager.userGameData.Gem < gameValues._nickPrice)
-                {
-                    WindowManager.instance.Win_message.showMessage("사실 닉변하는데 보석 듬ㅋㅋ" + System.Environment.NewLine +
-                        $"(딱- {gameValues._nickPrice - BaseManager.userGameData.Gem}개만 더모으면 가능!)");
-                    return;
-                }
             }
-            else 
-            { 
-                // 인터넷 끊겼을땐 + 닉변 한번밖에 못함
-                if (BaseManager.userGameData.FreeNichkChange)
-                {
-                    WindowManager.instance.Win_message.showMessage("닉네임 변경을 위해서는 인터넷을 연결해주세눈!");
-                    return;
-                }
+            else if (BaseManager.userGameData.Gem < gameValues._nickPrice)
+            {
+                WindowManager.instance.Win_message.showMessage("사실 닉변하는데 보석 듬ㅋㅋ" + System.Environment.NewLine +
+                    $"(딱- {gameValues._nickPrice - BaseManager.userGameData.Gem}개만 더모으면 바꿀 수 있어요!)");
+                return;
             }
 
             _closable = false;
-            StartCoroutine(changeNickName());
+            Debug.Log("-----------");
+
+            StartCoroutine(chkNickName());
         }
-        IEnumerator changeNickName()
+
+        IEnumerator chkNickName()
         {
-            // 인터넷 체크
-            if (AuthManager.instance.networkCheck())
+            yield return StartCoroutine(AuthManager.instance.searchNickName(_field.text, (chk) =>
             {
-                // 최신화 한지 5분 지났으면 한번 로드
-                if ((DateTime.Now - BaseManager.userGameData._rankRefreshTime).Minutes > 5)
+                if (chk) // 중복 없음 생성 가능
                 {
-                    yield return StartCoroutine(AuthManager.instance.loadRankDataFromFB());
-                }
-
-                for (int i = 0; i < AuthManager.instance.Leaders.Count; i++)
-                {
-                    if (_field.text.Equals(AuthManager.instance.Leaders[i]._nick))
+                    BaseManager.userGameData.NickName = _field.text;
+                    if (BaseManager.userGameData.FreeNichkChange)
                     {
-                        WindowManager.instance.Win_message.showMessage("랭킹에 등록된 닉네임으로는 변경할 수 없눈");
-
-                        _closable = true;
-                        yield break;
+                        BaseManager.userGameData.Gem -= gameValues._nickPrice;
+                    }
+                    else
+                    {
+                        BaseManager.userGameData.FreeNichkChange = true;
                     }
                 }
-            }
+                else // 중복 있음
+                {
+                    WindowManager.instance.Win_message.showMessage("중복된 닉네임이눈!");
+                }
 
-            BaseManager.userGameData.NickName = _field.text;
-            if (BaseManager.userGameData.FreeNichkChange)
-            {
-                BaseManager.userGameData.Gem -= gameValues._nickPrice;
-            }
-            else
-            {
-                BaseManager.userGameData.FreeNichkChange = true;
-            }
+                _closable = true;
+            }));
 
-            AuthManager.instance.AllSaveUserEntity();
+            yield return new WaitUntil(() => _closable == true);
 
             completeChange?.Invoke();
-            _closable = true;
+            AuthManager.instance.SaveUserEntity();
             close();
         }
 

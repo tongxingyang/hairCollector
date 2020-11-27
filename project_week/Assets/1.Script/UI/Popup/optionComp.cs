@@ -77,15 +77,10 @@ namespace week
             close();
         }
 
+        /// <summary> 오프라인 계정 전환 </summary>
         public void offLineAccount()
         {
-            WindowManager.instance.Win_accountList.open((account) =>
-            {
-                BaseManager.userGameData.saveDataToLocal();
-
-                AuthManager.instance.Uid = account;
-                BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.LobbyScene);
-            }, true, true);
+            BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.LobbyScene);
         }
 
         public void ExitGame()
@@ -95,7 +90,7 @@ namespace week
 
         IEnumerator whenQuit()
         {
-            BaseManager.userGameData.saveDataToLocal();
+            // BaseManager.userGameData.saveDataToLocal();
 
 #if UNITY_EDITOR
 
@@ -133,12 +128,10 @@ namespace week
 
         public void getMoney()
         {
-            Debug.Log("초기화");
-            BaseManager.userGameData.Coin += 10000;
-            BaseManager.userGameData.Gem += 500;
-            BaseManager.userGameData.Ap += 10;
+            _lobby.getMoney();
 
-            BaseManager.userGameData.saveDataToLocal();
+            AuthManager.instance.queryTest2();
+
         }
     }
 }

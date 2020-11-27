@@ -43,7 +43,7 @@ namespace week
             _efm = efm;
 
             //_dmg = DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.att.ToString());
-            _speed = gameValues._defaultSpeed * DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.speed.ToString());
+            _speed = gameValues._defaultProjSpeed * DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.speed.ToString());
 
             whenInit();
 

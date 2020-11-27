@@ -6,6 +6,11 @@ using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace week
 {
+    public class Context
+    { 
+    
+    }
+
     public static class gameValues
     {
         /// <summary> 버전 </summary>
@@ -13,7 +18,7 @@ namespace week
         /// <summary> 유닉스 시대 </summary>
         public static readonly DateTime epoch = new DateTime(1970, 1, 1, 9, 0, 0, DateTimeKind.Utc);
         /// <summary> 기기 데이터 리스트 키 </summary>
-        public static readonly ObscuredString _deviceListKey = "deviceKey";
+        public static readonly ObscuredString _offlineKey = "offlineKey";
 
         // price ==============================
         /// <summary> 어빌리티 포인트 가격 </summary>
@@ -32,13 +37,26 @@ namespace week
         public static readonly ObscuredInt _tileCut = 4;
         public static float _boxSize { get { return 20f / _tileCut; } }
 
+        // 게임 값 ==============================
+        
+        /// <summary> 플레이어 시작 경험치 </summary>
+        public static readonly ObscuredInt _startExp = 25;
+        /// <summary> 몹 시작 경험치 </summary>
+        public static readonly ObscuredInt _startMobExp = 2;
+        /// <summary> 보스 시작 경험치 </summary>
+        public static readonly ObscuredInt _startBobExp = 50;
+
+        /// <summary> 기본 속도(눈사람 기준) </summary>
         public static readonly ObscuredFloat _defaultSpeed = 3.2f;
-        //public static readonly float _defaultProjSpeed = 5f;
+        /// <summary> 기본 투사체 속도 </summary>
+        public static readonly ObscuredFloat _defaultProjSpeed = 3.7f;
+        /// <summary> 기본 곡사체 속도 </summary>
         public static readonly ObscuredFloat _defaultCurvProjSpeed = 2f;
 
-        // 게임 값 ==============================
-
+        /// <summary> max경험치 증가 값 </summary>
         public static readonly ObscuredFloat _expIncrease = 1.2f;
+        /// <summary> 힐팩량(5%) </summary>
+        public static readonly ObscuredFloat _healpackVal = 0.05f;
 
         // 추가코인 ==============================
         public static readonly Vector3[] _mulCoinVal = new Vector3[2] {

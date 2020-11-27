@@ -151,7 +151,7 @@ namespace week
                     _chk = (BaseManager.userGameData.BossRecord - BaseManager.userGameData.GetBossReward >= _Val);
                     break;
                 case 2:
-                    mTmps[(int)eTmp.qstArtifactTxt].text = $"한번의 모험에서 유물 {BaseManager.userGameData.GetBossReward + 1}개 습득";
+                    mTmps[(int)eTmp.qstArtifactTxt].text = $"한번의 모험에서 유물 {BaseManager.userGameData.GetArtifactReward + 1}개 습득";
                     _Val = DataManager.GetTable<int>(DataTable.quest, Quest.artifact.ToString(), QuestValData.val.ToString());
                     _chk = (BaseManager.userGameData.ArtifactRecord - BaseManager.userGameData.GetArtifactReward >= _Val);
                     break;
@@ -186,7 +186,7 @@ namespace week
 
                 refreshDayQuest();
 
-                AuthManager.instance.AllSaveUserEntity();
+                AuthManager.instance.SaveUserEntity();
             }
         }
 
@@ -222,7 +222,7 @@ namespace week
 
                 refreshQuest(i);
 
-                AuthManager.instance.AllSaveUserEntity();
+                AuthManager.instance.SaveUserEntity();
             }
         }
 

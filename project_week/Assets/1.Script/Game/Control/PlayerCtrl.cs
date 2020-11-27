@@ -41,7 +41,7 @@ namespace week
         #region ----------------[Stat]----------------
 
         float _playerExp = 0;
-        float _playerMaxExp = 50f;
+        float _playerMaxExp = gameValues._startExp;
         bool _isUpgrading;
         public float ExpRate { get { return _playerExp / _playerMaxExp; } }
         public bool levelUpable { get { return (_playerExp > _playerMaxExp); } }
@@ -52,7 +52,7 @@ namespace week
         float[] _seasonStt;
 
         float _hp;
-        float MaxHp 
+        public float MaxHp 
         { 
             get
             { 
@@ -176,7 +176,6 @@ namespace week
             }
         }
 
-        float _speed = gameValues._defaultSpeed * 0.8f;
         float Speed 
         {
             get
@@ -341,14 +340,14 @@ namespace week
             _almightCase.SetActive(false);
 
             StartCoroutine(skillUpdate());
-            //StartCoroutine(chk());
+            // StartCoroutine(chk());
         }
 
         IEnumerator chk()
         {
             while (true)
             {
-                Debug.Log(Att + "/" + Def + "/" + Hpgen + "/" + Cool + "/" + Coin);
+                Debug.Log(Att + "/");
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -770,7 +769,7 @@ namespace week
             {
                 _genTime = 0f;
 
-                _hp += MaxHp * Hpgen;
+                _hp += MaxHp * Hpgen * HealMount;
                 if (_hp > MaxHp)
                 {
                     _hp = MaxHp;
@@ -906,7 +905,9 @@ namespace week
 
         public void getHealed(float heal)
         {
+            heal = heal * HealMount;
             _hp += heal;
+
             if (_hp > MaxHp)
             {
                 _hp = MaxHp;
@@ -1083,20 +1084,6 @@ namespace week
 
             _isAlmighty = false;
             _almightCase.SetActive(false);
-        }
-
-        public void playerSlow()
-        {
-            StartCoroutine(Slow());
-        }
-
-        IEnumerator Slow()
-        {
-            _speed = gameValues._defaultSpeed / 2;
-
-            yield return new WaitForSeconds(3f);
-
-            _speed = gameValues._defaultSpeed;
         }
 
         /// <summary> 버프 세팅 </summary>

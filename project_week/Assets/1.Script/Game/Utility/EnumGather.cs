@@ -31,6 +31,12 @@ namespace week
 
     #endregion
 
+    #region [ nanoo ]
+
+    public enum nanooPost { gem, coin, ap, skin }
+
+    #endregion
+
     #region [ user Data ]
 
     public enum mulCoinChkList
@@ -370,7 +376,6 @@ namespace week
 
     #region gameData_sub
 
-
     public enum mapObstacle
     {
         bosszone,
@@ -391,10 +396,8 @@ namespace week
         max
     }
 
-    #endregion
-        
     public enum obstacleList
-    { 
+    {
         snowrock0,
         snowrock1,
         snowrock2,
@@ -422,6 +425,15 @@ namespace week
         selfEx
     }
 
+    public enum dmgTxtType
+    {
+        standard,
+        shield,
+        heal
+    }
+
+    #endregion
+
     public enum skillNote
     {
         none,
@@ -430,12 +442,7 @@ namespace week
         continuee
     }
 
-    public enum dmgTxtType
-    {
-        standard,
-        shield,
-        heal
-    }
+    
 
     #region 유저 데이터
 

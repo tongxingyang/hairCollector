@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace week
 {
-    public class storeComp : UIBase, UIInterface
+    public class storeComp : UIBase
     {
         #region [UIBase]
         enum eTr
@@ -27,20 +27,33 @@ namespace week
         #endregion
 
         [Header("present")]
-        [SerializeField] Image _ad;
-        [SerializeField] Image _10p;
-        [SerializeField] Image _start;
-        [SerializeField] Image _skin;
-
-        [SerializeField] GameObject _soldoutAd;
-        [SerializeField] GameObject _soldout10p;
-        [SerializeField] GameObject _soldoutStart;
-        [SerializeField] GameObject _soldoutSkin;
+        [SerializeField] GameObject _ad;
+        [SerializeField] GameObject _10p;
+        [SerializeField] GameObject _start;
+        [SerializeField] GameObject _skin;
 
         [Space]
         [SerializeField] LobbyScene _lobby;
+        [SerializeField] Scrollbar _bar;
 
+        [Space]
+        [SerializeField] RectTransform _limit;
+        ContentSizeFitter _limitFitter;
+        [SerializeField] RectTransform _special;
+        ContentSizeFitter _specialFitter;
         //Action _costRefresh;
+
+
+        public void Init()
+        {
+            _bar.value = 1f;
+
+            _limitFitter = _limit.GetComponent<ContentSizeFitter>();
+            _specialFitter = _special.GetComponent<ContentSizeFitter>();
+
+            setLimitFitter();
+            setSpecialFitter();
+        }
 
         #region [ 특별 상품 ]
 
@@ -51,12 +64,11 @@ namespace week
             BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
             BaseManager.userGameData.RemoveAd = true;
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.removead.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.removead.ToString(), productValData.image.ToString()),
+                "광고 제거", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
-
-            _ad.raycastTarget = false;
-            AuthManager.instance.AllSaveUserEntity();
-            _soldoutAd.SetActive(true);
+            
+            AuthManager.instance.SaveUserEntity();
         }
 
         /// <summary> 추가보너스 </summary>
@@ -66,12 +78,11 @@ namespace week
             BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_10p;
             BaseManager.userGameData.MulCoin = true;
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus.ToString(), productValData.image.ToString()),
+                "추가 10%코인", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
-
-            _10p.raycastTarget = false;
-            AuthManager.instance.AllSaveUserEntity();
-            _soldout10p.SetActive(true);
+            
+            AuthManager.instance.SaveUserEntity();
         }
 
         /// <summary> 추가보너스 정보 </summary>
@@ -84,16 +95,17 @@ namespace week
         /// <summary> 스타터팩 </summary>
         public void getStartPack()
         {
-            Debug.Log("스타터팩 구매 완료"); 
-            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
-            BaseManager.userGameData.RemoveAd = true;
-            BaseManager.userGameData.StartPack = true;
+            Debug.Log("스타터팩 구매 완료");            
 
             bool result = BaseManager.userGameData.RemoveAd;
             if (result == false)
             {
                 getRemoveAd();
             }
+
+            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
+            BaseManager.userGameData.RemoveAd = true;
+            BaseManager.userGameData.StartPack = true;
 
             int g, a, c;
 
@@ -108,17 +120,20 @@ namespace week
                 c += DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.addcoin.ToString());
             }
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.startpack.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.startpack.ToString(), productValData.image.ToString()),
+                "스타팅팩", () => { setLimitFitter(); setSpecialFitter(); }).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, c, 1);
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, g, 2);
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.ap, a, 3);
-            //_costRefresh();
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g);
+            NanooManager.instance.PostboxItemSend(nanooPost.coin, c);
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a);
 
-            _start.raycastTarget = false;
-            AuthManager.instance.AllSaveUserEntity();
-            _soldoutStart.SetActive(true);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, c, 1);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, g, 2);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.ap, a, 3);
+            //_costRefresh();
+            
+            AuthManager.instance.SaveUserEntity();
         }
 
         /// <summary> 스킨팩 </summary>
@@ -135,21 +150,20 @@ namespace week
                 BaseManager.userGameData.HasSkin |= (1 << (int)skl);
             }
 
-            int i = 30000;
-            BaseManager.userGameData.Coin += i;
-            i = 300 + ((result) ? 500 : 0);
-            BaseManager.userGameData.Gem += i;
+            int c = 30000 + ((result) ? 25000 : 0);            
+            int g = 300 + ((result) ? 250 : 0);
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.skinpack.ToString(), productValData.image.ToString()));
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.skinpack.ToString(), productValData.image.ToString()),
+                "야수사람팩", setSpecialFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, 30000, 1);
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, 300, 2);
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g);
+            NanooManager.instance.PostboxItemSend(nanooPost.coin, c);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, 30000, 1);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, 300, 2);
             //_costRefresh();
 
-            _skin.raycastTarget = false;
-            AuthManager.instance.AllSaveUserEntity();
-            _soldoutSkin.SetActive(true);
+            AuthManager.instance.SaveUserEntity();
         }
 
         public void chkPresent()
@@ -167,9 +181,11 @@ namespace week
             Debug.Log($"{i}보석 겟또다제");
             BaseManager.userGameData.Gem += i;
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 10);
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_gem.ToString(), productValData.image.ToString())
+                , "보석 조금").setImgSize(false);
+            // WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 10);
 
-            AuthManager.instance.AllSaveUserEntity();
+            AuthManager.instance.SaveUserEntity();
         }
 
         public void getMiddleGem()
@@ -178,9 +194,11 @@ namespace week
             Debug.Log($"{i}보석 겟또다제");
             BaseManager.userGameData.Gem += i;
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 15);
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_gem.ToString(), productValData.image.ToString())
+                , "보석 가방").setImgSize(false);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 15);
 
-            AuthManager.instance.AllSaveUserEntity();
+            AuthManager.instance.SaveUserEntity();
         }
 
         public void getLargeGem()
@@ -189,9 +207,11 @@ namespace week
             Debug.Log($"{i}보석 겟또다제");
             BaseManager.userGameData.Gem += i;
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 22);
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_gem.ToString(), productValData.image.ToString())
+                , "보석 금고").setImgSize(false);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 22);
 
-            AuthManager.instance.AllSaveUserEntity();
+            AuthManager.instance.SaveUserEntity();
         }
 
         #endregion
@@ -204,9 +224,11 @@ namespace week
             Debug.Log($"{i} AP 겟또다제");
             BaseManager.userGameData.Ap += i;
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 10);
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_ap.ToString(), productValData.image.ToString())
+                , "AP 조금").setImgSize(false);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 10);
             
-            AuthManager.instance.AllSaveUserEntity();
+            AuthManager.instance.SaveUserEntity();
         }
 
         public void getMiddleAp()
@@ -215,9 +237,11 @@ namespace week
             Debug.Log($"{i} AP 겟또다제");
             BaseManager.userGameData.Ap += i;
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 15);
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_ap.ToString(), productValData.image.ToString())
+                , "AP 뭉치").setImgSize(false);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 15);
 
-            AuthManager.instance.AllSaveUserEntity();
+            AuthManager.instance.SaveUserEntity();
         }
 
         public void getLargeAp()
@@ -226,9 +250,11 @@ namespace week
             Debug.Log($"{i} AP 겟또다제");
             BaseManager.userGameData.Ap += i;
 
-            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 22);
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_ap.ToString(), productValData.image.ToString())
+                , "AP 가방").setImgSize(false);
+            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 22);
 
-            AuthManager.instance.AllSaveUserEntity();
+            AuthManager.instance.SaveUserEntity();
         }
 
         #endregion
@@ -252,7 +278,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 10);
 
-                    AuthManager.instance.AllSaveUserEntity();
+                    AuthManager.instance.SaveUserEntity();
                 }
                 else
                 {
@@ -279,7 +305,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 15);
 
-                    AuthManager.instance.AllSaveUserEntity();
+                    AuthManager.instance.SaveUserEntity();
                 }
                 else
                 {
@@ -305,7 +331,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 22);
 
-                    AuthManager.instance.AllSaveUserEntity();
+                    AuthManager.instance.SaveUserEntity();
                 }
                 else
                 {
@@ -320,22 +346,31 @@ namespace week
         {
             WindowManager.instance.showActMessage("결제에 실패했습눈다", () => { });
         }
-        
-        public void open()
-        {
-            _ad.raycastTarget = !BaseManager.userGameData.RemoveAd;
-            _soldoutAd.SetActive(BaseManager.userGameData.RemoveAd);
-            _10p.raycastTarget = !BaseManager.userGameData.MulCoin;
-            _soldout10p.SetActive(BaseManager.userGameData.MulCoin);
-            _skin.raycastTarget = !BaseManager.userGameData.SkinPack;
-            _soldoutSkin.SetActive(BaseManager.userGameData.SkinPack);
 
-            gameObject.SetActive(true);
+        void setLimitFitter()
+        {
+            _ad.SetActive(BaseManager.userGameData.RemoveAd == false);
+            _10p.SetActive(BaseManager.userGameData.MulCoin == false);
+
+            if (BaseManager.userGameData.RemoveAd == true && BaseManager.userGameData.MulCoin == true)
+            {
+                _limitFitter.enabled = false;
+                _limit.sizeDelta = new Vector2(1350f, 150f);
+                //_limitFitter.
+            }
         }
 
-        public void close()
+        void setSpecialFitter()
         {
-            gameObject.SetActive(false);
+            _start.SetActive(BaseManager.userGameData.StartPack == false);
+            _skin.SetActive(BaseManager.userGameData.SkinPack == false);
+
+            if (BaseManager.userGameData.StartPack == true && BaseManager.userGameData.SkinPack == true)
+            {
+                _specialFitter.enabled = false;
+                _special.sizeDelta = new Vector2(1350f, 150f);
+                //_limitFitter.
+            }
         }
     }
 }

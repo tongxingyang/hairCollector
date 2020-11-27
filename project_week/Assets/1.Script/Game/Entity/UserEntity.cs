@@ -42,7 +42,6 @@ namespace week
             /// <summary> 강화레벨 </summary>
             [SerializeField] public ObscuredInt[] _statusLevel;
 
-
             public status(ObscuredInt[] statusLevel)
             {
                 _statusLevel = statusLevel;
@@ -114,15 +113,13 @@ namespace week
         [Serializable]
         public struct gameUtility
         {
-            [SerializeField] public ObscuredString _uniqueNumber;   // 고유번호
             [SerializeField] public ObscuredLong _lastSave;         // 마지막 저장
- 
+
             /// <summary> 유틸 체크리스트 </summary>
             [SerializeField] public ObscuredInt _chkList;
 
-            public gameUtility(string uniqueNumber, long lastSave, ObscuredInt chklist)
+            public gameUtility(long lastSave, ObscuredInt chklist)
             {
-                _uniqueNumber = uniqueNumber;
                 _lastSave = lastSave;
                 _chkList = chklist;
             }
@@ -142,7 +139,7 @@ namespace week
         #endregion
 
         /// <summary> 초기화 생성 </summary>
-        public UserEntity(bool network)
+        public UserEntity()
         {
             Debug.Log("entity 초기화");
 
@@ -185,23 +182,20 @@ namespace week
                 chklist : 0
             );
 
-            const string strPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; //문자 생성 풀
-            char[] chRandom = new char[8];
-            for (int i = 0; i < 8; i++ ) 
-            {
-                chRandom[i] = strPool[UnityEngine.Random.Range(0, strPool.Length)];
-            } 
-            string strRet = ((network) ? AuthManager.instance.LastLogin.ToString() : "000") + new String(chRandom); 
+            //const string strPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; //문자 생성 풀
+            //char[] chRandom = new char[8];
+            //for (int i = 0; i < 8; i++ ) 
+            //{
+            //    chRandom[i] = strPool[UnityEngine.Random.Range(0, strPool.Length)];
+            //} 
+            //string strRet = ((network) ? AuthManager.instance.LastLogin.ToString() : "000") + new String(chRandom); 
 
             // 유틸
             _util = new gameUtility(
-                uniqueNumber: strRet,
-                lastSave    : (network) ? AuthManager.instance.LastLogin : 0,
+                lastSave    : 0,
                 chklist     : 0
-            );
-        }
-
-        
+            );;
+        }        
 
         /// <summary> 데이터 저장 </summary>
         public string saveData()

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 using CodeStage.AntiCheat.ObscuredTypes;
 using System;
+using NaughtyAttributes;
 
 namespace week
 {
@@ -24,7 +25,6 @@ namespace week
         Action<string> _act;
         btnType _type;
 
-        ObscuredString[] _deviceList;
         ObscuredString _selectData;
 
         public void Awake()
@@ -44,80 +44,62 @@ namespace week
             }
         }
 
-        public void open(Action<string> act, bool select = true, bool cancelable = false)
-        {
-            _act = act;
-            _backPanel.raycastTarget = cancelable;
+        //public void open(Action<string> act, bool select = true, bool cancelable = false)
+        //{
+        //    _act = act;
+        //    _backPanel.raycastTarget = cancelable;
 
-            BtnInit();
+        //    BtnInit();
 
-            if (select)
-            {
-                _type = btnType.select;
-                _title.text = "기기에 저장된 데이터(로드)";
-            }
-            else
-            {
-                _type = btnType.change;
-                _title.text = "기기에 저장된 데이터(교체)"
-                    + System.Environment.NewLine + "<size=35>데이터를 저장할 공간이 필요합니다.</size>"
-                    + System.Environment.NewLine + "<size=35>교체된 데이터는 삭제됩니다.</size>";
-            }            
+        //    if (select)
+        //    {
+        //        _type = btnType.select;
+        //        _title.text = "기기에 저장된 데이터(로드)";
+        //    }
+        //    else
+        //    {
+        //        _type = btnType.change;
+        //        _title.text = "기기에 저장된 데이터(교체)"
+        //            + System.Environment.NewLine + "<size=35>데이터를 저장할 공간이 필요합니다.</size>"
+        //            + System.Environment.NewLine + "<size=35>교체된 데이터는 삭제됩니다.</size>";
 
-            if (ES3.KeyExists(gameValues._deviceListKey))
-            {
-                ObscuredString _deviceListJson = ES3.Load<string>(gameValues._deviceListKey);
-                _deviceList = JsonConvert.DeserializeObject<ObscuredString[]>(_deviceListJson, new ObscuredValueConverter());
-            }
-            else
-            {
-                _deviceList = new ObscuredString[] { "", "", "" };
-            }
+        //        //for (int i = 0; i < 3; i++)
+        //        //{
+        //        //    _btn[i].raycastTarget = true;
+        //        //}
+        //    }
 
-            for (int i = 0; i < 3; i++)
-            {
-                if (string.IsNullOrEmpty(_deviceList[i]))
-                {
-                    _snowman[i].sprite = DataManager.SkinSprite[SkinKeyList.snowman];
-                    _snowman[i].color = Color.gray;
-                    _nick[i].text = "empty";
-                    _record[i].text = "-년 -계절 -날 -:-";
-                }
-                else
-                {
-                    string load = (string)ES3.Load(_deviceList[i]);
-                    UserEntity _entity = JsonConvert.DeserializeObject<UserEntity>(load, new ObscuredValueConverter());
+        //    string load = (string)ES3.Load(_deviceList[i]);
+        //    UserEntity _entity = JsonConvert.DeserializeObject<UserEntity>(load, new ObscuredValueConverter());
 
-                    _snowman[i].sprite = DataManager.SkinSprite[(SkinKeyList)(int)_entity._property._skin];
-                    _snowman[i].color = Color.white;
-                    _nick[i].text = _entity._property._nickName;
-                    _record[i].text = BaseManager.userGameData.getLifeTime(_entity._record._timeRecord, false);
-                }
-            }
+        //    _snowman[i].sprite = DataManager.SkinSprite[(SkinKeyList)(int)_entity._property._skin];
+        //    _snowman[i].color = Color.white;
+        //    _nick[i].text = _entity._property._nickName;
+        //    _record[i].text = BaseManager.userGameData.getLifeTime(_entity._record._timeRecord, false);
 
-            gameObject.SetActive(true);
-        }
+        //    gameObject.SetActive(true);
+        //}
 
-        public void DataList(int n)
-        {
-            if (_type == btnType.select && string.IsNullOrEmpty(_deviceList[n]))
-                return;
+        //public void DataList(int n)
+        //{
+        //    if (_type == btnType.select && string.IsNullOrEmpty(_deviceList[n]))
+        //        return;
 
-            for (int i = 0; i < 3; i++)
-            {
-                if (i == n)
-                {
-                    _selectData = _deviceList[n];
-                    _btn[i].color = new Color(1f, 0.73f, 1f);
-                    _btn[i].transform.localScale = Vector3.one;
-                }
-                else
-                {
-                    _btn[i].color = new Color(0.98f, 0.88f, 0.61f);
-                    _btn[i].transform.localScale = Vector3.one * 0.95f;
-                }
-            }
-        }
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        if (i == n)
+        //        {
+        //            _selectData = _deviceList[n];
+        //            _btn[i].color = new Color(1f, 0.73f, 1f);
+        //            _btn[i].transform.localScale = Vector3.one;
+        //        }
+        //        else
+        //        {
+        //            _btn[i].color = new Color(0.98f, 0.88f, 0.61f);
+        //            _btn[i].transform.localScale = Vector3.one * 0.95f;
+        //        }
+        //    }
+        //}
 
         public void select()
         {
@@ -129,5 +111,11 @@ namespace week
         {
             gameObject.SetActive(false);
         }
+
+        //[Button]
+        //public void Onclick()
+        //{
+        //    open((string str) => { }, false);
+        //}
     }
 }

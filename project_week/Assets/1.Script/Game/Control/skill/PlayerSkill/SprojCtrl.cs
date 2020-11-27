@@ -23,7 +23,7 @@ namespace week
                 _dmg += _dmg * _player.SnowballDmg;
             }
 
-            _speed = gameValues._defaultSpeed * speed;
+            _speed = gameValues._defaultProjSpeed * speed;
             _keep = keep;
             bounce = 0;
 

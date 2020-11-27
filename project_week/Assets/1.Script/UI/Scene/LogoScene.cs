@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
+using Newtonsoft.Json;
 
 namespace week
 {
@@ -16,7 +17,6 @@ namespace week
         {
             TeamLogo,
             GameLogo,
-            Accountchk,
                         
             Fill,
 
@@ -27,17 +27,20 @@ namespace week
 
         #endregion
 
-        public bool isDataLoadSuccess { get; private set; }
+        [SerializeField] NotificationPopup _notif;
+        [SerializeField] TextMeshProUGUI _load;
+        public bool ConnectComplete { get; private set; }
         float time = 0f;
         float gauge = 0f;
 
         // Start is called before the first frame update
         void Start()
         {
-            isDataLoadSuccess = false;
             mImgs[(int)E_IMAGE.Fill].fillAmount = 0f;
             mImgs[(int)E_IMAGE.pressButton].gameObject.SetActive(false);
             mImgs[(int)E_IMAGE.Fill].gameObject.SetActive(true);
+            _notif.gameObject.SetActive(false);
+
             StartCoroutine(showLogo());
         }
 
@@ -55,7 +58,6 @@ namespace week
         /// <summary> 로고 오프닝 (로그인) </summary>
         IEnumerator showLogo()
         {
-            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
             // 로고 보여주는 부분
             mImgs[(int)E_IMAGE.TeamLogo].gameObject.SetActive(true);
             mImgs[(int)E_IMAGE.GameLogo].gameObject.SetActive(false);
@@ -68,17 +70,20 @@ namespace week
 
             yield return StartCoroutine(dataLoad());
 
-            yield return new WaitUntil(()=> mImgs[(int)E_IMAGE.Fill].fillAmount == 1f);
+            yield return new WaitUntil(()=> ConnectComplete && mImgs[(int)E_IMAGE.Fill].fillAmount == 1f);
             LoadComplete();
         }
 
         IEnumerator dataLoad()
         {
+            // 버전 체크
+            string[] lines = Application.version.Split('.');
+
             // BG 로드
+            _load.text = "눈내리는 중..";
             bool result = DataManager.LoadBGdata();
             if (result)
             {
-                isDataLoadSuccess = true;
             }
             else
                 Debug.LogError("앱 데이터 로드 에러");
@@ -88,20 +93,24 @@ namespace week
             yield return new WaitForEndOfFrame();
 
             // 사전 게임 데이터 제작 [bg필요?]
+            _load.text = "눈 쌓이는 중..";
             BaseManager.PreGameData = new PreGameData();
             gauge += 0.2f;
 
             // 윈도우 로드
+            _load.text = "눈 모으는 중..";
             WindowManager.instance.LoadWin();
             BaseManager.instance.SceneLoadStart = WindowManager.instance.Win_loading.open;
             BaseManager.instance.SceneLoadComplete = WindowManager.instance.Win_loading.close;
             gauge += 0.5f;
 
             // 리소스 폴더에서 프리팹 로드
+            _load.text = "눈 뭉치는 중..";
             DataManager.loadPrefabs();
             gauge += 0.15f;
 
             // 사운드매니저 로드
+            _load.text = "뽀득뽀득..";
             BaseManager.instance.loadOption();
 
             BaseManager.instance.GetComponent<SoundManager>().startSound();
@@ -109,24 +118,29 @@ namespace week
             SoundManager.instance.PlayBGM(BGM.Lobby);
             gauge += 0.05f;
 
+            ConnectComplete = false;
             BaseManager.userGameData = new UserGameData();
 #if UNITY_EDITOR
-            if (ES3.KeyExists(AuthManager.instance.Uid)) // 기본 유저 데이터 존재
-            {
-                // ES3.DeleteKey(AuthManager.instance.Uid);
-            }
-            if (ES3.KeyExists(gameValues._deviceListKey))
-            {
-                // ES3.DeleteKey(gameValues._deviceListKey);
-            }
 
-            // yield return StartCoroutine(userDataAfterNetChk());
-            //BaseManager.userGameData.saveDataToLocal(); // 기기저장
+            AuthManager.instance.LoginWithEmail();
+            
+            yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true); // [대기] 파베 로그인
+            BaseManager.userGameData = new UserGameData(); // 만들고
+            yield return StartCoroutine(AuthManager.instance.loadDataFromFB()); // [대기] 서버에서 데이터 가져오기
+
+            ConnectComplete = true;
 #else
             // 인터넷 - 데이터 체크 
             yield return StartCoroutine(userDataAfterNetChk());
             gauge += 0.15f;
-#endif  
+#endif
+            if (ConnectComplete == false)
+            {
+                yield break;
+            }
+
+            NanooManager.instance.setUid(AuthManager.instance.Uid); // 나누 접속
+            //AnalyticsManager.instance.AnalyticsLogin(AuthManager.instance.Uid); // 애널리스틱
 
             // 여기 끝난거 체크해서 다음 씬 진행
         }
@@ -153,163 +167,96 @@ namespace week
 
         IEnumerator userDataAfterNetChk()
         {
+            _load.text = "네트워크 연결체크";
             if (AuthManager.instance.networkCheck()) // 인터넷 연결
-            {                
+            {
+                _load.text = "구글 로그인";
                 AuthManager.instance.Login(); // 구글 로그인 ~> 파베 로그인
+
+                _load.text = "AD 초기화";
                 AdManager.instance.adStart(); // 광고 초기화
                 yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true); // [대기] 파베 로그인
-                
-                yield return StartCoroutine(AuthManager.instance.loadVersionFromFB());  // [대기] 버전
 
-                if (AuthManager.instance.loadMatchingData()) // 기기 (uid)매칭 데이터 로드
+                _load.text = "버전 확인";
+                yield return StartCoroutine(AuthManager.instance.loadVersionFromFB());  // [대기] 버전 체크
                 {
-                    Debug.Log("인터넷 연결 : 기기에 유저 데이터 있음");
+                    string[] releaseVersion = AuthManager.instance.Version.Split('.');
+                    string[] installVersion = Application.version.Split('.');
 
-                    yield return StartCoroutine(AuthManager.instance.chkExistData()); // [대기] 서버 데이터 유무 체크
-
-                    bool result = AuthManager.instance.IsExist;
-                    if (result)
+                    for (int i = 0; i < 3; i++)
                     {
-                        Debug.Log("서버에 데이터 있음");
-                        
-                        yield return StartCoroutine(AuthManager.instance.loadUniqueNumDate()); // [대기] 계정 고유번호
+                        int r_num = int.Parse(releaseVersion[i]);
+                        int i_num = int.Parse(installVersion[i]);
 
-                        result = (BaseManager.userGameData.UniqueNumber == AuthManager.instance.UniqueNum);
-                        if (result) // 같은 데이터
+                        if (r_num > i_num)
                         {
-                            Debug.Log("같은 데이터임(시작날짜기준)");
-                            
-                            yield return StartCoroutine(AuthManager.instance.loadLastSaveDate()); // [대기] 서버에 저장된 마지막 저장 날짜
-
-                            if (AuthManager.instance.LoadedLastSave == BaseManager.userGameData.LastSave) // 일치
+                            if (i < 2)
                             {
-                                Debug.Log("정상 작동");
-                                // ok.
+                                _notif.newVersionChker();
+                                ConnectComplete = false;
+                                yield break;
                             }
-                            else // 내용 다르면 기기껄로
+                            else
                             {
-                                Debug.Log("기기->서버 업로드");
-                                yield return StartCoroutine(AuthManager.instance.saveDataToFB()); // [대기] 업로드
+                                BaseManager.NeedPatch = true;
                             }
                         }
-                        else // 이거 데이터 다른데??---------------------------
-                        {
-                            Debug.Log("서버랑 기기 데이터 고유번호 비일치");
-
-                            string removekey = "";
-                            result = false;
-
-                            WindowManager.instance.Win_accountList.open((string selectKey)=> {
-                                removekey = selectKey;
-                                result = true;
-                            }, false); // 교체할 슬롯 선택
-
-                            yield return new WaitUntil(() => result == true); // [대기] 고를때까지 기다려주기
-                        }
-                    }
-                    else // 기기에는 데이터 있는데 서버에는 데이터 없어??
-                    {
-                        Debug.Log("기기 데이터 : true / 서버 데이터 : false");
-                        Debug.Log("기기->서버 업로드");
-                        yield return StartCoroutine(AuthManager.instance.saveDataToFB()); // [대기] 업로드
                     }
                 }
-                else // 기기에 유저 데이터 없음
+
+                yield return StartCoroutine(AuthManager.instance.chkExistData()); // [대기] 서버 데이터 유무 체크
+
+                bool result = AuthManager.instance.IsExist;
+                if (result) // 서버 o
                 {
-                    yield return StartCoroutine(AuthManager.instance.chkExistData()); // [대기] 서버 데이터 유무 체크
+                    _load.text = "서버데이터 확인중";
 
-                    bool result = AuthManager.instance.IsExist;
-                    if (result)
-                    {
-                        Debug.Log("기기 데이터 : false / 서버 데이터 : true");
+                    yield return StartCoroutine(AuthManager.instance.loadDataFromFB()); // [대기] 서버에서 데이터 가져오기
+                }
+                else // 서버 x -> 신규
+                {
+                    _load.text = "뉴비 체크완료";
 
-                        string removekey = "";
-                        result = false;
-
-                        WindowManager.instance.Win_accountList.open((string selectKey) => {
-                            removekey = selectKey;
-                            result = true;
-                        }, false); // 교체할 슬롯 선택
-
-                        yield return new WaitUntil(() => result == true); // [대기] 고를때까지 기다려주기
-                        yield return StartCoroutine(AuthManager.instance.loadAndChangeDataFromFB(removekey)); // [대기] 데이터 로드 및 교체
-                    }
-                    else
-                    {
-                        Debug.Log("저는 이 게임 처음입니다.");
-
-                        BaseManager.userGameData = new UserGameData(); // 만들고
-                        AuthManager.instance.removeAndSaveDataToLocal(); // 데이터 리스트 저장
-                        AuthManager.instance.AllSaveUserEntity(); // 기기, 서버 저장
-                    }
+                    BaseManager.userGameData = new UserGameData(); // 만들고
+                    AuthManager.instance.SaveUserEntity(); // 기기, 서버 저장
                 }
             }
             else // 인터넷 연결해제
             {
-                if (AuthManager.instance.showDataInDevice()) // 기본 유저 데이터 존재
+                
+                if (ES3.KeyExists(gameValues._offlineKey)) // 기본 오프라인 데이터 있음
                 {
-                    Debug.Log("인터넷 연결해제 : 기기에 유저 데이터 있음");
+                    _load.text = "오프라인 : 기기 데이터 확인";
+                    BaseManager.userGameData.loadOffLineData(); // 오프라인 데이터 로드                    
 
-                    bool result = false;
+                    //bool result = false;
+                    //WindowManager.instance.Win_accountList.open((string selectKey) =>
+                    //{
+                    //    AuthManager.instance.Uid = selectKey;
+                    //    result = true;
+                    //}); // 플레이 할 슬롯 선택
 
-                    WindowManager.instance.Win_accountList.open((string selectKey) => {
-                        AuthManager.instance.Uid = selectKey;
-                        result = true;
-                    }); // 플레이 할 슬롯 선택
+                    //yield return new WaitUntil(() => result == true); // [대기] 고를때까지 기다려주기
 
-                    yield return new WaitUntil(() => result == true); // [대기] 고를때까지 기다려주기
-
-                    string offData = ES3.Load<string>(AuthManager.instance.Uid);
-                    UserEntity _uet = JsonConvert.DeserializeObject<UserEntity>(offData, new ObscuredValueConverter());
-                    BaseManager.userGameData.loadDataFromLocal(_uet);
+                    //string offData = ES3.Load<string>(AuthManager.instance.Uid);
+                    //UserEntity _uet = JsonConvert.DeserializeObject<UserEntity>(offData, new ObscuredValueConverter());
+                    //BaseManager.userGameData.loadDataFromLocal(_uet);
                 }
-                else // 기본 유저 데이터 없음
+                else // 기본 오프라인 데이터 없음
                 {
-                    Debug.Log("인터넷 연결해제 : 기기에 유저 데이터 없음");
-                    BaseManager.userGameData = new UserGameData();
-                    BaseManager.userGameData.saveDataToLocal(); // 기기저장
-                    AuthManager.instance.removeAndSaveDataToLocal(); // 테이터 리스트 저장
+                    _load.text = "오프라인 : 오프라인 뉴비";
+
+                    BaseManager.userGameData = new UserGameData();  // 새 오프라인 데이터 생성
+                    BaseManager.userGameData.saveOffLineData();     // 오프라인 데이터 저장
                 }
             }
 
             gauge += 0.15f;
 
             BaseManager.userGameData.flashData();
-            Debug.Log("데이터 완료");
-        }
-
-        /// <summary> 계정 문제 창 </summary>
-        public void accountException()
-        {
-            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(true);
-        }
-
-        /// <summary> 구글 계정선택 </summary>
-        public void selectGoogleAccount()
-        {
-            StartCoroutine(getGoogleAccount());
-        }
-
-        IEnumerator getGoogleAccount()
-        {
-            yield return StartCoroutine(AuthManager.instance.loadDataFromFB());
-
-            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
-            //selectAccount = true;
-        }
-
-        /// <summary> 기기 계정선택 </summary>
-        public void selectPhoneAccount()
-        {
-            StartCoroutine(getPhoneAccount());
-        }
-
-        IEnumerator getPhoneAccount()
-        {
-            yield return StartCoroutine(AuthManager.instance.saveDataToFB());
-
-            mImgs[(int)E_IMAGE.Accountchk].gameObject.SetActive(false);
-            //selectAccount = true;
+            //Debug.Log("데이터 완료");
+            _load.text = "데이터 로드 완료";
+            ConnectComplete = true;
         }
 
         /// <summary> 종료 </summary>

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeStage.AntiCheat.ObscuredTypes;
+using Newtonsoft.Json;
 
 namespace week
 {
@@ -20,7 +21,7 @@ namespace week
     public class UserGameData
     {
         public enum defaultStat { hp, att, def, hpgen, cool, exp, coin, speed, max }
-
+        
         /// <summary> 저장되는 정보 </summary>
         UserEntity _userEntity;
 
@@ -131,7 +132,6 @@ namespace week
                 
 
         // 유틸 ==============================================================
-        public string UniqueNumber { get => _userEntity._util._uniqueNumber; }
         public long LastSave { get => _userEntity._util._lastSave;
             set
             {
@@ -150,16 +150,19 @@ namespace week
 
         #region [ES3 저장/로드]
 
-        /// <summary> 저장 </summary>
-        public void saveDataToLocal()
+        /// <summary> 데이터 기기 저장(오프라인) </summary>
+        public void saveOffLineData()
         {            
-            ES3.Save(AuthManager.instance.Uid, _userEntity.saveData());
+            ES3.Save(gameValues._offlineKey, _userEntity.saveData());
         }
 
-        /// <summary>  </summary>
-        public void loadDataFromLocal(UserEntity userEntity)
+        /// <summary> 데이터 기기 로드(오프라인) </summary>
+        public void loadOffLineData()
         {
-            _userEntity = userEntity;
+            ObscuredString _offlineDataJson = ES3.Load<string>(gameValues._offlineKey);
+            UserEntity _offlineData = JsonConvert.DeserializeObject<UserEntity>(_offlineDataJson, new ObscuredValueConverter());
+
+            _userEntity = _offlineData;
         }
 
         #endregion
@@ -168,7 +171,7 @@ namespace week
 
         public UserGameData()
         {
-            _userEntity = new UserEntity(AuthManager.instance.networkCheck());
+            _userEntity = new UserEntity();
             applyLevel();
 
             _skinBval = new bool[(int)skinBvalue.max];
@@ -528,6 +531,14 @@ namespace week
             data["_version"] = (int)gameValues._version;
 
             return data;
+        }
+
+        /// <summary>  </summary>
+        public string getRankData()
+        {
+            rankData data = new rankData(RecordSkin);
+
+            return JsonUtility.ToJson(data);
         }
 
         public DateTime getEpochDate()

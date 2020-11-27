@@ -42,7 +42,8 @@ namespace week
             switch (_temtype)
             {
                 case landtem.heal:
-                    _player.getHealed(20);
+                    float val = _player.MaxHp * gameValues._healpackVal;
+                    _player.getHealed(val);
                     StartCoroutine(respone());
                     break;
                 case landtem.gem:
