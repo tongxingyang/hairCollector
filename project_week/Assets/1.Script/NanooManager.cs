@@ -75,7 +75,7 @@ namespace week
         #region [ NANOO RANKING ] 
 
         /// <summary> 리더보드에서 랭킹 가져오기 </summary>
-        public void getRankingTotal(Action<Dictionary<string,object>> action)
+        public void getRankingTotal(Action<Dictionary<string, object>> action)
         {
             plugin.Ranking(RANK_CODE, 28, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
@@ -108,14 +108,15 @@ namespace week
         }
 
         /// <summary> Personal Query in LeaderBoard </summary>
-        public void getRankingPersonal()
+        public void getRankingPersonal(Action<Dictionary<string, object>> action)
         {
             plugin.RankingPersonal(RANK_CODE, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    Debug.Log(dictionary["ranking"]);
-                    Debug.Log(dictionary["data"]);
-                    Debug.Log(dictionary["total_player"]);
+                    //Debug.Log(dictionary["ranking"]);
+                    //Debug.Log(dictionary["data"]);
+                    //Debug.Log(dictionary["total_player"]);
+                    action?.Invoke(dictionary);
                 }
                 else
                 {
@@ -131,7 +132,7 @@ namespace week
         [Button]
         public void boxlist()
         {
-            getPostboxList((Dictionary<string, object> dictionary) => 
+            getPostboxList((Dictionary<string, object> dictionary) =>
             {
                 ArrayList items = (ArrayList)dictionary["item"];
                 foreach (Dictionary<string, object> item in items)
@@ -145,21 +146,15 @@ namespace week
             });
         }
 
-        [Button]
-        public void send()
-        {
-            PostboxItemSend(nanooPost.gem, 10);
-        }
-
         /// <summary> 우편함 받아오기 </summary>
-        public void getPostboxList(Action<Dictionary<string,object>> setList)
+        public void getPostboxList(Action<Dictionary<string, object>> setList)
         {
             plugin.PostboxItem((state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("getPostboxList : " + rawData);
 
-                    setList?.Invoke(dictionary);                    
+                    setList?.Invoke(dictionary);
                 }
                 else
                 {
@@ -169,9 +164,9 @@ namespace week
         }
 
         /// <summary> 우편함 보내기 </summary>
-        public void PostboxItemSend(nanooPost post, int amount)
+        public void PostboxItemSend(nanooPost post, int amount, string postMessage)
         {
-            plugin.PostboxItemSend(post.ToString(), amount, 7, "메세지",(state, message, rawData, dictionary) => {
+            plugin.PostboxItemSend(post.ToString(), amount, 7, postMessage, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("PostboxItemSend : Success");

@@ -7,8 +7,24 @@ using CodeStage.AntiCheat.ObscuredTypes;
 namespace week
 {
     public class Context
-    { 
-    
+    {
+        public string Id;
+        public string Where;
+        public string Product;
+        public int Amount;
+
+        public Context(string id, string where)
+        {
+            Id = id;
+            Where = where;
+        }
+
+        public Context setProduct(string product, int amount)
+        {
+            Product = product;
+            Amount = amount;
+            return this;
+        }
     }
 
     public static class gameValues

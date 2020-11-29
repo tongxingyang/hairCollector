@@ -34,6 +34,17 @@ namespace week
     #region [ nanoo ]
 
     public enum nanooPost { gem, coin, ap, skin }
+    public enum nanooPostMsg { key, message }
+
+    #endregion
+
+    #region [ firebase ]
+
+    public enum analyticsWhere
+    {
+        store,
+        post
+    }
 
     #endregion
 
@@ -328,9 +339,9 @@ namespace week
     public enum productKeyList
     {
         removead,
-        bonus,
+        bonus10,
         startpack,
-        skinpack,
+        wildskinpack,
         s_gem,
         m_gem,
         l_gem,

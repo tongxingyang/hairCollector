@@ -19,7 +19,8 @@ namespace week
         public void setRankBox(int rank, string nick, int record, rankData data)
         {
             _skinIcon.sprite = DataManager.SkinSprite[(SkinKeyList)data._skin];
-            _rank.text = $"#{rank + 1}";
+            _skinIcon.color = Color.white;
+            _rank.text = $"#{rank}";
             _nickName.text = nick;
 
             int time = (int)(record * 0.001f);
@@ -27,6 +28,18 @@ namespace week
             _time.text = BaseManager.userGameData.getLifeTime(time, false) + $"({time})";
             _boss.text = boss.ToString();
             _version.text = data._version.ToString();
+        }
+
+        public void blink()
+        {
+            _skinIcon.sprite = DataManager.SkinSprite[SkinKeyList.snowman];
+            _skinIcon.color = Color.gray;
+            _rank.text = $"#--";
+            _nickName.text = BaseManager.userGameData.NickName;
+
+            _time.text = "응애 나 아기눈사람";
+            _boss.text = "-";
+            _version.text = "ver-";
         }
     }
 }

@@ -50,33 +50,36 @@ namespace week
 
         IEnumerator chkNickName()
         {
+            bool result = false;
             yield return StartCoroutine(AuthManager.instance.searchNickName(_field.text, (chk) =>
             {
-                if (chk) // 중복 없음 생성 가능
-                {
-                    BaseManager.userGameData.NickName = _field.text;
-                    if (BaseManager.userGameData.FreeNichkChange)
-                    {
-                        BaseManager.userGameData.Gem -= gameValues._nickPrice;
-                    }
-                    else
-                    {
-                        BaseManager.userGameData.FreeNichkChange = true;
-                    }
-                }
-                else // 중복 있음
-                {
-                    WindowManager.instance.Win_message.showMessage("중복된 닉네임이눈!");
-                }
+                result = chk;
 
                 _closable = true;
             }));
 
             yield return new WaitUntil(() => _closable == true);
 
-            completeChange?.Invoke();
-            AuthManager.instance.SaveUserEntity();
-            close();
+            if (result) // 중복 있음
+            {
+                WindowManager.instance.Win_message.showMessage("중복된 닉네임이눈!");
+            }
+            else // 중복 없음 생성 가능
+            {
+                BaseManager.userGameData.NickName = _field.text;
+                if (BaseManager.userGameData.FreeNichkChange)
+                {
+                    BaseManager.userGameData.Gem -= gameValues._nickPrice;
+                }
+                else
+                {
+                    BaseManager.userGameData.FreeNichkChange = true;
+                }
+
+                completeChange?.Invoke();
+                AuthManager.instance.SaveUserEntity();
+                close();
+            }
         }
 
         public void open()

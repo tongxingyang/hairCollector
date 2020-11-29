@@ -346,15 +346,15 @@ namespace week
                     return;
                 }
                 string userData = (string)task.Result.GetRawJsonValue();
-                Debug.Log(userData);
+                // Debug.Log(userData);
                 UserEntity entity = JsonConvert.DeserializeObject<UserEntity>(userData, new ObscuredValueConverter());
-                Debug.Log(entity._property._nickName);
+                // Debug.Log(entity._property._nickName);
                 if (BaseManager.userGameData == null)
                 {
-                    BaseManager.userGameData = new UserGameData();
+                    BaseManager.userGameData = new UserGameData();                    
                 }
 
-                // BaseManager.userGameData.loadDataFromLocal(entity);
+                BaseManager.userGameData.setUserEntity(entity);
 
                 complete = true;
             });
@@ -668,22 +668,18 @@ namespace week
 
         #endregion
 
+        public string findKey = "";
         [Button]
-        public void queryTest0()
+        public void queryTest_findKey()
         {
-            StartCoroutine(searchNickName("잉잉키",(chk)=> { }));
-        }
-        [Button]
-        public void queryTest1()
-        {
-            StartCoroutine(searchNickName("ready_Player_1", (chk) => { }));
+            StartCoroutine(searchNickName(findKey, (chk)=> { }));
         }
 
         public IEnumerator searchNickName(string nick, Action<bool> chker)
         {
             bool complete = false;
 
-            reference.Child("User").Child("_property/_nickName").OrderByValue().EqualTo(nick).GetValueAsync().ContinueWith(task =>
+            reference.Child("User").OrderByChild("_property/_nickName").EqualTo(nick).GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsCanceled)
                 {
@@ -697,9 +693,8 @@ namespace week
                 }
 
                 DataSnapshot shot = task.Result;
-
-                Debug.Log(shot.Value + " : " + shot.ChildrenCount);
-                chker(shot.ChildrenCount == 0);
+                // Debug.Log(shot.Value + " : " + ());
+                chker(shot.HasChildren);
 
                 Debug.Log("testNickName : 성공");
                 complete = true;
@@ -709,7 +704,7 @@ namespace week
         }
 
         [Button]
-        public void queryTest2()
+        public void queryTest_allCheck()
         {
             StartCoroutine(searchAllNick());
         }
@@ -718,7 +713,7 @@ namespace week
         {
             bool complete = false;
 
-            reference.Child("Profile").GetValueAsync().ContinueWith(task =>
+            reference.Child("User").OrderByChild("_property/_nickName").GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsCanceled)
                 {
@@ -738,7 +733,7 @@ namespace week
 
                 foreach (var v in dic)
                 {
-                    Debug.Log(v.Key);
+                    Debug.Log((string)shot.Child(v.Key).Child("_property").Child("_nickName").Value);
                     if (shot.Child(v.Key).HasChildren == false)
                     {
                         //Debug.Log((string)shot.Child(v.Key).GetRawJsonValue());

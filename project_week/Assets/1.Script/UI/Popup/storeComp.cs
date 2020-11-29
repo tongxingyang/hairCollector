@@ -69,6 +69,8 @@ namespace week
             WindowManager.instance.Win_celebrate.whenPurchase();
             
             AuthManager.instance.SaveUserEntity();
+
+            setAnalitics(productKeyList.removead, AnalyticsManager.instance.getKey());
         }
 
         /// <summary> 추가보너스 </summary>
@@ -78,11 +80,12 @@ namespace week
             BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_10p;
             BaseManager.userGameData.MulCoin = true;
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus.ToString(), productValData.image.ToString()),
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus10.ToString(), productValData.image.ToString()),
                 "추가 10%코인", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
             
             AuthManager.instance.SaveUserEntity();
+            setAnalitics(productKeyList.bonus10, AnalyticsManager.instance.getKey());
         }
 
         /// <summary> 추가보너스 정보 </summary>
@@ -95,7 +98,7 @@ namespace week
         /// <summary> 스타터팩 </summary>
         public void getStartPack()
         {
-            Debug.Log("스타터팩 구매 완료");            
+            Debug.Log("스타팅팩 구매 완료");            
 
             bool result = BaseManager.userGameData.RemoveAd;
             if (result == false)
@@ -124,16 +127,16 @@ namespace week
                 "스타팅팩", () => { setLimitFitter(); setSpecialFitter(); }).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
-            NanooManager.instance.PostboxItemSend(nanooPost.gem, g);
-            NanooManager.instance.PostboxItemSend(nanooPost.coin, c);
-            NanooManager.instance.PostboxItemSend(nanooPost.ap, a);
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/스타팅팩 구매";
 
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, c, 1);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, g, 2);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.ap, a, 3);
-            //_costRefresh();
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
+            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg);
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
             
             AuthManager.instance.SaveUserEntity();
+
+            setAnalitics(productKeyList.startpack, key);
         }
 
         /// <summary> 스킨팩 </summary>
@@ -153,17 +156,18 @@ namespace week
             int c = 30000 + ((result) ? 25000 : 0);            
             int g = 300 + ((result) ? 250 : 0);
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.skinpack.ToString(), productValData.image.ToString()),
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.image.ToString()),
                 "야수사람팩", setSpecialFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
-            NanooManager.instance.PostboxItemSend(nanooPost.gem, g);
-            NanooManager.instance.PostboxItemSend(nanooPost.coin, c);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.coin, 30000, 1);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, 300, 2);
-            //_costRefresh();
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/야수팩 구매";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
+            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg);
 
             AuthManager.instance.SaveUserEntity();
+            setAnalitics(productKeyList.wildskinpack, key);
         }
 
         public void chkPresent()
@@ -177,41 +181,56 @@ namespace week
 
         public void getSmallGem()
         {
-            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.s_gem.ToString(), productValData.gem.ToString());
-            Debug.Log($"{i}보석 겟또다제");
-            BaseManager.userGameData.Gem += i;
+            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.s_gem.ToString(), productValData.gem.ToString());
+            // Debug.Log($"{g}보석 겟또다제");
+            // BaseManager.userGameData.Gem += g;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_gem.ToString(), productValData.image.ToString())
                 , "보석 조금").setImgSize(false);
-            // WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 10);
+
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/보석 조금";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
             AuthManager.instance.SaveUserEntity();
+            setAnalitics(productKeyList.s_gem, key);
         }
 
         public void getMiddleGem()
         {
-            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.m_gem.ToString(), productValData.gem.ToString());
-            Debug.Log($"{i}보석 겟또다제");
-            BaseManager.userGameData.Gem += i;
+            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.m_gem.ToString(), productValData.gem.ToString());
+            //Debug.Log($"{g}보석 겟또다제");
+            //BaseManager.userGameData.Gem += g;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_gem.ToString(), productValData.image.ToString())
                 , "보석 가방").setImgSize(false);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 15);
+
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/보석 가방";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
             AuthManager.instance.SaveUserEntity();
+            setAnalitics(productKeyList.m_gem, key);
         }
 
         public void getLargeGem()
         {
-            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.l_gem.ToString(), productValData.gem.ToString());
-            Debug.Log($"{i}보석 겟또다제");
-            BaseManager.userGameData.Gem += i;
+            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.l_gem.ToString(), productValData.gem.ToString());
+            //Debug.Log($"{i}보석 겟또다제");
+            //BaseManager.userGameData.Gem += i;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_gem.ToString(), productValData.image.ToString())
                 , "보석 금고").setImgSize(false);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_gem].position, _lobby.GemTxt.position, currency.gem, i, 0, 22);
+
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/보석 금고";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
             AuthManager.instance.SaveUserEntity();
+            setAnalitics(productKeyList.l_gem, key);
         }
 
         #endregion
@@ -220,41 +239,57 @@ namespace week
 
         public void getSmallAp()
         {
-            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.s_ap.ToString(), productValData.ap.ToString());
-            Debug.Log($"{i} AP 겟또다제");
-            BaseManager.userGameData.Ap += i;
+            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.s_ap.ToString(), productValData.ap.ToString());
+            //Debug.Log($"{a} AP 겟또다제");
+            //BaseManager.userGameData.Ap += a;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_ap.ToString(), productValData.image.ToString())
                 , "AP 조금").setImgSize(false);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 10);
-            
+
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/AP 조금";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
+
             AuthManager.instance.SaveUserEntity();
+            setAnalitics(productKeyList.s_ap, key);
         }
 
         public void getMiddleAp()
         {
-            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.m_ap.ToString(), productValData.ap.ToString());
-            Debug.Log($"{i} AP 겟또다제");
-            BaseManager.userGameData.Ap += i;
+            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.m_ap.ToString(), productValData.ap.ToString());
+            //Debug.Log($"{a} AP 겟또다제");
+            //BaseManager.userGameData.Ap += a;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_ap.ToString(), productValData.image.ToString())
                 , "AP 뭉치").setImgSize(false);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 15);
 
-            AuthManager.instance.SaveUserEntity();
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/AP 뭉치";
+            //str = str.replaceAll(" ", "&quot;");
+
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
+
+            AuthManager.instance.SaveUserEntity(); 
+            setAnalitics(productKeyList.m_ap, key);
         }
 
         public void getLargeAp()
         {
-            int i = DataManager.GetTable<int>(DataTable.product, productKeyList.l_ap.ToString(), productValData.ap.ToString());
-            Debug.Log($"{i} AP 겟또다제");
-            BaseManager.userGameData.Ap += i;
+            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.l_ap.ToString(), productValData.ap.ToString());
+            //Debug.Log($"{a} AP 겟또다제");
+            //BaseManager.userGameData.Ap += a;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_ap.ToString(), productValData.image.ToString())
                 , "AP 가방").setImgSize(false);
-            //WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_ap].position, _lobby.CoinTxt.position, currency.ap, i, 0, 22);
+
+            string key = AnalyticsManager.instance.getKey();
+            string msg = key + "/AP 가방";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
 
             AuthManager.instance.SaveUserEntity();
+            setAnalitics(productKeyList.l_ap, key);
         }
 
         #endregion
@@ -371,6 +406,13 @@ namespace week
                 _special.sizeDelta = new Vector2(1350f, 150f);
                 //_limitFitter.
             }
+        }
+
+        void setAnalitics(productKeyList pKey, string key)
+        {
+            Context context = new Context(key, analyticsWhere.store.ToString())
+                    .setProduct(DataManager.GetTable<string>(DataTable.product, pKey.ToString(), productValData.name.ToString()), 0);
+            AnalyticsManager.instance.Send(pKey.ToString(), context, null);
         }
     }
 }

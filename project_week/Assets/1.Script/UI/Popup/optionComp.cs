@@ -130,7 +130,7 @@ namespace week
         {
             _lobby.getMoney();
 
-            AuthManager.instance.queryTest2();
+            AuthManager.instance.queryTest_allCheck();
 
         }
     }

@@ -18,6 +18,9 @@ namespace week
         string _postId;
         int _time;
 
+        string _key;
+        string _msg;
+
         public bool IsUsed { get => _isUsed; }
         public string PostId { get => _postId; }
 
@@ -30,9 +33,13 @@ namespace week
 
             _postId = (string)item["uid"];
             _postImg.sprite = null;
-            _postHead.text = (string)item["message"];
             nanooPost post = EnumHelper.StringToEnum<nanooPost>((string)item["item_code"]);
             int mount = int.Parse((string)item["item_count"]);
+
+            string[] postmsg = item["message"].ToString().Split('/');
+            _key = postmsg[(int)nanooPostMsg.key];
+            _msg = postmsg[(int)nanooPostMsg.message];
+            _postHead.text = _msg;
 
             string msg = "";
             switch (post)
@@ -127,6 +134,10 @@ namespace week
                 }
 
                 clear();
+
+                Context context = new Context(_key, analyticsWhere.post.ToString())
+                    .setProduct(post.ToString(), mount);
+                AnalyticsManager.instance.Send("getPost", context, null);
             });
         }
 
@@ -134,6 +145,8 @@ namespace week
         public void clear()
         {
             _isUsed = false;
+            _key = "";
+            _msg = "";
             gameObject.SetActive(false);
         }
     }

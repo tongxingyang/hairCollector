@@ -25,13 +25,16 @@ namespace week
             [SerializeField] public ObscuredInt _hasSkin;
             /// <summary> 장착중인 스킨 </summary>
             [SerializeField] public ObscuredInt _skin;
+            /// <summary> 전체 접속 시간 </summary>
+            [SerializeField] public ObscuredInt _wholeAccessTime;
 
-            public property(ObscuredString nic, ObscuredInt[] cur, ObscuredInt hasskin, ObscuredInt skin)
+            public property(ObscuredString nic, ObscuredInt[] cur, ObscuredInt hasskin, ObscuredInt skin, ObscuredInt wholeAccessTime)
             {
                 _nickName = nic;
                 _currency = cur;
                 _hasSkin = hasskin;
                 _skin = skin;
+                _wholeAccessTime = wholeAccessTime;
             }
         }
 
@@ -53,15 +56,17 @@ namespace week
         public struct record
         {
             [SerializeField] public ObscuredInt _timeRecord;
+            [SerializeField] public ObscuredInt _wholeTimeRecord;
             [SerializeField] public ObscuredInt _bossRecord;
             [SerializeField] public ObscuredInt _artifactRecord;
             [SerializeField] public ObscuredInt _adRecord;
             [SerializeField] public ObscuredInt _reinRecord;
             [SerializeField] public ObscuredInt _recordSkin; // 신기록 당시의 스킨
 
-            public record(ObscuredInt timeRecord, ObscuredInt bossRecord, ObscuredInt artifactRecord, ObscuredInt adRecord, ObscuredInt reinRecord, ObscuredInt recordSkin)
+            public record(ObscuredInt timeRecord, ObscuredInt wholeTimeRecord, ObscuredInt bossRecord, ObscuredInt artifactRecord, ObscuredInt adRecord, ObscuredInt reinRecord, ObscuredInt recordSkin)
             {
                 _timeRecord = timeRecord;
+                _wholeTimeRecord = wholeTimeRecord;
                 _bossRecord = bossRecord;
                 _artifactRecord = artifactRecord;
                 _adRecord = adRecord;
@@ -148,7 +153,8 @@ namespace week
                 nic     : "ready_Player_1",                     // 닉                
                 cur     : new ObscuredInt[3] { 1000, 10, 1 },           // 재화       
                 hasskin : 1,                                    // 보유스킨
-                skin    : 0                                     // 스킨
+                skin    : 0,                                    // 스킨
+                wholeAccessTime : 0                             // 접속시간
             );
 
             // 스탯
@@ -159,6 +165,7 @@ namespace week
             // 기록
             _record = new record(
                 timeRecord      : 0,
+                wholeTimeRecord : 0,
                 bossRecord      : 0,
                 artifactRecord  : 0,
                 adRecord        : 0,

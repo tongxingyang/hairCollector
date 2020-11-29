@@ -33,6 +33,7 @@ namespace week
         /// <summary> 전투결과 </summary>
         public ObscuredInt[] GameReward { get; set; }
 
+        bool autoRecivePost;
         #region -------------------------[skin value]-------------------------
 
         /// <summary> 상시적용 스킨 능력치 </summary>
@@ -77,12 +78,15 @@ namespace week
         public ObscuredInt followCoin { get; set; }
         public ObscuredInt followGem { get; set; }
 
+        public ObscuredInt WholeAccessTime { get => _userEntity._property._wholeAccessTime; set => _userEntity._property._wholeAccessTime = value; }
+
         // - 스킨
         public ObscuredInt HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
         public SkinKeyList Skin { get => (SkinKeyList)((int)_userEntity._property._skin); set => _userEntity._property._skin = (int)value; }
 
         // 기록 ==============================================================
         public ObscuredInt TimeRecord { get => _userEntity._record._timeRecord; }
+        public ObscuredInt WholeTimeRecord { get => _userEntity._record._wholeTimeRecord; set => _userEntity._record._wholeTimeRecord = value; }
         public ObscuredInt RecordSkin { get => _userEntity._record._recordSkin; }
         public ObscuredInt BossRecord { get => _userEntity._record._bossRecord; set => _userEntity._record._bossRecord = value; }
         public ObscuredInt ArtifactRecord { get => _userEntity._record._artifactRecord; set => _userEntity._record._artifactRecord = value; }
@@ -163,6 +167,11 @@ namespace week
             UserEntity _offlineData = JsonConvert.DeserializeObject<UserEntity>(_offlineDataJson, new ObscuredValueConverter());
 
             _userEntity = _offlineData;
+        }
+
+        public void setUserEntity(UserEntity entity)
+        {
+            _userEntity = entity;
         }
 
         #endregion
