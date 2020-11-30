@@ -21,7 +21,10 @@ namespace week
             Post,
             option,
             nicChangePanel,
-            updatePanel
+            updatePanel,
+
+            postExcla,
+            questExcla
         }
 
         enum eImg
@@ -94,16 +97,18 @@ namespace week
             }
             WindowManager.instance.Win_coinGenerator.RefreshFollowCost = refreshFollowCost;
 
-            // 로비에서 연결되는 창 초기화
-            _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
-            _store.Init();
-            _snowman = mGos[(int)eGO.Snowman].GetComponent<snowmanComp>();
-            _snowman.Init(refreshCost);
+            // 로비에서 연결되는 창 초기화            
             _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
+            _quest.Init((chk) => { mGos[(int)eGO.questExcla].SetActive(chk); });
             _rank = mGos[(int)eGO.Rank].GetComponent<rankComp>();
             _rank.Init();
             _post = mGos[(int)eGO.Post].GetComponent<postComp>();
-            _post.Init(this);
+            _post.Init(this, (chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
+
+            _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
+            _store.Init(_post.notOpenRefreshCheck);
+            _snowman = mGos[(int)eGO.Snowman].GetComponent<snowmanComp>();
+            _snowman.Init(refreshCost, _quest.refreshCheckQuest);
 
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
             _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();
@@ -112,8 +117,9 @@ namespace week
                 mGos[(int)eGO.option].SetActive(false);
                 _nickPanel.open();
             };
-            _nickPanel.completeChange = () => { setStage(); refreshCost();
-                Debug.Log("쎗8");
+            _nickPanel.completeChange = () => {
+                setStage(); 
+                refreshCost(); 
             };
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
@@ -158,19 +164,15 @@ namespace week
             {
                 _nickPanel.open();
             }
-            if (BaseManager.userGameData.IsSavedServer == false) // 서버 저장
+
+            if (BaseManager.NeedPatch) // 버전창
             {
-                AuthManager.instance.SaveUserEntity();
+                openUpdate();
             }
 
-            //if(AuthManager.instance.Version > gameValues._version) // 버전창
-            //{
-            //    openUpdate();    
-            //}
-
             refreshCost();
-            NanooManager.instance.AccessEvent();
-            //AccessEvent();
+
+            AuthManager.instance.checkNextDay();
         }
 
         private void Update()
@@ -228,13 +230,11 @@ namespace week
         {
             MTmps[(int)eTmp.CoinTxt].text = ((int)BaseManager.userGameData.Coin).ToString();
             MTmps[(int)eTmp.GemTxt].text = ((int)BaseManager.userGameData.Gem).ToString();
-            Debug.Log("쎗7");
         }
 
         public void PlayGame()
         {
             SoundManager.instance.StopBGM();
-            //BaseManager.userGameData.saveDataToLocal();
             BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.GameScene);
         }
       
@@ -278,13 +278,13 @@ namespace week
 
         public void openUpdate()
         {
-            MTmps[(int)eTmp.RecordTxt].text = $"{AuthManager.instance.Version}.버전이 출시되었습니다." + System.Environment.NewLine + "업데이트 해도 되고 안해도 되고요.";
+            MTmps[(int)eTmp.upVersion].text = $"{AuthManager.instance.Version} 버전이 출시되었습니다." + System.Environment.NewLine + "업데이트 해도 되고 안해도 되고요.";
             mGos[(int)eGO.updatePanel].SetActive(true);
         }
 
         public void connectDownLoadURL()
-        { 
-        
+        {
+            Application.OpenURL("https://play.google.com/store/apps/details?id=com.munzi.snowAdventure");
         }
 
         void allClose(bool lobby)
@@ -321,6 +321,15 @@ namespace week
             BaseManager.userGameData.Coin += 500000;
 
             refreshCost();
+        }
+
+        [Button]
+        public void reset()
+        {
+            BaseManager.userGameData = new UserGameData();
+            AuthManager.instance.SaveDataServer();
+            refreshCost();
+            setStage();
         }
     }
 }

@@ -49,7 +49,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 578e513cc70e5f24e9c25b943c105710, type: 3}
     - {fileID: 102900000, guid: 4f489253b1c3a37408a270925b8bd3b7, type: 3}
     - {fileID: 102900000, guid: ffee5b2594a591642a555b7802b3ced1, type: 3}
-    totalSpriteSurfaceArea: 20334912
+    totalSpriteSurfaceArea: 20526163
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -71,6 +71,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f8cf6590a6bc5114281da5429ea97840, type: 3}
   - {fileID: 21300000, guid: 225275c0148403c4fbb343c8fd1f5e28, type: 3}
   - {fileID: 21300000, guid: 82569ac06f686b94e95306e906518516, type: 3}
+  - {fileID: 21300000, guid: c6882ad090927b5428b5681cf372b297, type: 3}
   - {fileID: 21300000, guid: a10b8bf08c4a22d4483f128c38252a53, type: 3}
   - {fileID: -6535566156686275472, guid: 098717013e9ee8544a60957e43a002ec, type: 3}
   - {fileID: -7476315024350436943, guid: 098717013e9ee8544a60957e43a002ec, type: 3}
@@ -102,6 +103,7 @@ SpriteAtlas:
   - {fileID: 5791853361874551956, guid: 1fc05132258bfe6499485a4a993a13f8, type: 3}
   - {fileID: -5395305837807702079, guid: 1fc05132258bfe6499485a4a993a13f8, type: 3}
   - {fileID: 21300000, guid: 53f5534255a617b44943c2fe3647e968, type: 3}
+  - {fileID: 21300000, guid: 7e1312c2e3c4dd542929edce30a76ffb, type: 3}
   - {fileID: 8189239267110657558, guid: 313c86c232161c84dac665dbe3110621, type: 3}
   - {fileID: -850375253287257138, guid: 313c86c232161c84dac665dbe3110621, type: 3}
   - {fileID: 8955630745802493176, guid: 313c86c232161c84dac665dbe3110621, type: 3}
@@ -186,6 +188,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 72d325075c26cf942b488a6694b48569, type: 3}
   - {fileID: 21300000, guid: 7117c907e8a254d4d8b73ba079385d7d, type: 3}
   - {fileID: 21300000, guid: 6aeb3c47949843a468b563b695aa6bab, type: 3}
+  - {fileID: 21300000, guid: dd934e47c48ce154fa52c76da9edd2a5, type: 3}
   - {fileID: 21300000, guid: 9021e767627736c4094ee230b0ce455b, type: 3}
   - {fileID: 21300000, guid: b10731d773fdbf048b220788e5a02e98, type: 3}
   - {fileID: 21300000, guid: 073bccf7a84cf424c9a9cfa7ad12adae, type: 3}
@@ -296,6 +299,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b27eb33d7db6e1442be493f89db06f47, type: 3}
   - {fileID: -8732135024689403803, guid: 43d6453d4db92d6459d15f51c9932fa0, type: 3}
   - {fileID: -977457674917106621, guid: 43d6453d4db92d6459d15f51c9932fa0, type: 3}
+  - {fileID: 21300000, guid: b8a8863d9a7022d4784913aa25f2692c, type: 3}
   - {fileID: 21300000, guid: b25b7d3d96ff9c24f89ec0c212547a57, type: 3}
   - {fileID: 21300000, guid: 953ad25d17bfa5547a9c5b10a63d55c2, type: 3}
   - {fileID: 21300000, guid: 88f0b18d5ab222c46b600ff7fba105c1, type: 3}
@@ -358,6 +362,7 @@ SpriteAtlas:
   - firemob
   - healRound
   - arrow
+  - exclamation
   - cowboy
   - pet1_0
   - pet1_1
@@ -389,6 +394,7 @@ SpriteAtlas:
   - twingcle_8
   - twingcle_14
   - walkdust
+  - roundsquare
   - beetle_3
   - beetle_2
   - beetle_1
@@ -473,6 +479,7 @@ SpriteAtlas:
   - Btn2
   - present
   - linecase
+  - roundsquarewhite
   - upback
   - mob
   - sm0
@@ -583,6 +590,7 @@ SpriteAtlas:
   - thorn
   - pet0_1
   - pet0_0
+  - postbox
   - triangle
   - snowball_sq
   - perCoin

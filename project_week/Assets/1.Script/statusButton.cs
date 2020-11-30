@@ -14,7 +14,7 @@ namespace week
 
         public void setData(int level, string explain, int price)
         {
-            _level.text = level.ToString();
+            _level.text = $"Lv.{level.ToString()}";
             _explain.text = explain;
             _price.text = price.ToString();
         }

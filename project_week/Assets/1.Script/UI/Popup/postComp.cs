@@ -1,21 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace week
 {
     public class postComp : MonoBehaviour, UIInterface
-    {        
+    {
         [SerializeField] Transform _contents;
         [SerializeField] GameObject _postBoxFab;
 
         LobbyScene _lobby;
+        Action<bool> _exclamation;
         List<postBoxScript> _boxies;
 
-        public void Init(LobbyScene lobby)
+        public void Init(LobbyScene lobby, Action<bool> exclamation)
         {
             _lobby = lobby;
+            _exclamation = exclamation;
             _boxies = new List<postBoxScript>();
+
+            notOpenRefreshCheck();
             close();
         }
 
@@ -23,14 +28,40 @@ namespace week
         {
             gameObject.SetActive(true);
 
-            NanooManager.instance.getPostboxList((dictionary)=> 
+            notOpenRefreshCheck();
+        }
+
+        public void notOpenRefreshCheck()
+        {
+            NanooManager.instance.getPostboxList((dictionary) =>
             {
+                for (int i = 0; i < _boxies.Count; i++)
+                {
+                    _boxies[i].clear();
+                }
+
                 ArrayList items = (ArrayList)dictionary["item"];
                 foreach (Dictionary<string, object> item in items)
                 {
-                    getPostBox().setBox(item, _lobby);                    
+                    getPostBox().setBox(item, _lobby, gameObject.activeSelf);
                 }
+
+                refreshCheckPost();
             });
+        }
+
+        void refreshCheckPost()
+        {
+            for (int i = 0; i < _boxies.Count; i++)
+            {
+                if (_boxies[i].IsUsed)
+                {
+                    _exclamation?.Invoke(true);
+                    return;
+                }
+            }
+
+            _exclamation?.Invoke(false);
         }
 
         /// <summary> 소포 가져오기 </summary>
@@ -129,11 +160,12 @@ namespace week
 
         public void close()
         {
-            for (int i = 0; i < _boxies.Count; i++)
-            {
-                _boxies[i].clear();
-            }
+            //for (int i = 0; i < _boxies.Count; i++)
+            //{
+            //    _boxies[i].clear();
+            //}
 
+            refreshCheckPost();
             gameObject.SetActive(false);
         }
     }

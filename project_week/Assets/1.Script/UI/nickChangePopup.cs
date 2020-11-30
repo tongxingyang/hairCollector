@@ -19,15 +19,26 @@ namespace week
 
         public void changeNick()
         {
+            int leng = _field.text.Length;
             // 글자수 체크
-            if (_field.text.Length < 2)
+            if (leng < 2)
             {
                 WindowManager.instance.Win_message.showMessage("닉네임이 너무 짧다리~");
                 return;
             }
-            else if (_field.text.Length > 12)
+            else if (leng > 12)
             {
                 WindowManager.instance.Win_message.showMessage("닉네임이 너무 길다눈~");
+                return;
+            }
+            else if (string.IsNullOrWhiteSpace(_field.text))
+            {
+                WindowManager.instance.Win_message.showMessage("공백만으로는 닉네임을 만들수 없지");
+                return;
+            }
+            else if (_field.text[0].Equals(' ') || _field.text[leng - 1].Equals(' '))
+            {
+                WindowManager.instance.Win_message.showMessage("양끝단은 공백으로 두지 말아줭");
                 return;
             }
 
@@ -77,7 +88,14 @@ namespace week
                 }
 
                 completeChange?.Invoke();
-                AuthManager.instance.SaveUserEntity();
+                AuthManager.instance.SaveDataServer();
+
+                NanooManager.instance.setUid(AuthManager.instance.Uid);
+                NanooManager.instance.setRankingRecord();
+
+                WindowManager.instance.Win_message.showActMessage("새로운 닉네임" + System.Environment.NewLine + 
+                    $"[{BaseManager.userGameData.NickName}]" + System.Environment.NewLine + "변경 완료!", null);
+
                 close();
             }
         }

@@ -24,53 +24,80 @@ namespace week
 
         public void setUid(string uid)
         {
-            Debug.Log("uid 세팅");
+            //Debug.Log("uid 세팅");
 
             plugin.SetUUID(uid);
             plugin.SetNickname(BaseManager.userGameData.NickName);
             plugin.SetLanguage(Configure.PN_LANG_KO);
         }
 
-        public void AccessEvent()
+        public void getTimeStamp(Action getTimeAction)
         {
             plugin.AccessEvent((state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    if (dictionary.ContainsKey("open_id"))
-                    {
-                        Debug.Log(dictionary["open_id"]);
-                    }
-
                     if (dictionary.ContainsKey("server_timestamp"))
                     {
-                        Debug.Log(dictionary["server_timestamp"]);
-                    }
-
-                    if (dictionary.ContainsKey("postbox_subscription"))
-                    {
-                        foreach (Dictionary<string, object> subscription in (ArrayList)dictionary["postbox_subscription"])
-                        {
-                            Debug.Log(subscription["product"]);
-                            Debug.Log(subscription["ttl"]);
-                        }
-                    }
-
-                    if (dictionary.ContainsKey("invite_rewards"))
-                    {
-                        foreach (Dictionary<string, object> invite in (ArrayList)dictionary["invite_rewards"])
-                        {
-                            Debug.Log(invite["item_code"]);
-                            Debug.Log(invite["item_count"]);
-                        }
+                        long t = long.Parse((string)dictionary["server_timestamp"]) * 1000;
+                        BaseManager.userGameData.LastSave = t;
+                        
+                        getTimeAction?.Invoke();
+                        // DateTime lastDate = gameValues.epoch.AddMilliseconds(t);
                     }
                 }
                 else
                 {
                     Debug.Log("Fail");
                 }
-                Debug.Log(rawData);
             });
         }
+
+        //public void AccessEvent()
+        //{
+        //    plugin.AccessEvent((state, message, rawData, dictionary) => {
+        //        if (state.Equals(Configure.PN_API_STATE_SUCCESS))
+        //        {
+        //            if (dictionary.ContainsKey("open_id"))
+        //            {
+        //                //Debug.Log(dictionary["open_id"]);
+        //            }
+
+        //            if (dictionary.ContainsKey("server_timestamp"))
+        //            {
+        //                Debug.Log("시간");
+        //                long t = long.Parse((string)dictionary["server_timestamp"])*1000;
+        //                Debug.Log(t);
+        //                DateTime dt = new DateTime(t);
+        //                Debug.Log(dt);
+        //                DateTime lastDate = gameValues.epoch.AddMilliseconds(t);
+        //                Debug.Log(lastDate);
+        //            }
+
+        //            if (dictionary.ContainsKey("postbox_subscription"))
+        //            {
+        //                foreach (Dictionary<string, object> subscription in (ArrayList)dictionary["postbox_subscription"])
+        //                {
+        //                    Debug.Log(subscription["product"]);
+        //                    Debug.Log(subscription["ttl"]);
+        //                }
+        //            }
+
+        //            if (dictionary.ContainsKey("invite_rewards"))
+        //            {
+        //                foreach (Dictionary<string, object> invite in (ArrayList)dictionary["invite_rewards"])
+        //                {
+        //                    Debug.Log(invite["item_code"]);
+        //                    Debug.Log(invite["item_count"]);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("Fail");
+        //        }
+        //        // Debug.Log(rawData);
+        //    });
+        //}
 
         #region [ NANOO RANKING ] 
 
@@ -80,7 +107,7 @@ namespace week
             plugin.Ranking(RANK_CODE, 28, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    Debug.Log("rank : " + rawData);
+                    // Debug.Log("rank : " + rawData);
 
                     action?.Invoke(dictionary);
                 }
@@ -152,7 +179,7 @@ namespace week
             plugin.PostboxItem((state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    Debug.Log("getPostboxList : " + rawData);
+                    // Debug.Log("getPostboxList : " + rawData);
 
                     setList?.Invoke(dictionary);
                 }

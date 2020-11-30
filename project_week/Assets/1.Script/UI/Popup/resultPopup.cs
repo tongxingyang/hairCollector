@@ -104,6 +104,7 @@ namespace week
                 BaseManager.userGameData.DayQuestSkin = 1;
             }
 
+            BaseManager.userGameData.WholeTimeRecord += Convert.ToInt32(time);
             preRewardCalculator();
 
             //=================[ 창 열기 ]==============================================
@@ -175,7 +176,7 @@ namespace week
 
             BaseManager.userGameData.GameReward = new ObscuredInt[3] { (int)_preCalCoin * 2, (int)_preCalGem * 2, (int)_preCalAp * 2 };
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
 
             StartCoroutine(getMultiReward(gameValues._mulCoinVal[(int)mulCoinChkList.removeAD]));
 
@@ -214,7 +215,7 @@ namespace week
 
             BaseManager.userGameData.GameReward = new ObscuredInt[3] { (int)_preCalCoin, (int)_preCalGem, (int)_preCalAp };
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
         }
 
         /// <summary> 코인얻는거 시연용 (실질적 기능 X) </summary>
@@ -300,7 +301,7 @@ namespace week
         {
             WindowManager.instance.Win_celebrate.allClose();
             SoundManager.instance.StopBGM();
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
             BaseManager.instance.convertScene(SceneNum.GameScene.ToString(), SceneNum.LobbyScene);
         }
     }

@@ -67,7 +67,6 @@ namespace week
     public enum utilityChkList
     {
         freeNickChange,     // 무료 닉변
-        isSavedServer       // 서버에 저장 여부
     }
 
     #endregion
@@ -397,6 +396,8 @@ namespace week
         map_3,
         map_4,
         map_5,
+        map_6,
+        map_7,
 
         gem_0,
         gem_1,

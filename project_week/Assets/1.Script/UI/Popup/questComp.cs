@@ -55,7 +55,7 @@ namespace week
 
         #endregion
 
-        //Action _costRefresh;
+        Action<bool> _exclamation;
         bool[] _getable;
 
         Color _transparent = new Color(0, 0, 0, 0);
@@ -69,11 +69,12 @@ namespace week
         #region [interface]
         public void open()
         {
-            Init();
+            refreshCheckQuest();
             gameObject.SetActive(true);
         }
         public void close()
         {
+            refreshCheckQuest();
             gameObject.SetActive(false);
         }
 
@@ -86,19 +87,30 @@ namespace week
             _getable = new bool[5];
         }
 
-        void Init()
+        public void Init(Action<bool> exclamation)
         {
-            refreshDayQuest();
+            _exclamation = exclamation;
+
+            refreshCheckQuest();
+        }
+
+        public void refreshCheckQuest()
+        {
+            bool chk = false;
+            chk |= refreshDayQuest();
 
             for (int i = 0; i < 5; i++)
             {
-                refreshQuest(i);
+                chk |= refreshQuest(i);
             }
+
+            _exclamation?.Invoke(chk);
         }
 
         /// <summary> 일일퀘스트 새로고침 </summary>
-        void refreshDayQuest()
+        bool refreshDayQuest()
         {
+            bool check = false;
             int day = 0;
 
             mTmps[(int)eTmp.skinQstTxt].text = $"{DataManager.GetTable<string>(DataTable.skin, ((SkinKeyList)(int)BaseManager.userGameData.QuestSkin).ToString(), SkinValData.skinname.ToString())}으로"
@@ -117,8 +129,9 @@ namespace week
                 {
                     mImgs[(int)eImg.dayQst_Rein + i].color = _orange;
                     mImgs[(int)eImg.dqr_black + i].color = _transparent;
+                    check = true;
                 }
-                else if (day == 2)// 보상 완료
+                else if (day == 2) // 보상 완료
                 {
                     mTmps[(int)eTmp.reinQstTxt + i].text = "완료";
                     mImgs[(int)eImg.dayQst_Rein + i].color = _transparent;
@@ -131,10 +144,12 @@ namespace week
                     mImgs[(int)eImg.dqr_black + i].color = _dayBlack;
                 }
             }
+
+            return check;
         }
 
         /// <summary> 일반퀘스트 새로고침 </summary>
-        void refreshQuest(int i)
+        bool refreshQuest(int i)
         {
             int _Val = 0;
             bool _chk = false;
@@ -170,6 +185,8 @@ namespace week
             mImgs[(int)eImg.qstTimeBtn + i].color = (_chk) ? _orange : _qstBlack;
             // mImgs[(int)eImg.qstTimeBtn + i].raycastTarget = _chk;
             _getable[i] = _chk;
+
+            return _chk;
         }
 
         /// <summary> 일일퀘스트 클리어 </summary>
@@ -186,7 +203,7 @@ namespace week
 
                 refreshDayQuest();
 
-                AuthManager.instance.SaveUserEntity();
+                AuthManager.instance.SaveDataServer();
             }
         }
 
@@ -222,7 +239,7 @@ namespace week
 
                 refreshQuest(i);
 
-                AuthManager.instance.SaveUserEntity();
+                AuthManager.instance.SaveDataServer();
             }
         }
 

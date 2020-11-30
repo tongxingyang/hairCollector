@@ -17,6 +17,7 @@ namespace week
         private static PreGameData preGameData;        
 
         public static PreGameData PreGameData { set => preGameData = value; }
+        PlayTimeManager _playTimeMng;
 
         /// <summary> 패치 </summary>
         public static bool NeedPatch { get; set; } = false;
@@ -25,6 +26,7 @@ namespace week
         Action _sceneLoadComplete;
         public Action SceneLoadStart { set => _sceneLoadStart = value; }
         public Action SceneLoadComplete { set => _sceneLoadComplete = value; }
+        public PlayTimeManager PlayTimeMng { get => _playTimeMng; }
 
         #region [ test ]
 
@@ -67,6 +69,8 @@ namespace week
             Debug.Log("베이스 스타트");
             instance = this;
             option = new Option();
+            _playTimeMng = gameObject.AddComponent<PlayTimeManager>();
+            _playTimeMng.Init();
 
             Test();
 

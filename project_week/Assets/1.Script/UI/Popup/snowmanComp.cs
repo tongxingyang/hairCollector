@@ -85,16 +85,17 @@ namespace week
 
         bool _isStat;
         Action _costRefresh;
-        public Action CostRefresh { set => _costRefresh = value; }
+        Action _refreshExcla;
 
         #region [ snowman ]
 
         /// <summary> snowman 초기화 </summary>
-        public void Init(Action costRefresh)
+        public void Init(Action costRefresh, Action refreshExcla)
         {
             statusStart();
             skinStart(costRefresh);
             _costRefresh = costRefresh;
+            _refreshExcla = refreshExcla;
 
             _isStat = false;
             OnClickChangeBtn();
@@ -202,8 +203,8 @@ namespace week
         int getPrice(StatusData status)
         {
             int stat = (int)status;
-            int div = DataManager.GetTable<int>(DataTable.status, statusKeyList.costTerm.ToString(), _selectStat.ToString());
-            int rate = DataManager.GetTable<int>(DataTable.status, statusKeyList.cost.ToString(), _selectStat.ToString());
+            int div = DataManager.GetTable<int>(DataTable.status, statusKeyList.costTerm.ToString(), status.ToString());
+            int rate = DataManager.GetTable<int>(DataTable.status, statusKeyList.cost.ToString(), status.ToString());
 
             return ((int)(BaseManager.userGameData.StatusLevel[stat] / div) + 1) * rate;
         }
@@ -230,7 +231,7 @@ namespace week
             apPurchaseBtnRefresh();
 
             _costRefresh?.Invoke();
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
         }
 
         /// <summary> ap 구매 max </summary>
@@ -245,7 +246,7 @@ namespace week
             apPurchaseBtnRefresh();
 
             _costRefresh?.Invoke();
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
         }
 
         /// <summary> ap 새로고침 </summary>
@@ -294,7 +295,7 @@ namespace week
 
                 BaseManager.userGameData.statusLevelUp(_selectStat);
 
-                AuthManager.instance.SaveUserEntity();
+                AuthManager.instance.SaveDataServer();
 
                 BaseManager.userGameData.ReinRecord += 1;
                 if (BaseManager.userGameData.DayQuestRein == 0)
@@ -303,6 +304,7 @@ namespace week
                 ApTxtRefresh();
                 statusBtnRefresh();
                 upgradePanelRefresh();
+                _refreshExcla?.Invoke();
                 showSnowmanInfo();
             }
             else
@@ -314,6 +316,8 @@ namespace week
         /// <summary> 업그레이드 창 닫기 </summary>
         public void closeUpgradePanel()
         {
+            AuthManager.instance.SaveDataServer();
+
             upGradePanel.SetActive(false);
         }
 

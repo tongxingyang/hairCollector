@@ -22,7 +22,7 @@ namespace week
     [Serializable]
     public class rankData
     {
-        [SerializeField] public int _version;
+        [SerializeField] public string _version;
         //[SerializeField] public string _nick;
         //[SerializeField] public int _time;
         //[SerializeField] public int _boss;
@@ -31,8 +31,8 @@ namespace week
         public rankData() { }
         public rankData(int skin)
         {
-            _version = gameValues._version;
-            //_nick = nick;
+            _version = Application.version;
+            //_nick = BaseManager.userGameData.NickName;
             //_time = time;
             //_boss = boss;
             _skin = skin;
@@ -54,7 +54,7 @@ namespace week
         ObscuredString _uid = "SinglePlay";
 
         string _version;
-        long _lastLogin;
+        // long _lastLogin;
         List<rankData> _leaders;
         public Action WhenTomorrow { get; set; }
         bool _succesGetTime;
@@ -70,7 +70,7 @@ namespace week
         public bool isLoginFb { get; set; }
         public List<rankData> Leaders { get => _leaders; }
         public string Version { get => _version; }
-        public long LastLogin { get => _lastLogin; }
+        // public long LastLogin { get => _lastLogin; }
         public ObscuredString Uid { get => _uid; set => _uid = value; }
 
         public string chkTest()
@@ -96,8 +96,6 @@ namespace week
             
             PlayGamesPlatform.DebugLogEnabled = true;
             PlayGamesPlatform.Activate();
-
-            Debug.Log(this.enabled);
 
             auth = FirebaseAuth.DefaultInstance;
             IsExist = false;
@@ -226,21 +224,7 @@ namespace week
         public void firebaseDatabaseEventInit()
         {
             Debug.Log("파이어 데이터 베이스 초기화");
-            FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://snowadventure-91260115.firebaseio.com/");
-
-            serverTime.ValueChanged += (object sender, ValueChangedEventArgs args) => {
-
-                if (args.DatabaseError != null)
-                {
-                    Debug.Log("실패" + args.DatabaseError.Message);
-                    return;
-                }
-
-                _lastLogin = (long)args.Snapshot.Value;
-                DateTime utcCreated = gameValues.epoch.AddMilliseconds(_lastLogin);
-
-                _succesGetTime = true;
-            };
+            FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://snowadventure-91260115.firebaseio.com/");            
         }
 
         /// <summary> 서버에 데이터 유무 확인 </summary>
@@ -267,7 +251,7 @@ namespace week
                     complete = true;
                     return;
                 }
-                Debug.Log(_uid);
+
                 DataSnapshot snap = task.Result;
                 IsExist = snap.HasChildren;
                 Debug.Log(snap.ChildrenCount);
@@ -306,7 +290,7 @@ namespace week
         }
 
         /// <summary> 서버 저장 </summary>
-        public void SaveUserEntity()
+        public void SaveDataServer()
         {
             StartCoroutine(saveDataToFB());
         }
@@ -314,10 +298,12 @@ namespace week
         /// <summary> 서버에 데이터 저장(과 동시에 마지막 저장시간 갱신) </summary>
         public IEnumerator saveDataToFB()
         {
-            BaseManager.userGameData.IsSavedServer = true;
-            bool complete = false;
-            yield return StartCoroutine(getTimestamp());
+            // 시간 저장
+            yield return StartCoroutine(checkNextDay());
 
+            // 데이터 저장
+            bool complete = false;
+            
             string json = BaseManager.userGameData.getUserData();
 
             reference.Child("User").Child(_uid).SetRawJsonValueAsync(json).ContinueWith(task => {
@@ -346,9 +332,9 @@ namespace week
                     return;
                 }
                 string userData = (string)task.Result.GetRawJsonValue();
-                // Debug.Log(userData);
+
                 UserEntity entity = JsonConvert.DeserializeObject<UserEntity>(userData, new ObscuredValueConverter());
-                // Debug.Log(entity._property._nickName);
+
                 if (BaseManager.userGameData == null)
                 {
                     BaseManager.userGameData = new UserGameData();                    
@@ -408,11 +394,11 @@ namespace week
         /// <summary> 버전 가져오기 (_lastVersion에서 버전 확인가능) </summary>
         public IEnumerator loadVersionFromFB()
         {
-            Debug.Log("버전 요청");
             bool complete = false;
 
             reference.Child("Profile").Child("version").GetValueAsync().ContinueWith(task =>
             {
+                Debug.Log("버전 체크");
                 if (task.IsCanceled)
                 {
                     Debug.LogError("Load SignInWithCredentialAsync was canceled.");
@@ -591,56 +577,42 @@ namespace week
         }
 
         #region [ 특정요소 저장/로드 ]
-
-        /// <summary> 서버에 시간 갱신하기 (ValueChanged로 시간가져옴) </summary>
-        public IEnumerator getTimestamp()
+        
+        /// <summary> 최근 저장 시간 저장 - (시간만 갱신) - 기기, 서버 </summary>
+        IEnumerator saveLastLogin()
         {
-            Debug.Log("서버에 시간 갱신하기 (ValueChanged로 시간가져옴)");
-            bool complete = false;
+            int complete = 0;
 
-            serverTime.SetValueAsync(ServerValue.Timestamp).ContinueWith(task =>
+            NanooManager.instance.getTimeStamp(() =>
             {
-                if (task.IsCompleted)
-                {
-                    Debug.Log("성공");
-                }
-                complete = true;
+                complete = 1;
             });
 
-            yield return new WaitUntil(() => complete == true);
-        }
-
-        /// <summary> 최근 저장 시간 저장 - (시간만 갱신) - 기기, 서버 </summary>
-        public IEnumerator saveLastLogin()
-        {
-            yield return StartCoroutine(getTimestamp());    // 시간가져오고
-            BaseManager.userGameData.LastSave = _lastLogin; // 현재 유저데이터 변경            
-
-            bool complete = false;
+            yield return new WaitUntil(() => complete == 1);
 
             // 서버에도 저장
-            reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").SetValueAsync(_lastLogin).ContinueWith(task =>
+            reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").SetValueAsync(BaseManager.userGameData.LastSave).ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
                     Debug.Log("성공");
                 }
 
-                complete = true;
+                complete = 2;
             });
 
-            yield return new WaitUntil(() => complete == true);
+            yield return new WaitUntil(() => complete == 2);
+
         }
 
         /// <summary> 서버 마지막 저장시간-지금 시간 비교(저장/로드없고 오로지 비교) 
-        /// - 로비에서만 (1. 로비 오픈시, 2. 일정시간마다) </summary>
+        /// - 로비에서만 (1. 모든 시간 저장시, 2. 일정시간마다) </summary>
         public IEnumerator checkNextDay()
         {
-            // 서버시간
-            _succesGetTime = false;
-            yield return StartCoroutine(getTimestamp());
-            yield return new WaitUntil(() => _succesGetTime == true);
-            // 서버에 저장된 마지막 저장 시간
+            BaseManager.userGameData.TimeCheck = 0;
+            BaseManager.userGameData.WholeAccessTime += BaseManager.instance.PlayTimeMng.TimeStack;
+
+            // (서버에 저장된) 마지막 저장 시간
             bool complete = false;
             long lastTime = 0;
             reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").GetValueAsync().ContinueWith(task => {
@@ -650,19 +622,20 @@ namespace week
             });
             yield return new WaitUntil(() => complete == true);
 
+            // 현재 서버시간 (가져오면서 저장)
+            yield return StartCoroutine(saveLastLogin());            
+
             // 비교
             DateTime lastDate = gameValues.epoch.AddMilliseconds(lastTime);
-            DateTime nowDate = gameValues.epoch.AddMilliseconds(_lastLogin);
+            DateTime nowDate = gameValues.epoch.AddMilliseconds(BaseManager.userGameData.LastSave);
 
-            Debug.Log(nowDate.Day + " > " + lastDate.Day);
+            // Debug.Log(nowDate.Day + " > " + lastDate.Day);
             if (nowDate.Day > lastDate.Day)
             {
                 Debug.Log(nowDate.ToString("yyyy-MM-dd HH:mm:ss"));
                 Debug.Log(lastDate.ToString("yyyy-MM-dd HH:mm:ss"));
                 
                 WhenTomorrow?.Invoke();
-
-                yield return StartCoroutine(saveLastLogin());
             }
         }
 

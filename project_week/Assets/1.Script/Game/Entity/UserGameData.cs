@@ -34,6 +34,9 @@ namespace week
         public ObscuredInt[] GameReward { get; set; }
 
         bool autoRecivePost;
+
+        /// <summary> 타임스탬프 간격 </summary>
+        public float TimeCheck { get; set; }
         #region -------------------------[skin value]-------------------------
 
         /// <summary> 상시적용 스킨 능력치 </summary>
@@ -145,10 +148,7 @@ namespace week
         }
         public ObscuredInt UtilChkList { get => _userEntity._util._chkList; set => _userEntity._util._chkList = value; }
         public bool FreeNichkChange { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.freeNickChange)) > 0;
-                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.freeNickChange) : 0; }
-        public bool IsSavedServer   { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.isSavedServer)) > 0;
-                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.isSavedServer) : 0; }
-        
+                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.freeNickChange) : 0; }        
 
         #endregion
 
@@ -550,10 +550,10 @@ namespace week
             return JsonUtility.ToJson(data);
         }
 
-        public DateTime getEpochDate()
-        {
-            DateTime utcCreated = gameValues.epoch.AddMilliseconds(AuthManager.instance.LastLogin);
-            return utcCreated;
-        }
+        //public DateTime getEpochDate()
+        //{
+        //    DateTime utcCreated = gameValues.epoch.AddMilliseconds(BaseManager.userGameData.LastSave);
+        //    return utcCreated;
+        //}
     }
 }

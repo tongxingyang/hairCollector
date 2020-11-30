@@ -13,6 +13,7 @@ namespace week
         [SerializeField] RectTransform _panel;
         [SerializeField] TextMeshProUGUI _title;
         [SerializeField] Image _present;
+        [SerializeField] TextMeshProUGUI _notice;
 
         Action _whenClose = null;
         Action _after = null;
@@ -31,11 +32,18 @@ namespace week
             _present.sprite = sp;
             _present.SetNativeSize();
             _present.transform.localScale = Vector3.one * ((((RectTransform)_present.transform).GetWidth() > 300f) ? 2f : 3f);
+            _notice.text = "※구매하신 품목은 우편함으로 보내집니다.";
 
             _after = after;
             open();
 
-            return this; ;
+            return this;
+        }
+
+        public purchasePopup skinNotice()
+        {
+            _notice.text = "※감사합니다!";
+            return this;
         }
 
         public void setImgSize(bool isBig=true)

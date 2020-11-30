@@ -25,14 +25,19 @@ namespace week
         public string PostId { get => _postId; }
 
         /// <summary> 포스트 박스 세팅 </summary>
-        public void setBox(Dictionary<string, object> item, LobbyScene lobby)
+        public void setBox(Dictionary<string, object> item, LobbyScene lobby, bool setting)
         {
-            gameObject.SetActive(true);
-            _lobby = lobby;
             _isUsed = true;
 
+            if (setting == false)
+                return;
+
+            gameObject.SetActive(true);
+            transform.localScale = Vector3.one;
+            _lobby = lobby;
+
             _postId = (string)item["uid"];
-            _postImg.sprite = null;
+            // _postImg.sprite = null;
             nanooPost post = EnumHelper.StringToEnum<nanooPost>((string)item["item_code"]);
             int mount = int.Parse((string)item["item_count"]);
 

@@ -457,7 +457,7 @@ namespace week
                 BaseManager.userGameData.ArtifactRecord = _getArti;
             }
 
-            // BaseManager.userGameData.SaveUserEntity();
+            // BaseManager.userGameData.SaveDataServer();
 
             _upgradePanel.gameObject.SetActive(false);
             _pausePanel.gameObject.SetActive(false);

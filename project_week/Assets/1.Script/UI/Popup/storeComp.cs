@@ -41,15 +41,17 @@ namespace week
         ContentSizeFitter _limitFitter;
         [SerializeField] RectTransform _special;
         ContentSizeFitter _specialFitter;
-        //Action _costRefresh;
 
+        Action _refreshExcla;
 
-        public void Init()
+        public void Init(Action refreshExcla)
         {
             _bar.value = 1f;
 
             _limitFitter = _limit.GetComponent<ContentSizeFitter>();
             _specialFitter = _special.GetComponent<ContentSizeFitter>();
+
+            _refreshExcla = refreshExcla;
 
             setLimitFitter();
             setSpecialFitter();
@@ -68,7 +70,7 @@ namespace week
                 "광고 제거", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
             
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
 
             setAnalitics(productKeyList.removead, AnalyticsManager.instance.getKey());
         }
@@ -84,14 +86,16 @@ namespace week
                 "추가 10%코인", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
             
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
             setAnalitics(productKeyList.bonus10, AnalyticsManager.instance.getKey());
         }
 
         /// <summary> 추가보너스 정보 </summary>
-        public void addPerInfo()
+        public void limitInfo()
         {
-            string str = "적용 범위 : 모험코인" + System.Environment.NewLine + "골드 및 AP 구매";
+            string str = "<코인보너스>" + System.Environment.NewLine +
+                "모험 습득 코인 증가" + System.Environment.NewLine +
+                "상점 : 코인 구매량 증가";
             WindowManager.instance.showActMessage(str, () => { });
         }
 
@@ -134,8 +138,8 @@ namespace week
             NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg);
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
             
-            AuthManager.instance.SaveUserEntity();
-
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.startpack, key);
         }
 
@@ -166,8 +170,21 @@ namespace week
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
             NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg);
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.wildskinpack, key);
+        }
+
+        /// <summary> 스페셜 팩 정보 </summary>
+        public void specialInfo()
+        {
+            string str = "<스타팅 팩>" + System.Environment.NewLine +
+                "광고제거 후 스타팅팩 구매시" + System.Environment.NewLine +
+                "9000코인, 90보석, 9AP 대체 지급" + System.Environment.NewLine + System.Environment.NewLine +
+                "<스킨 팩>" + System.Environment.NewLine + 
+                "스킨구매 후 스킨팩 구매시" + System.Environment.NewLine +
+                "25000코인, 250보석 대체 지급";
+            WindowManager.instance.showActMessage(str, () => { });
         }
 
         public void chkPresent()
@@ -193,7 +210,8 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.s_gem, key);
         }
 
@@ -211,7 +229,8 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.m_gem, key);
         }
 
@@ -229,7 +248,8 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.l_gem, key);
         }
 
@@ -251,7 +271,8 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.s_ap, key);
         }
 
@@ -270,7 +291,8 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
 
-            AuthManager.instance.SaveUserEntity(); 
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.m_ap, key);
         }
 
@@ -288,7 +310,8 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
 
-            AuthManager.instance.SaveUserEntity();
+            AuthManager.instance.SaveDataServer();
+            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.l_ap, key);
         }
 
@@ -313,7 +336,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 10);
 
-                    AuthManager.instance.SaveUserEntity();
+                    AuthManager.instance.SaveDataServer();
                 }
                 else
                 {
@@ -340,7 +363,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 15);
 
-                    AuthManager.instance.SaveUserEntity();
+                    AuthManager.instance.SaveDataServer();
                 }
                 else
                 {
@@ -366,7 +389,7 @@ namespace week
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 22);
 
-                    AuthManager.instance.SaveUserEntity();
+                    AuthManager.instance.SaveDataServer();
                 }
                 else
                 {
@@ -374,7 +397,7 @@ namespace week
                 }
             });
         }
-
+        
         #endregion
 
         public void purchaseFail()

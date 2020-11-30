@@ -93,6 +93,7 @@ MonoBehaviour:
   _panel: {fileID: 1654903802948363077}
   _title: {fileID: 8947030900377777590}
   _present: {fileID: 9072081397140648690}
+  _notice: {fileID: 2266248175598857549}
 --- !u!95 &3312853415531465061
 Animator:
   serializedVersion: 3

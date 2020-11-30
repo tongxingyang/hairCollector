@@ -68,6 +68,7 @@ namespace week
             temp.Add(new Parameter("user_id", user_id));
             temp.Add(new Parameter("NickName", BaseManager.userGameData.NickName));
             temp.Add(new Parameter("WholeAccessTime", BaseManager.userGameData.WholeAccessTime));
+            temp.Add(new Parameter("WholeTimeRecord", BaseManager.userGameData.WholeTimeRecord));
 
             if (context != null)
             {

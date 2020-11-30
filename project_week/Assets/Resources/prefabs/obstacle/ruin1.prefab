@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e17b1fd8ea4bd498dd19047985e973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 10
+  _type: 12
   _pocket: {fileID: 2062327653613806058}
   bosPos:
   - {fileID: 0}

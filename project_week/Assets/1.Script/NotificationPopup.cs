@@ -46,7 +46,7 @@ namespace week
             {
                 case pType.notif: // 업데이트
                     Debug.Log("업데이트");
-                    Application.OpenURL("https://www.google.com/");
+                    Application.OpenURL("https://play.google.com/store/apps/details?id=com.munzi.snowAdventure");
                     break;
                 case pType.net: // 재시도
                     Debug.Log("재시도");

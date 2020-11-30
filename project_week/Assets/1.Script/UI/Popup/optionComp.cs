@@ -63,7 +63,7 @@ namespace week
         /// <summary> 까페 열기 </summary>
         public void openCafe()
         {
-            Application.OpenURL("https://heroesofthestorm.com/ko-kr/");
+            Application.OpenURL("https://cafe.naver.com/snowadventure");
         }
 
         public void openCredit()
@@ -95,10 +95,7 @@ namespace week
 #if UNITY_EDITOR
 
 #else
-            if(AuthManager.instance.networkCheck())
-            {            
-                yield return StartCoroutine(AuthManager.instance.saveDataToFB());
-            }
+            yield return StartCoroutine(AuthManager.instance.saveDataToFB());
 #endif
             yield return null;
             Application.Quit();

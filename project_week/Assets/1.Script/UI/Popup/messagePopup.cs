@@ -17,6 +17,7 @@ namespace week
         [SerializeField] GameObject _present;
         [SerializeField] Image _presentImg;
         [SerializeField] GameObject _actBtn;
+        [SerializeField] RectTransform _fitter;
         bool _isPlay;
         float time = 0;
 
@@ -49,6 +50,8 @@ namespace week
             {
                 time = 0;
             }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_fitter);
         }
 
         IEnumerator winMove()
@@ -98,11 +101,12 @@ namespace week
             _MsgTxt.text = msg;
 
             open();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_fitter);
         }
 
         public void okButton()
         {
-            _act();
+            _act?.Invoke();
             close();
         }
 
@@ -131,6 +135,7 @@ namespace week
             _MsgTxt.text = msg;
 
             open();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_fitter);
         }
 
         #endregion

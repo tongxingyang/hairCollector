@@ -150,12 +150,14 @@ namespace week
                 Debug.Log(_skin.ToString() + ": 구매완료");
                 WindowManager.instance.Win_celebrate.whenPurchase();
                 WindowManager.instance.Win_purchase.setOpen(DataManager.SkinSprite[_skin],
-                    DataManager.GetTable<string>(DataTable.skin, _skin.ToString(), SkinValData.skinname.ToString())).setImgSize();
+                    DataManager.GetTable<string>(DataTable.skin, _skin.ToString(), SkinValData.skinname.ToString()))
+                    .skinNotice()
+                    .setImgSize();
 
                 possibleSelect();
                 _refreshCost?.Invoke();
 
-                AuthManager.instance.SaveUserEntity();
+                AuthManager.instance.SaveDataServer();
             }
             else
             {
