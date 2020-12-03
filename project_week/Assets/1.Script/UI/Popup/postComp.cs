@@ -20,7 +20,7 @@ namespace week
             _exclamation = exclamation;
             _boxies = new List<postBoxScript>();
 
-            notOpenRefreshCheck();
+            NanooManager.instance.getPostCount(_exclamation);
             close();
         }
 
@@ -28,11 +28,11 @@ namespace week
         {
             gameObject.SetActive(true);
 
-            notOpenRefreshCheck();
+            whenOpenRefreshCheck();
         }
 
-        public void notOpenRefreshCheck()
-        {
+        public void whenOpenRefreshCheck()
+        {         
             NanooManager.instance.getPostboxList((dictionary) =>
             {
                 for (int i = 0; i < _boxies.Count; i++)
@@ -43,14 +43,12 @@ namespace week
                 ArrayList items = (ArrayList)dictionary["item"];
                 foreach (Dictionary<string, object> item in items)
                 {
-                    getPostBox().setBox(item, _lobby, gameObject.activeSelf);
+                    getPostBox().setBox(item, _lobby);
                 }
-
-                refreshCheckPost();
             });
         }
 
-        void refreshCheckPost()
+        void whenCloseCheckPost()
         {
             for (int i = 0; i < _boxies.Count; i++)
             {
@@ -63,6 +61,8 @@ namespace week
 
             _exclamation?.Invoke(false);
         }
+
+
 
         /// <summary> 소포 가져오기 </summary>
         postBoxScript getPostBox()
@@ -165,7 +165,7 @@ namespace week
             //    _boxies[i].clear();
             //}
 
-            refreshCheckPost();
+            whenCloseCheckPost();
             gameObject.SetActive(false);
         }
     }

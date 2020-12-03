@@ -46,7 +46,26 @@ namespace week
                     }
                 }
                 else
+                {                    
+                    Debug.Log("Fail");
+                }
+            });
+        }
+
+        public void getPostCount(Action<bool> getCountAction)
+        {
+            plugin.AccessEvent((state, message, rawData, dictionary) => {
+                if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
+                    if (dictionary.ContainsKey("postbox_count"))
+                    {
+                        int cnt = int.Parse((string)dictionary["postbox_count"]);
+
+                        getCountAction?.Invoke(cnt > 0);
+                    }
+                }
+                else
+                {                    
                     Debug.Log("Fail");
                 }
             });

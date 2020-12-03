@@ -42,9 +42,9 @@ namespace week
         [SerializeField] RectTransform _special;
         ContentSizeFitter _specialFitter;
 
-        Action _refreshExcla;
+        Action<bool> _refreshExcla;
 
-        public void Init(Action refreshExcla)
+        public void Init(Action<bool> refreshExcla)
         {
             _bar.value = 1f;
 
@@ -69,9 +69,8 @@ namespace week
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.removead.ToString(), productValData.image.ToString()),
                 "광고 제거", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
-            
-            AuthManager.instance.SaveDataServer();
 
+            AuthManager.instance.SaveDataServer();
             setAnalitics(productKeyList.removead, AnalyticsManager.instance.getKey());
         }
 
@@ -82,12 +81,12 @@ namespace week
             BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_10p;
             BaseManager.userGameData.MulCoin = true;
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus10.ToString(), productValData.image.ToString()),
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus_10_0.ToString(), productValData.image.ToString()),
                 "추가 10%코인", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
-            
+
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.bonus10, AnalyticsManager.instance.getKey());
+            setAnalitics(productKeyList.bonus_10_0, AnalyticsManager.instance.getKey());
         }
 
         /// <summary> 추가보너스 정보 </summary>
@@ -127,6 +126,13 @@ namespace week
                 c += DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.addcoin.ToString());
             }
 
+            string bonus = "";
+            if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
+            {
+                c = Convert.ToInt32(c * 1.1f);
+                bonus = "(보너스 추가)";
+            }
+
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.startpack.ToString(), productValData.image.ToString()),
                 "스타팅팩", () => { setLimitFitter(); setSpecialFitter(); }).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
@@ -135,11 +141,12 @@ namespace week
             string msg = key + "/스타팅팩 구매";
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
-            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg);
+            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
-            
+
+            NanooManager.instance.getPostCount(_refreshExcla);
+
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.startpack, key);
         }
 
@@ -156,9 +163,22 @@ namespace week
             {
                 BaseManager.userGameData.HasSkin |= (1 << (int)skl);
             }
+                        
+            int c = DataManager.GetTable<int>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.coin.ToString());
+            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.gem.ToString());
 
-            int c = 30000 + ((result) ? 25000 : 0);            
-            int g = 300 + ((result) ? 250 : 0);
+            if (result)
+            {
+                g += DataManager.GetTable<int>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.addgem.ToString());
+                c += DataManager.GetTable<int>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.addcoin.ToString());
+            }
+
+            string bonus = "";
+            if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
+            {
+                c = Convert.ToInt32(c * 1.1f);
+                bonus = "(보너스 추가)";
+            }
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.image.ToString()),
                 "야수사람팩", setSpecialFitter).setImgSize();
@@ -168,10 +188,11 @@ namespace week
             string msg = key + "/야수팩 구매";
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
-            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg);
+            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
+
+            NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.wildskinpack, key);
         }
 
@@ -180,7 +201,7 @@ namespace week
         {
             string str = "<스타팅 팩>" + System.Environment.NewLine +
                 "광고제거 후 스타팅팩 구매시" + System.Environment.NewLine +
-                "9000코인, 90보석, 9AP 대체 지급" + System.Environment.NewLine + System.Environment.NewLine +
+                "4000코인, 40보석, 4AP 대체 지급" + System.Environment.NewLine + System.Environment.NewLine +
                 "<스킨 팩>" + System.Environment.NewLine + 
                 "스킨구매 후 스킨팩 구매시" + System.Environment.NewLine +
                 "25000코인, 250보석 대체 지급";
@@ -210,8 +231,9 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
+            NanooManager.instance.getPostCount(_refreshExcla);
+
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.s_gem, key);
         }
 
@@ -229,8 +251,9 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
+            NanooManager.instance.getPostCount(_refreshExcla);
+
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.m_gem, key);
         }
 
@@ -248,8 +271,9 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
 
+            NanooManager.instance.getPostCount(_refreshExcla);
+
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.l_gem, key);
         }
 
@@ -271,8 +295,9 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
 
+            NanooManager.instance.getPostCount(_refreshExcla);
+
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.s_ap, key);
         }
 
@@ -291,8 +316,9 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
 
+            NanooManager.instance.getPostCount(_refreshExcla);
+
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.m_ap, key);
         }
 
@@ -310,8 +336,9 @@ namespace week
 
             NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
 
+            NanooManager.instance.getPostCount(_refreshExcla);
+
             AuthManager.instance.SaveDataServer();
-            _refreshExcla?.Invoke();
             setAnalitics(productKeyList.l_ap, key);
         }
 
@@ -330,6 +357,11 @@ namespace week
                 {
                     BaseManager.userGameData.Gem -= cost;
                     _lobby.refreshFollowCost();
+
+                    if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
+                    {
+                        i = Convert.ToInt32(i * 1.1f);
+                    }
 
                     Debug.Log($"{i}코인 겟또다제");
                     BaseManager.userGameData.Coin += i;
@@ -356,8 +388,12 @@ namespace week
                 {
                     BaseManager.userGameData.Gem -= cost;
                     _lobby.refreshFollowCost();
+                    
+                    if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
+                    {
+                        i = Convert.ToInt32(i * 1.1f);
+                    }
 
-                   
                     Debug.Log($"{i}코인 겟또다제");
                     BaseManager.userGameData.Coin += i;
 
@@ -383,6 +419,11 @@ namespace week
                 {
                     BaseManager.userGameData.Gem -= cost;
                     _lobby.refreshFollowCost();
+
+                    if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
+                    {
+                        i = Convert.ToInt32(i * 1.1f);
+                    }
 
                     Debug.Log($"{i}코인 겟또다제");
                     BaseManager.userGameData.Coin += i;

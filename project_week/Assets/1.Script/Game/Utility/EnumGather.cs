@@ -338,7 +338,7 @@ namespace week
     public enum productKeyList
     {
         removead,
-        bonus10,
+        bonus_10_0,
         startpack,
         wildskinpack,
         s_gem,

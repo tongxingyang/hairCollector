@@ -25,6 +25,7 @@ namespace week
             prevLvl,
             nextLvl,
             upgradePrice,
+            nowSkinName,
 
             apPriceMax
         }
@@ -85,17 +86,20 @@ namespace week
 
         bool _isStat;
         Action _costRefresh;
+        Action _skinRefresh;
         Action _refreshExcla;
 
         #region [ snowman ]
 
         /// <summary> snowman 초기화 </summary>
-        public void Init(Action costRefresh, Action refreshExcla)
+        public void Init(Action costRefresh, Action skinRefresh, Action refreshExcla)
         {
-            statusStart();
-            skinStart(costRefresh);
             _costRefresh = costRefresh;
+            _skinRefresh = skinRefresh;
             _refreshExcla = refreshExcla;
+
+            statusStart();
+            skinStart();
 
             _isStat = false;
             OnClickChangeBtn();
@@ -347,7 +351,7 @@ namespace week
         #region [ skin ]
 
         /// <summary> skin 초기화 </summary>
-        public void skinStart(Action refresh)
+        public void skinStart()
         {
             _selectSkin = (SkinKeyList)BaseManager.userGameData.Skin;
             showSnowmanInfo();
@@ -362,16 +366,19 @@ namespace week
                     sb.transform.SetParent(_skinBoxParent);
                     sb.transform.localScale = Vector3.one;
                     sb.setSkinBox((SkinKeyList)i);
-                    sb.setAction(changeSkin, refresh);
+                    sb.setAction(changeSkin, _costRefresh, _skinRefresh);
 
                     _skinBoxies.Add(i, sb);
                 }
             }
+
+            changeSkin(_selectSkin);
         }
 
         void changeSkin(SkinKeyList newSkin)
         {
             _selectSkin = newSkin;
+            mTmps[(int)eTmp.nowSkinName].text = DataManager.GetTable<string>(DataTable.skin, newSkin.ToString(), SkinValData.skinname.ToString());
             BaseManager.userGameData.Skin = newSkin;
             BaseManager.userGameData.applySkin();
             showSnowmanInfo();

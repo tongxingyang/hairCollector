@@ -27,6 +27,7 @@ namespace week
 
         Action<SkinKeyList> _whenSkinSelect;
         Action _refreshCost;
+        Action _skinrefresh;
 
         SkinKeyList _skin;
         string _skinName;
@@ -34,10 +35,11 @@ namespace week
         cur _cur;
         int _price;
 
-        public void setAction(Action<SkinKeyList> wss, Action refresh)
+        public void setAction(Action<SkinKeyList> wss, Action costrefresh, Action skinrefresh)
         {
             _whenSkinSelect = wss;
-            _refreshCost = refresh;
+            _refreshCost = costrefresh;
+            _skinrefresh = skinrefresh;
         }
 
         public void setSkinBox(SkinKeyList skin)
@@ -103,6 +105,10 @@ namespace week
             if ((BaseManager.userGameData.HasSkin & (1 << (int)_skin)) > 0) // 있어서 선택
             {
                 _whenSkinSelect?.Invoke(_skin);
+                _skinrefresh?.Invoke();
+
+                BaseManager.userGameData.applySkin();
+                AuthManager.instance.saveSelectSkin();
             }
             else // 없어서 구매
             {

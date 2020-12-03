@@ -25,12 +25,9 @@ namespace week
         public string PostId { get => _postId; }
 
         /// <summary> 포스트 박스 세팅 </summary>
-        public void setBox(Dictionary<string, object> item, LobbyScene lobby, bool setting)
+        public void setBox(Dictionary<string, object> item, LobbyScene lobby)
         {
-            _isUsed = true;
-
-            if (setting == false)
-                return;
+            _isUsed = true;            
 
             gameObject.SetActive(true);
             transform.localScale = Vector3.one;
@@ -114,6 +111,12 @@ namespace week
         /// <summary> 수령 요청 </summary>
         public void requestPost()
         {
+            StartCoroutine(getPostRoutine());
+        }
+
+        IEnumerator getPostRoutine()
+        {
+            bool complete = false;
             NanooManager.instance.PostboxItemUse(_postId, (dictionary) =>
             {
                 nanooPost post = EnumHelper.StringToEnum<nanooPost>((string)dictionary["item_code"]);
@@ -143,7 +146,12 @@ namespace week
                 Context context = new Context(_key, analyticsWhere.post.ToString())
                     .setProduct(post.ToString(), mount);
                 AnalyticsManager.instance.Send("getPost", context, null);
+                complete = true;
             });
+
+            yield return new WaitUntil(() => complete == true);
+
+            AuthManager.instance.saveDataToFB();
         }
 
         /// <summary> 초기화 </summary>

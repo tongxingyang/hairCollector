@@ -172,6 +172,7 @@ namespace week
         public void setUserEntity(UserEntity entity)
         {
             _userEntity = entity;
+            applySkin();
         }
 
         #endregion
@@ -183,10 +184,10 @@ namespace week
             _userEntity = new UserEntity();
             applyLevel();
 
-            _skinBval = new bool[(int)skinBvalue.max];
-            _skinFval = new ObscuredFloat[(int)skinFvalue.max];
-            _skinIval = new ObscuredInt[(int)skinIvalue.max];
-            _ballType = snowballType.standard;
+            //_skinBval = new bool[(int)skinBvalue.max];
+            //_skinFval = new ObscuredFloat[(int)skinFvalue.max];
+            //_skinIval = new ObscuredInt[(int)skinIvalue.max];
+            //_ballType = snowballType.standard;
 
             applySkin();
         }
@@ -269,6 +270,11 @@ namespace week
             ObscuredInt j;
             ObscuredFloat chk;
             ObscuredFloat add = 0;
+
+            _skinBval = new bool[(int)skinBvalue.max];
+            _skinFval = new ObscuredFloat[(int)skinFvalue.max];
+            _skinIval = new ObscuredInt[(int)skinIvalue.max];
+            _ballType = snowballType.standard;
 
             _addStats = new ObscuredFloat[(int)defaultStat.max];
             for (defaultStat i = defaultStat.hp; i < defaultStat.max; i++)

@@ -106,9 +106,9 @@ namespace week
             _post.Init(this, (chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
 
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
-            _store.Init(_post.notOpenRefreshCheck);
+            _store.Init((chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
             _snowman = mGos[(int)eGO.Snowman].GetComponent<snowmanComp>();
-            _snowman.Init(refreshCost, _quest.refreshCheckQuest);
+            _snowman.Init(refreshCost, refreshSnowImg, _quest.refreshCheckQuest);
 
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
             _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();

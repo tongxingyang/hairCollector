@@ -349,6 +349,26 @@ namespace week
             Debug.Log("서버에서 데이터 로드 완료");
         }
 
+
+        public void saveSelectSkin()
+        {
+            StartCoroutine(saveSkinToFB());
+        }
+        /// <summary> 스킨 교체시 저장 (FB REALTIME DATABASE) </summary>
+        IEnumerator saveSkinToFB()
+        {
+            // 데이터 저장
+            bool complete = false;
+
+            string json = BaseManager.userGameData.getUserData();
+
+            reference.Child("User").Child(_uid).Child("_property").Child("_skin").SetValueAsync((int)BaseManager.userGameData.Skin).ContinueWith(task => {
+                complete = true;
+            });
+
+            yield return new WaitUntil(() => complete == true);
+        }
+
         //public IEnumerator loadAndChangeDataFromFB(string remove)
         //{
         //    Debug.Log("서버 데이터로 로컬 데이터 교체 시도");
@@ -371,7 +391,7 @@ namespace week
         //        string userData = (string)task.Result.GetRawJsonValue();
 
         //        UserEntity entity = JsonConvert.DeserializeObject<UserEntity>(userData, new ObscuredValueConverter());
-                
+
         //        if (BaseManager.userGameData == null)
         //        {
         //            BaseManager.userGameData = new UserGameData();

@@ -330,6 +330,14 @@ namespace week
             _pet.Init(_gs, () => { _skills[SkillKeyList.snowball].att *= 2; });
             
             getSkill(SkillKeyList.snowball);
+            {
+                getSkill(SkillKeyList.hail);
+                getSkill(SkillKeyList.halficicle);
+                getSkill(SkillKeyList.halficicle);
+
+                getSkill(SkillKeyList.blackhole);
+                getSkill(SkillKeyList.thunder);
+            }
 
             if (BaseManager.userGameData.SkinBval[(int)skinBvalue.mine])
             {

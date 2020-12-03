@@ -201,8 +201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 3
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 16d5952095587fb4db320df4ca9909d5, type: 2}
-  m_sharedMaterial: {fileID: -4128196142093934529, guid: 16d5952095587fb4db320df4ca9909d5,
+  m_fontAsset: {fileID: 11400000, guid: 5bd4a17baa0fe924da07187e03623eb9, type: 2}
+  m_sharedMaterial: {fileID: 4419452198980407356, guid: 5bd4a17baa0fe924da07187e03623eb9,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -29702,8 +29702,7 @@ MonoBehaviour:
     \uAD00\uC6B0 "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5bd4a17baa0fe924da07187e03623eb9, type: 2}
-  m_sharedMaterial: {fileID: -4128196142093934529, guid: 16d5952095587fb4db320df4ca9909d5,
-    type: 2}
+  m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -31133,7 +31132,7 @@ MonoBehaviour:
   - _map: {fileID: 6800801989364691700}
   - _map: {fileID: 7679502080301802531}
   _seasonMaps:
-  - {fileID: 21300000, guid: c7bdedbdc9590264dbec0e8a9b6057d9, type: 3}
+  - {fileID: 21300000, guid: 7badde55816765e4da1ef6de9e2b2639, type: 3}
   - {fileID: 21300000, guid: 6ba1fdf1bff45ad4ab1ecdb7cb0dc944, type: 3}
   - {fileID: 21300000, guid: b37e24a7a45780e4e9a9b150e537cf7f, type: 3}
   - {fileID: 21300000, guid: faea93ed2cc5f0a448838402b8dca770, type: 3}
@@ -33486,8 +33485,7 @@ MonoBehaviour:
     \uAD00\uC6B0 \uC870\uC870\uC601\uD654 \uD560\uC778 "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5bd4a17baa0fe924da07187e03623eb9, type: 2}
-  m_sharedMaterial: {fileID: -4128196142093934529, guid: 16d5952095587fb4db320df4ca9909d5,
-    type: 2}
+  m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
