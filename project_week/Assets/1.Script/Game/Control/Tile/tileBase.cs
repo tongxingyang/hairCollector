@@ -19,7 +19,6 @@ namespace week
 
         public Action reclaim;
 
-
         public void setOBMng(GameScene gs, season ss)
         {
             _gs = gs;

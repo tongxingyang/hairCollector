@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.elringus.spriteglow": "https://github.com/Elringus/SpriteGlow.git#package",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
@@ -57,5 +58,11 @@
         "jillejr"
       ]
     }
-  ]
+  ],
+  "lock": {
+    "com.elringus.spriteglow": {
+      "revision": "package",
+      "hash": "05442994ffb7f6c679f648d702cdf888bd8c01dc"
+    }
+  }
 }

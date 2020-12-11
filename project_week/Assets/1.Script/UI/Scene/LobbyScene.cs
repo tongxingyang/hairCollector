@@ -13,9 +13,9 @@ namespace week
         #region [UIBase]
         enum eGO
         {
-            Lobby,
             Store,
             Snowman,
+            Lobby,
             Quest,
             Rank,
             Post,
@@ -65,6 +65,7 @@ namespace week
         [SerializeField] SnowController _snow;
         [SerializeField] Transform _angle;
         [SerializeField] RawImage _pattern;
+
         Vector2 _offset;
         readonly Vector2 _rect = new Vector2(1f, 2f);
 
@@ -72,12 +73,14 @@ namespace week
 
         storeComp _store;
         snowmanComp _snowman;
+        lobbyComp _lobbyCmp;
         questComp _quest;
         rankComp _rank;
         postComp _post;
 
         optionComp _option;
         nickChangePopup _nickPanel;
+        couponComp _coupon;
 
         public Transform CoinTxt { get { return mImgs[(int)eImg.Coin].transform; } }
         public Transform GemTxt { get { return mImgs[(int)eImg.Gem].transform; } }
@@ -99,7 +102,7 @@ namespace week
 
             // 로비에서 연결되는 창 초기화            
             _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
-            _quest.Init((chk) => { mGos[(int)eGO.questExcla].SetActive(chk); });
+            _quest.Init(this, (chk) => { mGos[(int)eGO.questExcla].SetActive(chk); });
             _rank = mGos[(int)eGO.Rank].GetComponent<rankComp>();
             _rank.Init();
             _post = mGos[(int)eGO.Post].GetComponent<postComp>();
@@ -109,14 +112,16 @@ namespace week
             _store.Init((chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
             _snowman = mGos[(int)eGO.Snowman].GetComponent<snowmanComp>();
             _snowman.Init(refreshCost, refreshSnowImg, _quest.refreshCheckQuest);
+            _lobbyCmp = mGos[(int)eGO.Lobby].GetComponent<lobbyComp>();
+            _lobbyCmp.Init();
 
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
             _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();
-            _option.NickChange = () =>
-            {
-                mGos[(int)eGO.option].SetActive(false);
-                _nickPanel.open();
-            };
+            _option.Init(this, () =>
+             {
+                 mGos[(int)eGO.option].SetActive(false);
+                 _nickPanel.open();
+             });
             _nickPanel.completeChange = () => {
                 setStage(); 
                 refreshCost(); 
@@ -172,7 +177,18 @@ namespace week
 
             refreshCost();
 
+            modify();
             AuthManager.instance.checkNextDay();
+        }
+
+        void modify()
+        {
+            bool result = (BaseManager.userGameData.HasSkin & (1 << (int)SkinKeyList.icecreamman)) > 0;
+            if (result)
+            {
+                BaseManager.userGameData.HasSkin &= ~(1 << (int)SkinKeyList.icecreamman);
+                BaseManager.userGameData.HasSkin |= (1 << (int)SkinKeyList.wildman);
+            }
         }
 
         private void Update()

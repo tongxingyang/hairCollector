@@ -27,14 +27,20 @@ namespace week
             [SerializeField] public ObscuredInt _skin;
             /// <summary> 전체 접속 시간 </summary>
             [SerializeField] public ObscuredInt _wholeAccessTime;
+            /// <summary> 레이더 장착여부 </summary>
+            [SerializeField] public ObscuredBool _isSetRader;
+            /// <summary> 레이더 마지막 대여시간 </summary>
+            [SerializeField] public ObscuredLong _lastRaderTime;
 
-            public property(ObscuredString nic, ObscuredInt[] cur, ObscuredInt hasskin, ObscuredInt skin, ObscuredInt wholeAccessTime)
+            public property(ObscuredString nic, ObscuredInt[] cur, ObscuredInt hasskin, ObscuredInt skin, ObscuredInt wholeAccessTime, ObscuredBool isSetRader, ObscuredLong lastRaderTime)
             {
                 _nickName = nic;
                 _currency = cur;
                 _hasSkin = hasskin;
                 _skin = skin;
                 _wholeAccessTime = wholeAccessTime;
+                _isSetRader = isSetRader;
+                _lastRaderTime = lastRaderTime;
             }
         }
 
@@ -154,7 +160,9 @@ namespace week
                 cur     : new ObscuredInt[3] { 1000, 10, 1 },           // 재화       
                 hasskin : 1,                                    // 보유스킨
                 skin    : 0,                                    // 스킨
-                wholeAccessTime : 0                             // 접속시간
+                wholeAccessTime : 0,                            // 접속시간
+                isSetRader      : false,                        // 레이더 대여 여부
+                lastRaderTime   : 0                             // 레이더 마지막 대여시간
             );
 
             // 스탯

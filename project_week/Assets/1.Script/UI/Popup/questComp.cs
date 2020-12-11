@@ -55,6 +55,7 @@ namespace week
 
         #endregion
 
+        LobbyScene _lobby;
         Action<bool> _exclamation;
         bool[] _getable;
 
@@ -87,8 +88,9 @@ namespace week
             _getable = new bool[5];
         }
 
-        public void Init(Action<bool> exclamation)
+        public void Init(LobbyScene lobby, Action<bool> exclamation)
         {
+            _lobby = lobby;
             _exclamation = exclamation;
 
             refreshCheckQuest();
@@ -131,7 +133,7 @@ namespace week
                     mImgs[(int)eImg.dqr_black + i].color = _transparent;
                     check = true;
                 }
-                else if (day == 2) // 보상 완료
+                else if (day >= 2) // 보상 완료
                 {
                     mTmps[(int)eTmp.reinQstTxt + i].text = "완료";
                     mImgs[(int)eImg.dayQst_Rein + i].color = _transparent;
@@ -194,12 +196,28 @@ namespace week
         {
             if (BaseManager.userGameData.DayQuest[i] == 1)
             {
-                BaseManager.userGameData.DayQuest[i] = 2;
+                BaseManager.userGameData.DayQuest[i] = 2;                
 
                 mTmps[(int)eTmp.reinQstTxt + i].text = "완료";
                 mImgs[(int)eImg.dayQst_Rein + i].raycastTarget = false;
                 mImgs[(int)eImg.dayQst_Rein + i].color = _transparent;
                 mImgs[(int)eImg.dqr_black + i].color = _dayBlack;
+
+                switch (i)
+                {
+                    case 0:
+                        WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.dayQst_Rein + i].transform.position, _lobby.CoinTxt.position, currency.ap, 1);
+                        BaseManager.userGameData.Ap += 1;
+                        break;
+                    case 1:
+                        WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.dayQst_Rein + i].transform.position, _lobby.CoinTxt.position, currency.coin, 1000);
+                        BaseManager.userGameData.Coin += 1000;
+                        break;
+                    case 2:
+                        WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.dayQst_Rein + i].transform.position, _lobby.GemTxt.position, currency.gem, 5);
+                        BaseManager.userGameData.Gem += 5;
+                        break;
+                }
 
                 refreshDayQuest();
 
@@ -236,6 +254,9 @@ namespace week
                         BaseManager.userGameData.ReinRecord -= _Val;
                         break;
                 }
+
+                WindowManager.instance.Win_coinGenerator.getWealth2Point(mImgs[(int)eImg.qstTimeBtn + i].transform.position, _lobby.GemTxt.position, currency.gem, 10);
+                BaseManager.userGameData.Gem += 10;
 
                 refreshQuest(i);
 

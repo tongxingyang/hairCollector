@@ -19,9 +19,9 @@ namespace week
             _fabs = new List<curFabs>();
         }
 
-        public void getWealth2Point(Vector3 pos, Vector3 pos2, currency cur, int count, int posNum = 0, int cnt = 0)
+        public void getWealth2Point(Vector3 start, Vector3 direct, currency cur, int count, int posNum = 0, int cnt = 0)
         {
-            StartCoroutine(getAnimation(pos, pos2, cur, count, posNum, cnt));
+            StartCoroutine(getAnimation(start, direct, cur, count, posNum, cnt));
         }
 
         IEnumerator getAnimation(Vector3 pos, Vector3 pos2, currency cur, int cost, int posNum, int cnt)

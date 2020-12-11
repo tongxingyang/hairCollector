@@ -11,7 +11,9 @@ namespace week
         public string Id;
         public string Where;
         public string Product;
-        public int Amount;
+        public int Coin;
+        public int Gem;
+        public int AP;
 
         public Context(string id, string where)
         {
@@ -19,10 +21,13 @@ namespace week
             Where = where;
         }
 
-        public Context setProduct(string product, int amount)
+        public Context setProduct(string product, int c, int g, int a)
         {
             Product = product;
-            Amount = amount;
+            Coin = c;
+            Gem = g;
+            AP = a;
+
             return this;
         }
     }
@@ -44,11 +49,11 @@ namespace week
         // ====================================
 
         public static readonly ObscuredFloat _firstMopCoin = 1;
-        public static readonly ObscuredFloat _mopCoinIncrease = 1.15f;
-        public static readonly ObscuredFloat _bossCoinIncrease = 1.2f;
+        //public static readonly ObscuredFloat _mopCoinIncrease = 1.15f;
+        //public static readonly ObscuredFloat _bossCoinIncrease = 1.2f;
 
-        public static readonly ObscuredInt _firstRoundCoin = 20;
-        public static readonly ObscuredFloat _stageCoinIncrease = 1.2f;
+        // public static readonly ObscuredInt _firstRoundCoin = 20;
+        //public static readonly ObscuredFloat _stageCoinIncrease = 1.2f;
 
         public static readonly ObscuredInt _tileCut = 4;
         public static float _boxSize { get { return 20f / _tileCut; } }

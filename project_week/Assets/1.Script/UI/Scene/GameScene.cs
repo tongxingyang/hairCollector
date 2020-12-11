@@ -24,7 +24,7 @@ namespace week
         playerSkillManager _skillMng;
         dmgFontManager _dmgfntMng;
         [SerializeField] clockManager _clockMng = null;
-        // [SerializeField] gameCompass _compass = null;
+        [SerializeField] gameCompass _compass = null;
         [Header("Popup")]
         [SerializeField] upgradePopup _upgradePanel;
         [SerializeField] pausePopup _pausePanel;
@@ -85,7 +85,7 @@ namespace week
 
         public float RecordTime { get => _clockMng.RecordTime; }
         public clockManager ClockMng { get => _clockMng; }
-        // public gameCompass Compass { get => _compass; }
+        public gameCompass Compass { get => _compass; }
 
         void test()
         {
@@ -93,6 +93,13 @@ namespace week
         }
         void Start()
         {
+            // 이전 씬 소속 정리
+            if (BaseManager.userGameData.RemoveAd == false)
+            {
+                BaseManager.userGameData.IsSetRader = false;
+            }
+
+            // 새로운 씬 초기화
             //test();
 
             _stagePlay = false;
@@ -255,7 +262,7 @@ namespace week
             if (_gameOver)
                 return;
 
-            float seasonCoin = ((_clockMng.Season == season.fall) ? 1.2f : 1f);
+            float seasonCoin = 1f;// ((_clockMng.Season == season.fall) ? 1.2f : 1f);
             _coin += coin * _player.Coin * seasonCoin;
 
             if (isAni)

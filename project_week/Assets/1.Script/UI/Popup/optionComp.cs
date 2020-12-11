@@ -11,26 +11,31 @@ namespace week
 {
     public class optionComp : MonoBehaviour
     {
-        [Header("테스트")]
-        [SerializeField] LobbyScene _lobby;
         [Header("windows")]
-        [SerializeField] Transform _win;
-        [SerializeField] GameObject _developWin;
-        [SerializeField] Image _offChange;
+        //[SerializeField] Transform _win;
+        //[SerializeField] Image _offChange;
         [Header("volume")]
         [SerializeField] Slider _bgmVol;
         [SerializeField] Slider _sfxVol;
 
-        Action _nickChange;
-        public Action NickChange { set => _nickChange = value; }
+        [Space]
+        LobbyScene _lobby;
+        [SerializeField] couponComp _coupon;
 
-        private void Awake()
+        Action _nickChange;
+
+        public void Init(LobbyScene lobby, Action nickChange)
         {
             _bgmVol.value = SoundManager.instance.masterVolumeBGM;
             _sfxVol.value = SoundManager.instance.masterVolumeSFX;
 
-            _offChange.color = (AuthManager.instance.networkCheck()) ? Color.grey : Color.white;
-            _offChange.raycastTarget = (AuthManager.instance.networkCheck() == false);
+            //_offChange.color = (AuthManager.instance.networkCheck()) ? Color.grey : Color.white;
+            //_offChange.raycastTarget = (AuthManager.instance.networkCheck() == false);
+
+            _lobby = lobby;
+            _nickChange = nickChange;
+
+            _coupon.Init(lobby, close);
         }
 
         #region [ windows ]
@@ -40,16 +45,16 @@ namespace week
         {
             gameObject.SetActive(true);
 
-            _win.localScale = new Vector3(1f, 0f);
-            _win.DOScaleY(1f, 0.3f).SetEase(Ease.OutBounce);
+            //_win.localScale = new Vector3(1f, 0f);
+            //_win.DOScaleY(1f, 0.3f).SetEase(Ease.OutBounce);
         }
 
         /// <summary> 옵션창 닫기 </summary>
         public void close()
         {
-            Debug.Log(BaseManager.option.BgmVol + " // " + _bgmVol.value);
+            //Debug.Log(BaseManager.option.BgmVol + " // " + _bgmVol.value);
             BaseManager.instance.saveOption();
-            _win.localScale = new Vector3(1f, 0f);
+            //_win.localScale = new Vector3(1f, 0f);
 
             gameObject.SetActive(false);
         }
@@ -68,13 +73,8 @@ namespace week
 
         public void openCredit()
         {
-            _developWin.SetActive(true);
-        }
-
-        public void closeCredit()
-        {
-            _developWin.SetActive(false);
-            close();
+            _coupon.gameObject.SetActive(true);
+            // close();
         }
 
         /// <summary> 오프라인 계정 전환 </summary>

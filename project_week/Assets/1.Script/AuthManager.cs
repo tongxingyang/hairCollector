@@ -296,17 +296,23 @@ namespace week
         }
 
         /// <summary> 서버에 데이터 저장(과 동시에 마지막 저장시간 갱신) </summary>
-        public IEnumerator saveDataToFB()
+        public IEnumerator saveDataToFB(bool isFirst = false)
         {
             // 시간 저장
-            yield return StartCoroutine(checkNextDay());
+            yield return StartCoroutine(checkNextDay(isFirst));
 
             // 데이터 저장
             bool complete = false;
             
             string json = BaseManager.userGameData.getUserData();
 
-            reference.Child("User").Child(_uid).SetRawJsonValueAsync(json).ContinueWith(task => {
+            reference.Child("User").Child(_uid).SetRawJsonValueAsync(json).ContinueWith(task => 
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    Debug.Log(task.Exception);
+                }
+                
                 complete = true;
             });
 
@@ -611,7 +617,7 @@ namespace week
             yield return new WaitUntil(() => complete == 1);
 
             // 서버에도 저장
-            reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").SetValueAsync(BaseManager.userGameData.LastSave).ContinueWith(task =>
+            reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").SetValueAsync((long)BaseManager.userGameData.LastSave).ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -625,10 +631,15 @@ namespace week
 
         }
 
-        /// <summary> 서버 마지막 저장시간-지금 시간 비교(저장/로드없고 오로지 비교) 
+        /// <summary> 서버 마지막 저장시간-지금 시간 비교(저장/로드없고 오로지 비교 = 내일판별용) 
         /// - 로비에서만 (1. 모든 시간 저장시, 2. 일정시간마다) </summary>
-        public IEnumerator checkNextDay()
+        public IEnumerator checkNextDay(bool isFirst = false)
         {
+            if (isFirst)
+            {
+                yield break;
+            }
+
             BaseManager.userGameData.TimeCheck = 0;
             BaseManager.userGameData.WholeAccessTime += BaseManager.instance.PlayTimeMng.TimeStack;
 

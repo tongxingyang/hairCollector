@@ -40,6 +40,7 @@ namespace week
                     {
                         long t = long.Parse((string)dictionary["server_timestamp"]) * 1000;
                         BaseManager.userGameData.LastSave = t;
+                        BaseManager.instance.PlayTimeMng.setStoreCheck(BaseManager.userGameData.LastSave);
                         
                         getTimeAction?.Invoke();
                         // DateTime lastDate = gameValues.epoch.AddMilliseconds(t);
@@ -216,7 +217,7 @@ namespace week
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("PostboxItemSend : Success");
-                    Debug.Log("PostboxItemSend : " + rawData);
+                    // Debug.Log("PostboxItemSend : " + rawData);
                 }
                 else
                 {
@@ -271,6 +272,28 @@ namespace week
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("Success");
+                }
+                else
+                {
+                    Debug.Log("Fail");
+                }
+            });
+        }
+
+        #endregion
+
+        #region [ Nanoo coupon ]
+
+        public void Coupon(string couponkey, Action<Dictionary<string, object>> getPresent)
+        {
+            plugin.Coupon(couponkey, (state, message, rawData, dictionary) =>
+            {
+                if (state.Equals(Configure.PN_API_STATE_SUCCESS))
+                {
+                    //Debug.Log(dictionary["code"]);
+                    //Debug.Log(dictionary["item_code"]);
+                    //Debug.Log(dictionary["item_count"]);
+                    getPresent?.Invoke(dictionary);
                 }
                 else
                 {

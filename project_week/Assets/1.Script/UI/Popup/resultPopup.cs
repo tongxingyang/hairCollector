@@ -89,12 +89,7 @@ namespace week
             if (_isNewRecord)
             {
                 BaseManager.userGameData.setNewRecord(Convert.ToInt32(time));
-                Debug.Log(BaseManager.userGameData._minRank +" < "+ Convert.ToInt32(time));
-                if (BaseManager.userGameData._minRank < Convert.ToInt32(time))
-                {
-                    //AuthManager.instance.saveRankDataFromFB();
-                    NanooManager.instance.setRankingRecord();
-                }
+                NanooManager.instance.setRankingRecord();
                 StartCoroutine(newRecord());
             }
 
@@ -104,9 +99,11 @@ namespace week
                 BaseManager.userGameData.DayQuestSkin = 1;
             }
 
+            Debug.Log(_preCalCoin);
             BaseManager.userGameData.WholeTimeRecord += Convert.ToInt32(time);
             preRewardCalculator();
 
+            Debug.Log(_preCalCoin);
             //=================[ 창 열기 ]==============================================
 
             botRect.DOAnchorPosY(-175f, 1f);
@@ -198,15 +195,14 @@ namespace week
                     _preCalCoin *= gameValues._mulCoinVal[(int)i].x;
                     _preCalGem  *= gameValues._mulCoinVal[(int)i].y;
                     _preCalAp   *= gameValues._mulCoinVal[(int)i].z;
-                }
-            }
 
-            // 광고 제거
-            if (BaseManager.userGameData.RemoveAd)
-            {
-                _preCalCoin *= 2f;
-                _preCalGem *= 2f;
-                _preCalAp *= 2f;
+                    if (i == mulCoinChkList.removeAD)
+                    {
+                        BaseManager.userGameData.AdRecord++;
+                        if (BaseManager.userGameData.DayQuestAd == 0)
+                            BaseManager.userGameData.DayQuestAd = 1;
+                    }
+                }
             }
 
             BaseManager.userGameData.Coin += (int)_preCalCoin;
@@ -287,11 +283,11 @@ namespace week
             }
 
             AdManager.instance.adReward = () =>
-            {
-                doubleReward();
+            {                
                 BaseManager.userGameData.AdRecord++;
                 if (BaseManager.userGameData.DayQuestAd == 0)
                     BaseManager.userGameData.DayQuestAd = 1;
+                doubleReward();
             };
             AdManager.instance.UserChoseToWatchAd();
 #endif

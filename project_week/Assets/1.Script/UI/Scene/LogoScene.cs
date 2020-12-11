@@ -219,7 +219,8 @@ namespace week
                     _load.text = "뉴비 체크완료";
 
                     BaseManager.userGameData = new UserGameData(); // 만들고
-                    AuthManager.instance.SaveDataServer(); // 기기, 서버 저장
+                    // AuthManager.instance.SaveDataServer(); // 기기, 서버 저장
+                    yield return StartCoroutine(AuthManager.instance.saveDataToFB(true));
                 }
             }
             else // 인터넷 연결해제

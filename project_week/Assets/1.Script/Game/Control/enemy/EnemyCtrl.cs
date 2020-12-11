@@ -43,7 +43,8 @@ namespace week
         {
             if (ignoreDef == false)
             {
-                val = (val - _finalStt[(int)snowStt.def] > 0) ? val - _finalStt[(int)snowStt.def] : 0;
+                val = val * (100f - _finalStt[(int)snowStt.def]) * 0.01f;
+                // val = (val - _finalStt[(int)snowStt.def] > 0) ? val - _finalStt[(int)snowStt.def] : 0;
             }
 
             dmgFunc(transform, (int)val, dmgTxtType.standard, false);

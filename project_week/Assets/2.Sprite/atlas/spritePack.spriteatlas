@@ -49,10 +49,11 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 578e513cc70e5f24e9c25b943c105710, type: 3}
     - {fileID: 102900000, guid: 4f489253b1c3a37408a270925b8bd3b7, type: 3}
     - {fileID: 102900000, guid: ffee5b2594a591642a555b7802b3ced1, type: 3}
-    totalSpriteSurfaceArea: 20526163
+    totalSpriteSurfaceArea: 20677187
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: b142b510e746a8344bd60d07fa9acd2a, type: 3}
   - {fileID: 21300000, guid: a2d6f920116a9294bbe08a8c27b4a94d, type: 3}
   - {fileID: 1189004379651066615, guid: 0475e330770a26347a1457a76ff344d7, type: 3}
   - {fileID: 6967888815243710695, guid: 0475e330770a26347a1457a76ff344d7, type: 3}
@@ -309,6 +310,7 @@ SpriteAtlas:
   - {fileID: 5353841184698615464, guid: 832c6bbda45ddb4458a6f930e50dbd4d, type: 3}
   - {fileID: -3915765450054648673, guid: 832c6bbda45ddb4458a6f930e50dbd4d, type: 3}
   - {fileID: -8127487528002223245, guid: 832c6bbda45ddb4458a6f930e50dbd4d, type: 3}
+  - {fileID: 21300000, guid: 19966ebd25449af49ad1e7acd4c2e2d4, type: 3}
   - {fileID: 21300000, guid: 30298acd512bfc44a84c78ba1c89ae32, type: 3}
   - {fileID: 21300000, guid: c1ea43ddb02634743bd49f8450cbed5f, type: 3}
   - {fileID: 5609880128603421608, guid: 547b8cddd72ab3e4e8afc366307d769c, type: 3}
@@ -344,6 +346,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: be3369df64a34144c98391eb6d616f30, type: 3}
   - {fileID: 21300000, guid: 00394fdf10d08c54d851c6a8f00462c6, type: 3}
   m_PackedSpriteNamesToIndex:
+  - dot
   - leef
   - flowermine_2
   - flowermine_3
@@ -600,6 +603,7 @@ SpriteAtlas:
   - fireball_0
   - fireball_3
   - fireball_2
+  - tag
   - raderweb
   - h1
   - crack_2

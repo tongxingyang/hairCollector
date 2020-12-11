@@ -33,7 +33,7 @@ namespace week
 
     #region [ nanoo ]
 
-    public enum nanooPost { gem, coin, ap, skin }
+    public enum nanooPost { coin, gem, ap, skin, pack }
     public enum nanooPostMsg { key, message }
 
     #endregion
@@ -95,7 +95,8 @@ namespace week
         addition,
         additrate,
         cost,
-        costTerm
+        costTerm,
+        max
     }
 
     /// <summary> 스킬 리스트 </summary>
@@ -458,7 +459,7 @@ namespace week
 
     #region 유저 데이터
 
-    public enum snowStt { maxHp, att, def, hpgen, cool, exp, size, heal, speed, max }
+    public enum snowStt { maxHp, att, def, hpgen, cool, exp, coin, size, heal, speed, max }
     public enum eBuff { att, def, hpgen, cool, exp, size, heal, speed, coin, snowball, max }
     public enum dayQuest { rein, skin, ad }
 

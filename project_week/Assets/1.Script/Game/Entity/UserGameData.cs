@@ -24,9 +24,7 @@ namespace week
         
         /// <summary> 저장되는 정보 </summary>
         UserEntity _userEntity;
-
-        /// <summary> 랭킹최저점 </summary>
-        public ObscuredFloat _minRank { get; set; }
+        
         /// <summary> 가장 최근 랭킹 최신화 시간 </summary>
         public DateTime _rankRefreshTime { get; set; }
 
@@ -37,6 +35,10 @@ namespace week
 
         /// <summary> 타임스탬프 간격 </summary>
         public float TimeCheck { get; set; }
+
+        /// <summary> 레이더 대여 가능? </summary>
+        public bool RaderRentalable { get; set; }
+
         #region -------------------------[skin value]-------------------------
 
         /// <summary> 상시적용 스킨 능력치 </summary>
@@ -86,6 +88,10 @@ namespace week
         // - 스킨
         public ObscuredInt HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
         public SkinKeyList Skin { get => (SkinKeyList)((int)_userEntity._property._skin); set => _userEntity._property._skin = (int)value; }
+        
+        // - 템
+        public ObscuredBool IsSetRader { get => _userEntity._property._isSetRader; set => _userEntity._property._isSetRader = value; }
+        public ObscuredLong LastRaderTime { get => _userEntity._property._lastRaderTime; set => _userEntity._property._lastRaderTime = value; }
 
         // 기록 ==============================================================
         public ObscuredInt TimeRecord { get => _userEntity._record._timeRecord; }
@@ -139,7 +145,7 @@ namespace week
                 
 
         // 유틸 ==============================================================
-        public long LastSave { get => _userEntity._util._lastSave;
+        public ObscuredLong LastSave { get => _userEntity._util._lastSave;
             set
             {
                 if (AuthManager.instance.networkCheck()) 
@@ -184,11 +190,6 @@ namespace week
             _userEntity = new UserEntity();
             applyLevel();
 
-            //_skinBval = new bool[(int)skinBvalue.max];
-            //_skinFval = new ObscuredFloat[(int)skinFvalue.max];
-            //_skinIval = new ObscuredInt[(int)skinIvalue.max];
-            //_ballType = snowballType.standard;
-
             applySkin();
         }
 
@@ -202,14 +203,18 @@ namespace week
             o_Hp            = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hp.ToString())
                                         + (getAddit(StatusData.hp) * StatusLevel[(int)StatusData.hp]);
             o_Att           = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.att.ToString())
-                                        + (getAddit(StatusData.att) * StatusLevel[(int)StatusData.att]);
-            o_Def           = getAddit(StatusData.def) * StatusLevel[(int)StatusData.def];
-            o_Hpgen         = getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen];
-
-            o_Cool          = Mathf.Pow(getAddit(StatusData.cool), StatusLevel[(int)StatusData.cool]);
-            o_ExpFactor     = Mathf.Pow(getAddit(StatusData.exp), StatusLevel[(int)StatusData.exp]);
-            o_CoinFactor    = Mathf.Pow(getAddit(StatusData.coin), StatusLevel[(int)StatusData.coin]);
-            SkinEnhance     = getAddit(StatusData.skin) * StatusLevel[(int)StatusData.skin];
+                                + (getAddit(StatusData.att) * StatusLevel[(int)StatusData.att]);
+            o_Def           = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.def.ToString())
+                                + (getAddit(StatusData.def) * StatusLevel[(int)StatusData.def]);
+            o_Hpgen         = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hpgen.ToString())
+                                + (getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen]);
+            o_Cool          = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.cool.ToString())
+                                + (getAddit(StatusData.cool) * StatusLevel[(int)StatusData.cool]);
+            o_ExpFactor     = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.exp.ToString())
+                                + (getAddit(StatusData.exp) * StatusLevel[(int)StatusData.exp]);
+            o_CoinFactor    = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.coin.ToString())
+                                + (getAddit(StatusData.coin) * StatusLevel[(int)StatusData.coin]);
+            SkinEnhance     = StatusLevel[(int)StatusData.skin];
         }
 
         public ObscuredFloat getAddit(StatusData type)
@@ -239,22 +244,27 @@ namespace week
                                         + (getAddit(StatusData.att) * StatusLevel[(int)StatusData.att]);
                     break;
                 case StatusData.def:
-                    o_Def = getAddit(StatusData.def) * StatusLevel[(int)StatusData.def];
+                    o_Def = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.def.ToString())
+                                        + (getAddit(StatusData.def) * StatusLevel[(int)StatusData.def]);
                     break;
                 case StatusData.hpgen:
-                    o_Hpgen = getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen];
+                    o_Hpgen = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hpgen.ToString())
+                                        + (getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen]);
                     break;
                 case StatusData.cool:
-                    o_Cool = Mathf.Pow(getAddit(StatusData.cool), StatusLevel[(int)StatusData.cool]);
+                    o_Cool = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.cool.ToString())
+                                        + (getAddit(StatusData.cool) * StatusLevel[(int)StatusData.cool]);
                     break;
                 case StatusData.exp:
-                    o_ExpFactor = Mathf.Pow(getAddit(StatusData.exp), StatusLevel[(int)StatusData.exp]);
+                    o_ExpFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.exp.ToString())
+                                        + (getAddit(StatusData.exp) * StatusLevel[(int)StatusData.exp]);
                     break;
                 case StatusData.coin:
-                    o_CoinFactor = Mathf.Pow(getAddit(StatusData.coin), StatusLevel[(int)StatusData.coin]);
+                    o_CoinFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.coin.ToString())
+                                        + (getAddit(StatusData.coin) * StatusLevel[(int)StatusData.coin]);
                     break;
                 case StatusData.skin:
-                    SkinEnhance = getAddit(StatusData.skin) * StatusLevel[(int)StatusData.skin];
+                    SkinEnhance = StatusLevel[(int)StatusData.skin];
                     break;
             }
         }
@@ -268,8 +278,6 @@ namespace week
             string ss = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.season.ToString());
 
             ObscuredInt j;
-            ObscuredFloat chk;
-            ObscuredFloat add = 0;
 
             _skinBval = new bool[(int)skinBvalue.max];
             _skinFval = new ObscuredFloat[(int)skinFvalue.max];
@@ -280,18 +288,13 @@ namespace week
             for (defaultStat i = defaultStat.hp; i < defaultStat.max; i++)
             {
                 j = (int)i;
-                chk = DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.d_hp + j).ToString());
-                _addStats[(int)i] = chk;
 
-                if (chk == 1)
-                    continue;
+                _addStats[(int)i] = DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.d_hp + j).ToString()) * 0.01f;
 
                 if (i < defaultStat.speed)
                 {
-                    add = _userEntity._status._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.ex_hp + j).ToString());
+                    _addStats[(int)i] += DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.ex_hp + j).ToString()) * 0.01f * SkinEnhance;
                 }
-
-                _addStats[(int)i] += add;
             }
 
             if (ss.Equals("n") == false)
@@ -366,14 +369,13 @@ namespace week
                     str = $"지뢰 개수 +{_skinIval[(int)skinIvalue.mine]}" + System.Environment.NewLine + $"지뢰 공격력 {_skinFval[(int)skinFvalue.mine]}% 증가";
                     break;
                 case SkinKeyList.robotman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.def] * 100) - 100;
-                    str = "늪지 무효" + System.Environment.NewLine + $"방어력 {statVal}% 증가";
+                    str = "늪지 무효" + System.Environment.NewLine + string.Format("추가 방어 {0:0.00}% ", _addStats[(int)defaultStat.def] * 100f);
                     break;
                 case SkinKeyList.icecreamman:
                     str = "눈덩이가 빙결 적용" + System.Environment.NewLine + $"블리자드, 아이스에이지 발동시 체력 {_skinFval[(int)skinFvalue.iceHeal]}% 회복";
                     break;
                 case SkinKeyList.goldenarmorman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.def] * 100) - 100;
+                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.def]);
                     str = $"30초에 한번씩 {_skinFval[(int)skinFvalue.invincible]}초간 무적" + System.Environment.NewLine + $"방어력 {statVal}% 증가";
                     break;
                 case SkinKeyList.angelman:
@@ -393,7 +395,7 @@ namespace week
                 case SkinKeyList.heroman:
                     ObscuredInt[] stt = new ObscuredInt[3] { Convert.ToInt32(_addStats[(int)defaultStat.hp] * 100) - 100,
                         Convert.ToInt32(_addStats[(int)defaultStat.att] * 100) - 100, 
-                        Convert.ToInt32(_addStats[(int)defaultStat.def] * 100) - 100 };
+                        Convert.ToInt32(_addStats[(int)defaultStat.def])};
 
                     str = "용사의 검을 찾으면 일시적으로 공격력/방어력이 2배가 된다."
                         + System.Environment.NewLine + $"체력 {stt[0]}% 증가/공격력 {stt[1]}% 증가/방어력 {stt[2]}% 증가";

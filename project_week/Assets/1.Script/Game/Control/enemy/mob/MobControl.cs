@@ -43,6 +43,7 @@ namespace week
         public float PlayerDist { get; set; }
 
         public Mob getType { get { return _enemy; } }
+        float _def;
 
         protected Action killFunc;
 
@@ -76,7 +77,14 @@ namespace week
             
             _patt       = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.patt.ToString());            
             _calSpeed   = _standardStt[(int)snowStt.speed];
-            _pspeed     = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString()); 
+            _pspeed     = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString());
+            
+            if (getType == Mob.mob_fire || (int)getType % 3 == 1)
+                _def = 0.5f;
+            else if ((int)getType % 3 == 2)
+                _def = 1f;
+            else if ((int)getType % 3 == 0)
+                _def = 2f;
 
             otherWhenFixInit();
 
@@ -88,9 +96,12 @@ namespace week
             preInit(); 
             
             _finalStt = new float[(int)snowStt.max];
-            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(1.2f, _clMng.Day);
-            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(1.2f, _clMng.Day);
-            _finalStt[(int)snowStt.def] = _standardStt[(int)snowStt.def] * Mathf.Pow(1.1f, _clMng.Day);
+            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(1.23f, _clMng.Day);
+            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(1.23f, _clMng.Day);
+            _finalStt[(int)snowStt.def] = _standardStt[(int)snowStt.def] + (_def * _clMng.Day);
+            if (_finalStt[(int)snowStt.def] > 80f)
+                _finalStt[(int)snowStt.def] = 80f;
+
             _finalStt[(int)snowStt.speed] = _standardStt[(int)snowStt.speed];
 
             //Debug.Log(gameObject.name + " : " + _finalStt[(int)snowStt.maxHp] + "," + _finalStt[(int)snowStt.att] + "," + _finalStt[(int)snowStt.def]);

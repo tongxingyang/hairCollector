@@ -84,8 +84,13 @@ namespace week
         /// <summary> 수령 요청 </summary>
         public void requestAllPost()
         {
+            StartCoroutine(requestAllPostRoutine());
+        }
+
+        IEnumerator requestAllPostRoutine()
+        {
             ArrayList array = new ArrayList();
-            for(int i = 0; i < _boxies.Count;i++)
+            for (int i = 0; i < _boxies.Count; i++)
             {
                 if (_boxies[i].IsUsed)
                 {
@@ -96,41 +101,32 @@ namespace week
             if (array.Count == 0)
             {
                 WindowManager.instance.Win_message.showMessage("남은 택배가 없어요!");
-                return;
+                yield break;
             }
 
+            bool complete = false;
             NanooManager.instance.PostboxMultiItemUse(array, (dictionary) =>
             {
                 ArrayList useItems = (ArrayList)dictionary["item"];
-                nanooPost post;
-                int mount;
+                // nanooPost post;
 
-                int gem = 0, coin = 0, ap = 0;
-                foreach (Dictionary<string, object> item in useItems)
-                {
-                    
-                    post = EnumHelper.StringToEnum<nanooPost>((string)item["item_code"]);
-                    mount = int.Parse((string)item["item_count"]);
+                int coin = 0, gem = 0, ap = 0;
+                //foreach (Dictionary<string, object> item in useItems)
+                //{
+                //    // post = EnumHelper.StringToEnum<nanooPost>((string)item["item_code"]);
 
-                    switch (post)
-                    {
-                        case nanooPost.gem:
-                            gem += mount;
-                            break;
-                        case nanooPost.coin:
-                            coin += mount;
-                            break;
-                        case nanooPost.ap:
-                            ap += mount;
-                            break;
-                        case nanooPost.skin:
-                            bool result = (BaseManager.userGameData.HasSkin & (1 << mount)) > 0;
-                            if (result == false)
-                            {
-                                BaseManager.userGameData.HasSkin |= (1 << mount);
-                            }
-                            break;
-                    }
+                //    string[] postmsg = item["message"].ToString().Split('/');
+
+                //    coin += int.Parse(postmsg[2]);
+                //    gem += int.Parse(postmsg[3]);
+                //    ap += int.Parse(postmsg[4]);
+                //}
+
+                for (int i = 0; i < _boxies.Count; i++)
+                {                    
+                    coin += int.Parse(_boxies[i].Postmsg[2]);
+                    gem += int.Parse(_boxies[i].Postmsg[3]);
+                    ap += int.Parse(_boxies[i].Postmsg[4]);
                 }
 
                 if (gem > 0)
@@ -155,7 +151,13 @@ namespace week
                 {
                     _boxies[i].clear();
                 }
+
+                complete = true;
             });
+
+            yield return new WaitUntil(() => complete == true);
+
+            AuthManager.instance.SaveDataServer();
         }
 
         public void close()

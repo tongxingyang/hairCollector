@@ -46,6 +46,13 @@ namespace week
             return this;
         }
 
+        public purchasePopup couponNotice()
+        {
+            _title.text = "선 물";
+            _notice.text = "※감사합니다!";
+            return this;
+        }
+
         public void setImgSize(bool isBig=true)
         {
             if (isBig)

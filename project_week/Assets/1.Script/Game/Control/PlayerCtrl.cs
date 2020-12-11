@@ -51,18 +51,23 @@ namespace week
         float[] _buffStt;
         float[] _seasonStt;
 
-        float _hp;
+        
+        /// <summary> 
+        /// 현재 - 계절,버프등 일시적으로 증가하거나 감소하는 효과는 없음
+        /// max체력은 확정 증가만 있음 - (계절,버프 적용시 추가작업 필요)
+        /// </summary>
         public float MaxHp 
-        { 
-            get
-            { 
-                return _standardStt[(int)snowStt.maxHp]; 
-            }
-            set 
-            {
-                _standardStt[(int)snowStt.maxHp] = value;
-            }
+        {
+            get { return _standardStt[(int)snowStt.maxHp]; }
+            set { _standardStt[(int)snowStt.maxHp] = value; }
         }
+        float _hp;
+        float Hp 
+        {
+            get { return _hp; }
+            set { _hp = value; chkWild(); }
+        }
+
         float Att 
         {
             get
@@ -98,18 +103,20 @@ namespace week
         }
 
         float _genTime;
-        float _hpgenTimer = 0;
+        float HpgenTimer = 0;
         float Hpgen
         {
             get
             {
-                float calHpgen = _standardStt[(int)snowStt.hpgen] * _skillStt[(int)snowStt.hpgen] * _buffStt[(int)eBuff.hpgen];
+                float calHpgen = _standardStt[(int)snowStt.hpgen] + _skillStt[(int)snowStt.hpgen] + _buffStt[(int)eBuff.hpgen];                
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
-                    return calHpgen * _seasonStt[(int)snowStt.hpgen];
+                    return calHpgen + _seasonStt[(int)snowStt.hpgen];
                 }
 
+                float getHp = MaxHp * calHpgen + BaseManager.userGameData.o_Hpgen;
+                
                 return calHpgen;
             }
         }
@@ -120,7 +127,7 @@ namespace week
             get
             {
                 float calCool = _standardStt[(int)snowStt.cool] * _skillStt[(int)snowStt.cool] * _buffStt[(int)eBuff.cool];
-
+                //Debug.Log(_standardStt[(int)snowStt.cool] + "*" + _skillStt[(int)snowStt.cool] + "*" + _buffStt[(int)eBuff.cool]);
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
                     return calCool * _seasonStt[(int)snowStt.cool];
@@ -195,7 +202,13 @@ namespace week
         {
             get 
             {
-                float calCoin = 1f * _buffStt[(int)eBuff.coin];
+                float calCoin = _standardStt[(int)snowStt.coin] * _buffStt[(int)eBuff.coin];
+                
+                if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
+                {
+                    return calCoin * _seasonStt[(int)snowStt.coin];
+                }
+
                 return calCoin;
             }
         }
@@ -281,6 +294,7 @@ namespace week
 
         public void Init(GameScene gs)
         {
+            // 클래스 참조
             _gs = gs;
             _enm = _gs.EnemyMng;
             _psm = _gs.SkillMng;
@@ -288,10 +302,12 @@ namespace week
             _efm = _gs.EfMng;
             // _compass = _gs.Compass;
 
+            // [게임] 체크 변수 초기화
             _isDie = false;
             _isAlmighty = false;
             _rebirth_bonus = true;
 
+            // 능력치
             _abils = new Dictionary<SkillKeyList, ability>();
             _skills = new Dictionary<SkillKeyList, skill>();
             _equips = new Dictionary<SkillKeyList, skill>();
@@ -330,14 +346,6 @@ namespace week
             _pet.Init(_gs, () => { _skills[SkillKeyList.snowball].att *= 2; });
             
             getSkill(SkillKeyList.snowball);
-            {
-                getSkill(SkillKeyList.hail);
-                getSkill(SkillKeyList.halficicle);
-                getSkill(SkillKeyList.halficicle);
-
-                getSkill(SkillKeyList.blackhole);
-                getSkill(SkillKeyList.thunder);
-            }
 
             if (BaseManager.userGameData.SkinBval[(int)skinBvalue.mine])
             {
@@ -360,50 +368,40 @@ namespace week
             }
         }
 
+        /// <summary> 최초의 능력치 </summary>
         void getOriginStatus()
         {
-            int len = (int)snowStt.max;
+            // hpgen[3]은 합연산이라 초기값 0
+            _standardStt    = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f };
+            _skillStt       = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f };
+            _seasonStt      = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f };
+            // hpgen[2]은 합연산이라 초기값 0
+            _buffStt = new float[] { 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
 
-            _standardStt    = new float[len];
-            _skillStt       = new float[len];
-            _seasonStt      = new float[len];                        
-            for (int i = 0; i < len; i++)
-            {
-                _standardStt[i] = 1f;
-                _skillStt[i] = 1f;
-                _seasonStt[i] = 1f;
-            }
-
-            len = (int)eBuff.max;
-            _buffStt = new float[len];
-            for (int i = 0; i < len; i++)
-            {
-                _buffStt[i] = 1f;
-            }
-
+            // _standardStt : (def, cool)은 감소형태로 (1 - value) 계산
             if (BaseManager.userGameData.ApplySeason == null)
             {
-                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0];
-                _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1];
-                _standardStt[(int)snowStt.def] = BaseManager.userGameData.o_Def * BaseManager.userGameData.AddStats[2];
-                _standardStt[(int)snowStt.hpgen] = BaseManager.userGameData.o_Hpgen * BaseManager.userGameData.AddStats[3];
-                _standardStt[(int)snowStt.cool] = BaseManager.userGameData.o_Cool * BaseManager.userGameData.AddStats[4];
-                _standardStt[(int)snowStt.exp] = BaseManager.userGameData.o_ExpFactor * BaseManager.userGameData.AddStats[5];
+                Hp = _standardStt[(int)snowStt.maxHp]  = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0];                 // 체력 곱
+                _standardStt[(int)snowStt.att]          = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1];                // 공격 곱
+                _standardStt[(int)snowStt.def]          = (1f - BaseManager.userGameData.o_Def) * (1f - BaseManager.userGameData.AddStats[2]);  // 방어 (1 - 곱)
+                _standardStt[(int)snowStt.hpgen]        = BaseManager.userGameData.AddStats[3];              // 체젠 합
+                _standardStt[(int)snowStt.cool]         = (1f - BaseManager.userGameData.o_Cool) * (1f - BaseManager.userGameData.AddStats[4]); // 쿨탐 (1 - 곱)
+                _standardStt[(int)snowStt.exp]          = BaseManager.userGameData.o_ExpFactor * BaseManager.userGameData.AddStats[5];          // 경치 곱
             }
             else
             {
-                _hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp;
-                _standardStt[(int)snowStt.att]      = BaseManager.userGameData.o_Att;
-                _standardStt[(int)snowStt.def]      = BaseManager.userGameData.o_Def;
-                _standardStt[(int)snowStt.hpgen]    = BaseManager.userGameData.o_Hpgen;
-                _standardStt[(int)snowStt.cool]     = BaseManager.userGameData.o_Cool;
-                _standardStt[(int)snowStt.exp]      = BaseManager.userGameData.o_ExpFactor;
+                Hp = _standardStt[(int)snowStt.maxHp]  = BaseManager.userGameData.o_Hp;
+                _standardStt[(int)snowStt.att]          = BaseManager.userGameData.o_Att;
+                _standardStt[(int)snowStt.hpgen]        = 0f;
+                _standardStt[(int)snowStt.exp]          = BaseManager.userGameData.o_ExpFactor;
+                _standardStt[(int)snowStt.def]          = (1f - BaseManager.userGameData.o_Def);
+                _standardStt[(int)snowStt.cool]         = (1f - BaseManager.userGameData.o_Cool);
 
-                _seasonStt[(int)snowStt.att]      = BaseManager.userGameData.AddStats[1];
-                _seasonStt[(int)snowStt.def]      = BaseManager.userGameData.AddStats[2];
-                _seasonStt[(int)snowStt.hpgen]    = BaseManager.userGameData.AddStats[3];
-                _seasonStt[(int)snowStt.cool]     = BaseManager.userGameData.AddStats[4];
-                _seasonStt[(int)snowStt.exp]      = BaseManager.userGameData.AddStats[5];
+                _seasonStt[(int)snowStt.att]            = BaseManager.userGameData.AddStats[1];
+                _seasonStt[(int)snowStt.hpgen]          = BaseManager.userGameData.AddStats[3];
+                _seasonStt[(int)snowStt.exp]            = BaseManager.userGameData.AddStats[5];
+                _seasonStt[(int)snowStt.def]            = (1f - BaseManager.userGameData.AddStats[2]);
+                _seasonStt[(int)snowStt.cool]           = (1f - BaseManager.userGameData.AddStats[4]);
             }
 
             _spine.skeleton.SetSkin(BaseManager.userGameData.Skin.ToString());
@@ -424,17 +422,33 @@ namespace week
             _iceHealMount = BaseManager.userGameData.SkinFval[(int)skinFvalue.iceHeal] * 0.01f;
         }
 
+        /// <summary> 모험 스탯강화 적용 </summary>
         void abilityApply(SkillKeyList type)
         {
             if (type < SkillKeyList.snowball)
             {
-                if (type == SkillKeyList.hp)
+                switch (type)
                 {
-                    _standardStt[(int)snowStt.maxHp] *= _abils[type].val;
-                }
-                else
-                {
-                    _skillStt[(int)type] *= _abils[type].val;
+                    case SkillKeyList.hp: // 체력 곱
+                        _standardStt[(int)snowStt.maxHp] *= (_abils[type].val * 0.01f);
+                        Hp *= (_abils[type].val * 0.01f);
+                        break;
+                    case SkillKeyList.att:          // 공격 곱
+                    case SkillKeyList.healmount:    // 힐증가량 곱
+                    case SkillKeyList.size:         // 크기 곱
+                    case SkillKeyList.spd:          // 속도 곱
+                    case SkillKeyList.exp:          // 경치 곱
+                        _skillStt[(int)type] *= (_abils[type].val * 0.01f);
+                        break;
+                    case SkillKeyList.def:          // 방어 뺌 (1 - 값/100)
+                        _skillStt[(int)type] -= (_abils[type].val * 0.01f);
+                        break;
+                    case SkillKeyList.hpgen:        // 체젠 합 (값/100)
+                    case SkillKeyList.cool:         // 쿨탐 합
+                        _skillStt[(int)type] += _abils[type].val * 0.01f;                        
+                        break;
+                    default:
+                        break;
                 }
             }
             else
@@ -757,11 +771,12 @@ namespace week
             _chkInvincTime = 0;
         }
 
+        /// <summary> 야수스킨 효과 체크 </summary>
         void chkWild()
         {
             if (_hasWild)
             {
-                _wildAtt = (MaxHp - _hp) * MaxHp * 0.01f * _wildMount;
+                _wildAtt = (MaxHp - Hp) * MaxHp * 0.01f * _wildMount;
                 _wildAtt = (_wildAtt > 0) ? 1f + _wildAtt : 1f;
             }
         }
@@ -770,6 +785,7 @@ namespace week
 
         #region 
 
+        /// <summary> 체력재생 /초 </summary>
         void hpgen(float time)
         {
             _genTime += time;
@@ -777,15 +793,13 @@ namespace week
             {
                 _genTime = 0f;
 
-                _hp += MaxHp * Hpgen * HealMount;
-                if (_hp > MaxHp)
+                Hp += Hpgen * HealMount;
+                if (Hp > MaxHp)
                 {
-                    _hp = MaxHp;
+                    Hp = MaxHp;
                 }
 
-                chkWild();
-
-                _hpbar.localScale = new Vector2(_hp / MaxHp, 1f);
+                _hpbar.localScale = new Vector2(Hp / MaxHp, 1f);
             }
         }
 
@@ -914,16 +928,15 @@ namespace week
         public void getHealed(float heal)
         {
             heal = heal * HealMount;
-            _hp += heal;
+            Hp += heal;
 
-            if (_hp > MaxHp)
+            if (Hp > MaxHp)
             {
-                _hp = MaxHp;
+                Hp = MaxHp;
             }
             _dmgFont.getText(transform, heal, dmgTxtType.heal, true);
 
-            chkWild();
-            _hpbar.localScale = new Vector2(_hp / MaxHp, 1f);
+            _hpbar.localScale = new Vector2(Hp / MaxHp, 1f);
         }
 
         public void getDamaged(float dmg, bool ignoreDef = false)
@@ -941,40 +954,32 @@ namespace week
 
             damagedAni(); // 데미지 모션
 
-            if (dmg > Def || ignoreDef) // 데미지>방어력 or 방어력무시
+            // 데미지 무시 = false
+            if (ignoreDef == false)
             {
-                if (ignoreDef == false)
-                {
-                    dmg -= Def;
-                }
-
-                _dmgFont.getText(transform, dmg, dmgTxtType.standard, true); // 데미지 폰트
-
-                if (ignoreDef == false) // 방무 아닐때만 이펙트
-                {
-                    _efm.makeEff(effAni.playerhit, transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 0.5f));
-                }
-
-                _hp -= dmg;
-
-                if (_hp <= 0) // 뒤짐
-                {
-                    StartCoroutine(playerDie());
-                }
-
-                chkWild();
-
-                _hpbar.localScale = new Vector2(_hp / MaxHp, 1f);
+                dmg *= (100 - Def) * 0.01f;
             }
-            else
+
+            _dmgFont.getText(transform, dmg, dmgTxtType.standard, true); // 데미지 폰트
+
+            if (ignoreDef == false) // 방무 아닐때만 이펙트
             {
-                return;
+                _efm.makeEff(effAni.playerhit, transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 0.5f));
             }
+
+            Hp -= dmg;
+
+            if (Hp <= 0) // 뒤짐
+            {
+                StartCoroutine(playerDie());
+            }
+
+            _hpbar.localScale = new Vector2(Hp / MaxHp, 1f);
         }
 
         IEnumerator playerDie()
         {
-            _hp = 0;
+            Hp = 0;
             _isDie = true;
             _spine.gameObject.SetActive(false); // 눈사람끄고
             // 이펙트~            
@@ -992,22 +997,31 @@ namespace week
 
                     _rebirth_skin = false;
 
-                    _hp = MaxHp * BaseManager.userGameData.SkinFval[(int)skinFvalue.rebirth] * 0.01f;
-                    if (_hp > MaxHp)
+                    Hp = MaxHp * BaseManager.userGameData.SkinFval[(int)skinFvalue.rebirth] * 0.01f;
+                    if (Hp > MaxHp)
                     {
-                        MaxHp = _hp;
+                        MaxHp = Hp;
                     }
                 }
-                else if (_rebirth_bonus) // 광고 부활템
+                else if (_rebirth_bonus) // 광고 부활 가능 여부
                 {
                     _rebirth_bonus = false;
+
+                    int val = Convert.ToInt32(BaseManager.userGameData.TimeRecord * 0.2f);
+                    int limit = (val > 300f) ? 300 : (val < 120) ? 120 : val;
+                    if (_gs.ClockMng.RecordTime < limit)
+                    {
+                        _gameOver();
+                        yield break;
+                    }
+
                     bool _chk = false;
 
                     yield return new WaitForSeconds(1f);
 
-                    if (BaseManager.userGameData.RemoveAd == false)
-                    { 
-                        // 창 오픈 - 광고제거 사면 바로 부활
+                    if (BaseManager.userGameData.RemoveAd == false) // 광고제거 구매 여부
+                    {
+                        // 광고제거 미구매) 광고 부활) 창 오픈
                         _gs.openAdRebirthPanel(() =>
                         {
                             _chk = true;
@@ -1015,16 +1029,23 @@ namespace week
 
                         yield return new WaitUntil(() => _chk == true); // 광고 후 진행
                     }
+                    else // 광고제거) 즉시 부활
+                    {
+                        BaseManager.userGameData.AdRecord++;
+                        if (BaseManager.userGameData.DayQuestAd == 0)
+                            BaseManager.userGameData.DayQuestAd = 1;
+                    }
 
-                    _hp = MaxHp;        
+                    Hp = MaxHp;        
                 }
 
+                // 부활 완료 -- 부활 이펙트 대기 후 진행
                 _efm.getRebirth(transform.position, () =>
                 {
                     _spine.gameObject.SetActive(true);
                 },()=> 
                 {
-                    _hpbar.localScale = new Vector2(_hp / MaxHp, 1f);
+                    _hpbar.localScale = new Vector2(Hp / MaxHp, 1f);
                     setAlmighty(); // 무적 주고 같이 시작
                     _gs.whenResume();
                     _isDie = false;

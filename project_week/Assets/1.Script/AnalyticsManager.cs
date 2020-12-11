@@ -78,7 +78,9 @@ namespace week
                 if (string.IsNullOrWhiteSpace(context.Product) == false)
                 {
                     temp.Add(new Parameter("product", context.Product));
-                    temp.Add(new Parameter("amount", context.Amount));
+                    temp.Add(new Parameter("coin", context.Coin));
+                    temp.Add(new Parameter("gem", context.Gem));
+                    temp.Add(new Parameter("ap", context.AP));
                 }
 
                 //if (string.IsNullOrWhiteSpace(context.source2) == false)
@@ -109,7 +111,7 @@ namespace week
         public string getKey()
         {
             const string strPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"; //문자 생성 풀
-            char[] chRandom = new char[12];
+            char[] chRandom = new char[15];
             for (int i = 0; i < 8; i++)
             {
                 chRandom[i] = strPool[UnityEngine.Random.Range(0, strPool.Length)];

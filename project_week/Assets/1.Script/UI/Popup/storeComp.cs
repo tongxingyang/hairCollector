@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace week
 {
@@ -34,6 +35,7 @@ namespace week
 
         [Space]
         [SerializeField] LobbyScene _lobby;
+        [SerializeField] TextMeshProUGUI _leftTime;
         [SerializeField] Scrollbar _bar;
 
         [Space]
@@ -55,6 +57,8 @@ namespace week
 
             setLimitFitter();
             setSpecialFitter();
+
+            StartCoroutine(limitTimeCheck());
         }
 
         #region [ 특별 상품 ]
@@ -71,7 +75,7 @@ namespace week
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.removead, AnalyticsManager.instance.getKey());
+            setAnalytics(productKeyList.removead, AnalyticsManager.instance.getKey());
         }
 
         /// <summary> 추가보너스 </summary>
@@ -86,7 +90,7 @@ namespace week
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.bonus_10_0, AnalyticsManager.instance.getKey());
+            setAnalytics(productKeyList.bonus_10_0, AnalyticsManager.instance.getKey());
         }
 
         /// <summary> 추가보너스 정보 </summary>
@@ -96,6 +100,27 @@ namespace week
                 "모험 습득 코인 증가" + System.Environment.NewLine +
                 "상점 : 코인 구매량 증가";
             WindowManager.instance.showActMessage(str, () => { });
+        }
+
+        IEnumerator limitTimeCheck()
+        {
+            while (_10p.activeSelf)
+            {
+                if (BaseManager.instance.PlayTimeMng.LeftTime.Days > 0)
+                {
+                    _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Days}일 {BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 남음";
+                }
+                else if (BaseManager.instance.PlayTimeMng.LeftTime.Hours > 0)
+                {
+                    _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 {BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
+                }
+                else 
+                {
+                    _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
+                }
+
+                yield return new WaitForSecondsRealtime(1f);
+            }
         }
 
         /// <summary> 스타터팩 </summary>
@@ -130,7 +155,7 @@ namespace week
             if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
             {
                 c = Convert.ToInt32(c * 1.1f);
-                bonus = "(보너스 추가)";
+                bonus = " (코인 보너스)";
             }
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.startpack.ToString(), productValData.image.ToString()),
@@ -138,16 +163,17 @@ namespace week
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/스타팅팩 구매";
+            string postmsg = key + "/스타팅팩 구매" + bonus + $"/{c}/{g}/{a}";
 
-            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
-            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
-            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
+            //NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
+            //NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
+            //NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
+            NanooManager.instance.PostboxItemSend(nanooPost.pack, 0, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.startpack, key);
+            setAnalytics(productKeyList.startpack, key);
         }
 
         /// <summary> 스킨팩 </summary>
@@ -156,7 +182,7 @@ namespace week
             Debug.Log("스킨팩 구매 완료");
             BaseManager.userGameData.SkinPack = true;
 
-            SkinKeyList skl = SkinKeyList.icecreamman;
+            SkinKeyList skl = SkinKeyList.wildman;
 
             bool result = (BaseManager.userGameData.HasSkin & (1 << (int)skl)) > 0;
             if (result == false)
@@ -177,7 +203,7 @@ namespace week
             if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
             {
                 c = Convert.ToInt32(c * 1.1f);
-                bonus = "(보너스 추가)";
+                bonus = " (보너스 추가)";
             }
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.image.ToString()),
@@ -185,15 +211,16 @@ namespace week
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/야수팩 구매";
+            string postmsg = key + "/야수팩 구매" + bonus + $"/{c}/{g}/{0}";
 
-            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
-            NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
+            //NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
+            //NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
+            NanooManager.instance.PostboxItemSend(nanooPost.pack, (int)SkinKeyList.wildman, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.wildskinpack, key);
+            setAnalytics(productKeyList.wildskinpack, key);
         }
 
         /// <summary> 스페셜 팩 정보 </summary>
@@ -227,14 +254,13 @@ namespace week
                 , "보석 조금").setImgSize(false);
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/보석 조금";
-
-            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
+            string postmsg = key + "/보석 조금" + $"/{0}/{g}/{0}";
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.s_gem, key);
+            setAnalytics(productKeyList.s_gem, key);
         }
 
         public void getMiddleGem()
@@ -247,14 +273,13 @@ namespace week
                 , "보석 가방").setImgSize(false);
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/보석 가방";
-
-            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
+            string postmsg = key + "/보석 가방" + $"/{0}/{g}/{0}";
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.m_gem, key);
+            setAnalytics(productKeyList.m_gem, key);
         }
 
         public void getLargeGem()
@@ -267,14 +292,13 @@ namespace week
                 , "보석 금고").setImgSize(false);
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/보석 금고";
-
-            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
+            string postmsg = key + "/보석 금고" + $"/{0}/{g}/{0}";
+            NanooManager.instance.PostboxItemSend(nanooPost.gem, g, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.l_gem, key);
+            setAnalytics(productKeyList.l_gem, key);
         }
 
         #endregion
@@ -291,14 +315,13 @@ namespace week
                 , "AP 조금").setImgSize(false);
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/AP 조금";
-
-            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
+            string postmsg = key + "/AP 조금" + $"/{0}/{0}/{a}";
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.s_ap, key);
+            setAnalytics(productKeyList.s_ap, key);
         }
 
         public void getMiddleAp()
@@ -311,15 +334,13 @@ namespace week
                 , "AP 뭉치").setImgSize(false);
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/AP 뭉치";
-            //str = str.replaceAll(" ", "&quot;");
-
-            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
+            string postmsg = key + "/AP 뭉치" + $"/{0}/{0}/{a}";
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.m_ap, key);
+            setAnalytics(productKeyList.m_ap, key);
         }
 
         public void getLargeAp()
@@ -332,14 +353,13 @@ namespace week
                 , "AP 가방").setImgSize(false);
 
             string key = AnalyticsManager.instance.getKey();
-            string msg = key + "/AP 가방";
-
-            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
+            string postmsg = key + "/AP 가방" + $"/{0}/{0}/{a}";
+            NanooManager.instance.PostboxItemSend(nanooPost.ap, a, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             AuthManager.instance.SaveDataServer();
-            setAnalitics(productKeyList.l_ap, key);
+            setAnalytics(productKeyList.l_ap, key);
         }
 
         #endregion
@@ -472,10 +492,10 @@ namespace week
             }
         }
 
-        void setAnalitics(productKeyList pKey, string key)
+        void setAnalytics(productKeyList pKey, string key)
         {
             Context context = new Context(key, analyticsWhere.store.ToString())
-                    .setProduct(DataManager.GetTable<string>(DataTable.product, pKey.ToString(), productValData.name.ToString()), 0);
+                    .setProduct(DataManager.GetTable<string>(DataTable.product, pKey.ToString(), productValData.name.ToString()), 0, 0, 0);
             AnalyticsManager.instance.Send(pKey.ToString(), context, null);
         }
     }

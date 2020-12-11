@@ -88,7 +88,7 @@ namespace week
             information = DataManager.GetTable<string>(DataTable.skill, i.ToString(), SkillValData.information.ToString());
 
             att = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.att.ToString());
-            delay = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.delay.ToString()) * BaseManager.userGameData.o_Cool;
+            delay = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.delay.ToString()); // * BaseManager.userGameData.o_Cool;
             keep = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.keep.ToString());
             count = DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.count.ToString());
             size = 1;

@@ -13,6 +13,7 @@ namespace week
 
         Action _watch;
         Action _timeover;
+        float time;
 
         void Awake()
         {
@@ -64,6 +65,7 @@ namespace week
             };
             AdManager.instance.UserChoseToWatchAd();
 #endif
+            time = 2.99f;
         }
 
         public void payGem()
@@ -75,7 +77,7 @@ namespace week
 
         IEnumerator timeChk()
         {
-            float time = 0f;
+            time = 0f;
             while (time < 3f)
             {
                 time += Time.deltaTime;
