@@ -65,7 +65,7 @@ namespace week
             };
             AdManager.instance.UserChoseToWatchAd();
 #endif
-            time = 2.99f;
+            time = 2.5f;
         }
 
         public void payGem()
@@ -91,7 +91,7 @@ namespace week
 
         public void cancel()
         {
-            _timeover();
+            // _timeover();
             close();
         }
     }
