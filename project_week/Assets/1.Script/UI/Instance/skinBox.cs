@@ -16,6 +16,8 @@ namespace week
         [Header("name & Image")]
         [SerializeField] TextMeshProUGUI _skinNameTxt;
         [SerializeField] Image _skinImg;
+        [SerializeField] Image _case;
+        [SerializeField] Image _bg;
         [SerializeField] GameObject _block;
         [Header("price")]
         [SerializeField] Image _priceBox;
@@ -56,8 +58,10 @@ namespace week
                 _curIcon.gameObject.SetActive(false);
                 _priceSize.anchoredPosition = new Vector2(0, 0);
                 _priceSize.sizeDelta = new Vector2(260, 80);
-                _priceBox.color = Color.yellow;
+                _priceBox.color = new Color(1f, 0.66f, 0.19f);
                 _priceTxt.text = "장착중";
+                _case.color = new Color(1f, 0.66f, 0.19f);
+                _bg.color = new Color(1f, 0.87f, 0.56f);
                 return;
             }
 
@@ -68,6 +72,8 @@ namespace week
                 string str = DataManager.GetTable<string>(DataTable.skin, skin.ToString(), SkinValData.currency.ToString());
                 _cur = EnumHelper.StringToEnum<cur>(str);
                 _price = DataManager.GetTable<int>(DataTable.skin, skin.ToString(), SkinValData.price.ToString());
+                _case.color = new Color(0f, 0.13f, 0.47f);
+                _bg.color = new Color(0.1f, 0.15f, 0.4f);
 
                 switch (_cur)
                 {
@@ -96,6 +102,8 @@ namespace week
             }
             else
             {
+                _case.color = new Color(1f, 0.66f, 0.19f);
+                _bg.color = new Color(1f, 0.87f, 0.56f);
                 possibleSelect();
             }
         }
@@ -127,7 +135,7 @@ namespace week
                         }
 
                         purchaseSkin();
-                    });
+                    }, BaseManager.userGameData.getSkinExplain(_skin, false));
                 }
                 else // 돈 없음
                 {
@@ -177,8 +185,10 @@ namespace week
             _curIcon.gameObject.SetActive(false);
             _priceSize.anchoredPosition = new Vector2(0, 0);
             _priceSize.sizeDelta = new Vector2(260, 80);
-            _priceBox.color = Color.yellow;
+            _priceBox.color = new Color(1f, 0.66f, 0.19f);
             _priceTxt.text = "선택가능";
+            _case.color = new Color(1f, 0.66f, 0.19f);
+            _bg.color = new Color(1f, 0.87f, 0.56f);
         }
 
         public void chkState()
@@ -190,8 +200,10 @@ namespace week
                 _curIcon.gameObject.SetActive(false);
                 _priceSize.anchoredPosition = new Vector2(0, 0);
                 _priceSize.sizeDelta = new Vector2(260, 80);
-                _priceBox.color = Color.yellow;
+                _priceBox.color = new Color(1f, 0.66f, 0.19f);
                 _priceTxt.text = "장착중";
+                _case.color = new Color(1f, 0.66f, 0.19f);
+                _bg.color = new Color(1f, 0.87f, 0.56f);
                 return;
             }
 
@@ -228,6 +240,8 @@ namespace week
             }
             else
             {
+                _case.color = new Color(1f, 0.66f, 0.19f);
+                _bg.color = new Color(1f, 0.87f, 0.56f);
                 possibleSelect();
             }
         }

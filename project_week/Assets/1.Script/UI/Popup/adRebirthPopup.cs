@@ -86,6 +86,7 @@ namespace week
                 yield return new WaitForEndOfFrame();
             }
 
+            _timeover();
             cancel();
         }
 

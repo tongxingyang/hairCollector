@@ -220,6 +220,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skinNameTxt: {fileID: 9105899425267172042}
   _skinImg: {fileID: 4318599037071149163}
+  _case: {fileID: 813083533166600004}
+  _bg: {fileID: 8463627931896705456}
   _block: {fileID: 6528027542858953522}
   _priceBox: {fileID: 1321572998307428830}
   _curIcon: {fileID: 903414753658186901}
@@ -594,7 +596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8197487, b: 0, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -678,7 +680,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 09e7366358457614baeaf339f7c3f9a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5530f770299a55d4b82d11c884041e4a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

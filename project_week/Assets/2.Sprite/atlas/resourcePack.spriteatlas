@@ -31,7 +31,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: f11af6bef39f1a14095464874d637c9c, type: 3}
-    totalSpriteSurfaceArea: 2617328
+    totalSpriteSurfaceArea: 2597389
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -73,6 +73,7 @@ SpriteAtlas:
   - {fileID: -8137839267706186765, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
   - {fileID: 1259471636057757339, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
   - {fileID: -2660724389008253964, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
+  - {fileID: 21300000, guid: bd897ad626873f24ab3440a5acae5894, type: 3}
   - {fileID: -1902042640447476195, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: -7686202315340627061, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: -8495300114308787323, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
@@ -91,8 +92,7 @@ SpriteAtlas:
   - {fileID: -506931616367580828, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 21300000, guid: 2513f848f6fdb41429b3b751560df879, type: 3}
   - {fileID: 21300000, guid: 64185798894843e4ba74169dbaf62bdc, type: 3}
-  - {fileID: 21300000, guid: 0b0c52ba5d06b564695a8dbcee29fcf3, type: 3}
-  - {fileID: 21300000, guid: 46cb2d8b82860c345893af1f8bfbfc33, type: 3}
+  - {fileID: 21300000, guid: da75c96ab2e0acd47988d6ff2618c86b, type: 3}
   - {fileID: 21300000, guid: 53a27c9ce5b2e0944bfc2b32de9b404e, type: 3}
   - {fileID: 21300000, guid: 2140f50d9a62718409a8fade703a6ce9, type: 3}
   - {fileID: 21300000, guid: 7185dd6e02d837846b443460106a3190, type: 3}
@@ -137,6 +137,7 @@ SpriteAtlas:
   - skills_26
   - skills_27
   - mine
+  - miniSet
   - vampireman
   - citrusman
   - heroman
@@ -155,8 +156,7 @@ SpriteAtlas:
   - bulbman
   - gem_l
   - coin_s
-  - 3perSet
-  - 3perCoin
+  - icecreamSet
   - startPack
   - coin_l
   - ap_m

@@ -119,6 +119,7 @@ namespace week
             else
             {
                 _changeText.text = "능력";
+                skinBoxRefresh();
             }
         }
 
@@ -296,7 +297,7 @@ namespace week
         }
 
         /// <summary> ap 구매버튼2개 새로고침 </summary>
-        void apPurchaseBtnRefresh()
+        public void apPurchaseBtnRefresh()
         {
             ApTxtRefresh();
 
@@ -304,6 +305,11 @@ namespace week
             int max = BaseManager.userGameData.Coin / gameValues._apPrice;
             mTmps[(int)eTmp.apPriceMax].text = $"{gameValues._apPrice * max}";
 
+            purchaseBtnRefresh();
+        }
+
+        public void purchaseBtnRefresh()
+        {
             bool bl = BaseManager.userGameData.Coin >= gameValues._apPrice;
 
             mImgs[(int)eImage.purchaseBtn].raycastTarget = bl;
@@ -434,6 +440,11 @@ namespace week
             BaseManager.userGameData.applySkin();
             showSnowmanInfo();
 
+            skinBoxRefresh();
+        }
+
+        void skinBoxRefresh()
+        {
             foreach (skinBox sb in _skinBoxies.Values)
             {
                 sb.chkState();

@@ -91,6 +91,7 @@ namespace week
         {
             DataManager.LoadBGdata();
         }
+
         void Start()
         {
             // 이전 씬 소속 정리
@@ -127,6 +128,7 @@ namespace week
             StartCoroutine(_enemyMng.startMakeEnemy());
 
             WindowManager.instance.Win_coinGenerator.RefreshFollowCost = wealthRefresh;
+            BaseManager.userGameData.PlayCount++;
 
             _stagePlay = true;
         }

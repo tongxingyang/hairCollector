@@ -76,13 +76,13 @@ namespace week
                     switch ((nanooPost)i)
                     {
                         case nanooPost.coin:
-                            msg = $"{mount}코인을 받았습니다.";
+                            msg = $"<color=#FFC52C>{mount}코인</color>을 받았습니다.";
                             break;
                         case nanooPost.gem:
-                            msg = $"보석 {mount}개를 받았습니다.";
+                            msg = $"<color=#F758A6>보석 {mount}개</color>를 받았습니다.";
                             break;
                         case nanooPost.ap:
-                            msg = $"{mount}AP를 받았습니다.";
+                            msg = $"<color=#38DDB2>{mount}AP</color>를 받았습니다.";
                             break;
                     }
 
@@ -102,14 +102,14 @@ namespace week
 
                 switch (post)
                 {
-                    case nanooPost.gem:
-                        _postMsg[0].text = $"보석 {mount}개를 받았습니다.";
-                        break;
                     case nanooPost.coin:
-                        _postMsg[0].text = $"{mount}코인을 받았습니다.";
+                        _postMsg[0].text = $"<color=#FFC52C>{mount}코인</color>을 받았습니다.";
                         break;
+                    case nanooPost.gem:
+                        _postMsg[0].text = $"<color=#F758A6>보석 {mount}개</color>를 받았습니다.";
+                        break;                    
                     case nanooPost.ap:
-                        _postMsg[0].text = $"{mount}AP를 받았습니다.";
+                        _postMsg[0].text = $"<color=#38DDB2>{mount}AP</color>를 받았습니다.";
                         break;
                     case nanooPost.skin:
                         string name = DataManager.GetTable<string>(DataTable.skin, ((SkinKeyList)mount).ToString(), SkinValData.skinname.ToString());
@@ -199,6 +199,7 @@ namespace week
                     {
                         BaseManager.userGameData.Ap += ap;
                         WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.ap, ap);
+                        _lobby.refreshAp();
                     }
 
                     context = new Context(_key, analyticsWhere.post.ToString()).setProduct(post.ToString(), coin, gem, ap);
@@ -220,6 +221,7 @@ namespace week
                         case nanooPost.ap:
                             BaseManager.userGameData.Ap += mount;
                             WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.CoinTxt.position, currency.ap, mount);
+                            _lobby.refreshAp();
                             break;
                         case nanooPost.skin:
                             BaseManager.userGameData.HasSkin |= (1 << mount);
@@ -232,17 +234,13 @@ namespace week
                     context = new Context(_key, analyticsWhere.post.ToString()).setProduct(post.ToString(), cur[0], cur[1], cur[2]);
                 }
 
-                Debug.Log("저장중...4");
                 AnalyticsManager.instance.Send("getPost", context, null);
 
                 complete = true;
-                Debug.Log("저장중...:"+ complete);
             });
 
-            Debug.Log("저장중...2");
             yield return new WaitUntil(() => complete == true);
 
-            Debug.Log("저장중...1");
             AuthManager.instance.SaveDataServer();
             //AuthManager.instance.saveDataToFB();
 

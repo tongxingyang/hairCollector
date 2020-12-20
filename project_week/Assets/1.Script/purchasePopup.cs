@@ -46,9 +46,9 @@ namespace week
             return this;
         }
 
-        public purchasePopup couponNotice()
+        public purchasePopup couponNotice(string str)
         {
-            _title.text = "선 물";
+            _title.text = str;
             _notice.text = "※감사합니다!";
             return this;
         }

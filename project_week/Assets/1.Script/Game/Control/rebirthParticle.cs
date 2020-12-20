@@ -18,18 +18,12 @@ namespace week
 
         public void rebirth()
         {
-            if (_reAct != null)
-            {
-                _reAct();
-            }
+            _reAct?.Invoke();
         }
 
         public void endAni()
         {
-            if (_endAct != null)
-            {
-                _endAct();
-            }
+            _endAct?.Invoke();            
 
             gameObject.SetActive(false);
         }

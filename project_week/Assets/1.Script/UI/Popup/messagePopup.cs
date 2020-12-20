@@ -16,6 +16,7 @@ namespace week
         [SerializeField] TextMeshProUGUI _MsgTxt;
         [SerializeField] GameObject _present;
         [SerializeField] Image _presentImg;
+        [SerializeField] TextMeshProUGUI _subMsgTxt;
         [SerializeField] GameObject _actBtn;
         [SerializeField] RectTransform _fitter;
         bool _isPlay;
@@ -41,6 +42,7 @@ namespace week
             _Panel.SetActive(false);
             _present.SetActive(false);
             _actBtn.SetActive(false);
+            _subMsgTxt.gameObject.SetActive(false);            
 
             if (_isPlay == false)
             {
@@ -97,6 +99,7 @@ namespace week
             _Panel.SetActive(true);
             _present.SetActive(false);
             _actBtn.SetActive(true);
+            _subMsgTxt.gameObject.SetActive(false);
 
             _MsgTxt.text = msg;
 
@@ -114,7 +117,7 @@ namespace week
 
         #region [present act Message]
 
-        public void showPresentAct(string msg, Sprite sp, Action act)
+        public void showPresentAct(string msg, Sprite sp, Action act, string sub = "")
         {
             if (_onlyMsg != null)
             {
@@ -133,6 +136,16 @@ namespace week
 
             _presentImg.sprite = sp;
             _MsgTxt.text = msg;
+
+            if (string.IsNullOrEmpty(sub))
+            {
+                _subMsgTxt.gameObject.SetActive(false);
+            }
+            else
+            {
+                _subMsgTxt.gameObject.SetActive(true);
+                _subMsgTxt.text = sub;
+            }
 
             open();
             LayoutRebuilder.ForceRebuildLayoutImmediate(_fitter);

@@ -179,15 +179,22 @@ namespace week
 
             modify();
             AuthManager.instance.checkNextDay();
+            AuthManager.instance.SaveDataServer();
         }
 
         void modify()
         {
-            bool result = (BaseManager.userGameData.HasSkin & (1 << (int)SkinKeyList.icecreamman)) > 0;
-            if (result)
+            if (BaseManager.userGameData.RemoveAd)
             {
-                BaseManager.userGameData.HasSkin &= ~(1 << (int)SkinKeyList.icecreamman);
-                BaseManager.userGameData.HasSkin |= (1 << (int)SkinKeyList.wildman);
+                BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
+            }
+            if (BaseManager.userGameData.MulCoin)
+            {
+                BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_10p;
+            }
+            if (BaseManager.userGameData.MiniSet)
+            {
+                BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_5p;
             }
         }
 
@@ -240,16 +247,25 @@ namespace week
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
             MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
+            _snowman.purchaseBtnRefresh();
         }
 
         public void refreshCost()
         {
             MTmps[(int)eTmp.CoinTxt].text = ((int)BaseManager.userGameData.Coin).ToString();
             MTmps[(int)eTmp.GemTxt].text = ((int)BaseManager.userGameData.Gem).ToString();
+            _snowman.purchaseBtnRefresh();
+        }
+
+        public void refreshAp()
+        {
+            _snowman.apPurchaseBtnRefresh();
         }
 
         public void PlayGame()
         {
+            Debug.Log(BaseManager.userGameData.StatusLevel[(int)StatusData.hpgen]);
+            BaseManager.userGameData.applyLevel();
             SoundManager.instance.StopBGM();
             BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.GameScene);
         }

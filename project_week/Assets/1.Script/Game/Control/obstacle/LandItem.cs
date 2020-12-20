@@ -38,7 +38,6 @@ namespace week
 
         void chkRespone()
         {
-            Debug.Log(_temtype + "먹음");
             switch (_temtype)
             {
                 case landtem.heal:

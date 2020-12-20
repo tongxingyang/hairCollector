@@ -126,8 +126,26 @@ namespace week
             
             yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true); // [대기] 파베 로그인
 
-            yield return StartCoroutine(AuthManager.instance.loadDataFromFB()); // [대기] 서버에서 데이터 가져오기
-                        
+            yield return StartCoroutine(AuthManager.instance.chkExistData()); // [대기] 서버 데이터 유무 체크
+
+            result = AuthManager.instance.IsExist;
+            if (result) // 서버 o
+            {
+                _load.text = "서버데이터 확인중";
+
+                yield return StartCoroutine(AuthManager.instance.loadDataFromFB()); // [대기] 서버에서 데이터 가져오기
+                Debug.Log(BaseManager.userGameData.NickName);
+            }
+            else // 서버 x -> 신규
+            {
+                _load.text = "뉴비 체크완료";
+
+                BaseManager.userGameData = new UserGameData(); // 만들고
+                                                               // AuthManager.instance.SaveDataServer(); // 기기, 서버 저장
+                yield return StartCoroutine(AuthManager.instance.saveDataToFB(true));
+            }
+
+            BaseManager.instance.KeyRandomizing();
             ConnectComplete = true;
 #else
             // 인터넷 - 데이터 체크 
@@ -256,6 +274,7 @@ namespace week
             gauge += 0.15f;
 
             BaseManager.userGameData.flashData();
+            BaseManager.instance.KeyRandomizing();
             //Debug.Log("데이터 완료");
             _load.text = "데이터 로드 완료";
             ConnectComplete = true;

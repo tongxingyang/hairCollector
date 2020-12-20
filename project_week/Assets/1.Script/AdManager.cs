@@ -9,13 +9,14 @@ namespace week
 {
     public class AdManager : TSingleton<AdManager>
     {
-        private string rewardID = "ca-app-pub-6349048174225682/9266473905";
+        private string rewardID = "ca-app-pub-4738034720851227/1243123276";
         // private string rewardTestID = "ca-app-pub-3940256099942544/5224354917";
 
         private RewardedAd rewardedAd;
 
         public Action adReward;
-        private bool rewarded = false;
+
+        // private bool rewarded { get; set; } = false;
 
         public void adStart()
         {
@@ -43,7 +44,7 @@ namespace week
         public void CreateAndLoadRewardedAd()
         {
             rewardedAd = new RewardedAd(rewardID);
-
+            
             rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;
             rewardedAd.OnAdClosed += HandleRewardedAdClosed;
 
@@ -53,7 +54,7 @@ namespace week
 
         public void HandleUserEarnedReward(object sender, Reward e)
         {
-            rewarded = true; 
+            // rewarded = true; 
             adReward?.Invoke();
             Debug.Log("리워드 획득");
         }

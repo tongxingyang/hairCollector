@@ -20,7 +20,7 @@ namespace week
 
         // ====== [   store   ] ======
         long _nowTime;
-        DateTime _eve = new DateTime(2020, 12, 24, 0, 0, 0);
+        DateTime _eve = new DateTime(2020, 12, 31, 23, 59, 59);
         TimeSpan _leftTime;
         public TimeSpan LeftTime { get => _leftTime; }
         // ====== [   rader   ] ======

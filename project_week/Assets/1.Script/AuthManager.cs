@@ -157,7 +157,7 @@ namespace week
             }
         }
 
-
+        // COuyE11dnKTWUJ773upzn04bLcX2
         public Task LoginWithEmail()
         {
             return auth.SignInWithEmailAndPasswordAsync("abcde@gmail.com", "123456789").ContinueWith(task => {
@@ -174,6 +174,7 @@ namespace week
 
                 Firebase.Auth.FirebaseUser newUser = task.Result;
                 _uid = newUser.UserId;
+                
                 isLoginFb = true;
                 //user = task.Result;
                 //SignInState.SetState(SignInState.State.EMail);
@@ -305,14 +306,14 @@ namespace week
             bool complete = false;
             
             string json = BaseManager.userGameData.getUserData();
-
+            
             reference.Child("User").Child(_uid).SetRawJsonValueAsync(json).ContinueWith(task => 
             {
                 if (task.IsFaulted || task.IsCanceled)
                 {
                     Debug.Log(task.Exception);
                 }
-                
+                Debug.Log("저장 완료");
                 complete = true;
             });
 
@@ -647,7 +648,7 @@ namespace week
             bool complete = false;
             long lastTime = 0;
             reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").GetValueAsync().ContinueWith(task => {
-
+                
                 lastTime = (long)task.Result.Value;
                 complete = true;
             });
@@ -682,9 +683,10 @@ namespace week
         public IEnumerator searchNickName(string nick, Action<bool> chker)
         {
             bool complete = false;
-
+            Debug.Log("11");
             reference.Child("User").OrderByChild("_property/_nickName").EqualTo(nick).GetValueAsync().ContinueWith(task =>
             {
+                Debug.Log("111");
                 if (task.IsCanceled)
                 {
                     Debug.LogError("testNickName : cancel");
@@ -841,6 +843,14 @@ namespace week
         //}
 
         #endregion
+
+        //[Button]
+        //public void OnChanged()
+        //{
+        //    _uid = "7f2bCCkxcMUb77Z3IGc16Zw0tum1";
+            
+        //    SaveDataServer();
+        //}
     }
 
 

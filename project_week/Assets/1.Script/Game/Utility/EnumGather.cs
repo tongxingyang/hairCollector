@@ -54,6 +54,7 @@ namespace week
     {
         removeAD,
         mul_1st_10p,
+        mul_1st_5p,
         max
     }
     public enum paymentChkList
@@ -61,7 +62,9 @@ namespace week
         removeAD,
         mulCoins,        
         startPack,
-        skinPack
+        skinPack,
+        miniSet,
+        icecreamSet
     }
 
     public enum utilityChkList
@@ -342,6 +345,8 @@ namespace week
         bonus_10_0,
         startpack,
         wildskinpack,
+        miniset,
+        icecreamset,
         s_gem,
         m_gem,
         l_gem,
@@ -459,8 +464,8 @@ namespace week
 
     #region 유저 데이터
 
-    public enum snowStt { maxHp, att, def, hpgen, cool, exp, coin, size, heal, speed, max }
-    public enum eBuff { att, def, hpgen, cool, exp, size, heal, speed, coin, snowball, max }
+    public enum snowStt { maxHp,    att, def, hpgen, cool, exp, coin, size, heal, speed, max }
+    public enum eBuff   { hp,       att, def, hpgen, cool, exp, coin, size, heal, speed, snowball, max }
     public enum dayQuest { rein, skin, ad }
 
     #endregion

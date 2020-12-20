@@ -68,7 +68,7 @@ namespace week
                 }
 
                 WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, presentSize.ToString(), productValData.image.ToString())
-               , "선 물").couponNotice().setImgSize(false);
+               , "").couponNotice($"보석{mount}개 선물").setImgSize(false);
 
                 WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, mount);
                 
@@ -80,12 +80,13 @@ namespace week
 
                 complete = true;
             });
-
+            
             yield return new WaitUntil(() => complete == true);
 
             _lobby.refreshCost();
             AuthManager.instance.SaveDataServer();
             AnalyticsManager.instance.Send("coupon_" + presentSize.ToString(), context, null);
+            _input.text = "";
         }
     }
 }

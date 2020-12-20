@@ -80,10 +80,14 @@ namespace week
         public static readonly ObscuredFloat _healpackVal = 0.05f;
 
         // 추가코인 ==============================
-        public static readonly Vector3[] _mulCoinVal = new Vector3[2] {
+        public static readonly Vector3[] _mulCoinVal = new Vector3[3] {
             new Vector3(2f,2f,2f),  // 광고제거
-            new Vector3(1.1f,1f,1f) // 10퍼
+            new Vector3(1.1f,1f,1f),// 10퍼
+            new Vector3(1.05f,1f,1f)// 5퍼
         };
+
+        public static readonly float[] _bonusCoinVal = new float[3] { 1f, 1.1f, 1.05f };
+
         // ======================================
 
         public static  Vector3 _firstbox

@@ -10,8 +10,8 @@ namespace week
     public class NanooManager : TSingleton<NanooManager>
     {
         Plugin plugin;
-        string RANK_CODE = "snowadventure-RANK-9A9E5FB8-93912F59";
-
+        string PRE_RANK_CODE = "snowadventure-RANK-9A9E5FB8-93912F59";
+        string RANK_CODE = "snowadventure-RANK-21DE85D1-03980325";
 
         protected override void Init()
         {

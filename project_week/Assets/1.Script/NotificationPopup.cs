@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
+using NaughtyAttributes;
 
 namespace week
 {
@@ -10,11 +12,14 @@ namespace week
         [SerializeField] TextMeshProUGUI _title;
         [SerializeField] TextMeshProUGUI _explain;
         [SerializeField] GameObject _2ndBtn;
+        [SerializeField] Image _updateImg;
+        [SerializeField] TextMeshProUGUI _updateExplain;
         [SerializeField] TextMeshProUGUI[] _btnTxt;
 
         enum pType { notif, net }
         pType ptype;
 
+        [Button]
         public void networkError()
         {
             gameObject.SetActive(true);
@@ -23,11 +28,14 @@ namespace week
 
             _title.text = "네트워크 연결 오류";
             _explain.text = "네트워크 연결을 확인해 주세요.";
+            _updateImg.gameObject.SetActive(false);
+            _updateExplain.gameObject.SetActive(false);
             _2ndBtn.SetActive(true);
             _btnTxt[0].text = "재시도";
             _btnTxt[1].text = "종료";
         }
 
+        [Button]
         public void newVersionChker()
         {
             gameObject.SetActive(true);
@@ -36,6 +44,8 @@ namespace week
 
             _title.text = "업데이트";
             _explain.text = "새 업데이트가 나왔습니다."+System.Environment.NewLine+"스토어에서 새 버전으로 업데이트 해주세요.";
+            _updateImg.gameObject.SetActive(true);
+            _updateExplain.gameObject.SetActive(true);
             _2ndBtn.SetActive(false);
             _btnTxt[0].text = "업데이트";
         }

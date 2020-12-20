@@ -81,9 +81,7 @@ namespace week
         public ObscuredInt Ap { get => _userEntity._property._currency[(int)currency.ap]; set => _userEntity._property._currency[(int)currency.ap] = value; }
 
         public ObscuredInt followCoin { get; set; }
-        public ObscuredInt followGem { get; set; }
-
-        public ObscuredInt WholeAccessTime { get => _userEntity._property._wholeAccessTime; set => _userEntity._property._wholeAccessTime = value; }
+        public ObscuredInt followGem { get; set; }              
 
         // - 스킨
         public ObscuredInt HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
@@ -92,6 +90,11 @@ namespace week
         // - 템
         public ObscuredBool IsSetRader { get => _userEntity._property._isSetRader; set => _userEntity._property._isSetRader = value; }
         public ObscuredLong LastRaderTime { get => _userEntity._property._lastRaderTime; set => _userEntity._property._lastRaderTime = value; }
+        
+        // 플레이어 통계 데이터 ==============================================================
+        public ObscuredInt WholeAccessTime { get => _userEntity._statistics._wholeAccessTime; set => _userEntity._statistics._wholeAccessTime = value; }
+        public ObscuredInt PlayCount { get => _userEntity._statistics._playCount; set => _userEntity._statistics._playCount = value; }
+        public ObscuredInt StoreUseCount { get => _userEntity._statistics._storeUseCount; set => _userEntity._statistics._storeUseCount = value; }
 
         // 기록 ==============================================================
         public ObscuredInt TimeRecord { get => _userEntity._record._timeRecord; }
@@ -128,6 +131,7 @@ namespace week
         public ObscuredFloat SkinEnhance    { get; set; }
 
         // 인앱결제 ==============================================================
+        public int amcl { get => _userEntity._payment._mulCoinList; }
         public mulCoinChkList AddMulCoinList { set => _userEntity._payment._mulCoinList |= (1 << (int)value); }
         public bool chkMulCoinList(mulCoinChkList index)
         {
@@ -142,7 +146,10 @@ namespace week
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.startPack) : 0; }
         public bool SkinPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.skinPack)) > 0;
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.skinPack) : 0; }
-                
+        public bool MiniSet { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.miniSet)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.miniSet) : 0; }
+        public bool IcecreamSet { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.icecreamSet)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.icecreamSet) : 0; }
 
         // 유틸 ==============================================================
         public ObscuredLong LastSave { get => _userEntity._util._lastSave;
@@ -197,6 +204,32 @@ namespace week
         {
         }
 
+        /// <summary> obscured 키 Randomize </summary>
+        public IEnumerator RandomizeKey_Coroutine()
+        {
+            var oneSecondWait = new WaitForSecondsRealtime(1f);
+            while(true)
+            {
+                yield return oneSecondWait;
+
+                // 재화 gBrtJ0L0MzMadc5SrEWT3qE2y3B2
+                for (int i = 0; i < 3; i++)
+                {
+                    _userEntity._property._currency[i].RandomizeCryptoKey();
+                }
+                Coin.RandomizeCryptoKey();
+                Gem.RandomizeCryptoKey();
+                Ap.RandomizeCryptoKey();
+
+                // 강화창
+                for (int i = 0; i < (int)StatusData.max; i++)
+                {
+                    _userEntity._status._statusLevel[i].RandomizeCryptoKey();
+                    StatusLevel[i].RandomizeCryptoKey();
+                }                
+            }
+        }
+
         /// <summary> 스탯 레벨 -> 스탯에 적용 </summary>
         public void applyLevel()
         {
@@ -217,7 +250,7 @@ namespace week
             SkinEnhance     = StatusLevel[(int)StatusData.skin];
         }
 
-        public ObscuredFloat getAddit(StatusData type)
+        public float getAddit(StatusData type)
         {
             float add = (float)DataManager.GetTable<int>(DataTable.status, statusKeyList.addition.ToString(), type.ToString());
             float rate = (float)DataManager.GetTable<int>(DataTable.status, statusKeyList.additrate.ToString(), type.ToString());
@@ -269,7 +302,7 @@ namespace week
             }
         }
 
-        /// <summary>  </summary>
+        /// <summary> 스킨과 스킨 능력치 적용 </summary>
         public void applySkin()
         {
             SkinKeyList skin = (SkinKeyList)((int)_userEntity._property._skin);
@@ -333,69 +366,128 @@ namespace week
             }
         }
 
-        /// <summary> 스킨 설명 </summary>
-        public string getSkinExplain(SkinKeyList skin)
+        /// <summary> 스킨구매전 데이터 제공용 </summary>
+        public void getSkinInfo(SkinKeyList skin, ref float[] fval, ref int[] ival, ref float[] stats)
         {
+            string key = skin.ToString();
+            int j;
+
+            for (defaultStat i = defaultStat.hp; i < defaultStat.max; i++)
+            {
+                j = (int)i;
+
+                stats[(int)i] = DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.d_hp + j).ToString()) * 0.01f;
+
+                if (i < defaultStat.speed)
+                {
+                    stats[(int)i] += DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.ex_hp + j).ToString()) * 0.01f * SkinEnhance; ;
+                }
+            }
+
+            string t_F = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeF.ToString());
+            if (t_F.Equals("n") == false)
+            {
+                skinFvalue sfv = EnumHelper.StringToEnum<skinFvalue>(t_F);
+
+                fval[(int)sfv] = DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval0.ToString());
+                fval[(int)sfv] += _userEntity._status._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
+            }
+
+            string t_I = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeI.ToString());
+
+            if (t_I.Equals("n") == false)
+            {
+                skinIvalue siv = EnumHelper.StringToEnum<skinIvalue>(t_I);
+
+                ival[(int)siv] = DataManager.GetTable<int>(DataTable.skin, key, SkinValData.Ival.ToString());
+                Debug.Log(ival[(int)siv]);
+            }
+        }
+
+        /// <summary> 스킨 설명 </summary>
+        public string getSkinExplain(SkinKeyList skin, bool ApplyData = true)
+        {
+            float[] fval = new float[(int)skinFvalue.max];
+            int[] ival = new int[(int)skinIvalue.max];
+            float[] stats = new float[(int)defaultStat.max];
+
+            if (ApplyData)
+            {
+                for (int i = 0; i < (int)skinFvalue.max; i++)
+                    fval[i] = _skinFval[i];
+
+                for (int i = 0; i < (int)skinIvalue.max; i++)
+                    ival[i] = _skinIval[i];
+
+                for (int i = 0; i < (int)defaultStat.max; i++)
+                    stats[i] = _addStats[i];
+            }
+            else
+            {
+                getSkinInfo(skin, ref fval, ref ival, ref stats);
+            }
+
             string str = "";
             ObscuredInt statVal = 0;
+
             switch (skin)
             {
                 case SkinKeyList.snowman:
                     str = "겨울에 만들어진 눈사람";
                     break;
                 case SkinKeyList.fireman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.att] * 100) - 100;
+                    statVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
                     str = "여름한정!" + System.Environment.NewLine + $"공격력 {statVal}% 증가";
                     break;
                 case SkinKeyList.grassman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.hpgen] * 100) - 100;
+                    statVal = Convert.ToInt32(stats[(int)defaultStat.hpgen] * 100) - 100;
                     str = "봄 한정!" + System.Environment.NewLine + $"체력재생량 {statVal}% 증가";
                     break;
                 case SkinKeyList.rockman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.hp] * 100) - 100;
+                    statVal = Convert.ToInt32(stats[(int)defaultStat.hp] * 100) - 100;
                     str = "눈 대신 돌을 던진다." + System.Environment.NewLine + $"체력 {statVal}% 증가";
                     break;
                 case SkinKeyList.citrusman:
-                    ObscuredFloat val = _addStats[(int)defaultStat.coin] * 100 - 100;
+                    ObscuredFloat val = stats[(int)defaultStat.coin] * 100 - 100;
                     str = "눈 대신 귤을 던진다." + System.Environment.NewLine + "겨울한정!" + System.Environment.NewLine + string.Format("코인획득량 {0:0.0}% 증가", val);
                     break;
                 case SkinKeyList.bulbman:
                     str = "머리의 전구로 밤을 밝힌다.";
                     break;
                 case SkinKeyList.wildman:
-                    str = $"잃은 체력 1%당 공격력 {_skinFval[(int)skinFvalue.wild]}% 증가";
+                    str = $"잃은 체력 1%당 공격력 {fval[(int)skinFvalue.wild]}% 증가";
                     break;
                 case SkinKeyList.mineman:
-                    str = $"지뢰 개수 +{_skinIval[(int)skinIvalue.mine]}" + System.Environment.NewLine + $"지뢰 공격력 {_skinFval[(int)skinFvalue.mine]}% 증가";
+                    str = $"지뢰 개수 +{ival[(int)skinIvalue.mine]}" + System.Environment.NewLine + $"지뢰 공격력 {fval[(int)skinFvalue.mine]}% 증가";
                     break;
                 case SkinKeyList.robotman:
-                    str = "늪지 무효" + System.Environment.NewLine + string.Format("추가 방어 {0:0.00}% ", _addStats[(int)defaultStat.def] * 100f);
+                    str = "늪지 무효" + System.Environment.NewLine + string.Format("추가 방어 {0:0.00}% ", stats[(int)defaultStat.def] * 100f);
                     break;
                 case SkinKeyList.icecreamman:
-                    str = "눈덩이가 빙결 적용" + System.Environment.NewLine + $"블리자드, 아이스에이지 발동시 체력 {_skinFval[(int)skinFvalue.iceHeal]}% 회복";
+                    str = "눈덩이가 빙결 적용" + System.Environment.NewLine + $"블리자드, 아이스에이지 발동시 체력 {fval[(int)skinFvalue.iceHeal]}% 회복";
                     break;
                 case SkinKeyList.goldenarmorman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.def]);
-                    str = $"30초에 한번씩 {_skinFval[(int)skinFvalue.invincible]}초간 무적" + System.Environment.NewLine + $"방어력 {statVal}% 증가";
+                    statVal = Convert.ToInt32(stats[(int)defaultStat.def]);
+                    str = $"30초에 한번씩 {fval[(int)skinFvalue.invincible]}초간 무적" + System.Environment.NewLine + $"방어력 {statVal}% 증가";
                     break;
                 case SkinKeyList.angelman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.speed] * 100) - 100;
-                    str = $"눈사람이 죽을때 최대체력의 {_skinFval[(int)skinFvalue.rebirth]}%로 부활" + System.Environment.NewLine +"(유적과 버프 상실)" + System.Environment.NewLine + $"이동속도 {statVal}% 증가";
+                    statVal = Convert.ToInt32(stats[(int)defaultStat.speed] * 100) - 100;
+                    str = $"눈사람이 죽을때 최대체력의 {fval[(int)skinFvalue.rebirth]}%로 부활" + System.Environment.NewLine +"(유적과 버프 상실)" + System.Environment.NewLine + $"이동속도 {statVal}% 증가";
                     break;
                 case SkinKeyList.squareman:
-                    str = "네모난 눈을 던진다." + System.Environment.NewLine + $"30% 확률로 {_skinFval[(int)skinFvalue.criticDmg]}%의 추가데미지를 준다.";
+                    str = "네모난 눈을 던진다." + System.Environment.NewLine + $"30% 확률로 {fval[(int)skinFvalue.criticDmg]}%의 추가데미지를 준다.";
                     break;
                 case SkinKeyList.spiderman:
-                    str = "추가로 달린 다리로 더 많은 눈덩이를 던진다." + System.Environment.NewLine + $"눈덩이 공격력 {_skinFval[(int)skinFvalue.snowball]}% 증가";
+                    str = "추가로 달린 다리로 더 많은 눈덩이를 던진다." + System.Environment.NewLine + $"눈덩이 공격력 {fval[(int)skinFvalue.snowball]}% 증가";
                     break;
                 case SkinKeyList.vampireman:
-                    statVal = Convert.ToInt32(_addStats[(int)defaultStat.att] * 100) - 100;
-                    str = $"눈덩이로 준 피해의 {_skinFval[(int)skinFvalue.blood]}%만큼 체력을 회복한다." + System.Environment.NewLine + $"공격력 {statVal}% 증가";
+                    statVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
+                    str = $"눈덩이로 준 피해의 {fval[(int)skinFvalue.blood]}%만큼 체력을 회복한다." + System.Environment.NewLine + $"공격력 {statVal}% 증가";
                     break;
                 case SkinKeyList.heroman:
-                    ObscuredInt[] stt = new ObscuredInt[3] { Convert.ToInt32(_addStats[(int)defaultStat.hp] * 100) - 100,
-                        Convert.ToInt32(_addStats[(int)defaultStat.att] * 100) - 100, 
-                        Convert.ToInt32(_addStats[(int)defaultStat.def])};
+                    ObscuredInt[] stt = new ObscuredInt[3] { Convert.ToInt32(stats[(int)defaultStat.hp] * 100) - 100,
+                        Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100, 
+                        Convert.ToInt32(stats[(int)defaultStat.def])};
 
                     str = "용사의 검을 찾으면 일시적으로 공격력/방어력이 2배가 된다."
                         + System.Environment.NewLine + $"체력 {stt[0]}% 증가/공격력 {stt[1]}% 증가/방어력 {stt[2]}% 증가";

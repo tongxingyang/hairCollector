@@ -24,7 +24,7 @@ namespace week
         float _startDark = 0.6f;
 
         season _season = season.winter;
-        float _recordTime;
+        float _recordTime = 0f;
         float _dateTime;
         float _monthTime;
         int _seasonNum;

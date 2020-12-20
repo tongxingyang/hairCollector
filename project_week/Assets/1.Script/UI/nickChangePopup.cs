@@ -61,16 +61,17 @@ namespace week
 
         IEnumerator chkNickName()
         {
+            Debug.Log("1");
             bool result = false;
             yield return StartCoroutine(AuthManager.instance.searchNickName(_field.text, (chk) =>
             {
                 result = chk;
-
+                Debug.Log("2");
                 _closable = true;
             }));
-
+            Debug.Log("3");
             yield return new WaitUntil(() => _closable == true);
-
+            Debug.Log("4");
             if (result) // 중복 있음
             {
                 WindowManager.instance.Win_message.showMessage("중복된 닉네임이눈!");

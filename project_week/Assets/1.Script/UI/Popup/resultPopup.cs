@@ -50,7 +50,7 @@ namespace week
                 _AdsBtn.color = Color.gray;
                 _AdsBtn.raycastTarget = false;
             }
-
+            Debug.Log("pre removeAd : " + BaseManager.userGameData.RemoveAd);
             _AdsBtn.raycastTarget = false;
             _lobbyBtn.raycastTarget = false;
 
@@ -99,11 +99,10 @@ namespace week
                 BaseManager.userGameData.DayQuestSkin = 1;
             }
 
-            Debug.Log(_preCalCoin);
             BaseManager.userGameData.WholeTimeRecord += Convert.ToInt32(time);
             preRewardCalculator();
 
-            Debug.Log(_preCalCoin);
+            Debug.Log("코인 : " + _preCalCoin);
             //=================[ 창 열기 ]==============================================
 
             botRect.DOAnchorPosY(-175f, 1f);
@@ -135,9 +134,12 @@ namespace week
                 _newImg.transform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.InCirc);
 
                 WindowManager.instance.Win_celebrate.whenNewResult();
-            }            
+            }
 
-            _AdsBtn.raycastTarget = true;
+            if (BaseManager.userGameData.RemoveAd == false)
+            {
+                _AdsBtn.raycastTarget = true;
+            }
             _lobbyBtn.raycastTarget = true;
 
             for (mulCoinChkList i = mulCoinChkList.removeAD; i < mulCoinChkList.max; i++)
@@ -188,6 +190,7 @@ namespace week
             _preCalGem = _getGem;
             _preCalAp = _getAp;
 
+            Debug.Log("코인 : " + _preCalCoin);
             for (mulCoinChkList i = mulCoinChkList.removeAD; i < mulCoinChkList.max; i++)
             {
                 if (BaseManager.userGameData.chkMulCoinList(i))
@@ -198,6 +201,7 @@ namespace week
 
                     if (i == mulCoinChkList.removeAD)
                     {
+                        Debug.Log("removeAd : " + BaseManager.userGameData.RemoveAd);
                         BaseManager.userGameData.AdRecord++;
                         if (BaseManager.userGameData.DayQuestAd == 0)
                             BaseManager.userGameData.DayQuestAd = 1;

@@ -25,22 +25,39 @@ namespace week
             [SerializeField] public ObscuredInt _hasSkin;
             /// <summary> 장착중인 스킨 </summary>
             [SerializeField] public ObscuredInt _skin;
-            /// <summary> 전체 접속 시간 </summary>
-            [SerializeField] public ObscuredInt _wholeAccessTime;
+            
             /// <summary> 레이더 장착여부 </summary>
             [SerializeField] public ObscuredBool _isSetRader;
             /// <summary> 레이더 마지막 대여시간 </summary>
             [SerializeField] public ObscuredLong _lastRaderTime;
 
-            public property(ObscuredString nic, ObscuredInt[] cur, ObscuredInt hasskin, ObscuredInt skin, ObscuredInt wholeAccessTime, ObscuredBool isSetRader, ObscuredLong lastRaderTime)
+            public property(ObscuredString nic, ObscuredInt[] cur, ObscuredInt hasskin, ObscuredInt skin, ObscuredBool isSetRader, ObscuredLong lastRaderTime)
             {
                 _nickName = nic;
                 _currency = cur;
                 _hasSkin = hasskin;
                 _skin = skin;
-                _wholeAccessTime = wholeAccessTime;
                 _isSetRader = isSetRader;
                 _lastRaderTime = lastRaderTime;
+            }
+        }
+
+        /// <summary> 플레이어 통계 데이터 </summary>
+        [Serializable]
+        public struct statistics
+        {
+            /// <summary> 전체 접속 시간 </summary>
+            [SerializeField] public ObscuredInt _wholeAccessTime;
+            /// <summary> 모험 플레이 횟수 </summary>
+            [SerializeField] public ObscuredInt _playCount;
+            /// <summary> 상점 이용 횟수 (전체, 일반상품) </summary>
+            [SerializeField] public ObscuredInt _storeUseCount;
+
+            public statistics(ObscuredInt wholeAccessTime, ObscuredInt playCount, ObscuredInt storeUseCount)
+            {
+                _wholeAccessTime = wholeAccessTime;
+                _playCount = playCount;
+                _storeUseCount = storeUseCount;
             }
         }
 
@@ -140,12 +157,13 @@ namespace week
 
         #region private
 
-        [SerializeField] public property _property;  // 자산
-        [SerializeField] public status _status;      // 능력치
-        [SerializeField] public record _record;      // 기록
-        [SerializeField] public quest _quest;        // 퀘스트
-        [SerializeField] public payment _payment;    // 결제
-        [SerializeField] public gameUtility _util;   // 유틸
+        [SerializeField] public property _property;     // 자산
+        [SerializeField] public statistics _statistics; // 통계
+        [SerializeField] public status _status;         // 능력치
+        [SerializeField] public record _record;         // 기록
+        [SerializeField] public quest _quest;           // 퀘스트
+        [SerializeField] public payment _payment;       // 결제
+        [SerializeField] public gameUtility _util;      // 유틸
 
         #endregion
 
@@ -157,13 +175,18 @@ namespace week
             // 유저 기본정보
             _property = new property(    
                 nic     : "ready_Player_1",                     // 닉                
-                cur     : new ObscuredInt[3] { 1000, 10, 1 },           // 재화       
+                cur     : new ObscuredInt[3] { 1000, 10, 1 },   // 재화       
                 hasskin : 1,                                    // 보유스킨
                 skin    : 0,                                    // 스킨
-                wholeAccessTime : 0,                            // 접속시간
                 isSetRader      : false,                        // 레이더 대여 여부
                 lastRaderTime   : 0                             // 레이더 마지막 대여시간
             );
+
+            _statistics = new statistics(
+                wholeAccessTime : 0,    // 전체 플탐
+                playCount       : 0,    // 플 횟수
+                storeUseCount   : 0     // 상점이용횟수
+                );
 
             // 스탯
             _status = new status(
@@ -196,14 +219,6 @@ namespace week
                 mullist : 0,
                 chklist : 0
             );
-
-            //const string strPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; //문자 생성 풀
-            //char[] chRandom = new char[8];
-            //for (int i = 0; i < 8; i++ ) 
-            //{
-            //    chRandom[i] = strPool[UnityEngine.Random.Range(0, strPool.Length)];
-            //} 
-            //string strRet = ((network) ? AuthManager.instance.LastLogin.ToString() : "000") + new String(chRandom); 
 
             // 유틸
             _util = new gameUtility(

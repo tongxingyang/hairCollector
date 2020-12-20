@@ -27,7 +27,9 @@ namespace week
 
         #endregion
 
-        [Header("present")]
+        [Header("present")] 
+        [SerializeField] GameObject _mini;
+        [SerializeField] GameObject _icecream;
         [SerializeField] GameObject _ad;
         [SerializeField] GameObject _10p;
         [SerializeField] GameObject _start;
@@ -38,7 +40,9 @@ namespace week
         [SerializeField] TextMeshProUGUI _leftTime;
         [SerializeField] Scrollbar _bar;
 
-        [Space]
+        [Space] 
+        [SerializeField] RectTransform _event;
+        ContentSizeFitter _eventFitter;
         [SerializeField] RectTransform _limit;
         ContentSizeFitter _limitFitter;
         [SerializeField] RectTransform _special;
@@ -50,11 +54,13 @@ namespace week
         {
             _bar.value = 1f;
 
+            _eventFitter = _event.GetComponent<ContentSizeFitter>();
             _limitFitter = _limit.GetComponent<ContentSizeFitter>();
             _specialFitter = _special.GetComponent<ContentSizeFitter>();
 
             _refreshExcla = refreshExcla;
 
+            setEventFitter();
             setLimitFitter();
             setSpecialFitter();
 
@@ -67,13 +73,14 @@ namespace week
         public void getRemoveAd()
         {
             Debug.Log("광고 제거");
-            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
+            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;            
             BaseManager.userGameData.RemoveAd = true;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.removead.ToString(), productValData.image.ToString()),
                 "광고 제거", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.removead, AnalyticsManager.instance.getKey());
         }
@@ -89,6 +96,7 @@ namespace week
                 "추가 10%코인", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.bonus_10_0, AnalyticsManager.instance.getKey());
         }
@@ -98,7 +106,8 @@ namespace week
         {
             string str = "<코인보너스>" + System.Environment.NewLine +
                 "모험 습득 코인 증가" + System.Environment.NewLine +
-                "상점 : 코인 구매량 증가";
+                "상점 : 코인 구매량 증가" + System.Environment.NewLine +
+                "※다음 코인구매, 모험부터 적용됩니다.";
             WindowManager.instance.showActMessage(str, () => { });
         }
 
@@ -151,12 +160,7 @@ namespace week
                 c += DataManager.GetTable<int>(DataTable.product, productKeyList.startpack.ToString(), productValData.addcoin.ToString());
             }
 
-            string bonus = "";
-            if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
-            {
-                c = Convert.ToInt32(c * 1.1f);
-                bonus = " (코인 보너스)";
-            }
+            string bonus = calCoinBonus(ref c);
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.startpack.ToString(), productValData.image.ToString()),
                 "스타팅팩", () => { setLimitFitter(); setSpecialFitter(); }).setImgSize();
@@ -165,13 +169,11 @@ namespace week
             string key = AnalyticsManager.instance.getKey();
             string postmsg = key + "/스타팅팩 구매" + bonus + $"/{c}/{g}/{a}";
 
-            //NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
-            //NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
-            //NanooManager.instance.PostboxItemSend(nanooPost.ap, a, msg);
             NanooManager.instance.PostboxItemSend(nanooPost.pack, 0, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.startpack, key);
         }
@@ -199,12 +201,7 @@ namespace week
                 c += DataManager.GetTable<int>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.addcoin.ToString());
             }
 
-            string bonus = "";
-            if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
-            {
-                c = Convert.ToInt32(c * 1.1f);
-                bonus = " (보너스 추가)";
-            }
+            string bonus = calCoinBonus(ref c);
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.wildskinpack.ToString(), productValData.image.ToString()),
                 "야수사람팩", setSpecialFitter).setImgSize();
@@ -213,12 +210,11 @@ namespace week
             string key = AnalyticsManager.instance.getKey();
             string postmsg = key + "/야수팩 구매" + bonus + $"/{c}/{g}/{0}";
 
-            //NanooManager.instance.PostboxItemSend(nanooPost.gem, g, msg);
-            //NanooManager.instance.PostboxItemSend(nanooPost.coin, c, msg + bonus);
             NanooManager.instance.PostboxItemSend(nanooPost.pack, (int)SkinKeyList.wildman, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.wildskinpack, key);
         }
@@ -242,13 +238,96 @@ namespace week
 
         #endregion
 
+        #region [ 이벤트 (크리스마스) ]
+
+        /// <summary> 크리스마스 미니세트 </summary>
+        public void getMiniSet()
+        {
+            Debug.Log("미니세트 : 5퍼 + 20ap");
+            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_5p;
+            BaseManager.userGameData.MiniSet = true;
+
+            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.miniset.ToString(), productValData.ap.ToString());
+
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.miniset.ToString(), productValData.image.ToString()),
+                "미니세트", setEventFitter).setImgSize();
+            WindowManager.instance.Win_celebrate.whenPurchase();
+
+            string key = AnalyticsManager.instance.getKey();
+            string postmsg = key + $"/미니세트 구매/0/0/{a}";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.pack, 0, postmsg);
+
+            NanooManager.instance.getPostCount(_refreshExcla);
+
+            BaseManager.userGameData.StoreUseCount++;
+            AuthManager.instance.SaveDataServer();
+            setAnalytics(productKeyList.miniset, AnalyticsManager.instance.getKey());
+        }
+
+        /// <summary> 스킨팩 </summary>
+        public void getIcecreamSkinSet()
+        {
+            Debug.Log("아이스크림 스킨셋");
+            BaseManager.userGameData.IcecreamSet = true;
+
+            SkinKeyList skl = SkinKeyList.icecreamman;
+
+            bool result = (BaseManager.userGameData.HasSkin & (1 << (int)skl)) > 0;
+            if (result == false)
+            {
+                BaseManager.userGameData.HasSkin |= (1 << (int)skl);
+            }
+
+            int c = DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.coin.ToString());
+            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.gem.ToString());
+            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.ap.ToString());
+
+            if (result)
+            {
+                g += DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.addgem.ToString());
+                c += DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.addcoin.ToString());
+                a += DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.addap.ToString());
+            }
+
+            string bonus = calCoinBonus(ref c);
+
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.image.ToString()),
+                "아이스크림세트", setEventFitter).setImgSize();
+            WindowManager.instance.Win_celebrate.whenPurchase();
+
+            string key = AnalyticsManager.instance.getKey();
+            string postmsg = key + "/아이스크림세트 구매" + bonus + $"/{c}/{g}/{a}";
+
+            NanooManager.instance.PostboxItemSend(nanooPost.pack, (int)SkinKeyList.icecreamman, postmsg);
+
+            NanooManager.instance.getPostCount(_refreshExcla);
+
+            BaseManager.userGameData.StoreUseCount++;
+            AuthManager.instance.SaveDataServer();
+            setAnalytics(productKeyList.icecreamset, key);
+        }
+
+        /// <summary> 이벤트 세트 정보 </summary>
+        public void eventInfo()
+        {
+            string str = "<미니세트>" + System.Environment.NewLine +
+                "모험 습득 코인 증가" + System.Environment.NewLine +
+                "상점 : 코인 구매량 증가" + System.Environment.NewLine +
+                "※다음 코인구매, 모험부터 적용됩니다." + System.Environment.NewLine + System.Environment.NewLine +
+                "<아이스크림세트>" + System.Environment.NewLine +
+                "스킨구매 후 스킨팩 구매시" + System.Environment.NewLine +
+                "10000코인, 200보석, 30AP 대체 지급";
+            WindowManager.instance.showActMessage(str, () => { });
+        }
+
+        #endregion
+
         #region [ 보석 ]
 
         public void getSmallGem()
         {
             int g = DataManager.GetTable<int>(DataTable.product, productKeyList.s_gem.ToString(), productValData.gem.ToString());
-            // Debug.Log($"{g}보석 겟또다제");
-            // BaseManager.userGameData.Gem += g;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_gem.ToString(), productValData.image.ToString())
                 , "보석 조금").setImgSize(false);
@@ -259,6 +338,7 @@ namespace week
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.s_gem, key);
         }
@@ -266,8 +346,6 @@ namespace week
         public void getMiddleGem()
         {
             int g = DataManager.GetTable<int>(DataTable.product, productKeyList.m_gem.ToString(), productValData.gem.ToString());
-            //Debug.Log($"{g}보석 겟또다제");
-            //BaseManager.userGameData.Gem += g;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_gem.ToString(), productValData.image.ToString())
                 , "보석 가방").setImgSize(false);
@@ -278,6 +356,7 @@ namespace week
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.m_gem, key);
         }
@@ -285,8 +364,6 @@ namespace week
         public void getLargeGem()
         {
             int g = DataManager.GetTable<int>(DataTable.product, productKeyList.l_gem.ToString(), productValData.gem.ToString());
-            //Debug.Log($"{i}보석 겟또다제");
-            //BaseManager.userGameData.Gem += i;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_gem.ToString(), productValData.image.ToString())
                 , "보석 금고").setImgSize(false);
@@ -297,6 +374,7 @@ namespace week
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.l_gem, key);
         }
@@ -308,8 +386,6 @@ namespace week
         public void getSmallAp()
         {
             int a = DataManager.GetTable<int>(DataTable.product, productKeyList.s_ap.ToString(), productValData.ap.ToString());
-            //Debug.Log($"{a} AP 겟또다제");
-            //BaseManager.userGameData.Ap += a;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_ap.ToString(), productValData.image.ToString())
                 , "AP 조금").setImgSize(false);
@@ -320,6 +396,7 @@ namespace week
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.s_ap, key);
         }
@@ -327,8 +404,6 @@ namespace week
         public void getMiddleAp()
         {
             int a = DataManager.GetTable<int>(DataTable.product, productKeyList.m_ap.ToString(), productValData.ap.ToString());
-            //Debug.Log($"{a} AP 겟또다제");
-            //BaseManager.userGameData.Ap += a;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_ap.ToString(), productValData.image.ToString())
                 , "AP 뭉치").setImgSize(false);
@@ -339,6 +414,7 @@ namespace week
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.m_ap, key);
         }
@@ -346,8 +422,6 @@ namespace week
         public void getLargeAp()
         {
             int a = DataManager.GetTable<int>(DataTable.product, productKeyList.l_ap.ToString(), productValData.ap.ToString());
-            //Debug.Log($"{a} AP 겟또다제");
-            //BaseManager.userGameData.Ap += a;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_ap.ToString(), productValData.image.ToString())
                 , "AP 가방").setImgSize(false);
@@ -358,6 +432,7 @@ namespace week
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
+            BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.l_ap, key);
         }
@@ -369,25 +444,24 @@ namespace week
         public void getSmallCoin()
         {
             int i = DataManager.GetTable<int>(DataTable.product, productKeyList.s_coin.ToString(), productValData.coin.ToString());
-            WindowManager.instance.Win_message.showPresentAct($"{i}코인", 
-                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_coin.ToString(), productValData.image.ToString()), () =>
-            {
+            WindowManager.instance.Win_message.showPresentAct(
+                $"{i}코인",
+                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.s_coin.ToString(), productValData.image.ToString()), 
+                () => {
                 int cost = DataManager.GetTable<int>(DataTable.product, productKeyList.s_coin.ToString(), productValData.price.ToString());
                 if (BaseManager.userGameData.Gem >= cost)
                 {
                     BaseManager.userGameData.Gem -= cost;
                     _lobby.refreshFollowCost();
 
-                    if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
-                    {
-                        i = Convert.ToInt32(i * 1.1f);
-                    }
+                    calCoinBonus(ref i);
 
                     Debug.Log($"{i}코인 겟또다제");
                     BaseManager.userGameData.Coin += i;
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 10);
 
+                    BaseManager.userGameData.StoreUseCount++;
                     AuthManager.instance.SaveDataServer();
                 }
                 else
@@ -400,25 +474,24 @@ namespace week
         public void getMiddleCoin()
         {
             int i = DataManager.GetTable<int>(DataTable.product, productKeyList.m_coin.ToString(), productValData.coin.ToString());
-            WindowManager.instance.Win_message.showPresentAct($"{i}코인", 
-                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_coin.ToString(), productValData.image.ToString()), () =>
-            {
+            WindowManager.instance.Win_message.showPresentAct(
+                $"{i}코인", 
+                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.m_coin.ToString(), productValData.image.ToString()), 
+                () => {
                 int cost = DataManager.GetTable<int>(DataTable.product, productKeyList.m_coin.ToString(), productValData.price.ToString());
                 if (BaseManager.userGameData.Gem >= cost)
                 {
                     BaseManager.userGameData.Gem -= cost;
                     _lobby.refreshFollowCost();
-                    
-                    if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
-                    {
-                        i = Convert.ToInt32(i * 1.1f);
-                    }
+
+                    calCoinBonus(ref i);
 
                     Debug.Log($"{i}코인 겟또다제");
                     BaseManager.userGameData.Coin += i;
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 15);
 
+                    BaseManager.userGameData.StoreUseCount++;
                     AuthManager.instance.SaveDataServer();
                 }
                 else
@@ -431,25 +504,24 @@ namespace week
         public void getLargeCoin()
         {
             int i = DataManager.GetTable<int>(DataTable.product, productKeyList.l_coin.ToString(), productValData.coin.ToString());
-            WindowManager.instance.Win_message.showPresentAct($"{i}코인",
-                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_coin.ToString(), productValData.image.ToString()), () =>
-            {
+            WindowManager.instance.Win_message.showPresentAct(
+                $"{i}코인",
+                DataManager.GetTable<Sprite>(DataTable.product, productKeyList.l_coin.ToString(), productValData.image.ToString()), 
+                () => {
                 int cost = DataManager.GetTable<int>(DataTable.product, productKeyList.l_coin.ToString(), productValData.price.ToString());
                 if (BaseManager.userGameData.Gem >= cost)
                 {
                     BaseManager.userGameData.Gem -= cost;
                     _lobby.refreshFollowCost();
 
-                    if (BaseManager.userGameData.chkMulCoinList(mulCoinChkList.mul_1st_10p))
-                    {
-                        i = Convert.ToInt32(i * 1.1f);
-                    }
+                    calCoinBonus(ref i);
 
                     Debug.Log($"{i}코인 겟또다제");
                     BaseManager.userGameData.Coin += i;
 
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 22);
 
+                    BaseManager.userGameData.StoreUseCount++;
                     AuthManager.instance.SaveDataServer();
                 }
                 else
@@ -464,6 +536,18 @@ namespace week
         public void purchaseFail()
         {
             WindowManager.instance.showActMessage("결제에 실패했습눈다", () => { });
+        }
+
+        void setEventFitter()
+        {
+            _mini.SetActive(BaseManager.userGameData.MiniSet == false);
+            _icecream.SetActive(BaseManager.userGameData.IcecreamSet == false);
+
+            if (BaseManager.userGameData.MiniSet == true && BaseManager.userGameData.IcecreamSet == true)
+            {
+                _limitFitter.enabled = false;
+                _limit.sizeDelta = new Vector2(1350f, 150f);
+            }
         }
 
         void setLimitFitter()
@@ -498,5 +582,25 @@ namespace week
                     .setProduct(DataManager.GetTable<string>(DataTable.product, pKey.ToString(), productValData.name.ToString()), 0, 0, 0);
             AnalyticsManager.instance.Send(pKey.ToString(), context, null);
         }
+
+        #region
+
+        /// <summary> 보너스 코인 계산 </summary>
+        string calCoinBonus(ref int c)
+        {
+            string bonus = "";
+            for (mulCoinChkList mul = mulCoinChkList.mul_1st_10p; mul < mulCoinChkList.max; mul++)
+            {
+                if (BaseManager.userGameData.chkMulCoinList(mul))
+                {
+                    c = Convert.ToInt32(c * gameValues._bonusCoinVal[(int)mul]);
+                    bonus = " (코인 보너스)";
+                }
+            }
+
+            return bonus;
+        }
+
+        #endregion
     }
 }

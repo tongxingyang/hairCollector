@@ -10,7 +10,7 @@ namespace week
 {
     public class BaseManager : MonoBehaviour
     {
-        static public BaseManager instance;
+        static public BaseManager instance; // 
 
         public static UserGameData userGameData;
         public static Option option;
@@ -152,6 +152,11 @@ namespace week
                 string str = ES3.Load<string>("option");
                 option = JsonUtility.FromJson<Option>(str);
             }
+        }
+
+        public void KeyRandomizing()
+        {            
+            StartCoroutine(userGameData.RandomizeKey_Coroutine());
         }
     }
 }
