@@ -1,2027 +1,2404 @@
-
 snowman.png
 size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-image/angelman-smowman/F-body
+image/angelman-snowman/F-body
   rotate: false
-  xy: 2, 787
+  xy: 954, 723
   size: 252, 224
   orig: 252, 224
   offset: 0, 0
   index: -1
-image/angelman-smowman/F-head
+image/angelman-snowman/F-head
   rotate: true
-  xy: 1209, 1712
+  xy: 1381, 1694
   size: 170, 250
   orig: 170, 250
   offset: 0, 0
   index: -1
-image/angelman-smowman/F-l-arm
+image/angelman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/wildman-smowman/F-l-arm
+image/wildman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/citrusman-smowman/F-l-arm
+image/citrusman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/fireman-smowman/F-l-arm
+image/dragonman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/F-l-arm
+image/fireman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/F-l-arm
+image/goldman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/bulbman-smowman/F-l-arm
+image/icecreamman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/robotman-smowman/F-l-arm
+image/bulbman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/mineman-smowman/F-l-arm
+image/robotman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/snowman-smowman/F-l-arm
+image/mineman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/rockman-smowman/F-l-arm
+image/snowman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/spiderman-smowman/F-l-arm
+image/presentman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/grassman-smowman/F-l-arm
+image/rockman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/squareman-smowman/F-l-arm
+image/santaman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/vampireman-smowman/F-l-arm
+image/spiderman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/heroman-smowman/F-l-arm
+image/grassman-snowman/F-l-arm
   rotate: true
-  xy: 370, 1960
+  xy: 370, 1942
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
-image/angelman-smowman/F-l-hand
+image/squareman-snowman/F-l-arm
   rotate: true
-  xy: 720, 1938
+  xy: 370, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/F-l-arm
+  rotate: true
+  xy: 370, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/F-l-arm
+  rotate: true
+  xy: 370, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/F-l-hand
+  rotate: true
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/wildman-smowman/F-l-hand
+image/wildman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/citrusman-smowman/F-l-hand
+image/citrusman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/fireman-smowman/F-l-hand
+image/dragonman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/F-l-hand
+image/fireman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/F-l-hand
+image/goldman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/bulbman-smowman/F-l-hand
+image/icecreamman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/robotman-smowman/F-l-hand
+image/bulbman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/mineman-smowman/F-l-hand
+image/robotman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/snowman-smowman/F-l-hand
+image/mineman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/rockman-smowman/F-l-hand
+image/snowman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/spiderman-smowman/F-l-hand
+image/presentman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/grassman-smowman/F-l-hand
+image/rockman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/squareman-smowman/F-l-hand
+image/santaman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/vampireman-smowman/F-l-hand
+image/spiderman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/heroman-smowman/F-l-hand
+image/grassman-snowman/F-l-hand
   rotate: true
-  xy: 720, 1938
+  xy: 720, 1920
   size: 94, 98
   orig: 94, 98
   offset: 0, 0
   index: -1
-image/angelman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/wildman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/citrusman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/fireman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/goldenarmorman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/icecreamman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/bulbman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/robotman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/mineman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/snowman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/rockman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/spiderman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/grassman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/squareman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/vampireman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/heroman-smowman/F-r-arm
-  rotate: false
-  xy: 218, 1961
-  size: 74, 71
-  orig: 74, 71
-  offset: 0, 0
-  index: -1
-image/angelman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/wildman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/citrusman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/fireman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/goldenarmorman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/icecreamman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/bulbman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/robotman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/mineman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/snowman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/rockman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/spiderman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/grassman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/squareman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/vampireman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/heroman-smowman/F-r-hand
-  rotate: false
-  xy: 522, 1939
-  size: 97, 93
-  orig: 97, 93
-  offset: 0, 0
-  index: -1
-image/angelman-smowman/b-body1
+image/squareman-snowman/F-l-hand
   rotate: true
-  xy: 485, 722
+  xy: 720, 1920
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/F-l-hand
+  rotate: true
+  xy: 720, 1920
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/F-l-hand
+  rotate: true
+  xy: 720, 1920
+  size: 94, 98
+  orig: 94, 98
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/wildman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/citrusman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/dragonman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/fireman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/goldman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/icecreamman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/bulbman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/robotman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/mineman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/snowman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/rockman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/santaman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/spiderman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/grassman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/squareman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/F-r-arm
+  rotate: false
+  xy: 218, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/wildman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/citrusman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/dragonman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/fireman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/goldman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/icecreamman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/bulbman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/robotman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/mineman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/snowman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/rockman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/santaman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/spiderman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/grassman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/squareman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/F-r-hand
+  rotate: false
+  xy: 522, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/b-body1
+  rotate: false
+  xy: 776, 269
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/angelman-smowman/b-hand1
+image/angelman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/wildman-smowman/b-hand1
+image/wildman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/citrusman-smowman/b-hand1
+image/citrusman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/fireman-smowman/b-hand1
+image/dragonman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/b-hand1
+image/fireman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/b-hand1
+image/goldman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/bulbman-smowman/b-hand1
+image/icecreamman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/robotman-smowman/b-hand1
+image/bulbman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/mineman-smowman/b-hand1
+image/robotman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/snowman-smowman/b-hand1
+image/mineman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/rockman-smowman/b-hand1
+image/snowman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/spiderman-smowman/b-hand1
+image/presentman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/grassman-smowman/b-hand1
+image/rockman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/squareman-smowman/b-hand1
+image/santaman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/vampireman-smowman/b-hand1
+image/spiderman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/heroman-smowman/b-hand1
+image/grassman-snowman/b-hand1
   rotate: true
-  xy: 820, 1938
+  xy: 820, 1920
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-image/angelman-smowman/b-head1
+image/squareman-snowman/b-hand1
   rotate: true
-  xy: 1325, 1531
+  xy: 820, 1920
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/b-hand1
+  rotate: true
+  xy: 820, 1920
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/b-hand1
+  rotate: true
+  xy: 820, 1920
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/b-head1
+  rotate: true
+  xy: 2, 1440
   size: 179, 231
   orig: 179, 231
   offset: 0, 0
   index: -1
-image/angelman-smowman/b-i-arm1
+image/angelman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/wildman-smowman/b-i-arm1
+image/wildman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/citrusman-smowman/b-i-arm1
+image/citrusman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/fireman-smowman/b-i-arm1
+image/dragonman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/b-i-arm1
+image/fireman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/b-i-arm1
+image/goldman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/bulbman-smowman/b-i-arm1
+image/icecreamman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/robotman-smowman/b-i-arm1
+image/bulbman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/mineman-smowman/b-i-arm1
+image/robotman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/snowman-smowman/b-i-arm1
+image/mineman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/rockman-smowman/b-i-arm1
+image/snowman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/spiderman-smowman/b-i-arm1
+image/presentman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/grassman-smowman/b-i-arm1
+image/rockman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/squareman-smowman/b-i-arm1
+image/santaman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/vampireman-smowman/b-i-arm1
+image/spiderman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/heroman-smowman/b-i-arm1
+image/grassman-snowman/b-i-arm1
   rotate: false
-  xy: 294, 1961
+  xy: 294, 1943
   size: 74, 71
   orig: 74, 71
   offset: 0, 0
   index: -1
-image/angelman-smowman/b-l-hand1
+image/squareman-snowman/b-i-arm1
   rotate: false
-  xy: 621, 1939
+  xy: 294, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/b-i-arm1
+  rotate: false
+  xy: 294, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/b-i-arm1
+  rotate: false
+  xy: 294, 1943
+  size: 74, 71
+  orig: 74, 71
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/b-l-hand1
+  rotate: false
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/wildman-smowman/b-l-hand1
+image/wildman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/citrusman-smowman/b-l-hand1
+image/citrusman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/fireman-smowman/b-l-hand1
+image/dragonman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/b-l-hand1
+image/fireman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/b-l-hand1
+image/goldman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/bulbman-smowman/b-l-hand1
+image/icecreamman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/robotman-smowman/b-l-hand1
+image/bulbman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/mineman-smowman/b-l-hand1
+image/robotman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/snowman-smowman/b-l-hand1
+image/mineman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/rockman-smowman/b-l-hand1
+image/snowman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/spiderman-smowman/b-l-hand1
+image/presentman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/grassman-smowman/b-l-hand1
+image/rockman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/squareman-smowman/b-l-hand1
+image/santaman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/vampireman-smowman/b-l-hand1
+image/spiderman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/heroman-smowman/b-l-hand1
+image/grassman-snowman/b-l-hand1
   rotate: false
-  xy: 621, 1939
+  xy: 621, 1921
   size: 97, 93
   orig: 97, 93
   offset: 0, 0
   index: -1
-image/angelman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/wildman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/citrusman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/fireman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/goldenarmorman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/icecreamman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/bulbman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/robotman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/mineman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/snowman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/rockman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/spiderman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/grassman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/squareman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/vampireman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/heroman-smowman/b-r-arm1
-  rotate: true
-  xy: 446, 1960
-  size: 72, 74
-  orig: 72, 74
-  offset: 0, 0
-  index: -1
-image/angelman-smowman/s-body1
+image/squareman-snowman/b-l-hand1
   rotate: false
-  xy: 1531, 113
+  xy: 621, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/b-l-hand1
+  rotate: false
+  xy: 621, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/b-l-hand1
+  rotate: false
+  xy: 621, 1921
+  size: 97, 93
+  orig: 97, 93
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/wildman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/citrusman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/dragonman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/fireman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/goldman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/icecreamman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/bulbman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/robotman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/mineman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/snowman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/rockman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/santaman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/spiderman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/grassman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/squareman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/b-r-arm1
+  rotate: true
+  xy: 446, 1942
+  size: 72, 74
+  orig: 72, 74
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/s-body1
+  rotate: false
+  xy: 1272, 6
   size: 242, 229
   orig: 242, 229
   offset: 0, 0
   index: -1
-image/angelman-smowman/s-head1
+image/angelman-snowman/s-head1
   rotate: true
-  xy: 225, 1013
+  xy: 690, 747
   size: 212, 262
   orig: 212, 262
   offset: 0, 0
   index: -1
-image/angelman-smowman/s-l-arm1
+image/angelman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/wildman-smowman/s-l-arm1
+image/wildman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/citrusman-smowman/s-l-arm1
+image/citrusman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/fireman-smowman/s-l-arm1
+image/dragonman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/s-l-arm1
+image/fireman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/s-l-arm1
+image/goldman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/bulbman-smowman/s-l-arm1
+image/icecreamman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/robotman-smowman/s-l-arm1
+image/bulbman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/mineman-smowman/s-l-arm1
+image/robotman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/snowman-smowman/s-l-arm1
+image/mineman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/rockman-smowman/s-l-arm1
+image/snowman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/spiderman-smowman/s-l-arm1
+image/presentman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/grassman-smowman/s-l-arm1
+image/rockman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/squareman-smowman/s-l-arm1
+image/santaman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/vampireman-smowman/s-l-arm1
+image/spiderman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/heroman-smowman/s-l-arm1
+image/grassman-snowman/s-l-arm1
   rotate: false
-  xy: 2, 1966
+  xy: 2, 1948
   size: 106, 66
   orig: 106, 66
   offset: 0, 0
   index: -1
-image/angelman-smowman/s-l-hand1
+image/squareman-snowman/s-l-arm1
   rotate: false
-  xy: 917, 1923
+  xy: 2, 1948
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/s-l-arm1
+  rotate: false
+  xy: 2, 1948
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/s-l-arm1
+  rotate: false
+  xy: 2, 1948
+  size: 106, 66
+  orig: 106, 66
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/s-l-hand1
+  rotate: false
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/wildman-smowman/s-l-hand1
+image/wildman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/citrusman-smowman/s-l-hand1
+image/citrusman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/fireman-smowman/s-l-hand1
+image/dragonman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/s-l-hand1
+image/fireman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/s-l-hand1
+image/goldman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/bulbman-smowman/s-l-hand1
+image/icecreamman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/robotman-smowman/s-l-hand1
+image/bulbman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/mineman-smowman/s-l-hand1
+image/robotman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/snowman-smowman/s-l-hand1
+image/mineman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/rockman-smowman/s-l-hand1
+image/snowman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/spiderman-smowman/s-l-hand1
+image/presentman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/grassman-smowman/s-l-hand1
+image/rockman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/squareman-smowman/s-l-hand1
+image/santaman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/vampireman-smowman/s-l-hand1
+image/spiderman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/heroman-smowman/s-l-hand1
+image/grassman-snowman/s-l-hand1
   rotate: false
-  xy: 917, 1923
+  xy: 917, 1905
   size: 116, 109
   orig: 116, 109
   offset: 0, 0
   index: -1
-image/angelman-smowman/s-r-arm1
+image/squareman-snowman/s-l-hand1
   rotate: false
-  xy: 110, 1964
+  xy: 917, 1905
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/s-l-hand1
+  rotate: false
+  xy: 917, 1905
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/s-l-hand1
+  rotate: false
+  xy: 917, 1905
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/s-r-arm1
+  rotate: false
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/wildman-smowman/s-r-arm1
+image/wildman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/citrusman-smowman/s-r-arm1
+image/citrusman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/fireman-smowman/s-r-arm1
+image/dragonman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/s-r-arm1
+image/fireman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/s-r-arm1
+image/goldman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/bulbman-smowman/s-r-arm1
+image/icecreamman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/robotman-smowman/s-r-arm1
+image/bulbman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/mineman-smowman/s-r-arm1
+image/robotman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/snowman-smowman/s-r-arm1
+image/mineman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/rockman-smowman/s-r-arm1
+image/snowman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/spiderman-smowman/s-r-arm1
+image/presentman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/grassman-smowman/s-r-arm1
+image/rockman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/squareman-smowman/s-r-arm1
+image/santaman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/vampireman-smowman/s-r-arm1
+image/spiderman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/heroman-smowman/s-r-arm1
+image/grassman-snowman/s-r-arm1
   rotate: false
-  xy: 110, 1964
+  xy: 110, 1946
   size: 106, 68
   orig: 106, 68
   offset: 0, 0
   index: -1
-image/angelman-smowman/s-r-hand1
+image/squareman-snowman/s-r-arm1
   rotate: false
-  xy: 1035, 1922
+  xy: 110, 1946
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/s-r-arm1
+  rotate: false
+  xy: 110, 1946
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/s-r-arm1
+  rotate: false
+  xy: 110, 1946
+  size: 106, 68
+  orig: 106, 68
+  offset: 0, 0
+  index: -1
+image/angelman-snowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/wildman-smowman/s-r-hand1
+image/wildman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/citrusman-smowman/s-r-hand1
+image/citrusman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/fireman-smowman/s-r-hand1
+image/dragonman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/s-r-hand1
+image/fireman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/s-r-hand1
+image/goldman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/bulbman-smowman/s-r-hand1
+image/icecreamman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/robotman-smowman/s-r-hand1
+image/bulbman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/mineman-smowman/s-r-hand1
+image/robotman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/snowman-smowman/s-r-hand1
+image/mineman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/rockman-smowman/s-r-hand1
+image/snowman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/spiderman-smowman/s-r-hand1
+image/presentman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/grassman-smowman/s-r-hand1
+image/rockman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/squareman-smowman/s-r-hand1
+image/santaman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/vampireman-smowman/s-r-hand1
+image/spiderman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/heroman-smowman/s-r-hand1
+image/grassman-snowman/s-r-hand1
   rotate: false
-  xy: 1035, 1922
+  xy: 1035, 1904
   size: 115, 110
   orig: 115, 110
   offset: 0, 0
   index: -1
-image/wildman-smowman/F-head
+image/squareman-snowman/s-r-hand1
   rotate: false
-  xy: 241, 1227
+  xy: 1035, 1904
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1904
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/heroman-snowman/s-r-hand1
+  rotate: false
+  xy: 1035, 1904
+  size: 115, 110
+  orig: 115, 110
+  offset: 0, 0
+  index: -1
+image/wildman-snowman/F-head
+  rotate: false
+  xy: 1422, 1126
   size: 378, 198
   orig: 378, 198
   offset: 0, 0
   index: -1
-image/wildman-smowman/b-head1
+image/wildman-snowman/b-head1
   rotate: false
-  xy: 1465, 1342
+  xy: 1046, 1152
   size: 374, 187
   orig: 374, 187
   offset: 0, 0
   index: -1
-image/wildman-smowman/s-head1
+image/wildman-snowman/s-head1
   rotate: false
-  xy: 2, 1045
+  xy: 1745, 900
   size: 221, 210
   orig: 221, 210
   offset: 0, 0
   index: -1
-image/citrusman-smowman/F-head
+image/citrusman-snowman/F-head
   rotate: true
-  xy: 276, 1628
+  xy: 519, 1592
   size: 174, 218
   orig: 174, 218
   offset: 0, 0
   index: -1
-image/citrusman-smowman/b-head1
+image/citrusman-snowman/b-head1
   rotate: true
-  xy: 1558, 1531
+  xy: 1842, 1507
   size: 179, 198
   orig: 179, 198
   offset: 0, 0
   index: -1
-image/citrusman-smowman/s-body1
-  rotate: true
-  xy: 246, 22
-  size: 242, 235
-  orig: 242, 240
-  offset: 0, 5
-  index: -1
-image/citrusman-smowman/s-head1
-  rotate: true
-  xy: 489, 976
+image/citrusman-snowman/s-head1
+  rotate: false
+  xy: 2, 829
   size: 212, 222
   orig: 212, 223
   offset: 0, 1
   index: -1
-image/fireman-smowman/F-head
+image/dragonman-snowman/F-head
   rotate: true
-  xy: 1616, 1132
+  xy: 1633, 1694
+  size: 170, 207
+  orig: 170, 207
+  offset: 0, 0
+  index: -1
+image/dragonman-snowman/b-head1
+  rotate: true
+  xy: 235, 1433
+  size: 179, 200
+  orig: 179, 200
+  offset: 0, 0
+  index: -1
+image/dragonman-snowman/s-head1
+  rotate: true
+  xy: 1633, 1326
+  size: 188, 202
+  orig: 188, 202
+  offset: 0, 0
+  index: -1
+image/fireman-snowman/F-head
+  rotate: true
+  xy: 1524, 916
   size: 208, 219
   orig: 208, 219
   offset: 0, 0
   index: -1
-image/fireman-smowman/b-head1
+image/fireman-snowman/b-head1
   rotate: true
-  xy: 1546, 916
+  xy: 460, 800
   size: 214, 228
   orig: 214, 228
   offset: 0, 0
   index: -1
-image/fireman-smowman/s-body1
+image/goldman-snowman/F-head
   rotate: false
-  xy: 1362, 462
-  size: 289, 226
-  orig: 289, 226
-  offset: 0, 0
-  index: -1
-image/goldenarmorman-smowman/F-body
-  rotate: false
-  xy: 1775, 113
-  size: 261, 229
-  orig: 261, 229
-  offset: 0, 0
-  index: -1
-image/goldenarmorman-smowman/F-head
-  rotate: false
-  xy: 1196, 1343
+  xy: 436, 1224
   size: 267, 186
   orig: 267, 186
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/b-body1
-  rotate: true
-  xy: 256, 520
+image/goldman-snowman/b-body1
+  rotate: false
+  xy: 1030, 249
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/b-head1
+image/goldman-snowman/b-head1
   rotate: false
-  xy: 1039, 1532
+  xy: 437, 1412
   size: 284, 178
   orig: 284, 179
   offset: 0, 0
   index: -1
-image/goldenarmorman-smowman/s-body1
+image/goldman-snowman/s-head1
   rotate: false
-  xy: 2, 102
-  size: 242, 229
-  orig: 242, 229
-  offset: 0, 0
-  index: -1
-image/goldenarmorman-smowman/s-head1
-  rotate: false
-  xy: 2, 1257
+  xy: 1802, 1112
   size: 237, 199
   orig: 237, 199
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/F-body
+image/icecreamman-snowman/F-body
   rotate: false
-  xy: 713, 706
+  xy: 277, 574
   size: 252, 224
   orig: 252, 224
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/F-head
+image/icecreamman-snowman/F-head
   rotate: true
-  xy: 1461, 1712
+  xy: 2, 1621
   size: 170, 268
   orig: 170, 268
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/b-body1
+image/icecreamman-snowman/b-body1
   rotate: false
-  xy: 1653, 344
+  xy: 1284, 237
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/b-head1
+image/icecreamman-snowman/b-head1
   rotate: true
-  xy: 1758, 1531
+  xy: 905, 1347
   size: 179, 247
   orig: 179, 247
   offset: 0, 0
   index: -1
-image/icecreamman-smowman/s-body1
-  rotate: false
-  xy: 483, 21
-  size: 242, 229
-  orig: 242, 229
-  offset: 0, 0
-  index: -1
-image/icecreamman-smowman/s-head1
+image/icecreamman-snowman/s-head1
   rotate: true
-  xy: 713, 932
+  xy: 1208, 703
   size: 212, 270
   orig: 212, 270
   offset: 0, 0
   index: -1
-image/bulbman-smowman/F-body
+image/bulbman-snowman/F-body
   rotate: false
-  xy: 967, 702
+  xy: 531, 521
   size: 252, 224
   orig: 252, 224
   offset: 0, 0
   index: -1
-image/bulbman-smowman/F-head
+image/bulbman-snowman/F-head
   rotate: true
-  xy: 1731, 1712
+  xy: 1375, 1522
   size: 170, 284
   orig: 170, 284
   offset: 0, 0
   index: -1
-image/bulbman-smowman/b-body1
+image/bulbman-snowman/b-body1
   rotate: false
-  xy: 2, 333
+  xy: 1538, 232
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/bulbman-smowman/b-head1
+image/bulbman-snowman/b-head1
   rotate: true
-  xy: 2, 1458
+  xy: 1154, 1341
   size: 179, 237
   orig: 179, 237
   offset: 0, 0
   index: -1
-image/bulbman-smowman/s-body1
-  rotate: false
-  xy: 1215, 2
-  size: 286, 229
-  orig: 286, 229
-  offset: 0, 0
-  index: -1
-image/bulbman-smowman/s-head1
+image/bulbman-snowman/s-head1
   rotate: true
-  xy: 985, 928
+  xy: 1744, 686
   size: 212, 284
   orig: 212, 284
   offset: 0, 0
   index: -1
-image/robotman-smowman/F-body
+image/robotman-snowman/F-body
   rotate: false
-  xy: 1221, 699
+  xy: 785, 497
   size: 252, 224
   orig: 252, 224
   offset: 0, 0
   index: -1
-image/robotman-smowman/b-body1
-  rotate: true
-  xy: 256, 266
+image/robotman-snowman/b-body1
+  rotate: false
+  xy: 1792, 229
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/mineman-smowman/F-body
+image/mineman-snowman/F-body
   rotate: false
-  xy: 750, 475
+  xy: 1516, 2
   size: 306, 225
   orig: 306, 226
   offset: 0, 1
   index: -1
-image/mineman-smowman/F-head
+image/mineman-snowman/F-head
   rotate: true
-  xy: 656, 1398
+  xy: 1837, 1313
   size: 192, 197
   orig: 192, 197
   offset: 0, 0
   index: -1
-image/mineman-smowman/b-body1
-  rotate: false
-  xy: 1246, 233
-  size: 283, 227
-  orig: 283, 227
-  offset: 0, 0
-  index: -1
-image/mineman-smowman/b-head1
+image/mineman-snowman/b-head1
   rotate: true
-  xy: 1841, 1331
+  xy: 235, 1233
   size: 198, 199
   orig: 198, 199
   offset: 0, 0
   index: -1
-image/mineman-smowman/s-body1
+image/mineman-snowman/s-head1
   rotate: false
-  xy: 1058, 472
-  size: 302, 225
-  orig: 302, 225
-  offset: 0, 0
-  index: -1
-image/mineman-smowman/s-head1
-  rotate: false
-  xy: 852, 1146
+  xy: 221, 1023
   size: 243, 199
   orig: 243, 199
   offset: 0, 0
   index: -1
-image/snowman-smowman/F-body
+image/snowman-snowman/F-body
   rotate: false
-  xy: 1475, 690
+  xy: 1039, 477
   size: 252, 224
   orig: 252, 224
   offset: 0, 0
   index: -1
-image/snowman-smowman/F-head
+image/snowman-snowman/F-head
   rotate: false
-  xy: 1152, 1884
+  xy: 1152, 1866
   size: 170, 148
   orig: 170, 148
   offset: 0, 0
   index: -1
-image/snowman-smowman/b-body1
+image/snowman-snowman/b-body1
   rotate: false
-  xy: 484, 252
+  xy: 2, 141
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/snowman-smowman/b-head1
+image/snowman-snowman/b-head1
   rotate: false
-  xy: 496, 1608
+  xy: 1842, 1688
   size: 179, 176
   orig: 179, 176
   offset: 0, 0
   index: -1
-image/snowman-smowman/s-body1
+image/snowman-snowman/s-head1
   rotate: false
-  xy: 727, 16
-  size: 242, 229
-  orig: 242, 229
-  offset: 0, 0
-  index: -1
-image/snowman-smowman/s-head1
-  rotate: false
-  xy: 1324, 1884
+  xy: 1324, 1866
   size: 212, 148
   orig: 212, 151
   offset: 0, 3
   index: -1
-image/rockman-smowman/F-head
+image/presentman-snowman/F-body
   rotate: false
-  xy: 346, 1804
+  xy: 1293, 465
+  size: 252, 224
+  orig: 252, 224
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/F-head
+  rotate: false
+  xy: 980, 1708
+  size: 170, 194
+  orig: 170, 194
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/b-body1
+  rotate: false
+  xy: 256, 120
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/b-head1
+  rotate: false
+  xy: 739, 1574
+  size: 179, 176
+  orig: 179, 176
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/s-head1
+  rotate: true
+  xy: 2, 1053
+  size: 204, 217
+  orig: 212, 217
+  offset: 8, 0
+  index: -1
+image/rockman-snowman/F-head
+  rotate: false
+  xy: 346, 1786
   size: 174, 154
   orig: 174, 154
   offset: 0, 0
   index: -1
-image/rockman-smowman/b-head1
+image/rockman-snowman/b-head1
   rotate: false
-  xy: 677, 1592
+  xy: 920, 1530
   size: 179, 176
   orig: 179, 176
   offset: 0, 0
   index: -1
-image/rockman-smowman/s-body1
-  rotate: true
-  xy: 256, 774
+image/rockman-snowman/s-body1
+  rotate: false
+  xy: 1801, 457
   size: 237, 227
   orig: 237, 227
   offset: 0, 0
   index: -1
-image/rockman-smowman/s-head1
+image/rockman-snowman/s-head1
   rotate: false
-  xy: 980, 1718
+  xy: 1152, 1700
   size: 227, 164
   orig: 227, 164
   offset: 0, 0
   index: -1
-image/spiderman-smowman/F-head
+image/santaman-snowman/F-body
   rotate: false
-  xy: 1538, 1884
+  xy: 522, 294
+  size: 252, 225
+  orig: 272, 229
+  offset: 10, 2
+  index: -1
+image/santaman-snowman/F-head
+  rotate: true
+  xy: 272, 1614
+  size: 170, 245
+  orig: 170, 245
+  offset: 0, 0
+  index: -1
+image/santaman-snowman/b-body1
+  rotate: false
+  xy: 510, 66
+  size: 252, 226
+  orig: 252, 226
+  offset: 0, 0
+  index: -1
+image/santaman-snowman/b-head1
+  rotate: true
+  xy: 1393, 1341
+  size: 179, 238
+  orig: 179, 238
+  offset: 0, 0
+  index: -1
+image/santaman-snowman/s-head1
+  rotate: true
+  xy: 216, 809
+  size: 212, 242
+  orig: 212, 242
+  offset: 0, 0
+  index: -1
+image/spiderman-snowman/F-head
+  rotate: false
+  xy: 1538, 1866
   size: 170, 148
   orig: 170, 148
   offset: 0, 0
   index: -1
-image/spiderman-smowman/b-head1
+image/spiderman-snowman/b-head1
   rotate: true
-  xy: 241, 1447
+  xy: 723, 1393
   size: 179, 180
   orig: 179, 183
   offset: 0, 3
   index: -1
-image/spiderman-smowman/s-head1
+image/spiderman-snowman/s-head1
   rotate: false
-  xy: 1710, 1884
+  xy: 1710, 1866
   size: 212, 148
   orig: 212, 151
   offset: 0, 3
   index: -1
-image/grassman-smowman/F-body
+image/grassman-snowman/F-body
   rotate: false
-  xy: 1729, 572
+  xy: 1547, 460
   size: 252, 224
   orig: 252, 224
   offset: 0, 0
   index: -1
-image/grassman-smowman/F-head
+image/grassman-snowman/F-head
   rotate: true
-  xy: 2, 1639
+  xy: 1101, 1528
   size: 170, 272
   orig: 170, 272
   offset: 0, 0
   index: -1
-image/grassman-smowman/b-body1
+image/grassman-snowman/b-body1
   rotate: false
-  xy: 738, 247
+  xy: 764, 41
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/grassman-smowman/b-head1
+image/grassman-snowman/b-head1
   rotate: true
-  xy: 423, 1427
+  xy: 2, 1259
   size: 179, 231
   orig: 179, 231
   offset: 0, 0
   index: -1
-image/grassman-smowman/s-body1
-  rotate: false
-  xy: 971, 13
-  size: 242, 229
-  orig: 242, 229
-  offset: 0, 0
-  index: -1
-image/grassman-smowman/s-head1
+image/grassman-snowman/s-head1
   rotate: true
-  xy: 1271, 925
+  xy: 2, 595
   size: 212, 273
   orig: 212, 273
   offset: 0, 0
   index: -1
-image/squareman-smowman/F-body
+image/squareman-snowman/F-body
   rotate: false
-  xy: 2, 561
+  xy: 2, 369
   size: 252, 224
   orig: 252, 224
   offset: 0, 0
   index: -1
-image/squareman-smowman/F-head
+image/squareman-snowman/F-head
   rotate: false
-  xy: 2, 1814
+  xy: 2, 1796
   size: 170, 148
   orig: 170, 148
   offset: 0, 0
   index: -1
-image/squareman-smowman/b-body1
+image/squareman-snowman/b-body1
   rotate: false
-  xy: 992, 244
+  xy: 1018, 21
   size: 252, 226
   orig: 252, 226
   offset: 0, 0
   index: -1
-image/squareman-smowman/b-head1
+image/squareman-snowman/b-head1
   rotate: false
-  xy: 858, 1540
+  xy: 1661, 1516
   size: 179, 176
   orig: 179, 176
   offset: 0, 0
   index: -1
-image/squareman-smowman/s-head1
+image/squareman-snowman/s-head1
   rotate: false
-  xy: 766, 1770
+  xy: 766, 1752
   size: 212, 151
   orig: 212, 151
   offset: 0, 0
   index: -1
-image/vampireman-smowman/F-head
+image/vampireman-snowman/F-head
   rotate: false
-  xy: 174, 1811
+  xy: 174, 1793
   size: 170, 148
   orig: 170, 148
   offset: 0, 0
   index: -1
-image/vampireman-smowman/b-body1
-  rotate: true
-  xy: 1837, 1023
+image/vampireman-snowman/b-body1
+  rotate: false
+  xy: 1216, 917
   size: 306, 207
   orig: 306, 207
   offset: 0, 0
   index: -1
-image/vampireman-smowman/b-head1
+image/vampireman-snowman/b-head1
   rotate: false
-  xy: 855, 1347
+  xy: 705, 1162
   size: 339, 183
   orig: 339, 190
   offset: 0, 0
   index: -1
-image/vampireman-smowman/s-head1
+image/vampireman-snowman/s-head1
   rotate: false
-  xy: 522, 1786
+  xy: 522, 1768
   size: 242, 150
   orig: 242, 154
   offset: 0, 4
   index: -1
-image/heroman-smowman/F-body
+image/heroman-snowman/F-body
   rotate: false
-  xy: 1776, 798
+  xy: 1480, 691
   size: 262, 223
   orig: 262, 223
   offset: 0, 0
   index: -1
-image/heroman-smowman/F-head
+image/heroman-snowman/F-head
   rotate: false
-  xy: 1097, 1142
+  xy: 697, 961
   size: 256, 199
   orig: 256, 199
   offset: 0, 0
   index: -1
-image/heroman-smowman/b-body1
+image/heroman-snowman/b-body1
   rotate: false
-  xy: 484, 480
+  xy: 256, 348
   size: 264, 224
   orig: 264, 224
   offset: 0, 0
   index: -1
-image/heroman-smowman/b-head1
+image/heroman-snowman/b-head1
   rotate: false
-  xy: 1355, 1139
+  xy: 955, 949
   size: 259, 201
   orig: 259, 201
   offset: 0, 0
   index: -1
-image/heroman-smowman/s-head1
+image/heroman-snowman/s-head1
   rotate: false
-  xy: 621, 1190
+  xy: 466, 1016
   size: 229, 206
   orig: 229, 206
   offset: 0, 0
   index: -1
 
 snowman2.png
-size: 2048,1024
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-image/wildman-smowman/F-body
-  rotate: true
-  xy: 331, 679
+image/wildman-snowman/F-body
+  rotate: false
+  xy: 2, 81
   size: 318, 251
   orig: 318, 251
   offset: 0, 0
   index: -1
-image/wildman-smowman/b-body1
-  rotate: true
-  xy: 475, 366
+image/wildman-snowman/b-body1
+  rotate: false
+  xy: 1192, 321
   size: 311, 250
   orig: 311, 250
   offset: 0, 0
   index: -1
-image/wildman-smowman/s-body1
+image/wildman-snowman/s-body1
   rotate: false
-  xy: 2, 14
+  xy: 1274, 573
   size: 374, 244
   orig: 374, 244
   offset: 0, 0
   index: -1
-image/citrusman-smowman/F-body
-  rotate: true
-  xy: 1449, 510
+image/citrusman-snowman/F-body
+  rotate: false
+  xy: 630, 331
   size: 256, 249
   orig: 256, 249
   offset: 0, 0
   index: -1
-image/citrusman-smowman/b-body1
-  rotate: true
-  xy: 1241, 241
+image/citrusman-snowman/b-body1
+  rotate: false
+  xy: 2, 339
   size: 261, 248
   orig: 261, 248
   offset: 0, 0
   index: -1
-image/fireman-smowman/F-body
-  rotate: true
-  xy: 727, 443
+image/citrusman-snowman/s-body1
+  rotate: false
+  xy: 1448, 819
+  size: 242, 235
+  orig: 242, 240
+  offset: 0, 5
+  index: -1
+image/dragonman-snowman/F-body
+  rotate: false
+  xy: 265, 334
+  size: 363, 246
+  orig: 368, 246
+  offset: 0, 0
+  index: -1
+image/dragonman-snowman/b-body1
+  rotate: false
+  xy: 1650, 572
+  size: 368, 245
+  orig: 368, 245
+  offset: 0, 0
+  index: -1
+image/dragonman-snowman/s-body1
+  rotate: false
+  xy: 888, 331
+  size: 302, 249
+  orig: 305, 249
+  offset: 3, 0
+  index: -1
+image/fireman-snowman/F-body
+  rotate: false
+  xy: 1692, 819
   size: 314, 235
   orig: 314, 235
   offset: 0, 0
   index: -1
-image/fireman-smowman/b-body1
+image/fireman-snowman/b-body1
   rotate: false
-  xy: 584, 759
+  xy: 555, 582
   size: 322, 238
   orig: 322, 238
   offset: 0, 0
   index: -1
-image/fireman-smowman/s-head1
-  rotate: true
-  xy: 1747, 19
+image/fireman-snowman/s-body1
+  rotate: false
+  xy: 306, 1292
+  size: 289, 226
+  orig: 289, 226
+  offset: 0, 0
+  index: -1
+image/fireman-snowman/s-head1
+  rotate: false
+  xy: 299, 826
   size: 254, 232
   orig: 254, 233
   offset: 0, 1
   index: -1
-image/robotman-smowman/F-head
+image/goldman-snowman/F-body
   rotate: false
-  xy: 1511, 11
-  size: 234, 262
-  orig: 234, 262
+  xy: 882, 1289
+  size: 261, 229
+  orig: 261, 229
   offset: 0, 0
   index: -1
-image/robotman-smowman/b-head1
+image/goldman-snowman/s-body1
   rotate: false
-  xy: 1197, 504
-  size: 250, 262
-  orig: 250, 262
-  offset: 0, 0
-  index: -1
-image/robotman-smowman/s-body1
-  rotate: false
-  xy: 378, 34
-  size: 355, 234
-  orig: 355, 234
-  offset: 0, 0
-  index: -1
-image/robotman-smowman/s-head1
-  rotate: true
-  xy: 735, 174
-  size: 267, 262
-  orig: 267, 262
-  offset: 0, 0
-  index: -1
-image/rockman-smowman/F-body
-  rotate: false
-  xy: 1491, 275
-  size: 270, 233
-  orig: 270, 233
-  offset: 0, 0
-  index: -1
-image/rockman-smowman/b-body1
-  rotate: false
-  xy: 1241, 2
-  size: 268, 237
-  orig: 268, 237
-  offset: 0, 0
-  index: -1
-image/spiderman-smowman/F-body
-  rotate: true
-  xy: 2, 260
-  size: 393, 238
-  orig: 393, 238
-  offset: 0, 0
-  index: -1
-image/spiderman-smowman/b-body1
-  rotate: true
-  xy: 242, 270
-  size: 383, 231
-  orig: 383, 235
-  offset: 0, 0
-  index: -1
-image/spiderman-smowman/s-body1
-  rotate: true
-  xy: 999, 188
-  size: 281, 240
-  orig: 281, 240
-  offset: 0, 0
-  index: -1
-image/squareman-smowman/s-body1
-  rotate: false
-  xy: 1208, 768
+  xy: 1145, 1289
   size: 242, 229
   orig: 242, 229
   offset: 0, 0
   index: -1
-image/vampireman-smowman/F-body
+image/icecreamman-snowman/s-body1
+  rotate: false
+  xy: 1389, 1289
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/bulbman-snowman/s-body1
+  rotate: false
+  xy: 1633, 1289
+  size: 286, 229
+  orig: 286, 229
+  offset: 0, 0
+  index: -1
+image/robotman-snowman/F-head
   rotate: true
-  xy: 2, 655
+  xy: 827, 822
+  size: 234, 262
+  orig: 234, 262
+  offset: 0, 0
+  index: -1
+image/robotman-snowman/b-head1
+  rotate: true
+  xy: 1505, 320
+  size: 250, 262
+  orig: 250, 262
+  offset: 0, 0
+  index: -1
+image/robotman-snowman/s-body1
+  rotate: false
+  xy: 1091, 822
+  size: 355, 234
+  orig: 355, 234
+  offset: 0, 0
+  index: -1
+image/robotman-snowman/s-head1
+  rotate: false
+  xy: 1769, 308
+  size: 267, 262
+  orig: 267, 262
+  offset: 0, 0
+  index: -1
+image/mineman-snowman/b-body1
+  rotate: false
+  xy: 597, 1291
+  size: 283, 227
+  orig: 283, 227
+  offset: 0, 0
+  index: -1
+image/mineman-snowman/s-body1
+  rotate: false
+  xy: 2, 1293
+  size: 302, 225
+  orig: 302, 225
+  offset: 0, 0
+  index: -1
+image/snowman-snowman/s-body1
+  rotate: false
+  xy: 2, 1062
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/presentman-snowman/s-body1
+  rotate: false
+  xy: 246, 1061
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/rockman-snowman/F-body
+  rotate: false
+  xy: 555, 823
+  size: 270, 233
+  orig: 270, 233
+  offset: 0, 0
+  index: -1
+image/rockman-snowman/b-body1
+  rotate: false
+  xy: 2, 589
+  size: 268, 237
+  orig: 268, 237
+  offset: 0, 0
+  index: -1
+image/santaman-snowman/s-body1
+  rotate: false
+  xy: 490, 1060
+  size: 277, 229
+  orig: 278, 229
+  offset: 0, 0
+  index: -1
+image/spiderman-snowman/F-body
+  rotate: false
+  xy: 879, 582
+  size: 393, 238
+  orig: 393, 238
+  offset: 0, 0
+  index: -1
+image/spiderman-snowman/b-body1
+  rotate: false
+  xy: 1557, 1056
+  size: 383, 231
+  orig: 383, 235
+  offset: 0, 0
+  index: -1
+image/spiderman-snowman/s-body1
+  rotate: false
+  xy: 272, 584
+  size: 281, 240
+  orig: 281, 240
+  offset: 0, 0
+  index: -1
+image/grassman-snowman/s-body1
+  rotate: false
+  xy: 769, 1058
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/squareman-snowman/s-body1
+  rotate: false
+  xy: 1013, 1058
+  size: 242, 229
+  orig: 242, 229
+  offset: 0, 0
+  index: -1
+image/vampireman-snowman/F-body
+  rotate: false
+  xy: 322, 2
   size: 342, 327
   orig: 342, 327
   offset: 0, 0
   index: -1
-image/vampireman-smowman/s-body1
-  rotate: true
-  xy: 964, 471
+image/vampireman-snowman/s-body1
+  rotate: false
+  xy: 2, 828
   size: 295, 231
   orig: 295, 231
   offset: 0, 0
   index: -1
-image/heroman-smowman/s-body1
+image/heroman-snowman/s-body1
   rotate: false
-  xy: 908, 768
+  xy: 1257, 1058
   size: 298, 229
   orig: 298, 229
   offset: 0, 0

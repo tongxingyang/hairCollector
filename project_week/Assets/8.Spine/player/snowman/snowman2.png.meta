@@ -1,7 +1,130 @@
 fileFormatVersion: 2
 guid: 332171fe4773d754f898bb6d9c34d135
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -4640499167667487428
+    second: image/wildman-snowman/F-body
+  - first:
+      213: -8059661932470131765
+    second: image/wildman-snowman/b-body1
+  - first:
+      213: -1906971082580155350
+    second: image/wildman-snowman/s-body1
+  - first:
+      213: -6725647454318320842
+    second: image/citrusmanman-snowman/F-body
+  - first:
+      213: 5547290309173686602
+    second: image/citrusmanman-snowman/b-body1
+  - first:
+      213: 3524024533337281127
+    second: image/citrusmanman-snowman/s-body1
+  - first:
+      213: 6735907909739714652
+    second: image/dragonman-snowman/F-body
+  - first:
+      213: -2024453020082747924
+    second: image/dragonman-snowman/b-body1
+  - first:
+      213: -1604165900605870988
+    second: image/dragonman-snowman/s-body1
+  - first:
+      213: -3488423026936212447
+    second: image/fireman-snowman/F-body
+  - first:
+      213: -2156630794560449361
+    second: image/fireman-snowman/b-body1
+  - first:
+      213: 4604305371331308793
+    second: image/fireman-snowman/s-body1
+  - first:
+      213: 8565882342252920677
+    second: image/fireman-snowman/s-head1
+  - first:
+      213: -1400828392478551623
+    second: image/goldmanman-snowman/F-body
+  - first:
+      213: 8813050025851996431
+    second: image/goldmanman-snowman/s-body1
+  - first:
+      213: -8273307796039483639
+    second: image/icecreamman-snowman/s-body1
+  - first:
+      213: -5978774632744484703
+    second: image/bulbman-snowman/s-body1
+  - first:
+      213: -7798871351397247384
+    second: image/robotman-snowman/F-head
+  - first:
+      213: 3910543603318904037
+    second: image/robotman-snowman/b-head1
+  - first:
+      213: -5270384644279383324
+    second: image/robotman-snowman/s-body1
+  - first:
+      213: 4518181142312673882
+    second: image/robotman-snowman/s-head1
+  - first:
+      213: 343609327962943766
+    second: image/mineman-snowman/b-body1
+  - first:
+      213: 4366256696629445144
+    second: image/mineman-snowman/s-body1
+  - first:
+      213: 8774651924255510701
+    second: image/snowman-snowman/s-body1
+  - first:
+      213: -8110833919283377807
+    second: image/presentman-snowman/s-body1
+  - first:
+      213: -473167481324082032
+    second: image/rockman-snowman/F-body
+  - first:
+      213: -6840150372278278456
+    second: image/rockman-snowman/b-body1
+  - first:
+      213: 3411476816654976282
+    second: image/santaman-snowman/s-body1
+  - first:
+      213: 4438256887830056607
+    second: image/spiderman-snowman/F-body
+  - first:
+      213: -5403149244918333519
+    second: image/spiderman-snowman/b-body1
+  - first:
+      213: -9114796783216956686
+    second: image/spiderman-snowman/s-body1
+  - first:
+      213: -4283028104469253866
+    second: image/grassman-snowman/s-body1
+  - first:
+      213: 3812573658439006880
+    second: image/squareman-snowman/s-body1
+  - first:
+      213: 3328617096223396526
+    second: image/vampireman-snowman/F-body
+  - first:
+      213: 3182937984354850947
+    second: image/vampireman-snowman/s-body1
+  - first:
+      213: -1273659112805491962
+    second: image/heroman-snowman/s-body1
+  - first:
+      213: -1765112465375641896
+    second: image/citrusman-snowman/F-body
+  - first:
+      213: -843090542928928108
+    second: image/citrusman-snowman/b-body1
+  - first:
+      213: 2890722339760775144
+    second: image/citrusman-snowman/s-body1
+  - first:
+      213: 8835435666645541866
+    second: image/goldman-snowman/F-body
+  - first:
+      213: -7601933485897009132
+    second: image/goldman-snowman/s-body1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -40,7 +163,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -97,7 +220,868 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: image/wildman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1716
+        width: 318
+        height: 251
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3dfeaae792a99fb0800000000000000
+      internalID: -4640499167667487428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/wildman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 1192
+        y: 1477
+        width: 311
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc32161ac24562090800000000000000
+      internalID: -8059661932470131765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/wildman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1274
+        y: 1231
+        width: 374
+        height: 244
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a242ed967e31985e0800000000000000
+      internalID: -1906971082580155350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/citrusmanman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 1468
+        width: 256
+        height: 249
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 633a8d83643b9a2a0800000000000000
+      internalID: -6725647454318320842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/citrusmanman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1461
+        width: 261
+        height: 248
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a41b348352febfc40800000000000000
+      internalID: 5547290309173686602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/citrusmanman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1448
+        y: 994
+        width: 242
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 762945954a9d7e030800000000000000
+      internalID: 3524024533337281127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/dragonman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 1468
+        width: 363
+        height: 246
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5897c73e80ca7d50800000000000000
+      internalID: 6735907909739714652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/dragonman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1231
+        width: 368
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce5408944b2b7e3e0800000000000000
+      internalID: -2024453020082747924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/dragonman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 1468
+        width: 302
+        height: 249
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47ca795dc9bdcb9e0800000000000000
+      internalID: -1604165900605870988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/fireman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 994
+        width: 314
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1249c2d4db1a69fc0800000000000000
+      internalID: -3488423026936212447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/fireman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 1228
+        width: 322
+        height: 238
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa45e8af7bb1212e0800000000000000
+      internalID: -2156630794560449361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/fireman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 530
+        width: 289
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fc20af2757c5ef30800000000000000
+      internalID: 4604305371331308793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/fireman-snowman/s-head1
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 990
+        width: 254
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56fb6c53b9020e670800000000000000
+      internalID: 8565882342252920677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/goldmanman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 530
+        width: 261
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b1d80bbff14f8ce0800000000000000
+      internalID: -1400828392478551623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/goldmanman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1145
+        y: 530
+        width: 242
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f09c7a21e4e3e4a70800000000000000
+      internalID: 8813050025851996431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/icecreamman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 530
+        width: 242
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90fb893b46e4f2d80800000000000000
+      internalID: -8273307796039483639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/bulbman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1633
+        y: 530
+        width: 286
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a0062ff520270da0800000000000000
+      internalID: -5978774632744484703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/robotman-snowman/F-head
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 992
+        width: 262
+        height: 234
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8661ffa73d7d4c390800000000000000
+      internalID: -7798871351397247384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/robotman-snowman/b-head1
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 1478
+        width: 262
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e4df7230ba054630800000000000000
+      internalID: 3910543603318904037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/robotman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 992
+        width: 355
+        height: 234
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4eacd08f615dbd6b0800000000000000
+      internalID: -5270384644279383324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/robotman-snowman/s-head1
+      rect:
+        serializedVersion: 2
+        x: 1769
+        y: 1478
+        width: 267
+        height: 262
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a526a628fcdc3be30800000000000000
+      internalID: 4518181142312673882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/mineman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 530
+        width: 283
+        height: 227
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 611fdbefcdeb4c400800000000000000
+      internalID: 343609327962943766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/mineman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 530
+        width: 302
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 812c4c8055f089c30800000000000000
+      internalID: 4366256696629445144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/snowman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 757
+        width: 242
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da092fc5f63d5c970800000000000000
+      internalID: 8774651924255510701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/presentman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 758
+        width: 242
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 179cce00687807f80800000000000000
+      internalID: -8110833919283377807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/rockman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 992
+        width: 270
+        height: 233
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09c6964cea8fe69f0800000000000000
+      internalID: -473167481324082032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/rockman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1222
+        width: 268
+        height: 237
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c6e8122a77e211a0800000000000000
+      internalID: -6840150372278278456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/santaman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 759
+        width: 277
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1543380710085f20800000000000000
+      internalID: 3411476816654976282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/spiderman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 1228
+        width: 393
+        height: 238
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9e8a05ef1bd79d30800000000000000
+      internalID: 4438256887830056607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/spiderman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 1557
+        y: 761
+        width: 383
+        height: 231
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bff83c83682405b0800000000000000
+      internalID: -5403149244918333519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/spiderman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 1224
+        width: 281
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2faea703e9cb18180800000000000000
+      internalID: -9114796783216956686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/grassman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 761
+        width: 242
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6117816a1a0af84c0800000000000000
+      internalID: -4283028104469253866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/squareman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 761
+        width: 242
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aab44fda8bf8e430800000000000000
+      internalID: 3812573658439006880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/vampireman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 1719
+        width: 342
+        height: 327
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea210bdfc9f913e20800000000000000
+      internalID: 3328617096223396526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/vampireman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 989
+        width: 295
+        height: 231
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 388919b9b311c2c20800000000000000
+      internalID: 3182937984354850947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/heroman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1257
+        y: 761
+        width: 298
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60b1a48f8cd035ee0800000000000000
+      internalID: -1273659112805491962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/citrusman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 1468
+        width: 256
+        height: 249
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8debba0909f0187e0800000000000000
+      internalID: -1765112465375641896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/citrusman-snowman/b-body1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1461
+        width: 261
+        height: 248
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 492ea3b3e9dbc44f0800000000000000
+      internalID: -843090542928928108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/citrusman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1448
+        y: 994
+        width: 242
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ef1abdf6a8ed1820800000000000000
+      internalID: 2890722339760775144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/goldman-snowman/F-body
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 530
+        width: 261
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae3693a3de5cd9a70800000000000000
+      internalID: 8835435666645541866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: image/goldman-snowman/s-body1
+      rect:
+        serializedVersion: 2
+        x: 1145
+        y: 530
+        width: 242
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41836f675c1808690800000000000000
+      internalID: -7601933485897009132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
