@@ -264,7 +264,6 @@ namespace week
 
         public void PlayGame()
         {
-            Debug.Log(BaseManager.userGameData.StatusLevel[(int)StatusData.hpgen]);
             BaseManager.userGameData.applyLevel();
             SoundManager.instance.StopBGM();
             BaseManager.instance.convertScene(SceneNum.LobbyScene.ToString(), SceneNum.GameScene);

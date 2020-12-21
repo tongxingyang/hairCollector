@@ -14,7 +14,7 @@ namespace week
 
         public override void setSeason(season ss)
         {
-            for (season i = season.spring; i < season.max; i++)
+            for (season i = season.spring; i < season.not; i++)
             {
                 objs[(int)i].SetActive(i == ss);
             }

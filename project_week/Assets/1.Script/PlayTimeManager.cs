@@ -18,11 +18,17 @@ namespace week
             }
         }
 
-        // ====== [   store   ] ======
         long _nowTime;
+        bool _isSetUserData = false;
+
+        // ====== [   store   ] ======
         DateTime _eve = new DateTime(2020, 12, 31, 23, 59, 59);
         TimeSpan _leftTime;
         public TimeSpan LeftTime { get => _leftTime; }
+        // ====== [   adgem   ] ======
+        DateTime _nextAdGem;
+        TimeSpan adgem_leftTime;
+        public TimeSpan AdGem_LeftTime { get => adgem_leftTime; }
         // ====== [   rader   ] ======
         bool _chkRader;
         long _chkRaderTime;
@@ -43,16 +49,24 @@ namespace week
                 BaseManager.userGameData.TimeCheck++;
                 _timeStack++;
 
-                // 광고제거 안샀고 && 레이더 시간 체크 필요 && 레이더 아직 대여불가
-                if (BaseManager.userGameData.RemoveAd == false && _chkRader && BaseManager.userGameData.RaderRentalable == false) 
+                _nowTime += 1000;
+
+                if (_isSetUserData)
                 {
-                    _chkRaderTime++;
-                    if (_chkRaderTime > 900)
-                    {
-                        BaseManager.userGameData.RaderRentalable = true;
-                    }
+                    adgem_leftTime = _nextAdGem - gameValues.epoch.AddMilliseconds(_nowTime);
                 }
-                _nowTime -= 1000;
+
+                // 광고제거 안샀고 && 레이더 시간 체크 필요 && 레이더 아직 대여불가
+                //if (BaseManager.userGameData.RemoveAd == false && _chkRader && BaseManager.userGameData.RaderRentalable == false) 
+                //{
+                //    _chkRaderTime++;
+                //    if (_chkRaderTime > 900)
+                //    {
+                //        BaseManager.userGameData.RaderRentalable = true;
+                //    }
+                //}
+
+                
                 _leftTime = _eve - gameValues.epoch.AddMilliseconds(_nowTime);
 
                 if (BaseManager.userGameData.TimeCheck > 300f) // 5분
@@ -66,6 +80,20 @@ namespace week
             }
 
             yield return null;
+        }
+
+
+        public void setAdGem()
+        {
+            _nextAdGem = gameValues.epoch.AddMilliseconds(BaseManager.userGameData.NextAdGemTime);
+
+            _isSetUserData = true;
+        }
+
+        public void adGemRefresh()
+        {
+            BaseManager.userGameData.NextAdGemTime = BaseManager.userGameData.LastSave + Convert.ToInt64(new TimeSpan(0, 30, 0).TotalMilliseconds);
+            setAdGem();
         }
 
         #region [ Time Check List ]

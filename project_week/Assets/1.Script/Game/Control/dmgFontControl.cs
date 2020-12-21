@@ -18,10 +18,10 @@ namespace week
         }
 
         // Update is called once per frame
-        public void Init(int val, dmgTxtType type = dmgTxtType.standard)
+        public void Init(string val, dmgTxtType type = dmgTxtType.standard)
         {
             isUse = true;            
-            _dmgText.text = val.ToString();
+            _dmgText.text = val;
 
             switch (type)
             {
@@ -33,6 +33,12 @@ namespace week
                     break;
                 case dmgTxtType.heal:
                     _dmgText.color = Color.green * 0.9f;
+                    break;
+                case dmgTxtType.att:
+                    _dmgText.color = new Color(1f, 1f, 0f) * 0.9f;
+                    break;
+                case dmgTxtType.def:
+                    _dmgText.color = Color.blue * 0.9f;
                     break;
             }
 

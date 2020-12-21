@@ -30,8 +30,8 @@ namespace week
 
         #region Ruin
 
-        [ShowIf("chk_ruin")]
-        [SerializeField] LandItem present;
+        //[ShowIf("chk_ruin")]
+        //[SerializeField] LandItem present;
         [ShowIf("chk_ruin")]
         [SerializeField] baseRuinTrap _trap;
         bool chk_ruin { get { return _type >= mapObstacle.ruin0; } }
@@ -46,7 +46,7 @@ namespace week
         [SerializeField] seasonlyBase[] _objs;
         [ShowIf("chk_normal")]
         [SerializeField] environmentObject[] _envs;
-        bool chk_normal { get { return chk_boss == false && chk_ruin == false; } }
+        bool chk_normal { get { return chk_boss == false; } }
        
 
         #endregion
@@ -99,7 +99,7 @@ namespace week
             }
             else if (chk_ruin)
             {
-                ruinInit();
+                ruinInit(ss);
                 _trap.repeatInit();
             }
             else
@@ -140,7 +140,7 @@ namespace week
 
         void bossInit()
         {
-            present = null;
+            // present = null;
             _objs = null;
             _normalTem = null;
 
@@ -160,14 +160,18 @@ namespace week
 
         #region ruinLand
 
-        void ruinInit()
+        void ruinInit(season ss)
         {
-            bosPos = null;
-            _objs = null;
-            _normalTem = null;
+            //bosPos = null;
+            //_objs = null;
+            //_normalTem = null;
 
-            present.presentRespone();
-            present.Init(_gs, ()=> { _trap.OnTrap = false; });
+            normalInit(ss);
+            //present.presentRespone();
+            //present.Init(_gs, ()=> { _trap.OnTrap = false; });
+
+            _normalTem[0].presentRespone();
+            _normalTem[0].Init(_gs, () => { _trap.OnTrap = false; });
 
             StartCoroutine(chkPlayer());
         }
@@ -177,7 +181,7 @@ namespace week
             yield return new WaitForSeconds(1f);
             while (true)
             {
-                _trap.OnTrap = (Vector3.Distance(_player.transform.position, transform.position) < 8f);
+                _trap.OnTrap = (Vector3.Distance(_player.transform.position, transform.position) < 9f);
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
@@ -190,7 +194,7 @@ namespace week
         void normalInit(season ss)
         {
             bosPos = null;
-            present = null;
+            //present = null;
             foreach (LandItem tem in _normalTem)
             {
                 tem.Init(_gs, ()=> { });

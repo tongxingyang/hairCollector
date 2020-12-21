@@ -12,6 +12,7 @@ namespace week
         #region [UIBase]
         enum eTr
         {
+            ad_gem,
             s_gem,
             m_gem,
             l_gem,
@@ -39,6 +40,8 @@ namespace week
         [SerializeField] LobbyScene _lobby;
         [SerializeField] TextMeshProUGUI _leftTime;
         [SerializeField] Scrollbar _bar;
+        [SerializeField] TextMeshProUGUI _timer;
+        [SerializeField] Image _ad_gemBox;
 
         [Space] 
         [SerializeField] RectTransform _event;
@@ -49,10 +52,12 @@ namespace week
         ContentSizeFitter _specialFitter;
 
         Action<bool> _refreshExcla;
+        bool _adUsable;
 
         public void Init(Action<bool> refreshExcla)
         {
             _bar.value = 1f;
+            _adUsable = true;
 
             _eventFitter = _event.GetComponent<ContentSizeFitter>();
             _limitFitter = _limit.GetComponent<ContentSizeFitter>();
@@ -64,7 +69,48 @@ namespace week
             setLimitFitter();
             setSpecialFitter();
 
-            StartCoroutine(limitTimeCheck());
+            StartCoroutine(timeCheckUpdate());
+        }
+
+        IEnumerator timeCheckUpdate()
+        {
+            BaseManager.userGameData.NextAdGemTime = 0;
+            BaseManager.instance.PlayTimeMng.setAdGem();
+            BaseManager.instance.PlayTimeMng.setStoreCheck(BaseManager.userGameData.LastSave);
+
+            while (true)
+            {
+                if (_10p.activeSelf)
+                {
+                    if (BaseManager.instance.PlayTimeMng.LeftTime.Days > 0)
+                    {
+                        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Days}일 {BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 남음";
+                    }
+                    else if (BaseManager.instance.PlayTimeMng.LeftTime.Hours > 0)
+                    {
+                        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 {BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
+                    }
+                    else
+                    {
+                        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
+                    }
+                }
+
+                if (BaseManager.instance.PlayTimeMng.AdGem_LeftTime.TotalSeconds > 0)
+                {
+                    _timer.text = $"{BaseManager.instance.PlayTimeMng.AdGem_LeftTime.Minutes}:{BaseManager.instance.PlayTimeMng.AdGem_LeftTime.Seconds} 남음";
+                    _ad_gemBox.color = Color.gray;
+                    // _ad_gemBox.raycastTarget = false;
+                }
+                else
+                {
+                    _timer.text = "광고보기";
+                    _ad_gemBox.color = Color.white;
+                    // _ad_gemBox.raycastTarget = true;
+                }
+
+                yield return new WaitForSecondsRealtime(1f);
+            }
         }
 
         #region [ 특별 상품 ]
@@ -109,28 +155,7 @@ namespace week
                 "상점 : 코인 구매량 증가" + System.Environment.NewLine +
                 "※다음 코인구매, 모험부터 적용됩니다.";
             WindowManager.instance.showActMessage(str, () => { });
-        }
-
-        IEnumerator limitTimeCheck()
-        {
-            while (_10p.activeSelf)
-            {
-                if (BaseManager.instance.PlayTimeMng.LeftTime.Days > 0)
-                {
-                    _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Days}일 {BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 남음";
-                }
-                else if (BaseManager.instance.PlayTimeMng.LeftTime.Hours > 0)
-                {
-                    _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 {BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
-                }
-                else 
-                {
-                    _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
-                }
-
-                yield return new WaitForSecondsRealtime(1f);
-            }
-        }
+        }        
 
         /// <summary> 스타터팩 </summary>
         public void getStartPack()
@@ -265,13 +290,13 @@ namespace week
             setAnalytics(productKeyList.miniset, AnalyticsManager.instance.getKey());
         }
 
-        /// <summary> 스킨팩 </summary>
-        public void getIcecreamSkinSet()
+        /// <summary> 산타 스킨팩 </summary>
+        public void getSantaSkinSet()
         {
-            Debug.Log("아이스크림 스킨셋");
-            BaseManager.userGameData.IcecreamSet = true;
+            Debug.Log("산타스킨셋");
+            BaseManager.userGameData.SantaSet = true;
 
-            SkinKeyList skl = SkinKeyList.icecreamman;
+            SkinKeyList skl = SkinKeyList.santaman;
 
             bool result = (BaseManager.userGameData.HasSkin & (1 << (int)skl)) > 0;
             if (result == false)
@@ -279,33 +304,33 @@ namespace week
                 BaseManager.userGameData.HasSkin |= (1 << (int)skl);
             }
 
-            int c = DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.coin.ToString());
-            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.gem.ToString());
-            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.ap.ToString());
+            int c = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.coin.ToString());
+            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.gem.ToString());
+            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.ap.ToString());
 
             if (result)
             {
-                g += DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.addgem.ToString());
-                c += DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.addcoin.ToString());
-                a += DataManager.GetTable<int>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.addap.ToString());
+                g += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addgem.ToString());
+                c += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addcoin.ToString());
+                a += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addap.ToString());
             }
 
             string bonus = calCoinBonus(ref c);
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.icecreamset.ToString(), productValData.image.ToString()),
-                "아이스크림세트", setEventFitter).setImgSize();
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.santaset.ToString(), productValData.image.ToString()),
+                "산타세트", setEventFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             string key = AnalyticsManager.instance.getKey();
-            string postmsg = key + "/아이스크림세트 구매" + bonus + $"/{c}/{g}/{a}";
+            string postmsg = key + "/산타세트 구매" + bonus + $"/{c}/{g}/{a}";
 
-            NanooManager.instance.PostboxItemSend(nanooPost.pack, (int)SkinKeyList.icecreamman, postmsg);
+            NanooManager.instance.PostboxItemSend(nanooPost.pack, (int)SkinKeyList.santaman, postmsg);
 
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
-            setAnalytics(productKeyList.icecreamset, key);
+            setAnalytics(productKeyList.santaset, key);
         }
 
         /// <summary> 이벤트 세트 정보 </summary>
@@ -315,7 +340,7 @@ namespace week
                 "모험 습득 코인 증가" + System.Environment.NewLine +
                 "상점 : 코인 구매량 증가" + System.Environment.NewLine +
                 "※다음 코인구매, 모험부터 적용됩니다." + System.Environment.NewLine + System.Environment.NewLine +
-                "<아이스크림세트>" + System.Environment.NewLine +
+                "<산타 세트>" + System.Environment.NewLine +
                 "스킨구매 후 스킨팩 구매시" + System.Environment.NewLine +
                 "10000코인, 200보석, 30AP 대체 지급";
             WindowManager.instance.showActMessage(str, () => { });
@@ -324,6 +349,79 @@ namespace week
         #endregion
 
         #region [ 보석 ]
+
+        public void getAdGem()
+        {
+            if (_adUsable)
+            {
+                _adUsable = false;
+                StartCoroutine(getAdGemRoutine());
+            }
+        }
+
+        IEnumerator getAdGemRoutine()
+        {
+            if (BaseManager.instance.PlayTimeMng.AdGem_LeftTime.TotalSeconds > 0)
+            {
+                WindowManager.instance.showMessage("조금만 더 기다려주세눈!");
+                _adUsable = true;
+                yield break;
+            }
+
+            int result = 0;
+            
+            NanooManager.instance.getTimeStamp(() =>
+            {
+                if (new TimeSpan(BaseManager.userGameData.NextAdGemTime - BaseManager.userGameData.LastSave).TotalSeconds < 5f)
+                {
+                    result += 1;
+                }
+
+                result += 1;
+            });
+
+            yield return new WaitUntil(() => result > 0);
+
+            if (result == 1)
+            {
+                _adUsable = true;
+                yield break;
+            }
+
+            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.ad_gem.ToString(), productValData.gem.ToString());
+
+#if UNITY_EDITOR
+            Debug.Log("광고");
+            BaseManager.userGameData.Gem += g;
+            WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.ad_gem].position, _lobby.GemTxt.position, currency.gem, g, 0, 10);
+            BaseManager.instance.PlayTimeMng.adGemRefresh();
+            AuthManager.instance.SaveDataServer();
+
+            _adUsable = true;
+#elif UNITY_ANDROID
+            if (AuthManager.instance.networkCheck() == false)
+            {                
+                yield break;
+            }
+
+            AdManager.instance.adReward = () =>
+            {                
+                BaseManager.userGameData.AdRecord++;
+                if (BaseManager.userGameData.DayQuestAd == 0)
+                    BaseManager.userGameData.DayQuestAd = 1;
+
+                BaseManager.userGameData.Gem += g;
+                WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.ad_gem].position, _lobby.GemTxt.position, currency.gem, g, 0, 10);
+                BaseManager.instance.PlayTimeMng.adGemRefresh();
+                AuthManager.instance.SaveDataServer();
+                
+                _adUsable = true;
+            };
+
+            AdManager.instance.UserChoseToWatchAd();
+#endif
+            //WindowManager.instance.showMessage("보석이 모자랍니눈!");
+        }
 
         public void getSmallGem()
         {
@@ -541,9 +639,9 @@ namespace week
         void setEventFitter()
         {
             _mini.SetActive(BaseManager.userGameData.MiniSet == false);
-            _icecream.SetActive(BaseManager.userGameData.IcecreamSet == false);
+            _icecream.SetActive(BaseManager.userGameData.SantaSet == false);
 
-            if (BaseManager.userGameData.MiniSet == true && BaseManager.userGameData.IcecreamSet == true)
+            if (BaseManager.userGameData.MiniSet == true && BaseManager.userGameData.SantaSet == true)
             {
                 _limitFitter.enabled = false;
                 _limit.sizeDelta = new Vector2(1350f, 150f);

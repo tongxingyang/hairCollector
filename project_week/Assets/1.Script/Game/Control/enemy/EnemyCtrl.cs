@@ -29,7 +29,7 @@ namespace week
         protected float _dot = 0;
         protected Color _originColor = Color.white;
 
-        protected Action<Transform, float, dmgTxtType, bool> dmgFunc;
+        protected Action<Transform, string, dmgTxtType, bool> dmgFunc;
         protected bool _isDmgAction;
 
         public virtual float getDamage { get => _finalStt[(int)snowStt.att]; }
@@ -47,7 +47,7 @@ namespace week
                 // val = (val - _finalStt[(int)snowStt.def] > 0) ? val - _finalStt[(int)snowStt.def] : 0;
             }
 
-            dmgFunc(transform, (int)val, dmgTxtType.standard, false);
+            dmgFunc(transform, Convert.ToInt32(val).ToString(), dmgTxtType.standard, false);
             _hp -= val;
 
             if (_hp <= 0)

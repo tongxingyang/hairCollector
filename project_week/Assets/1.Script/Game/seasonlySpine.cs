@@ -59,7 +59,7 @@ namespace week
             _season = ss; 
             
             _hp = 20f;
-            for (season i = season.spring; i < season.max; i++)
+            for (season i = season.spring; i < season.not; i++)
             {
                 _trees[(int)i].SetActive(_season == i);
             }

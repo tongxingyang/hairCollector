@@ -130,10 +130,14 @@ namespace week
             /// <summary> 인앱결제 - 일회성 구매 상품 체크리스트 </summary>
             [SerializeField] public ObscuredInt _chkList;
 
-            public payment(ObscuredInt mullist, ObscuredInt chklist)
+            /// <summary> 레이더 마지막 대여시간 </summary>
+            [SerializeField] public ObscuredLong _nextAdGemTime;
+
+            public payment(ObscuredInt mullist, ObscuredInt chklist, ObscuredLong nextAdGemTime)
             {
                 _mulCoinList = mullist;
                 _chkList = chklist;
+                _nextAdGemTime = nextAdGemTime;
             }
         }
 
@@ -217,7 +221,8 @@ namespace week
             // 인앱결제
             _payment = new payment(
                 mullist : 0,
-                chklist : 0
+                chklist : 0,
+                nextAdGemTime: 0
             );
 
             // 유틸

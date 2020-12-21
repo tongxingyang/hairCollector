@@ -211,6 +211,7 @@ namespace week
             _upgradePanel.levelUpOpen();
         }
 
+        /// <summary> 유물 대신 렙업스킬 </summary>
         public void getEquip()
         {
             if (_gameOver)
@@ -218,19 +219,20 @@ namespace week
                 return;
             }
 
-            _getArti++;
-
-            StartCoroutine(getEquipCo());
-        }
-
-        IEnumerator getEquipCo()
-        {
-            yield return new WaitUntil(() => Pause == false);
-
+            // _getArti++;
             whenPause();
-
-            _upgradePanel.presentOpen();
+            _upgradePanel.levelUpOpen();
+            // StartCoroutine(getEquipCo());
         }
+
+        //IEnumerator getEquipCo()
+        //{
+        //    yield return new WaitUntil(() => Pause == false);
+
+        //    whenPause();
+
+        //    _upgradePanel.presentOpen();
+        //}
 
         #endregion
 

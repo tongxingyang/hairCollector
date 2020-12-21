@@ -8,9 +8,11 @@ namespace week
 {
     public class secondEffCtrl : bombEffBase
     {
+        bool _targetEnemy = true;
         List<EnemyCtrl> _enemies;
         public override void prevInit()
         {
+            _targetEnemy = true;
             switch (getSkillType)
             {
                 case SkillKeyList.poison:
@@ -22,6 +24,10 @@ namespace week
                     StartCoroutine(tickEff());
                     break;
                 case SkillKeyList.mine:
+                    StartCoroutine(timechk());
+                    break;
+                case SkillKeyList.present:
+                    _targetEnemy = false;
                     StartCoroutine(timechk());
                     break;
                 default:
@@ -115,16 +121,41 @@ namespace week
         EnemyCtrl ec;
         void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Boss")) 
+            if (_targetEnemy)
             {
-                ec = collision.gameObject.GetComponentInParent<EnemyCtrl>();
-                if(ec == null)
+                if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Boss"))
                 {
-                    Debug.LogError(collision.name);
-                    return;    
-                }
+                    ec = collision.gameObject.GetComponentInParent<EnemyCtrl>();
+                    if (ec == null)
+                    {
+                        Debug.LogError(collision.name);
+                        return;
+                    }
 
-                chkCollision(ec);
+                    chkCollision(ec);
+                }
+            }
+            else
+            {
+                if (collision.gameObject.tag.Equals("Player"))
+                {
+                    int num = Random.Range(0, 10);
+
+                    switch (num)
+                    {
+                        case 0:
+                            _gs.Player.getAddStat(1, 0);
+                            break;
+                        case 9:
+                            _gs.Player.getAddStat(0, 0.001f);
+                            break;
+                        default:
+                            _gs.Player.getHealed(_dmg);
+                            break;
+                    }
+
+                    Destroy();
+                }
             }
         }
 

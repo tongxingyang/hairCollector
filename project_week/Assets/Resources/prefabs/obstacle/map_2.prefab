@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 6837888647669271939}
   - component: {fileID: 8275513249384463051}
   m_Layer: 0
-  m_Name: map2
+  m_Name: map_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,6 @@ MonoBehaviour:
   _type: 3
   _pocket: {fileID: 1649379098307966135}
   bosPos: []
-  present: {fileID: 0}
   _trap: {fileID: 0}
   _normalTem:
   - {fileID: 4995856080006834141}

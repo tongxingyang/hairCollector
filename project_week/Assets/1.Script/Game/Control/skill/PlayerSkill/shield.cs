@@ -47,7 +47,7 @@ namespace week
                 Destroy();
             }
 
-            _dfm.getText(transform, dmg, dmgTxtType.shield, true);
+            _dfm.getText(transform, Convert.ToInt32(dmg).ToString(), dmgTxtType.shield, true);
         }
 
         public void Destroy()

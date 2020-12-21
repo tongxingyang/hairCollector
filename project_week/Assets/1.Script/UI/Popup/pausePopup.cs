@@ -182,7 +182,7 @@ namespace week
                 }            
             }
 
-            for (SkillKeyList sk = SkillKeyList.snowball; sk < SkillKeyList.poison; sk++)
+            for (SkillKeyList sk = SkillKeyList.snowball; sk < SkillKeyList.max; sk++)
             {
                 if (_gs.Player.Skills[sk].active)
                 {
@@ -199,22 +199,22 @@ namespace week
                 }
             }
 
-            for (SkillKeyList sk = SkillKeyList.poison; sk < SkillKeyList.max; sk++)
-            {
-                if (_gs.Player.Equips[sk].active)
-                {
-                    if (_skillList.Count <= num)
-                    {
-                        gsc = Instantiate(_skillCase).GetComponent<getSkillCase>();
-                        gsc.transform.SetParent(_contents.transform);
-                        gsc.transform.localScale = Vector3.one;
-                        _skillList.Add(gsc);
-                    }
+            //for (SkillKeyList sk = SkillKeyList.poison; sk < SkillKeyList.max; sk++)
+            //{
+            //    if (_gs.Player.Equips[sk].active)
+            //    {
+            //        if (_skillList.Count <= num)
+            //        {
+            //            gsc = Instantiate(_skillCase).GetComponent<getSkillCase>();
+            //            gsc.transform.SetParent(_contents.transform);
+            //            gsc.transform.localScale = Vector3.one;
+            //            _skillList.Add(gsc);
+            //        }
 
-                    _skillList[num].Init(sk, _gs.Player.Equips[sk].Lvl);
-                    num++;
-                }
-            }
+            //        _skillList[num].Init(sk, _gs.Player.Equips[sk].Lvl);
+            //        num++;
+            //    }
+            //}
 
             if (_skillList.Count > num)
             {

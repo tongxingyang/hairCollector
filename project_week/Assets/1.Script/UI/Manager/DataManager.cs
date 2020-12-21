@@ -122,7 +122,7 @@ namespace week
             {
                 name = sps[i].name;
 
-                for (SkillKeyList sk= SkillKeyList.hp; sk < SkillKeyList.max; sk++)
+                for (SkillKeyList sk= SkillKeyList.hp; sk < SkillKeyList.present; sk++)
                 {
                     if (name.Equals(sk.ToString()))
                     {

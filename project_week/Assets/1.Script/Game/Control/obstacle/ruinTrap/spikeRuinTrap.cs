@@ -20,8 +20,8 @@ namespace week
                 originX = x;
                 originY = y;
 
-                _x = -6;
-                _y = -6;
+                _x = -10;
+                _y = -10;
             }
 
             public void set(int x, int y)
@@ -117,13 +117,13 @@ namespace week
 
                     for (int i = 0; i < _trapCnt; i++)
                     {
-                        _pos[i].set(-6, -6);
+                        _pos[i].set(-10, -10);
                     }
 
                     for (int i = 0; i < _trapCnt; i++)
                     {
-                        x = Random.Range(-6, 7);
-                        y = Random.Range(-6, 7);
+                        x = Random.Range(-10, 11);
+                        y = Random.Range(-10, 11);
 
                         if (x * x + y * y < 2)
                         {
@@ -160,7 +160,7 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                Vector3 knock = (_player.transform.position - transform.position).normalized;
+                Vector3 knock = (transform.position - _player.transform.position).normalized;
                 _player.getDamaged(Att);
                 _player.getKnock(knock, 0.1f, 0.2f);
             }

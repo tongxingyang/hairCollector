@@ -26,10 +26,8 @@ namespace week
         /// <param name="val"> 값 </param>
         /// <param name="type"> 타입 </param>
         /// <param name="force"> 강제표시여부 </param>
-        public void getText(Transform tr, float val, dmgTxtType type = dmgTxtType.standard, bool force = false)
+        public void getText(Transform tr, string val, dmgTxtType type = dmgTxtType.standard, bool force = false)
         {
-            int v = Convert.ToInt32(val);
-
             if (!force && !Toggle)
             {
                 return;
@@ -40,7 +38,7 @@ namespace week
                 if (_fonts[i].isUse == false)
                 {
                     _fonts[i].transform.position = tr.position; //_main.WorldToScreenPoint(tr.position + setPos());
-                    _fonts[i].Init(v, type);
+                    _fonts[i].Init(val, type);
                     return;
                 }
             }
@@ -50,7 +48,7 @@ namespace week
             dfc.transform.localScale = Vector3.one;
             _fonts.Add(dfc);
             dfc.transform.position = tr.position;// _main.WorldToScreenPoint(tr.position + setPos());
-            dfc.Init(v, type);
+            dfc.Init(val, type);
         }
 
         Vector3 setPos()

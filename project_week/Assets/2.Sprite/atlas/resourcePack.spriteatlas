@@ -31,11 +31,13 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: f11af6bef39f1a14095464874d637c9c, type: 3}
-    totalSpriteSurfaceArea: 2597389
+    totalSpriteSurfaceArea: 2859533
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 9b5bbc30dca17514683f5c78bdfcc232, type: 3}
   - {fileID: 21300000, guid: 54991f80853056e42bdd2d04629cadae, type: 3}
+  - {fileID: 21300000, guid: 3050f0f100018ad4489ddf94d4fe3c3e, type: 3}
   - {fileID: 21300000, guid: 71c20642d95fcdc4492ced8289033b79, type: 3}
   - {fileID: 21300000, guid: ba5267a2134560c45871ef36902d788f, type: 3}
   - {fileID: 21300000, guid: 8f2c0724ceb553549bb50e502074dd81, type: 3}
@@ -79,10 +81,12 @@ SpriteAtlas:
   - {fileID: -8495300114308787323, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 1635055861421886099, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: -4119737044834620640, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -9005300983099633957, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 6080536018806788060, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 8324481844719395650, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
-  - {fileID: 6349210309166641485, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -7223074356348408784, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 5558478475039901937, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: 8713109392304557500, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 4793782148570310912, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: -4650935894319457, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: -5877225852943743422, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
@@ -90,16 +94,18 @@ SpriteAtlas:
   - {fileID: 4553243302448354405, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: -7998336624724643453, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: -506931616367580828, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
+  - {fileID: -3006831474195821460, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 21300000, guid: 2513f848f6fdb41429b3b751560df879, type: 3}
   - {fileID: 21300000, guid: 64185798894843e4ba74169dbaf62bdc, type: 3}
-  - {fileID: 21300000, guid: da75c96ab2e0acd47988d6ff2618c86b, type: 3}
   - {fileID: 21300000, guid: 53a27c9ce5b2e0944bfc2b32de9b404e, type: 3}
   - {fileID: 21300000, guid: 2140f50d9a62718409a8fade703a6ce9, type: 3}
   - {fileID: 21300000, guid: 7185dd6e02d837846b443460106a3190, type: 3}
   - {fileID: 21300000, guid: 2c2523cf81170b14584dfb7fb41238c3, type: 3}
   - {fileID: 21300000, guid: db9ed5ff94b4b1e4294c84ddcd6d3cbe, type: 3}
   m_PackedSpriteNamesToIndex:
+  - santaSet
   - ap_l
+  - gem
   - gem_s
   - skinPack
   - gem_m
@@ -143,10 +149,12 @@ SpriteAtlas:
   - heroman
   - spiderman
   - icecreamman
+  - goldman
   - robotman
   - angelman
-  - goldenarmorman
+  - dragonman
   - mineman
+  - presentman
   - grassman
   - wildman
   - fireman
@@ -154,9 +162,9 @@ SpriteAtlas:
   - squareman
   - rockman
   - bulbman
+  - santaman
   - gem_l
   - coin_s
-  - icecreamSet
   - startPack
   - coin_l
   - ap_m

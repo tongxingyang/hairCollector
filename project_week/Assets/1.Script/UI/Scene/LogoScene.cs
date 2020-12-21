@@ -17,8 +17,6 @@ namespace week
         {
             TeamLogo,
             GameLogo,
-                        
-            Fill,
 
             pressButton
         }
@@ -29,6 +27,7 @@ namespace week
 
         [SerializeField] NotificationPopup _notif;
         [SerializeField] TextMeshProUGUI _load;
+        [SerializeField] Slider _fill;
         public bool ConnectComplete { get; private set; }
         float time = 0f;
         float gauge = 0f;
@@ -36,9 +35,9 @@ namespace week
         // Start is called before the first frame update
         void Start()
         {
-            mImgs[(int)E_IMAGE.Fill].fillAmount = 0f;
+            _fill.value = 0f;
             mImgs[(int)E_IMAGE.pressButton].gameObject.SetActive(false);
-            mImgs[(int)E_IMAGE.Fill].gameObject.SetActive(true);
+            _fill.gameObject.SetActive(true);
             _notif.gameObject.SetActive(false);
 
             StartCoroutine(showLogo());
@@ -49,7 +48,7 @@ namespace week
             if (gauge > time)
             {
                 time += Time.deltaTime;
-                mImgs[(int)E_IMAGE.Fill].fillAmount += Time.deltaTime;
+                _fill.value += Time.deltaTime;
             }
         }
 
@@ -70,7 +69,7 @@ namespace week
 
             yield return StartCoroutine(dataLoad());
 
-            yield return new WaitUntil(()=> ConnectComplete && mImgs[(int)E_IMAGE.Fill].fillAmount == 1f);
+            yield return new WaitUntil(()=> ConnectComplete && _fill.value == 1f);
             LoadComplete();
         }
 
@@ -167,13 +166,13 @@ namespace week
 
         void LoadingBar()
         {
-            mImgs[(int)E_IMAGE.Fill].fillAmount = gauge;
+            _fill.value = gauge;
         }
 
         void LoadComplete()
         {
             mImgs[(int)E_IMAGE.pressButton].gameObject.SetActive(true);
-            mImgs[(int)E_IMAGE.Fill].gameObject.SetActive(false);
+            // _fill.gameObject.SetActive(false);
         }
 
         public void StartGame()

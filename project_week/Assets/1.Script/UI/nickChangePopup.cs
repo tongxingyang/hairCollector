@@ -61,44 +61,47 @@ namespace week
 
         IEnumerator chkNickName()
         {
-            Debug.Log("1");
-            bool result = false;
-            yield return StartCoroutine(AuthManager.instance.searchNickName(_field.text, (chk) =>
+            //bool result = false;
+            //yield return StartCoroutine(AuthManager.instance.searchNickName(_field.text, (chk) =>
+            //{
+            //    result = chk;
+
+            //    _closable = true;
+            //}));
+
+            // yield return new WaitUntil(() => _closable == true);
+
+            //if (result) // 중복 있음
+            //{
+            //    WindowManager.instance.Win_message.showMessage("중복된 닉네임이눈!");
+            //}
+            //else // 중복 없음 생성 가능
+            //{
+            
+            yield return null;
+
+            BaseManager.userGameData.NickName = _field.text;
+            if (BaseManager.userGameData.FreeNichkChange)
             {
-                result = chk;
-                Debug.Log("2");
-                _closable = true;
-            }));
-            Debug.Log("3");
-            yield return new WaitUntil(() => _closable == true);
-            Debug.Log("4");
-            if (result) // 중복 있음
-            {
-                WindowManager.instance.Win_message.showMessage("중복된 닉네임이눈!");
+                BaseManager.userGameData.Gem -= gameValues._nickPrice;
             }
-            else // 중복 없음 생성 가능
+            else
             {
-                BaseManager.userGameData.NickName = _field.text;
-                if (BaseManager.userGameData.FreeNichkChange)
-                {
-                    BaseManager.userGameData.Gem -= gameValues._nickPrice;
-                }
-                else
-                {
-                    BaseManager.userGameData.FreeNichkChange = true;
-                }
-
-                completeChange?.Invoke();
-                AuthManager.instance.SaveDataServer();
-
-                NanooManager.instance.setUid(AuthManager.instance.Uid);
-                NanooManager.instance.setRankingRecord();
-
-                WindowManager.instance.Win_message.showActMessage("새로운 닉네임" + System.Environment.NewLine + 
-                    $"[{BaseManager.userGameData.NickName}]" + System.Environment.NewLine + "변경 완료!", null);
-
-                close();
+                BaseManager.userGameData.FreeNichkChange = true;
             }
+
+            completeChange?.Invoke();
+            AuthManager.instance.SaveDataServer();
+
+            NanooManager.instance.setUid(AuthManager.instance.Uid);
+            NanooManager.instance.setRankingRecord();
+
+            WindowManager.instance.Win_message.showActMessage("새로운 닉네임" + System.Environment.NewLine +
+                $"[{BaseManager.userGameData.NickName}]" + System.Environment.NewLine + "변경 완료!", null);
+
+            _closable = true;
+            close();
+            //}
         }
 
         public void open()

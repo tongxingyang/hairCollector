@@ -31347,7 +31347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d526548aee64e464c8eb77d1ab00b9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spine: {fileID: 0}
+  _spine: {fileID: 5295991906630113724}
   _rigid: {fileID: 7694608850121338125}
   _tornado: {fileID: 7417426721115176769}
   _shield: {fileID: 3332499688595431073}

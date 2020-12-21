@@ -64,7 +64,7 @@ namespace week
         startPack,
         skinPack,
         miniSet,
-        icecreamSet
+        santaSet
     }
 
     public enum utilityChkList
@@ -134,7 +134,7 @@ namespace week
         blackhole,
         pet,
 
-        slot,
+        present,
 
         max
     }
@@ -166,6 +166,7 @@ namespace week
     public enum SkinKeyList
     {
         snowman,
+
         fireman,
         grassman,
         rockman,
@@ -175,12 +176,16 @@ namespace week
         mineman,
         robotman,
         icecreamman,
-        goldenarmorman,
+        goldman,
         angelman,
         squareman,
         spiderman,
         vampireman,
         heroman,
+        santaman,
+        presentman,
+        dragonman,
+
         max
     }
 
@@ -346,7 +351,9 @@ namespace week
         startpack,
         wildskinpack,
         miniset,
-        icecreamset,
+        santaset,
+
+        ad_gem,
         s_gem,
         m_gem,
         l_gem,
@@ -381,10 +388,10 @@ namespace week
 
     #region [recital Data]
 
-    public enum skinBvalue { mine, wild, rebirth, blood, invincible, light, invSlow, frozen, hero, critical, max }
-    public enum skinFvalue { mine, wild, rebirth, blood, invincible, snowball, iceHeal, criticDmg, max }
-    public enum skinIvalue { snowball, mine, max }
-    public enum snowballType { standard, citrus, square, rock }
+    public enum skinBvalue { mine, wild, rebirth, blood, invincible, light, invSlow, frozen, hero, critical, present, max }
+    public enum skinFvalue { mine, wild, rebirth, blood, invincible, snowball, iceHeal, criticDmg, present, max }
+    public enum skinIvalue { snowball, mine, present, max }
+    public enum snowballType { standard, citrus, square, rock, present }
 
     #endregion
 
@@ -410,7 +417,7 @@ namespace week
 
         ruin0,
         ruin1,
-        ruin2,
+        //ruin2,
         max
     }
 
@@ -447,7 +454,9 @@ namespace week
     {
         standard,
         shield,
-        heal
+        heal,
+        att,
+        def
     }
 
     #endregion
@@ -470,7 +479,7 @@ namespace week
 
     #endregion
 
-    public enum season { spring, summer, fall, winter, max }
+    public enum season { spring, summer, fall, winter, not, max }
     public enum landtem { heal, gem, present, sward }
 
     #region [Sound]

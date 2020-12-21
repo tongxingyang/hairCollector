@@ -148,8 +148,10 @@ namespace week
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.skinPack) : 0; }
         public bool MiniSet { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.miniSet)) > 0;
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.miniSet) : 0; }
-        public bool IcecreamSet { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.icecreamSet)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.icecreamSet) : 0; }
+        public bool SantaSet { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.santaSet)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.santaSet) : 0; }
+
+        public long NextAdGemTime { get => _userEntity._payment._nextAdGemTime; set => _userEntity._payment._nextAdGemTime = value; }
 
         // 유틸 ==============================================================
         public ObscuredLong LastSave { get => _userEntity._util._lastSave;
@@ -428,7 +430,8 @@ namespace week
             }
 
             string str = "";
-            ObscuredInt statVal = 0;
+            ObscuredInt statIVal = 0;
+            ObscuredFloat statFVal = 0f;
 
             switch (skin)
             {
@@ -436,23 +439,27 @@ namespace week
                     str = "겨울에 만들어진 눈사람";
                     break;
                 case SkinKeyList.fireman:
-                    statVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
-                    str = "여름한정!" + System.Environment.NewLine + $"공격력 {statVal}% 증가";
+                    statIVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
+                    str = "여름한정!" + System.Environment.NewLine + $"공격력 {statIVal}% 증가";
                     break;
                 case SkinKeyList.grassman:
-                    statVal = Convert.ToInt32(stats[(int)defaultStat.hpgen] * 100) - 100;
-                    str = "봄 한정!" + System.Environment.NewLine + $"체력재생량 {statVal}% 증가";
+                    statIVal = Convert.ToInt32(stats[(int)defaultStat.hpgen] * 100) - 100;
+                    str = "봄 한정!" + System.Environment.NewLine + $"체력재생량 {statIVal}% 증가";
                     break;
                 case SkinKeyList.rockman:
-                    statVal = Convert.ToInt32(stats[(int)defaultStat.hp] * 100) - 100;
-                    str = "눈 대신 돌을 던진다." + System.Environment.NewLine + $"체력 {statVal}% 증가";
+                    statIVal = Convert.ToInt32(stats[(int)defaultStat.hp] * 100) - 100;
+                    str = "눈 대신 돌을 던진다." + System.Environment.NewLine + $"체력 {statIVal}% 증가";
                     break;
                 case SkinKeyList.citrusman:
-                    ObscuredFloat val = stats[(int)defaultStat.coin] * 100 - 100;
-                    str = "눈 대신 귤을 던진다." + System.Environment.NewLine + "겨울한정!" + System.Environment.NewLine + string.Format("코인획득량 {0:0.0}% 증가", val);
+                    // 미정
+                    str = "눈 대신 귤을 던진다.";
                     break;
                 case SkinKeyList.bulbman:
                     str = "머리의 전구로 밤을 밝힌다.";
+                    break;
+                case SkinKeyList.presentman:
+                    statFVal = stats[(int)defaultStat.coin] * 100 - 100;
+                    str = "눈 대신 선물 받아라!" + System.Environment.NewLine + "겨울한정!" + System.Environment.NewLine + string.Format("코인획득량 {0:0.0}% 증가", statFVal);
                     break;
                 case SkinKeyList.wildman:
                     str = $"잃은 체력 1%당 공격력 {fval[(int)skinFvalue.wild]}% 증가";
@@ -466,13 +473,13 @@ namespace week
                 case SkinKeyList.icecreamman:
                     str = "눈덩이가 빙결 적용" + System.Environment.NewLine + $"블리자드, 아이스에이지 발동시 체력 {fval[(int)skinFvalue.iceHeal]}% 회복";
                     break;
-                case SkinKeyList.goldenarmorman:
-                    statVal = Convert.ToInt32(stats[(int)defaultStat.def]);
-                    str = $"30초에 한번씩 {fval[(int)skinFvalue.invincible]}초간 무적" + System.Environment.NewLine + $"방어력 {statVal}% 증가";
+                case SkinKeyList.goldman:
+                    statIVal = Convert.ToInt32(stats[(int)defaultStat.def]);
+                    str = $"30초에 한번씩 {fval[(int)skinFvalue.invincible]}초간 무적" + System.Environment.NewLine + $"방어력 {statIVal}% 증가";
                     break;
                 case SkinKeyList.angelman:
-                    statVal = Convert.ToInt32(stats[(int)defaultStat.speed] * 100) - 100;
-                    str = $"눈사람이 죽을때 최대체력의 {fval[(int)skinFvalue.rebirth]}%로 부활" + System.Environment.NewLine +"(유적과 버프 상실)" + System.Environment.NewLine + $"이동속도 {statVal}% 증가";
+                    statIVal = Convert.ToInt32(stats[(int)defaultStat.speed] * 100) - 100;
+                    str = $"눈사람이 죽을때 최대체력의 {fval[(int)skinFvalue.rebirth]}%로 부활" + System.Environment.NewLine +"(유적과 버프 상실)" + System.Environment.NewLine + $"이동속도 {statIVal}% 증가";
                     break;
                 case SkinKeyList.squareman:
                     str = "네모난 눈을 던진다." + System.Environment.NewLine + $"30% 확률로 {fval[(int)skinFvalue.criticDmg]}%의 추가데미지를 준다.";
@@ -481,8 +488,8 @@ namespace week
                     str = "추가로 달린 다리로 더 많은 눈덩이를 던진다." + System.Environment.NewLine + $"눈덩이 공격력 {fval[(int)skinFvalue.snowball]}% 증가";
                     break;
                 case SkinKeyList.vampireman:
-                    statVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
-                    str = $"눈덩이로 준 피해의 {fval[(int)skinFvalue.blood]}%만큼 체력을 회복한다." + System.Environment.NewLine + $"공격력 {statVal}% 증가";
+                    statIVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
+                    str = $"눈덩이로 준 피해의 {fval[(int)skinFvalue.blood]}%만큼 체력을 회복한다." + System.Environment.NewLine + $"공격력 {statIVal}% 증가";
                     break;
                 case SkinKeyList.heroman:
                     ObscuredInt[] stt = new ObscuredInt[3] { Convert.ToInt32(stats[(int)defaultStat.hp] * 100) - 100,
@@ -491,6 +498,13 @@ namespace week
 
                     str = "용사의 검을 찾으면 일시적으로 공격력/방어력이 2배가 된다."
                         + System.Environment.NewLine + $"체력 {stt[0]}% 증가/공격력 {stt[1]}% 증가/방어력 {stt[2]}% 증가";
+                    break;
+                case SkinKeyList.santaman:
+                    str = $"넌 선물 1개! 난 선물 {ival[(int)skinIvalue.present]}개!" + System.Environment.NewLine
+                        + $"선물 먹으면 체력 {fval[(int)skinFvalue.present]}% 회복" + System.Environment.NewLine + "낮은 확률로 공격력 or 방어력 증가";
+                    break;
+                case SkinKeyList.dragonman:
+                    // 미정
                     break;
                 default:
                     break;

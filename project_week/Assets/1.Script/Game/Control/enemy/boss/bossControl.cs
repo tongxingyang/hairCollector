@@ -56,7 +56,7 @@ namespace week
                 val = (val - Def > 0) ? val - Def : 0;
             }
 
-            dmgFunc(transform, (int)val, dmgTxtType.standard, false);
+            dmgFunc(transform, Convert.ToInt32(val).ToString(), dmgTxtType.standard, false);
             _hp -= val;
 
             refreshHpbar();
@@ -70,7 +70,7 @@ namespace week
             return val;
         }
 
-        public void setting(GameScene gs, Action<Transform, float, dmgTxtType, bool> dmg, Action<float> kill)
+        public void setting(GameScene gs, Action<Transform, string, dmgTxtType, bool> dmg, Action<float> kill)
         {
             _player = gs.Player;
             _gs = gs;

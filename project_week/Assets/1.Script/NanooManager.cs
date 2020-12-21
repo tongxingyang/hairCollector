@@ -199,7 +199,7 @@ namespace week
             plugin.PostboxItem((state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    // Debug.Log("getPostboxList : " + rawData);
+                    Debug.Log("getPostboxList : " + rawData);
 
                     setList?.Invoke(dictionary);
                 }
