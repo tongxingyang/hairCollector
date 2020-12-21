@@ -31,6 +31,8 @@ namespace week
         [Header("button")]
         [SerializeField] Image _AdsBtn;
         [SerializeField] Image _lobbyBtn;
+        [Header("coinper")]
+        [SerializeField] GameObject[] _per;
 
         float _preCalCoin, _getCoin;
         float _preCalGem, _getGem;
@@ -40,6 +42,11 @@ namespace week
 
         private void Start()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                _per[i].SetActive(false);
+            }
+
             gameObject.SetActive(false);
         }
 
@@ -148,6 +155,7 @@ namespace week
                 {
                     Debug.Log(i.ToString());
                     yield return new WaitForSeconds(0.5f);
+                    _per[(int)i].SetActive(true);
                     yield return StartCoroutine(getMultiReward(gameValues._mulCoinVal[(int)i]));
                 }
             }

@@ -31,7 +31,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: f11af6bef39f1a14095464874d637c9c, type: 3}
-    totalSpriteSurfaceArea: 2859533
+    totalSpriteSurfaceArea: 2925069
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -97,6 +97,7 @@ SpriteAtlas:
   - {fileID: -3006831474195821460, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
   - {fileID: 21300000, guid: 2513f848f6fdb41429b3b751560df879, type: 3}
   - {fileID: 21300000, guid: 64185798894843e4ba74169dbaf62bdc, type: 3}
+  - {fileID: 21300000, guid: 2394c27919a4e2e47b67ee981df4c3e6, type: 3}
   - {fileID: 21300000, guid: 53a27c9ce5b2e0944bfc2b32de9b404e, type: 3}
   - {fileID: 21300000, guid: 2140f50d9a62718409a8fade703a6ce9, type: 3}
   - {fileID: 21300000, guid: 7185dd6e02d837846b443460106a3190, type: 3}
@@ -165,6 +166,7 @@ SpriteAtlas:
   - santaman
   - gem_l
   - coin_s
+  - 5perCoin
   - startPack
   - coin_l
   - ap_m

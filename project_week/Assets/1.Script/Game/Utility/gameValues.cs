@@ -35,7 +35,7 @@ namespace week
     public static class gameValues
     {
         /// <summary> 버전 </summary>
-        public static readonly ObscuredInt _version = 1;
+        // public static readonly ObscuredInt _version = 1;
         /// <summary> 유닉스 시대 </summary>
         public static readonly DateTime epoch = new DateTime(1970, 1, 1, 9, 0, 0, DateTimeKind.Utc);
         /// <summary> 기기 데이터 리스트 키 </summary>
@@ -78,6 +78,9 @@ namespace week
         public static readonly ObscuredFloat _expIncrease = 1.2f;
         /// <summary> 힐팩량(5%) </summary>
         public static readonly ObscuredFloat _healpackVal = 0.05f;
+
+        /// <summary> 몹 강화량 </summary>
+        public static readonly ObscuredFloat _mobIncrease = 1.25f;
 
         // 추가코인 ==============================
         public static readonly Vector3[] _mulCoinVal = new Vector3[3] {

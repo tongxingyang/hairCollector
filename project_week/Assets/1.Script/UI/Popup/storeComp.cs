@@ -643,8 +643,8 @@ namespace week
 
             if (BaseManager.userGameData.MiniSet == true && BaseManager.userGameData.SantaSet == true)
             {
-                _limitFitter.enabled = false;
-                _limit.sizeDelta = new Vector2(1350f, 150f);
+                _eventFitter.enabled = false;
+                _event.sizeDelta = new Vector2(1350f, 150f);
             }
         }
 

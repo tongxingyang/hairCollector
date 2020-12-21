@@ -651,7 +651,7 @@ namespace week
             data["_time"] = (int)TimeRecord;
             data["_boss"] = (int)BossRecord;
             data["_skin"] = (int)RecordSkin;
-            data["_version"] = (int)gameValues._version;
+            data["_version"] = 11;
 
             return data;
         }

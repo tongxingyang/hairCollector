@@ -96,8 +96,8 @@ namespace week
             preInit(); 
             
             _finalStt = new float[(int)snowStt.max];
-            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(1.23f, _clMng.Day);
-            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(1.23f, _clMng.Day);
+            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(gameValues._mobIncrease, _clMng.Day);
+            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(gameValues._mobIncrease, _clMng.Day);
             _finalStt[(int)snowStt.def] = _standardStt[(int)snowStt.def] + (_def * _clMng.Day);
             if (_finalStt[(int)snowStt.def] > 80f)
                 _finalStt[(int)snowStt.def] = 80f;
