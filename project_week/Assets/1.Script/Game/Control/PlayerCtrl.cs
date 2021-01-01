@@ -350,15 +350,9 @@ namespace week
             getSkill(SkillKeyList.snowball);
 
 #if UNITY_EDITOR
-            getSkill(SkillKeyList.blizzard);
-            //Debug.Log(_skillStt[(int)SkillKeyList.size]);
-            //getSkill(SkillKeyList.size);
-            //Debug.Log(_skillStt[(int)SkillKeyList.size]);
-            //getSkill(SkillKeyList.size);
-            //Debug.Log(_skillStt[(int)SkillKeyList.size]);
-            // StartCoroutine(chk());
-#endif
 
+            // getNamedBuff(Boss.boss_scarecrow);
+#endif
             if (BaseManager.userGameData.SkinBval[(int)skinBvalue.mine])
             {
                 getSkill(SkillKeyList.mine);
@@ -912,7 +906,9 @@ namespace week
         /// <summary> 삭제된 타입 버프 일괄계산 </summary>
         void reCalBuff(eBuff bff)
         {
-            _buffStt[(int)bff] = 1f;
+            // _buffStt = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f, 1f }; // ebuff (11개)
+            _buffStt[(int)bff] = (bff == eBuff.hpgen) ? 0f : 1f;
+            // _buffStt[(int)bff] = 1f;
 
             for (int i = 0; i < _buffList.Count; i++)
             {
@@ -1035,6 +1031,7 @@ namespace week
 
         public void getHealed(float heal)
         {
+            Debug.Log("힐 : " + heal);
             heal = heal * HealMount;
             Hp += heal;
 
@@ -1118,7 +1115,7 @@ namespace week
                 {
                     _rebirth_bonus = false;
 
-                    int val = Convert.ToInt32(BaseManager.userGameData.TimeRecord * 0.2f);
+                    int val = Convert.ToInt32(BaseManager.userGameData.SeasonTimeRecord * 0.2f);
                     int limit = (val > 300f) ? 300 : (val < 120) ? 120 : val;
                     if (_gs.ClockMng.RecordTime < limit)
                     {

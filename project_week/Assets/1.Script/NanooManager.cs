@@ -10,8 +10,13 @@ namespace week
     public class NanooManager : TSingleton<NanooManager>
     {
         Plugin plugin;
-        string PRE_RANK_CODE = "snowadventure-RANK-9A9E5FB8-93912F59";
-        string RANK_CODE = "snowadventure-RANK-21DE85D1-03980325";
+
+        readonly string static_RANK_CODE = "snowadventure-RANK-0D39E8A1-E2FF99FE";
+
+        readonly string PRE_RANK_CODE = "snowadventure-RANK-21DE85D1-03980325";
+        readonly string RANK_CODE = "snowadventure-RANK-A01270B3-7AFED569";
+
+        public string getRANK_CODE => RANK_CODE;
 
         protected override void Init()
         {
@@ -119,12 +124,13 @@ namespace week
         //    });
         //}
 
-        #region [ NANOO RANKING ] 
+        #region [ NANOO RANKING ]         
 
         /// <summary> 리더보드에서 랭킹 가져오기 </summary>
-        public void getRankingTotal(Action<Dictionary<string, object>> action)
+        public void getRankingTotal(bool isSeason, Action<Dictionary<string, object>> action)
         {
-            plugin.Ranking(RANK_CODE, 28, (state, message, rawData, dictionary) => {
+            string str = (isSeason) ? RANK_CODE : static_RANK_CODE;
+            plugin.Ranking(str, 28, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     // Debug.Log("rank : " + rawData);
@@ -138,11 +144,11 @@ namespace week
             });
         }
 
-        /// <summary> 랭킹 등록 </summary>
-        public void setRankingRecord()
+        /// <summary> 시즌 랭킹 등록 </summary>
+        public void setSeasonRankingRecord(int boss)
         {
-            long record = BaseManager.userGameData.TimeRecord * 1000 + BaseManager.userGameData.BossRecord;
-            plugin.RankingRecord(RANK_CODE, record, BaseManager.userGameData.getRankData(), (state, message, rawData, dictionary) => {
+            long record = BaseManager.userGameData.SeasonTimeRecord * 1000 + boss;
+            plugin.RankingRecord(RANK_CODE, record, BaseManager.userGameData.getRankData(BaseManager.userGameData.RecordSeasonSkin), (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("Success");
@@ -154,15 +160,44 @@ namespace week
             });
         }
 
-        /// <summary> Personal Query in LeaderBoard </summary>
-        public void getRankingPersonal(Action<Dictionary<string, object>> action)
+        /// <summary> 전체 랭킹 등록 </summary>
+        public void setAllRankingRecord(int boss)
         {
-            plugin.RankingPersonal(RANK_CODE, (state, message, rawData, dictionary) => {
+            long record = BaseManager.userGameData.AllTimeRecord * 1000 + boss;
+            plugin.RankingRecord(static_RANK_CODE, record, BaseManager.userGameData.getRankData(BaseManager.userGameData.RecordAllSkin), (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    //Debug.Log(dictionary["ranking"]);
-                    //Debug.Log(dictionary["data"]);
-                    //Debug.Log(dictionary["total_player"]);
+                    Debug.Log("Success");
+                }
+                else
+                {
+                    Debug.Log("setRankingRecord : Fail");
+                }
+            });
+        }
+
+        /// <summary> 리더보드에서 퍼스널랭킹 가져오기 </summary>
+        public void getRankingPersonal(bool isSeason, Action<Dictionary<string, object>> action)
+        {
+            string str = (isSeason) ? RANK_CODE : static_RANK_CODE;
+            plugin.RankingPersonal(str, (state, message, rawData, dictionary) => {
+                if (state.Equals(Configure.PN_API_STATE_SUCCESS))
+                {
+                    action?.Invoke(dictionary);
+                }
+                else
+                {
+                    Debug.Log("getRankingPersonal : Fail");
+                }
+            });
+        }
+
+        /// <summary> 리더보드에서 이전 (시즌)퍼스널랭킹 가져오기 </summary>
+        public void getPreSeasonRankingPersonal(Action<Dictionary<string, object>> action)
+        {
+            plugin.RankingPersonal(PRE_RANK_CODE, (state, message, rawData, dictionary) => {
+                if (state.Equals(Configure.PN_API_STATE_SUCCESS))
+                {
                     action?.Invoke(dictionary);
                 }
                 else

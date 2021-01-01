@@ -31,6 +31,9 @@ namespace week
         /// <summary> 전투결과 </summary>
         public ObscuredInt[] GameReward { get; set; }
 
+        /// <summary> 이전 랭킹 </summary>
+        public int preRank { get; set; } = -1;
+
         bool autoRecivePost;
 
         /// <summary> 타임스탬프 간격 </summary>
@@ -97,9 +100,13 @@ namespace week
         public ObscuredInt StoreUseCount { get => _userEntity._statistics._storeUseCount; set => _userEntity._statistics._storeUseCount = value; }
 
         // 기록 ==============================================================
-        public ObscuredInt TimeRecord { get => _userEntity._record._timeRecord; }
+        public ObscuredString NowSeasonRankKey { get => _userEntity._record._nowSeasonRankKey; }
+        public ObscuredInt SeasonTimeRecord { get => _userEntity._record._seasonTimeRecord; }
+        public ObscuredInt RecordSeasonSkin { get => _userEntity._record._recordSeasonSkin; }
+        public ObscuredInt AllTimeRecord { get => _userEntity._record._allTimeRecord; }
+        public ObscuredInt RecordAllSkin { get => _userEntity._record._recordAllSkin; }
+
         public ObscuredInt WholeTimeRecord { get => _userEntity._record._wholeTimeRecord; set => _userEntity._record._wholeTimeRecord = value; }
-        public ObscuredInt RecordSkin { get => _userEntity._record._recordSkin; }
         public ObscuredInt BossRecord { get => _userEntity._record._bossRecord; set => _userEntity._record._bossRecord = value; }
         public ObscuredInt ArtifactRecord { get => _userEntity._record._artifactRecord; set => _userEntity._record._artifactRecord = value; }
         public ObscuredInt AdRecord { get => _userEntity._record._adRecord; set => _userEntity._record._adRecord = value; }
@@ -116,7 +123,7 @@ namespace week
         // - 전체
         public ObscuredInt GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
         public ObscuredInt GetBossReward { get => _userEntity._quest._getBossReward; set => _userEntity._quest._getBossReward = value; }
-        public ObscuredInt GetArtifactReward { get => _userEntity._quest._getArtifactReward; set => _userEntity._quest._getArtifactReward = value; }
+        // public ObscuredInt GetArtifactReward { get => _userEntity._quest._getArtifactReward; set => _userEntity._quest._getArtifactReward = value; }
 
         // 스탯 ==============================================================
         public ObscuredInt[] StatusLevel { get => _userEntity._status._statusLevel; set => _userEntity._status._statusLevel = value; }
@@ -132,7 +139,10 @@ namespace week
 
         // 인앱결제 ==============================================================
         public int amcl { get => _userEntity._payment._mulCoinList; }
-        public mulCoinChkList AddMulCoinList { set => _userEntity._payment._mulCoinList |= (1 << (int)value); }
+        public void AddMulCoinList(mulCoinChkList index) 
+        { 
+            _userEntity._payment._mulCoinList |= (1 << (int)index); 
+        }
         public bool chkMulCoinList(mulCoinChkList index)
         {
             return (_userEntity._payment._mulCoinList & (1 << (int)index)) > 0;
@@ -140,16 +150,12 @@ namespace week
         public ObscuredInt PaymentChkList { get => _userEntity._payment._chkList; set => _userEntity._payment._chkList = value; }
         public bool RemoveAd { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.removeAD)) > 0;
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.removeAD) : 0; }
-        public bool MulCoin { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.mulCoins)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.mulCoins) : 0; }
+        public bool MulCoin3p { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.mul_1st_3p)) > 0;
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.mul_1st_3p) : 0; }
         public bool StartPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.startPack)) > 0;
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.startPack) : 0; }
         public bool SkinPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.skinPack)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.skinPack) : 0; }
-        public bool MiniSet { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.miniSet)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.miniSet) : 0; }
-        public bool SantaSet { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.santaSet)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.santaSet) : 0; }
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.skinPack) : 0; }        
 
         public long NextAdGemTime { get => _userEntity._payment._nextAdGemTime; set => _userEntity._payment._nextAdGemTime = value; }
 
@@ -186,6 +192,7 @@ namespace week
 
         public void setUserEntity(UserEntity entity)
         {
+            //_userEntity = new UserEntity(entity);
             _userEntity = entity;
             applySkin();
         }
@@ -516,10 +523,34 @@ namespace week
 
         #region [ 기타 설정 함수 ]
 
-        public void setNewRecord(ObscuredInt newRecord)
+        public void setNewSeasonRecord(ObscuredInt ssRecord)
         {
-            _userEntity._record._timeRecord = newRecord;
-            _userEntity._record._recordSkin = _userEntity._property._skin;
+            _userEntity._record._seasonTimeRecord = ssRecord;
+            _userEntity._record._recordSeasonSkin = _userEntity._property._skin;
+        }
+
+        public void setNewAllRecord(ObscuredInt allRecord)
+        {
+            _userEntity._record._allTimeRecord = allRecord;
+            _userEntity._record._recordAllSkin = _userEntity._property._skin;
+        }
+
+        public void whenRecordNewSeason()
+        {
+            _userEntity._record._seasonTimeRecord = 0;
+            _userEntity._record._recordSeasonSkin = 1;
+            _userEntity._record._nowSeasonRankKey = NanooManager.instance.getRANK_CODE;
+        }
+
+        public void newNickSetssRecord()
+        {
+            if (_userEntity._record._seasonTimeRecord > 0)
+                _userEntity._record._seasonTimeRecord++;
+        }
+        public void newNickSetallRecord()
+        {
+            if (_userEntity._record._allTimeRecord > 0)
+                _userEntity._record._allTimeRecord++;
         }
 
         #endregion
@@ -643,23 +674,23 @@ namespace week
             return _userEntity.saveData();
         }
 
-        public Dictionary<string, object> getRankData(string uid)
+        public Dictionary<string, object> getSeasonRankData(string uid)
         {
             Dictionary<string, object> data = new Dictionary<string, object>();
             data["_uid"] = uid;
             data["_nick"] = NickName;
-            data["_time"] = (int)TimeRecord;
+            data["_time"] = (int)SeasonTimeRecord;
             data["_boss"] = (int)BossRecord;
-            data["_skin"] = (int)RecordSkin;
+            data["_skin"] = (int)RecordSeasonSkin;
             data["_version"] = 11;
 
             return data;
         }
 
         /// <summary>  </summary>
-        public string getRankData()
+        public string getRankData(int skin)
         {
-            rankData data = new rankData(RecordSkin);
+            rankSubData data = new rankSubData(skin);
 
             return JsonUtility.ToJson(data);
         }

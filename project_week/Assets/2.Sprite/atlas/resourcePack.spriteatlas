@@ -31,7 +31,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: f11af6bef39f1a14095464874d637c9c, type: 3}
-    totalSpriteSurfaceArea: 2925069
+    totalSpriteSurfaceArea: 2990605
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -42,6 +42,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ba5267a2134560c45871ef36902d788f, type: 3}
   - {fileID: 21300000, guid: 8f2c0724ceb553549bb50e502074dd81, type: 3}
   - {fileID: 21300000, guid: 22a73b745901a0547bcc68ae55b41428, type: 3}
+  - {fileID: 21300000, guid: 940e145517cf4024fb867bf5d1c3e683, type: 3}
   - {fileID: 21300000, guid: ed6b854637d91224f9b104eac763dee5, type: 3}
   - {fileID: -3921087108199702177, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
   - {fileID: 7961999306597196276, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
@@ -111,6 +112,7 @@ SpriteAtlas:
   - skinPack
   - gem_m
   - adRemove
+  - 3perCoin
   - ap_s
   - skills_28
   - skills_29

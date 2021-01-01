@@ -19,7 +19,7 @@ namespace week
 
             qstTimeTxt,
             qstBossTxt,
-            qstArtifactTxt,
+            // qstArtifactTxt,
             qstAdTxt,
             qstReinTxt
         }
@@ -36,7 +36,7 @@ namespace week
 
             qstTimeBtn,
             qstBossBtn,
-            qstArtifactBtn,
+            // qstArtifactBtn,
             qstAdBtn,
             qstReinBtn
         }
@@ -101,7 +101,7 @@ namespace week
             bool chk = false;
             chk |= refreshDayQuest();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 4; i++)
             {
                 chk |= refreshQuest(i);
             }
@@ -150,7 +150,7 @@ namespace week
             return check;
         }
 
-        /// <summary> 일반퀘스트 새로고침 </summary>
+        /// <summary> 일반퀘스트 새로고침 </summary> fsMNOkuDJhbUUbb9QwtzwOYaNfQ2
         bool refreshQuest(int i)
         {
             int _Val = 0;
@@ -160,24 +160,24 @@ namespace week
                 case 0:
                     mTmps[(int)eTmp.qstTimeTxt].text = BaseManager.userGameData.getTimeRecordToString(BaseManager.userGameData.GetTimeReward + 120) + "까지 버티기";
                     _Val = DataManager.GetTable<int>(DataTable.quest, Quest.time.ToString(), QuestValData.val.ToString());
-                    _chk = (BaseManager.userGameData.TimeRecord - BaseManager.userGameData.GetTimeReward >= _Val);
+                    _chk = (BaseManager.userGameData.AllTimeRecord - BaseManager.userGameData.GetTimeReward >= _Val);
                     break;
                 case 1:
                     mTmps[(int)eTmp.qstBossTxt].text = $"한번의 모험에서 보스 {BaseManager.userGameData.GetBossReward + 1}마리 처치";
                     _Val = DataManager.GetTable<int>(DataTable.quest, Quest.boss.ToString(), QuestValData.val.ToString());
                     _chk = (BaseManager.userGameData.BossRecord - BaseManager.userGameData.GetBossReward >= _Val);
                     break;
+                //case 2:
+                //    mTmps[(int)eTmp.qstArtifactTxt].text = $"한번의 모험에서 유물 {BaseManager.userGameData.GetArtifactReward + 1}개 습득";
+                //    _Val = DataManager.GetTable<int>(DataTable.quest, Quest.artifact.ToString(), QuestValData.val.ToString());
+                //    _chk = (BaseManager.userGameData.ArtifactRecord - BaseManager.userGameData.GetArtifactReward >= _Val);
+                //    break;
                 case 2:
-                    mTmps[(int)eTmp.qstArtifactTxt].text = $"한번의 모험에서 유물 {BaseManager.userGameData.GetArtifactReward + 1}개 습득";
-                    _Val = DataManager.GetTable<int>(DataTable.quest, Quest.artifact.ToString(), QuestValData.val.ToString());
-                    _chk = (BaseManager.userGameData.ArtifactRecord - BaseManager.userGameData.GetArtifactReward >= _Val);
-                    break;
-                case 3:
                     _Val = DataManager.GetTable<int>(DataTable.quest, Quest.ad.ToString(), QuestValData.val.ToString());
                     mTmps[(int)eTmp.qstAdTxt].text = $"광고 처치 ({BaseManager.userGameData.AdRecord}/{_Val}회)";
                     _chk = (BaseManager.userGameData.AdRecord >= _Val);
                     break;
-                case 4:
+                case 3:
                     _Val = DataManager.GetTable<int>(DataTable.quest, Quest.rein.ToString(), QuestValData.val.ToString());
                     mTmps[(int)eTmp.qstReinTxt].text = $"능력치 강화 ({BaseManager.userGameData.ReinRecord}/{_Val}회)";
                     _chk = (BaseManager.userGameData.ReinRecord >= _Val);
@@ -241,15 +241,15 @@ namespace week
                         _Val = DataManager.GetTable<int>(DataTable.quest, Quest.boss.ToString(), QuestValData.val.ToString());
                         BaseManager.userGameData.GetBossReward += _Val;
                         break;
+                    //case 2:
+                    //    _Val = DataManager.GetTable<int>(DataTable.quest, Quest.artifact.ToString(), QuestValData.val.ToString());
+                    //    BaseManager.userGameData.GetArtifactReward += _Val;
+                    //    break;
                     case 2:
-                        _Val = DataManager.GetTable<int>(DataTable.quest, Quest.artifact.ToString(), QuestValData.val.ToString());
-                        BaseManager.userGameData.GetArtifactReward += _Val;
-                        break;
-                    case 3:
                         _Val = DataManager.GetTable<int>(DataTable.quest, Quest.ad.ToString(), QuestValData.val.ToString());
                         BaseManager.userGameData.AdRecord -= _Val;
                         break;
-                    case 4:
+                    case 3:
                         _Val = DataManager.GetTable<int>(DataTable.quest, Quest.rein.ToString(), QuestValData.val.ToString());
                         BaseManager.userGameData.ReinRecord -= _Val;
                         break;

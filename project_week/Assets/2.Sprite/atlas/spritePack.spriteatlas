@@ -49,7 +49,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 578e513cc70e5f24e9c25b943c105710, type: 3}
     - {fileID: 102900000, guid: 4f489253b1c3a37408a270925b8bd3b7, type: 3}
     - {fileID: 102900000, guid: ffee5b2594a591642a555b7802b3ced1, type: 3}
-    totalSpriteSurfaceArea: 25500954
+    totalSpriteSurfaceArea: 25567898
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -73,6 +73,7 @@ SpriteAtlas:
   - {fileID: -5287068859231061253, guid: 702fe970969c0ca4d810cbccb89ff1a9, type: 3}
   - {fileID: 21300000, guid: 5a8ca380f3f64be4b89cbf4d6129ce57, type: 3}
   - {fileID: 21300000, guid: f8cf6590a6bc5114281da5429ea97840, type: 3}
+  - {fileID: 21300000, guid: 2d004b9042467424e8687d910afab104, type: 3}
   - {fileID: 21300000, guid: a40951c0533518e47ae094a03b54b15e, type: 3}
   - {fileID: 21300000, guid: 225275c0148403c4fbb343c8fd1f5e28, type: 3}
   - {fileID: 21300000, guid: 82569ac06f686b94e95306e906518516, type: 3}
@@ -129,7 +130,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f4943e83c0051ed4b8f69fd4b7746fae, type: 3}
   - {fileID: 21300000, guid: 899142933ecadbc4cb0e242afe3cb626, type: 3}
   - {fileID: 21300000, guid: 39b0dc93dd51b9e4d9a59e642746532c, type: 3}
-  - {fileID: 21300000, guid: 3d671fa3f50d77747b3a62a778e31292, type: 3}
   - {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
   - {fileID: 21300000, guid: 254d47e3bd4a7c244a5546fd0ffafa57, type: 3}
   - {fileID: 21300000, guid: 7c0d55243d1bcd04494f4bb763cec627, type: 3}
@@ -226,6 +226,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4c65b6a8be9499b48a0510e79f82f467, type: 3}
   - {fileID: 21300000, guid: a34471b8722036e4c8e0a994fe02b87f, type: 3}
   - {fileID: 21300000, guid: e15562b8f2822a84aa7bab24ce1c5ca6, type: 3}
+  - {fileID: 21300000, guid: 1d4f19c8ce9c50148ab571a9d623405f, type: 3}
   - {fileID: 21300000, guid: a7247ac8bb0d79949b16082c35f9d598, type: 3}
   - {fileID: -8781757214100938709, guid: eba4bfe845c8431409e84422a0969c8a, type: 3}
   - {fileID: 3113750711623011716, guid: eba4bfe845c8431409e84422a0969c8a, type: 3}
@@ -380,6 +381,7 @@ SpriteAtlas:
   - icewall_6
   - poisonmark
   - firemob
+  - arrowShape
   - newmain
   - healRound
   - arrow
@@ -436,7 +438,6 @@ SpriteAtlas:
   - halficicle
   - b1
   - purchaseShadow
-  - arrow 1
   - tower
   - back
   - coin
@@ -533,6 +534,7 @@ SpriteAtlas:
   - rabel3
   - Btn
   - snowball
+  - ribbonCase
   - att
   - crab_0
   - crab_1

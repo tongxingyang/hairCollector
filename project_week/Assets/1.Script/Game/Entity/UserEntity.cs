@@ -78,23 +78,34 @@ namespace week
         [Serializable]
         public struct record
         {
-            [SerializeField] public ObscuredInt _timeRecord;
+            [SerializeField] public ObscuredString _nowSeasonRankKey;
+            [SerializeField] public ObscuredInt _seasonTimeRecord;
+            [SerializeField] public ObscuredInt _recordSeasonSkin; // 시즌 신기록 당시의 스킨
+
+            [SerializeField] public ObscuredInt _allTimeRecord;
+            [SerializeField] public ObscuredInt _recordAllSkin; // 전체 신기록 당시의 스킨
+
             [SerializeField] public ObscuredInt _wholeTimeRecord;
             [SerializeField] public ObscuredInt _bossRecord;
             [SerializeField] public ObscuredInt _artifactRecord;
             [SerializeField] public ObscuredInt _adRecord;
             [SerializeField] public ObscuredInt _reinRecord;
-            [SerializeField] public ObscuredInt _recordSkin; // 신기록 당시의 스킨
 
-            public record(ObscuredInt timeRecord, ObscuredInt wholeTimeRecord, ObscuredInt bossRecord, ObscuredInt artifactRecord, ObscuredInt adRecord, ObscuredInt reinRecord, ObscuredInt recordSkin)
+            public record(ObscuredString nowSeasonRankKey, ObscuredInt seasonTimeRecord, ObscuredInt recordssSkin, ObscuredInt allTimeRecord, ObscuredInt recordallSkin,
+                ObscuredInt wholeTimeRecord, ObscuredInt bossRecord, ObscuredInt artifactRecord, ObscuredInt adRecord, ObscuredInt reinRecord)
             {
-                _timeRecord = timeRecord;
+                _nowSeasonRankKey = nowSeasonRankKey;
+
+                _seasonTimeRecord = seasonTimeRecord;
+                _recordSeasonSkin = recordssSkin;
+                _allTimeRecord = allTimeRecord;
+                _recordAllSkin = recordallSkin;
+
                 _wholeTimeRecord = wholeTimeRecord;
                 _bossRecord = bossRecord;
                 _artifactRecord = artifactRecord;
                 _adRecord = adRecord;
                 _reinRecord = reinRecord;
-                _recordSkin = recordSkin;
             }
         }
 
@@ -109,15 +120,14 @@ namespace week
             // 전체        
             [SerializeField] public ObscuredInt _getTimeReward;
             [SerializeField] public ObscuredInt _getBossReward;
-            [SerializeField] public ObscuredInt _getArtifactReward;
+            // [SerializeField] public ObscuredInt _getArtifactReward;
 
-            public quest(ObscuredInt[] dayQuest, ObscuredInt questSkin, ObscuredInt getTimeReward, ObscuredInt getBossReward, ObscuredInt getArtifactReward)
+            public quest(ObscuredInt[] dayQuest, ObscuredInt questSkin, ObscuredInt getTimeReward, ObscuredInt getBossReward)
             {
                 _dayQuest = dayQuest;
                 _questSkin = questSkin;
                 _getTimeReward = getTimeReward;
                 _getBossReward = getBossReward;
-                _getArtifactReward = getArtifactReward;
             }
         }
 
@@ -199,13 +209,18 @@ namespace week
 
             // 기록
             _record = new record(
-                timeRecord      : 0,
+                nowSeasonRankKey: "non",
+
+                seasonTimeRecord: 0,
+                recordssSkin    : 1,
+                allTimeRecord   : 0,
+                recordallSkin   : 1,
+
                 wholeTimeRecord : 0,
                 bossRecord      : 0,
                 artifactRecord  : 0,
                 adRecord        : 0,
-                reinRecord      : 0,
-                recordSkin      : 1
+                reinRecord      : 0
             );
 
             // 업적
@@ -214,8 +229,7 @@ namespace week
                 questSkin           : 0,
 
                 getTimeReward       : 0,
-                getBossReward       : 0,
-                getArtifactReward   : 0
+                getBossReward       : 0
             );
 
             // 인앱결제

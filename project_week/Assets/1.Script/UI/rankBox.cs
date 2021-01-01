@@ -15,8 +15,9 @@ namespace week
         [SerializeField] TextMeshProUGUI _time;
         [SerializeField] TextMeshProUGUI _boss;
         [SerializeField] TextMeshProUGUI _version;
+        [SerializeField] TextMeshProUGUI _preRank;
 
-        public void setRankBox(int rank, string nick, int record, rankData data)
+        public rankBox setRankBox(int rank, string nick, int record, rankSubData data)
         {
             _skinIcon.sprite = DataManager.SkinSprite[(SkinKeyList)data._skin];
             _skinIcon.color = Color.white;
@@ -28,9 +29,13 @@ namespace week
             _time.text = BaseManager.userGameData.getLifeTime(time, false) + $"({time})";
             _boss.text = boss.ToString();
             _version.text = data._version.ToString();
+
+            _preRank.text = (BaseManager.userGameData.preRank == -1) ? "#--" : $"#{BaseManager.userGameData.preRank}";
+            
+            return this;
         }
 
-        public void blink()
+        public rankBox blink()
         {
             _skinIcon.sprite = DataManager.SkinSprite[SkinKeyList.snowman];
             _skinIcon.color = Color.gray;
@@ -40,6 +45,15 @@ namespace week
             _time.text = "응애 나 아기눈사람";
             _boss.text = "-";
             _version.text = "ver-";
+
+            _preRank.text = (BaseManager.userGameData.preRank == -1) ? "#--" : $"#{BaseManager.userGameData.preRank}";
+
+            return this;
+        }
+
+        public void setBoxType(bool isSeason)
+        {
+            _preRank.gameObject.SetActive(isSeason);
         }
     }
 }

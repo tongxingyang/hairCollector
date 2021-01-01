@@ -48,7 +48,7 @@ namespace week
             if (gauge > time)
             {
                 time += Time.deltaTime;
-                _fill.value += Time.deltaTime;
+                _fill.value += gauge;
             }
         }
 
@@ -87,7 +87,7 @@ namespace week
             else
                 Debug.LogError("앱 데이터 로드 에러");
 
-            gauge += 0.15f;
+            gauge += 0.1f;
 
             yield return new WaitForEndOfFrame();
 
@@ -101,7 +101,7 @@ namespace week
             WindowManager.instance.LoadWin();
             BaseManager.instance.SceneLoadStart = WindowManager.instance.Win_loading.open;
             BaseManager.instance.SceneLoadComplete = WindowManager.instance.Win_loading.close;
-            gauge += 0.5f;
+            gauge += 0.2f;
 
             // 리소스 폴더에서 프리팹 로드
             _load.text = "눈 뭉치는 중..";
@@ -115,7 +115,7 @@ namespace week
             BaseManager.instance.GetComponent<SoundManager>().startSound();
             BaseManager.instance.GetComponent<touchManager>().Init();
             SoundManager.instance.PlayBGM(BGM.Lobby);
-            gauge += 0.05f;
+            gauge += 0.1f;
 
             ConnectComplete = false;
             BaseManager.userGameData = new UserGameData();
@@ -133,7 +133,6 @@ namespace week
                 _load.text = "서버데이터 확인중";
 
                 yield return StartCoroutine(AuthManager.instance.loadDataFromFB()); // [대기] 서버에서 데이터 가져오기
-                Debug.Log(BaseManager.userGameData.NickName);
             }
             else // 서버 x -> 신규
             {
@@ -149,7 +148,7 @@ namespace week
 #else
             // 인터넷 - 데이터 체크 
             yield return StartCoroutine(userDataAfterNetChk());
-            gauge += 0.15f;
+            gauge += 0.1f;
 #endif
             if (ConnectComplete == false)
             {
@@ -160,6 +159,12 @@ namespace week
             //AnalyticsManager.instance.AnalyticsLogin(AuthManager.instance.Uid); // 애널리스틱
 
             // 여기 끝난거 체크해서 다음 씬 진행
+
+            yield return new WaitUntil(() => ConnectComplete == true);
+
+            readyLobby();
+
+            gauge = 1f;
         }
 
 #endregion
@@ -270,13 +275,24 @@ namespace week
                 }
             }
 
-            gauge += 0.15f;
+            gauge += 0.1f;
 
             BaseManager.userGameData.flashData();
             BaseManager.instance.KeyRandomizing();
             //Debug.Log("데이터 완료");
             _load.text = "데이터 로드 완료";
             ConnectComplete = true;
+        }
+
+        /// <summary> 로비가기전에 해결할일 </summary>
+        public void readyLobby()
+        {
+            // 시즌랭킹코드가 없거나 다르면 새걸로 세팅
+            if (string.IsNullOrEmpty(BaseManager.userGameData.NowSeasonRankKey) ||
+                BaseManager.userGameData.NowSeasonRankKey.Equals(NanooManager.instance.getRANK_CODE) == false)
+            {
+                BaseManager.userGameData.whenRecordNewSeason();
+            }
         }
 
         /// <summary> 종료 </summary>

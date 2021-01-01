@@ -141,9 +141,9 @@ namespace week
             str += $" (<color=green>+ {Convert.ToInt32(BaseManager.userGameData.o_Att * f)}</color>)";
             _attTxt.text = str;
 
-            str = (BaseManager.userGameData.o_Def * 100).ToString();
+            str = (BaseManager.userGameData.o_Def * 100).ToString("0.00");
             f = (BaseManager.userGameData.AddStats[2] > 0) ? (BaseManager.userGameData.AddStats[2] - 1) : 0;
-            str += $"% (<color=green>+ {Convert.ToInt32(BaseManager.userGameData.o_Def * f)}%</color>)";
+            str += string.Format("% (<color=green>+ {0:0.00}%</color>)", Convert.ToInt32(BaseManager.userGameData.o_Def * f));
             _defTxt.text = str;
 
             str = string.Format("{0:0.0}", BaseManager.userGameData.o_Hpgen);

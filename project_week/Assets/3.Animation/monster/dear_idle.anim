@@ -20,13 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -2408145021402893861, guid: 8ee7f931b8bf3cf4e88d9966fccc7066,
+      value: {fileID: 8082638831032951257, guid: 7837175f62e126948a51ebd75f8a0f3c,
         type: 3}
     - time: 0.1
-      value: {fileID: 4255654608236439326, guid: 8ee7f931b8bf3cf4e88d9966fccc7066,
+      value: {fileID: 6722606159922779845, guid: 7837175f62e126948a51ebd75f8a0f3c,
         type: 3}
     - time: 0.2
-      value: {fileID: -2408145021402893861, guid: 8ee7f931b8bf3cf4e88d9966fccc7066,
+      value: {fileID: 8082638831032951257, guid: 7837175f62e126948a51ebd75f8a0f3c,
         type: 3}
     attribute: m_Sprite
     path: deer_sprite
@@ -47,9 +47,9 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -2408145021402893861, guid: 8ee7f931b8bf3cf4e88d9966fccc7066, type: 3}
-    - {fileID: 4255654608236439326, guid: 8ee7f931b8bf3cf4e88d9966fccc7066, type: 3}
-    - {fileID: -2408145021402893861, guid: 8ee7f931b8bf3cf4e88d9966fccc7066, type: 3}
+    - {fileID: 8082638831032951257, guid: 7837175f62e126948a51ebd75f8a0f3c, type: 3}
+    - {fileID: 6722606159922779845, guid: 7837175f62e126948a51ebd75f8a0f3c, type: 3}
+    - {fileID: 8082638831032951257, guid: 7837175f62e126948a51ebd75f8a0f3c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

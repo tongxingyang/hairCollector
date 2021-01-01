@@ -99,6 +99,7 @@ namespace week
                 BaseManager.userGameData.followGem = BaseManager.userGameData.Gem;
             }
             WindowManager.instance.Win_coinGenerator.RefreshFollowCost = refreshFollowCost;
+            getMyPreRanking();
 
             // 로비에서 연결되는 창 초기화            
             _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
@@ -186,15 +187,11 @@ namespace week
         {
             if (BaseManager.userGameData.RemoveAd)
             {
-                BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
+                BaseManager.userGameData.AddMulCoinList(mulCoinChkList.removeAD);
             }
-            if (BaseManager.userGameData.MulCoin)
+            if (BaseManager.userGameData.MulCoin3p)
             {
-                BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_10p;
-            }
-            if (BaseManager.userGameData.MiniSet)
-            {
-                BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_5p;
+                BaseManager.userGameData.AddMulCoinList(mulCoinChkList.mul_1st_3p);
             }
         }
 
@@ -330,19 +327,34 @@ namespace week
         {
             MTmps[(int)eTmp.nickName].text = BaseManager.userGameData.NickName;
 
-            if (BaseManager.userGameData.TimeRecord == 0)
+            if (BaseManager.userGameData.SeasonTimeRecord == 0)
             {
                 MTmps[(int)eTmp.RecordTxt].text = "응애 나 아기눈사람";
             }
             else
             {
-                MTmps[(int)eTmp.RecordTxt].text = $"{BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false)}";
+                MTmps[(int)eTmp.RecordTxt].text = $"{BaseManager.userGameData.getLifeTime(BaseManager.userGameData.SeasonTimeRecord, false)}";
             }
         }
 
         void refreshSnowImg()
         {
             mImgs[(int)eImg.snowmanImg].sprite = DataManager.SkinSprite[BaseManager.userGameData.Skin];
+        }
+
+        void getMyPreRanking()
+        {
+            NanooManager.instance.getPreSeasonRankingPersonal((dictionary) =>
+            {
+                if (dictionary == null)
+                {
+                    Debug.LogError("랭킹데이터 없음");
+                    return;
+                }
+
+                BaseManager.userGameData.preRank = int.Parse((string)dictionary["ranking"]);
+                // int totalPlayer = int.Parse((string)dictionary["total_player"]);
+            });
         }
 
         [Button]

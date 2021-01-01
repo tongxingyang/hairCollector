@@ -20,7 +20,7 @@ using NaughtyAttributes;
 namespace week
 {
     [Serializable]
-    public class rankData
+    public class rankSubData
     {
         [SerializeField] public string _version;
         //[SerializeField] public string _nick;
@@ -28,8 +28,8 @@ namespace week
         //[SerializeField] public int _boss;
         [SerializeField] public int _skin;
 
-        public rankData() { }
-        public rankData(int skin)
+        public rankSubData() { }
+        public rankSubData(int skin)
         {
             _version = Application.version;
             //_nick = BaseManager.userGameData.NickName;
@@ -55,7 +55,7 @@ namespace week
 
         string _version;
         // long _lastLogin;
-        List<rankData> _leaders;
+        List<rankSubData> _leaders;
         public Action WhenTomorrow { get; set; }
         bool _succesGetTime;
 
@@ -68,7 +68,7 @@ namespace week
         }
 
         public bool isLoginFb { get; set; }
-        public List<rankData> Leaders { get => _leaders; }
+        public List<rankSubData> Leaders { get => _leaders; }
         public string Version { get => _version; }
         // public long LastLogin { get => _lastLogin; }
         public ObscuredString Uid { get => _uid; set => _uid = value; }
@@ -102,7 +102,7 @@ namespace week
             LoadedLastSave = 0;
             isLoginFb = false;
 
-            _leaders = new List<rankData>();
+            _leaders = new List<rankSubData>();
         }
 
         /// <summary> 로그인 </summary>
@@ -591,17 +591,6 @@ namespace week
 
         #endregion
         */
-
-        /// <summary> 랭킹 정렬 </summary>
-        void sortingLeaders()
-        {
-            Leaders.Sort((rankData A, rankData B) =>
-            {
-                //if (A._time > B._time) return -1;
-                //else if (A._time < B._time) return 1;
-                return 0;
-            });
-        }
 
         #region [ 특정요소 저장/로드 ]
         

@@ -182,7 +182,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 2.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 89106039}
   m_TextComponent: {fileID: 110670362}
   m_materialReferenceIndex: 1
@@ -915,6 +915,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758400840885858156, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758400840885858156, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758400840885858156, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758400840885858156, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2758400840885858157, guid: 79e316fcfd49d44448a399443e8d00bb,
         type: 3}
@@ -2744,7 +2764,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 2.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 130461275}
   m_TextComponent: {fileID: 110670362}
   m_materialReferenceIndex: 1
@@ -2817,7 +2837,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 2.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 577334308}
   m_TextComponent: {fileID: 110670364}
   m_materialReferenceIndex: 1
@@ -2950,7 +2970,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 2.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 652112354}
   m_TextComponent: {fileID: 110670362}
   m_materialReferenceIndex: 1
@@ -3349,7 +3369,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 2.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 1448779847}
   m_TextComponent: {fileID: 110670362}
   m_materialReferenceIndex: 1

@@ -29,23 +29,24 @@ namespace week
         #endregion
 
         [Header("present")] 
-        [SerializeField] GameObject _mini;
-        [SerializeField] GameObject _icecream;
+        //[SerializeField] GameObject _mini;
+        //[SerializeField] GameObject _icecream;
         [SerializeField] GameObject _ad;
-        [SerializeField] GameObject _10p;
         [SerializeField] GameObject _start;
+
+        [SerializeField] GameObject _bonus;        
         [SerializeField] GameObject _skin;
 
         [Space]
         [SerializeField] LobbyScene _lobby;
-        [SerializeField] TextMeshProUGUI _leftTime;
+        //[SerializeField] TextMeshProUGUI _leftTime;
         [SerializeField] Scrollbar _bar;
         [SerializeField] TextMeshProUGUI _timer;
         [SerializeField] Image _ad_gemBox;
 
         [Space] 
-        [SerializeField] RectTransform _event;
-        ContentSizeFitter _eventFitter;
+        //[SerializeField] RectTransform _event;
+        //ContentSizeFitter _eventFitter;
         [SerializeField] RectTransform _limit;
         ContentSizeFitter _limitFitter;
         [SerializeField] RectTransform _special;
@@ -59,13 +60,13 @@ namespace week
             _bar.value = 1f;
             _adUsable = true;
 
-            _eventFitter = _event.GetComponent<ContentSizeFitter>();
+            //_eventFitter = _event.GetComponent<ContentSizeFitter>();
             _limitFitter = _limit.GetComponent<ContentSizeFitter>();
             _specialFitter = _special.GetComponent<ContentSizeFitter>();
 
             _refreshExcla = refreshExcla;
 
-            setEventFitter();
+            // setEventFitter();
             setLimitFitter();
             setSpecialFitter();
 
@@ -80,21 +81,21 @@ namespace week
 
             while (true)
             {
-                if (_10p.activeSelf)
-                {
-                    if (BaseManager.instance.PlayTimeMng.LeftTime.Days > 0)
-                    {
-                        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Days}일 {BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 남음";
-                    }
-                    else if (BaseManager.instance.PlayTimeMng.LeftTime.Hours > 0)
-                    {
-                        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 {BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
-                    }
-                    else
-                    {
-                        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
-                    }
-                }
+                //if (_10p.activeSelf)
+                //{
+                //    if (BaseManager.instance.PlayTimeMng.LeftTime.Days > 0)
+                //    {
+                //        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Days}일 {BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 남음";
+                //    }
+                //    else if (BaseManager.instance.PlayTimeMng.LeftTime.Hours > 0)
+                //    {
+                //        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Hours}시간 {BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
+                //    }
+                //    else
+                //    {
+                //        _leftTime.text = $"{BaseManager.instance.PlayTimeMng.LeftTime.Minutes}분 남음";
+                //    }
+                //}
 
                 if (BaseManager.instance.PlayTimeMng.AdGem_LeftTime.TotalSeconds > 0)
                 {
@@ -113,13 +114,13 @@ namespace week
             }
         }
 
-        #region [ 특별 상품 ]
+        #region [ 구매 한정 상품 ]
 
         /// <summary> 광고 제거 </summary>
         public void getRemoveAd()
         {
             Debug.Log("광고 제거");
-            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;            
+            BaseManager.userGameData.AddMulCoinList(mulCoinChkList.removeAD);            
             BaseManager.userGameData.RemoveAd = true;
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.removead.ToString(), productValData.image.ToString()),
@@ -131,36 +132,10 @@ namespace week
             setAnalytics(productKeyList.removead, AnalyticsManager.instance.getKey());
         }
 
-        /// <summary> 추가보너스 </summary>
-        public void getAdd10per()
-        {
-            Debug.Log("코인 추가 10퍼 겟또다제");
-            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_10p;
-            BaseManager.userGameData.MulCoin = true;
-
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus_10_0.ToString(), productValData.image.ToString()),
-                "추가 10%코인", setLimitFitter).setImgSize();
-            WindowManager.instance.Win_celebrate.whenPurchase();
-
-            BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
-            setAnalytics(productKeyList.bonus_10_0, AnalyticsManager.instance.getKey());
-        }
-
-        /// <summary> 추가보너스 정보 </summary>
-        public void limitInfo()
-        {
-            string str = "<코인보너스>" + System.Environment.NewLine +
-                "모험 습득 코인 증가" + System.Environment.NewLine +
-                "상점 : 코인 구매량 증가" + System.Environment.NewLine +
-                "※다음 코인구매, 모험부터 적용됩니다.";
-            WindowManager.instance.showActMessage(str, () => { });
-        }        
-
-        /// <summary> 스타터팩 </summary>
+        /// <summary> 스타터팩 (광고제거 포함) </summary>
         public void getStartPack()
         {
-            Debug.Log("스타팅팩 구매 완료");            
+            Debug.Log("스타팅팩 구매 완료");
 
             bool result = BaseManager.userGameData.RemoveAd;
             if (result == false)
@@ -168,7 +143,7 @@ namespace week
                 getRemoveAd();
             }
 
-            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.removeAD;
+            BaseManager.userGameData.AddMulCoinList(mulCoinChkList.removeAD);
             BaseManager.userGameData.RemoveAd = true;
             BaseManager.userGameData.StartPack = true;
 
@@ -188,7 +163,7 @@ namespace week
             string bonus = calCoinBonus(ref c);
 
             WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.startpack.ToString(), productValData.image.ToString()),
-                "스타팅팩", () => { setLimitFitter(); setSpecialFitter(); }).setImgSize();
+                "스타팅팩", setLimitFitter).setImgSize();
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             string key = AnalyticsManager.instance.getKey();
@@ -201,6 +176,38 @@ namespace week
             BaseManager.userGameData.StoreUseCount++;
             AuthManager.instance.SaveDataServer();
             setAnalytics(productKeyList.startpack, key);
+        }
+
+        /// <summary> 추가보너스 정보 </summary>
+        public void limitInfo()
+        {
+            string str = "<광고제거>" + System.Environment.NewLine +
+                "상점의 [무료보석]을 제외한 게임 내 광고가 제거됩니다." + System.Environment.NewLine + System.Environment.NewLine +
+                "<스타팅 팩>" + System.Environment.NewLine +
+                "광고제거 후 스타팅팩 구매시" + System.Environment.NewLine +
+                "4000코인, 40보석, 4AP 대체 지급";
+                
+            WindowManager.instance.showActMessage(str, () => { });
+        }
+
+        #endregion
+
+        #region [ 스페셜 팩 ] 
+
+        /// <summary> 추가보너스 </summary>
+        public void getAdd3per()
+        {
+            Debug.Log("코인 추가 3퍼 겟또다제");
+            BaseManager.userGameData.AddMulCoinList(mulCoinChkList.mul_1st_3p);
+            BaseManager.userGameData.MulCoin3p = true;
+
+            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.bonus_3_0.ToString(), productValData.image.ToString()),
+                "추가 10%코인", setSpecialFitter).setImgSize();
+            WindowManager.instance.Win_celebrate.whenPurchase();
+
+            BaseManager.userGameData.StoreUseCount++;
+            AuthManager.instance.SaveDataServer();
+            setAnalytics(productKeyList.bonus_3_0, AnalyticsManager.instance.getKey());
         }
 
         /// <summary> 스킨팩 </summary>
@@ -247,12 +254,14 @@ namespace week
         /// <summary> 스페셜 팩 정보 </summary>
         public void specialInfo()
         {
-            string str = "<스타팅 팩>" + System.Environment.NewLine +
-                "광고제거 후 스타팅팩 구매시" + System.Environment.NewLine +
-                "4000코인, 40보석, 4AP 대체 지급" + System.Environment.NewLine + System.Environment.NewLine +
+            string str = "<코인보너스>" + System.Environment.NewLine +
+                "모험 습득 코인 증가" + System.Environment.NewLine +
+                "상점 : 코인 구매량 증가" + System.Environment.NewLine +
+                "※다음 코인구매, 모험부터 적용됩니다." + System.Environment.NewLine + System.Environment.NewLine +
                 "<스킨 팩>" + System.Environment.NewLine + 
                 "스킨구매 후 스킨팩 구매시" + System.Environment.NewLine +
                 "25000코인, 250보석 대체 지급";
+
             WindowManager.instance.showActMessage(str, () => { });
         }
 
@@ -265,86 +274,86 @@ namespace week
 
         #region [ 이벤트 (크리스마스) ]
 
-        /// <summary> 크리스마스 미니세트 </summary>
-        public void getMiniSet()
-        {
-            Debug.Log("미니세트 : 5퍼 + 20ap");
-            BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_5p;
-            BaseManager.userGameData.MiniSet = true;
+        ///// <summary> 크리스마스 미니세트 </summary>
+        //public void getMiniSet()
+        //{
+        //    Debug.Log("미니세트 : 5퍼 + 20ap");
+        //    BaseManager.userGameData.AddMulCoinList = mulCoinChkList.mul_1st_5p;
+        //    BaseManager.userGameData.MiniSet = true;
 
-            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.miniset.ToString(), productValData.ap.ToString());
+        //    int a = DataManager.GetTable<int>(DataTable.product, productKeyList.miniset.ToString(), productValData.ap.ToString());
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.miniset.ToString(), productValData.image.ToString()),
-                "미니세트", setEventFitter).setImgSize();
-            WindowManager.instance.Win_celebrate.whenPurchase();
+        //    WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.miniset.ToString(), productValData.image.ToString()),
+        //        "미니세트", setEventFitter).setImgSize();
+        //    WindowManager.instance.Win_celebrate.whenPurchase();
 
-            string key = AnalyticsManager.instance.getKey();
-            string postmsg = key + $"/미니세트 구매/0/0/{a}";
+        //    string key = AnalyticsManager.instance.getKey();
+        //    string postmsg = key + $"/미니세트 구매/0/0/{a}";
 
-            NanooManager.instance.PostboxItemSend(nanooPost.pack, 0, postmsg);
+        //    NanooManager.instance.PostboxItemSend(nanooPost.pack, 0, postmsg);
 
-            NanooManager.instance.getPostCount(_refreshExcla);
+        //    NanooManager.instance.getPostCount(_refreshExcla);
 
-            BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
-            setAnalytics(productKeyList.miniset, AnalyticsManager.instance.getKey());
-        }
+        //    BaseManager.userGameData.StoreUseCount++;
+        //    AuthManager.instance.SaveDataServer();
+        //    setAnalytics(productKeyList.miniset, AnalyticsManager.instance.getKey());
+        //}
 
-        /// <summary> 산타 스킨팩 </summary>
-        public void getSantaSkinSet()
-        {
-            Debug.Log("산타스킨셋");
-            BaseManager.userGameData.SantaSet = true;
+        ///// <summary> 산타 스킨팩 </summary>
+        //public void getSantaSkinSet()
+        //{
+        //    Debug.Log("산타스킨셋");
+        //    BaseManager.userGameData.SantaSet = true;
 
-            SkinKeyList skl = SkinKeyList.santaman;
+        //    SkinKeyList skl = SkinKeyList.santaman;
 
-            bool result = (BaseManager.userGameData.HasSkin & (1 << (int)skl)) > 0;
-            if (result == false)
-            {
-                BaseManager.userGameData.HasSkin |= (1 << (int)skl);
-            }
+        //    bool result = (BaseManager.userGameData.HasSkin & (1 << (int)skl)) > 0;
+        //    if (result == false)
+        //    {
+        //        BaseManager.userGameData.HasSkin |= (1 << (int)skl);
+        //    }
 
-            int c = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.coin.ToString());
-            int g = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.gem.ToString());
-            int a = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.ap.ToString());
+        //    int c = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.coin.ToString());
+        //    int g = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.gem.ToString());
+        //    int a = DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.ap.ToString());
 
-            if (result)
-            {
-                g += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addgem.ToString());
-                c += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addcoin.ToString());
-                a += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addap.ToString());
-            }
+        //    if (result)
+        //    {
+        //        g += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addgem.ToString());
+        //        c += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addcoin.ToString());
+        //        a += DataManager.GetTable<int>(DataTable.product, productKeyList.santaset.ToString(), productValData.addap.ToString());
+        //    }
 
-            string bonus = calCoinBonus(ref c);
+        //    string bonus = calCoinBonus(ref c);
 
-            WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.santaset.ToString(), productValData.image.ToString()),
-                "산타세트", setEventFitter).setImgSize();
-            WindowManager.instance.Win_celebrate.whenPurchase();
+        //    WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, productKeyList.santaset.ToString(), productValData.image.ToString()),
+        //        "산타세트", setEventFitter).setImgSize();
+        //    WindowManager.instance.Win_celebrate.whenPurchase();
 
-            string key = AnalyticsManager.instance.getKey();
-            string postmsg = key + "/산타세트 구매" + bonus + $"/{c}/{g}/{a}";
+        //    string key = AnalyticsManager.instance.getKey();
+        //    string postmsg = key + "/산타세트 구매" + bonus + $"/{c}/{g}/{a}";
 
-            NanooManager.instance.PostboxItemSend(nanooPost.pack, (int)SkinKeyList.santaman, postmsg);
+        //    NanooManager.instance.PostboxItemSend(nanooPost.pack, (int)SkinKeyList.santaman, postmsg);
 
-            NanooManager.instance.getPostCount(_refreshExcla);
+        //    NanooManager.instance.getPostCount(_refreshExcla);
 
-            BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
-            setAnalytics(productKeyList.santaset, key);
-        }
+        //    BaseManager.userGameData.StoreUseCount++;
+        //    AuthManager.instance.SaveDataServer();
+        //    setAnalytics(productKeyList.santaset, key);
+        //}
 
-        /// <summary> 이벤트 세트 정보 </summary>
-        public void eventInfo()
-        {
-            string str = "<미니세트>" + System.Environment.NewLine +
-                "모험 습득 코인 증가" + System.Environment.NewLine +
-                "상점 : 코인 구매량 증가" + System.Environment.NewLine +
-                "※다음 코인구매, 모험부터 적용됩니다." + System.Environment.NewLine + System.Environment.NewLine +
-                "<산타 세트>" + System.Environment.NewLine +
-                "스킨구매 후 스킨팩 구매시" + System.Environment.NewLine +
-                "10000코인, 200보석, 30AP 대체 지급";
-            WindowManager.instance.showActMessage(str, () => { });
-        }
+        ///// <summary> 이벤트 세트 정보 </summary>
+        //public void eventInfo()
+        //{
+        //    string str = "<미니세트>" + System.Environment.NewLine +
+        //        "모험 습득 코인 증가" + System.Environment.NewLine +
+        //        "상점 : 코인 구매량 증가" + System.Environment.NewLine +
+        //        "※다음 코인구매, 모험부터 적용됩니다." + System.Environment.NewLine + System.Environment.NewLine +
+        //        "<산타 세트>" + System.Environment.NewLine +
+        //        "스킨구매 후 스킨팩 구매시" + System.Environment.NewLine +
+        //        "10000코인, 200보석, 30AP 대체 지급";
+        //    WindowManager.instance.showActMessage(str, () => { });
+        //}
 
         #endregion
 
@@ -631,49 +640,51 @@ namespace week
         
         #endregion
 
+        /// <summary> 결제 실패 </summary>
         public void purchaseFail()
         {
             WindowManager.instance.showActMessage("결제에 실패했습눈다", () => { });
         }
 
-        void setEventFitter()
-        {
-            _mini.SetActive(BaseManager.userGameData.MiniSet == false);
-            _icecream.SetActive(BaseManager.userGameData.SantaSet == false);
+        //void setEventFitter()
+        //{
+        //    _mini.SetActive(BaseManager.userGameData.MiniSet == false);
+        //    _icecream.SetActive(BaseManager.userGameData.SantaSet == false);
 
-            if (BaseManager.userGameData.MiniSet == true && BaseManager.userGameData.SantaSet == true)
-            {
-                _eventFitter.enabled = false;
-                _event.sizeDelta = new Vector2(1350f, 150f);
-            }
-        }
+        //    if (BaseManager.userGameData.MiniSet == true && BaseManager.userGameData.SantaSet == true)
+        //    {
+        //        _eventFitter.enabled = false;
+        //        _event.sizeDelta = new Vector2(1350f, 150f);
+        //    }
+        //}
 
+        /// <summary> 한정 상품 창 </summary>
         void setLimitFitter()
         {
             _ad.SetActive(BaseManager.userGameData.RemoveAd == false);
-            _10p.SetActive(BaseManager.userGameData.MulCoin == false);
+            _start.SetActive(BaseManager.userGameData.StartPack == false);
 
-            if (BaseManager.userGameData.RemoveAd == true && BaseManager.userGameData.MulCoin == true)
+            if (BaseManager.userGameData.RemoveAd == true && BaseManager.userGameData.StartPack == true)
             {
                 _limitFitter.enabled = false;
                 _limit.sizeDelta = new Vector2(1350f, 150f);
-                //_limitFitter.
             }
         }
 
+        /// <summary> 스페셜 상품 창 </summary>
         void setSpecialFitter()
         {
-            _start.SetActive(BaseManager.userGameData.StartPack == false);
+            _bonus.SetActive(BaseManager.userGameData.MulCoin3p == false);
             _skin.SetActive(BaseManager.userGameData.SkinPack == false);
 
-            if (BaseManager.userGameData.StartPack == true && BaseManager.userGameData.SkinPack == true)
+            if (BaseManager.userGameData.MulCoin3p == true && BaseManager.userGameData.SkinPack == true)
             {
                 _specialFitter.enabled = false;
                 _special.sizeDelta = new Vector2(1350f, 150f);
-                //_limitFitter.
             }
         }
 
+        /// <summary> 파베 Analytic 데이터 세팅 </summary>
         void setAnalytics(productKeyList pKey, string key)
         {
             Context context = new Context(key, analyticsWhere.store.ToString())

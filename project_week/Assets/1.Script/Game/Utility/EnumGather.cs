@@ -55,16 +55,18 @@ namespace week
         removeAD,
         mul_1st_10p,
         mul_1st_5p,
+        mul_1st_3p,
         max
     }
     public enum paymentChkList
     {
         removeAD,
-        mulCoins,        
+        mul_1st_10p,        
         startPack,
         skinPack,
         miniSet,
-        santaSet
+        santaSet,
+        mul_1st_3p,
     }
 
     public enum utilityChkList
@@ -347,7 +349,7 @@ namespace week
     public enum productKeyList
     {
         removead,
-        bonus_10_0,
+        bonus_3_0,
         startpack,
         wildskinpack,
         miniset,

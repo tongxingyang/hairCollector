@@ -15,7 +15,7 @@ namespace week
         [SerializeField] CanvasGroup _top;
         [Space]
         [SerializeField] TextMeshProUGUI _bestRecord;
-        [SerializeField] Image _newImg;
+        [SerializeField] Image _titleBackImg;
         [Header("bot")]
         [SerializeField] CanvasGroup _bot;
         [Space]
@@ -38,7 +38,9 @@ namespace week
         float _preCalGem, _getGem;
         float _preCalAp, _getAp;
 
-        bool _isNewRecord;
+        int _boss;
+
+        int _isNewRecord; // 0: 신기록X, 1: 시즌기록 달성, 2: 전체기록 달성
 
         private void Start()
         {
@@ -57,11 +59,11 @@ namespace week
                 _AdsBtn.color = Color.gray;
                 _AdsBtn.raycastTarget = false;
             }
-            Debug.Log("pre removeAd : " + BaseManager.userGameData.RemoveAd);
+
             _AdsBtn.raycastTarget = false;
             _lobbyBtn.raycastTarget = false;
 
-            _isNewRecord = time > BaseManager.userGameData.TimeRecord;
+            _isNewRecord = (time > BaseManager.userGameData.AllTimeRecord) ? 2 : (time > BaseManager.userGameData.SeasonTimeRecord) ? 1 : 0;
 
             _coin.SetActive(coin > 0);
             _gem.SetActive(gem > 0);
@@ -75,6 +77,8 @@ namespace week
             _getGem = gem;
             _getAp = ap;
 
+            _boss = boss;
+
             StartCoroutine(resultOpenSequence(time));
         }
 
@@ -85,19 +89,27 @@ namespace week
             RectTransform topRect = (RectTransform)_top.transform;
             RectTransform botRect = (RectTransform)_bot.transform;
 
-            _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false);
+            _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.SeasonTimeRecord, false);
             _record.text = "";// BaseManager.userEntity.getLifeTime(time, true);
 
             _coinTxt.text = _getCoin.ToString();
             _gemTxt.text = _getGem.ToString();
             _apTxt.text = _getAp.ToString();
 
-            _newImg.gameObject.SetActive(false);
-            if (_isNewRecord)
+            _recordTitle.text = "기  록";
+
+            if (_isNewRecord > 0) // 시즌 신기록
             {
-                BaseManager.userGameData.setNewRecord(Convert.ToInt32(time));
-                NanooManager.instance.setRankingRecord();
-                StartCoroutine(newRecord());
+                BaseManager.userGameData.setNewSeasonRecord(Convert.ToInt32(time));
+                NanooManager.instance.setSeasonRankingRecord(_boss);
+
+                if (_isNewRecord == 2) // 전체도 신기록
+                {
+                    BaseManager.userGameData.setNewAllRecord(Convert.ToInt32(time));
+                    NanooManager.instance.setAllRankingRecord(_boss);
+                }
+
+                StartCoroutine(newRecord(_isNewRecord == 2));            
             }
 
             if (((int)BaseManager.userGameData.Skin == BaseManager.userGameData.QuestSkin) 
@@ -130,15 +142,12 @@ namespace week
 
             yield return new WaitForSeconds(0.25f);
 
-            if (_isNewRecord)
+            if (_isNewRecord > 0)
             {            
-                _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.TimeRecord, false);
+                _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.SeasonTimeRecord, false);
 
                 _bestRecord.transform.localScale = Vector3.one * 2;
                 _bestRecord.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InCirc);
-
-                _newImg.transform.localScale = Vector3.one * 3;
-                _newImg.transform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.InCirc);
 
                 WindowManager.instance.Win_celebrate.whenNewResult();
             }
@@ -161,16 +170,19 @@ namespace week
             }
         }
 
-        IEnumerator newRecord()
+        IEnumerator newRecord(bool allRecord = false)
         {
-            // _newImg.gameObject.SetActive(true);
+            _titleBackImg.gameObject.SetActive(true);
             _recordTitle.text = "신 기 록";
+
+            Color col = (allRecord) ? new Color(1f, 0.5f, 0f) : new Color(0.4f, 0.5f, 1f);
 
             while (true)
             {
                 _recordTitle.color = Color.white;
                 yield return new WaitForSeconds(0.2f);
-                _recordTitle.color = new Color(1f, 0.5f, 0f);
+
+                _recordTitle.color = col;
                 yield return new WaitForSeconds(0.2f);
             }
         }

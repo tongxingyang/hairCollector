@@ -93,8 +93,67 @@ namespace week
             completeChange?.Invoke();
             AuthManager.instance.SaveDataServer();
 
+            // 랭킹
+
             NanooManager.instance.setUid(AuthManager.instance.Uid);
-            NanooManager.instance.setRankingRecord();
+            int prerank = -1;
+            bool complete = false;
+            int score = 0;
+
+            // 시즌부터
+            NanooManager.instance.getRankingPersonal(true, (dictionary) =>
+            {
+                
+                if (dictionary == null)
+                {
+                    prerank = -1;
+                }
+
+                prerank = int.Parse((string)dictionary["ranking"]);
+
+                if (prerank != -1)
+                {
+                    score = int.Parse((string)dictionary["score"]);
+                }
+
+                complete = true;
+            });
+
+            yield return new WaitUntil(() => complete == true);
+            if (prerank != -1)
+            {
+                BaseManager.userGameData.newNickSetssRecord();
+                NanooManager.instance.setSeasonRankingRecord(score % 1000);
+            }
+
+            // 전체
+            complete = false;
+            score = 0;
+            NanooManager.instance.getRankingPersonal(false, (dictionary) =>
+            {
+                if (dictionary == null)
+                {
+                    prerank = -1;
+                }
+
+                prerank = int.Parse((string)dictionary["ranking"]);
+
+                if (prerank != -1)
+                {
+                    score = int.Parse((string)dictionary["score"]);
+                }
+
+                complete = true;
+            });
+
+            yield return new WaitUntil(() => complete == true);
+            if (prerank != -1)
+            {
+                BaseManager.userGameData.newNickSetallRecord();
+                NanooManager.instance.setAllRankingRecord(score % 1000);
+            }
+
+            // 닉네임 변경 안내 UI 창
 
             WindowManager.instance.Win_message.showActMessage("새로운 닉네임" + System.Environment.NewLine +
                 $"[{BaseManager.userGameData.NickName}]" + System.Environment.NewLine + "변경 완료!", null);
