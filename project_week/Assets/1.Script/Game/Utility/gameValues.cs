@@ -83,13 +83,14 @@ namespace week
         public static readonly ObscuredFloat _mobIncrease = 1.25f;
 
         // 추가코인 ==============================
-        public static readonly Vector3[] _mulCoinVal = new Vector3[3] {
+        public static readonly Vector3[] _mulCoinVal = new Vector3[4] {
             new Vector3(2f,2f,2f),  // 광고제거
             new Vector3(1.1f,1f,1f),// 10퍼
-            new Vector3(1.05f,1f,1f)// 5퍼
+            new Vector3(1.05f,1f,1f),// 5퍼
+            new Vector3(1.05f,1.03f,1.03f)// 3퍼
         };
 
-        public static readonly float[] _bonusCoinVal = new float[3] { 1f, 1.1f, 1.05f };
+        public static readonly float[] _bonusCoinVal = new float[4] { 1f, 1.1f, 1.05f, 1.03f };
 
         // ======================================
 

@@ -49,7 +49,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 578e513cc70e5f24e9c25b943c105710, type: 3}
     - {fileID: 102900000, guid: 4f489253b1c3a37408a270925b8bd3b7, type: 3}
     - {fileID: 102900000, guid: ffee5b2594a591642a555b7802b3ced1, type: 3}
-    totalSpriteSurfaceArea: 25567898
+    totalSpriteSurfaceArea: 25633434
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -231,6 +231,7 @@ SpriteAtlas:
   - {fileID: -8781757214100938709, guid: eba4bfe845c8431409e84422a0969c8a, type: 3}
   - {fileID: 3113750711623011716, guid: eba4bfe845c8431409e84422a0969c8a, type: 3}
   - {fileID: 21300000, guid: 2c832af87d334894f802457d444ec365, type: 3}
+  - {fileID: 21300000, guid: e7056df86a43ab14eb33e69e979c15a1, type: 3}
   - {fileID: -6667308380615340105, guid: 8a825809c8b69d1478df7ce54fe989f1, type: 3}
   - {fileID: 1924284780028311588, guid: 8a825809c8b69d1478df7ce54fe989f1, type: 3}
   - {fileID: 21300000, guid: 01503c2929fe63540b9332ce54a24636, type: 3}
@@ -539,6 +540,7 @@ SpriteAtlas:
   - crab_0
   - crab_1
   - pollen
+  - skillCase
   - mam_1
   - mam_0
   - snowball_ct

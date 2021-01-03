@@ -28,6 +28,9 @@ namespace week
         [SerializeField] NotificationPopup _notif;
         [SerializeField] TextMeshProUGUI _load;
         [SerializeField] Slider _fill;
+        
+        Canvas _canvas;
+
         public bool ConnectComplete { get; private set; }
         float time = 0f;
         float gauge = 0f;
@@ -35,6 +38,10 @@ namespace week
         // Start is called before the first frame update
         void Start()
         {
+            _canvas = GetComponent<Canvas>();
+            _canvas.worldCamera = Camera.main;
+            _canvas.planeDistance = 1400f;
+
             _fill.value = 0f;
             mImgs[(int)E_IMAGE.pressButton].gameObject.SetActive(false);
             _fill.gameObject.SetActive(true);

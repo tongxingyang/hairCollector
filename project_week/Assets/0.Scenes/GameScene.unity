@@ -1606,6 +1606,31 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5009844487601609015, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009844487601609015, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009844487601609015, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009844487601609015, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009844487601609015, guid: 79e316fcfd49d44448a399443e8d00bb,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5031080875700871018, guid: 79e316fcfd49d44448a399443e8d00bb,
         type: 3}
       propertyPath: m_Mesh

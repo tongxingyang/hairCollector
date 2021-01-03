@@ -65,6 +65,8 @@ namespace week
         [SerializeField] SnowController _snow;
         [SerializeField] Transform _angle;
         [SerializeField] RawImage _pattern;
+        [Space]
+        [SerializeField] Canvas _canvas;
 
         Vector2 _offset;
         readonly Vector2 _rect = new Vector2(1f, 2f);
@@ -92,6 +94,9 @@ namespace week
         // Start is called before the first frame update
         void Start()
         {
+            _canvas.worldCamera = Camera.main;
+            _canvas.planeDistance = 1400f;
+
             // 재화 텍스트 이벤트를 위한 초기화
             if (BaseManager.userGameData.followCoin == 0)
             {

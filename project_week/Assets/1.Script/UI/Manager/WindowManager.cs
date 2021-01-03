@@ -46,11 +46,13 @@ namespace week
             Canvas canvas = gameObject.AddComponent<Canvas>();            
             gameObject.AddComponent<CanvasScaler>();
             gameObject.AddComponent<GraphicRaycaster>();
-            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.renderMode = RenderMode.ScreenSpaceCamera;
             canvas.sortingLayerName = "popup";
             canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.Normal;
             canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1;
             canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.Tangent;
+            canvas.worldCamera = Camera.main;
+            canvas.planeDistance = 1300f;
 
             RectTransform rect = (RectTransform)canvas.transform;
             rect.position = new Vector3(0, 0, -300f);
