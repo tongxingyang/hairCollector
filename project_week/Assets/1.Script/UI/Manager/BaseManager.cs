@@ -14,7 +14,9 @@ namespace week
 
         public static UserGameData userGameData;
         public static Option option;
-        private static PreGameData preGameData;        
+        private static PreGameData preGameData;
+
+        public Camera _main;
 
         public static PreGameData PreGameData { set => preGameData = value; }
         PlayTimeManager _playTimeMng;
@@ -66,6 +68,8 @@ namespace week
         // Use this for initialization
         void Start()
         {
+            _main = Camera.main;
+
             Debug.Log("베이스 스타트");
             instance = this;
             option = new Option();
@@ -104,6 +108,11 @@ namespace week
                     yield return new WaitForEndOfFrame();
                 }
             }
+
+            //if (load == (int)SceneNum.GameScene)
+            //    _main.enabled = false;
+            //else if (load == (int)SceneNum.LobbyScene)
+            //    _main.enabled = true;
 
             AO = SceneManager.LoadSceneAsync(load, LoadSceneMode.Additive);
             while (!AO.isDone)

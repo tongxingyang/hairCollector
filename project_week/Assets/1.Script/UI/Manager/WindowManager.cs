@@ -79,6 +79,7 @@ namespace week
                     WindowPack.Add(win, Instantiate(go));
                     WindowPack[win].transform.SetParent(transform);
                     WindowPack[win].transform.localPosition = Vector3.zero;
+                    WindowPack[win].transform.localScale = Vector3.one;
                     ((RectTransform)WindowPack[win].transform).sizeDelta = Vector2.zero;
                 }
             }

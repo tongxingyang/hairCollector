@@ -57,7 +57,7 @@ namespace week
             _refTime = _cool + 1f;
             _refable = true;
 
-            getRankData();
+            // getRankData();
         }
 
         IEnumerator setRankBoxes()
@@ -71,21 +71,16 @@ namespace week
             getRankData();
             yield return new WaitUntil(() => _completeRoadMySS && _completeRoadSD && _completeRoadMyAL && _completeRoadAD);
 
-            //if (_isSeason)
-            //{
-            setAni = StartCoroutine(setting(_mySeason, _ssData, true));
             _rankTitle.text = "시즌 랭-King";
+            setAni = StartCoroutine(setting(_mySeason, _ssData, true));
             SSarrow = true;
-            //}
-            //else
-            //{
-            //    setAni = StartCoroutine(setting(_myAll, _allData, false));
-            //}
         }
 
         /// <summary> 랭킹박스랑 실질적 UI부분에서 세팅 </summary>
         IEnumerator setting(rankData rd, List<rankData> rdList, bool isSeason)
         {
+            yield return new WaitUntil(() => _completeRoadMySS && _completeRoadSD && _completeRoadMyAL && _completeRoadAD);
+
             if (rd == null)
                 _myRankBox.blink().setBoxType(isSeason);
             else
@@ -103,13 +98,14 @@ namespace week
                     rankBox box = Instantiate(_rankBoxFab).GetComponent<rankBox>();
                     box.transform.SetParent(_boxParent);
                     box.transform.localScale = Vector3.one;
+                    box.transform.localPosition = Vector3.zero;
                     _boxes.Add(box);
                 }
 
                 _boxes[i].setRankBox(rdList[i].rank, rdList[i].nick, rdList[i].score, rdList[i].subdata).setBoxType(isSeason);
                 _boxes[i].gameObject.SetActive(true);
 
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.04f);
             }
         }
 

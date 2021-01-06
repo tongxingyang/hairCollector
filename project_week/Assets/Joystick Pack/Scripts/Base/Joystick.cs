@@ -56,7 +56,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         handle.anchorMin = center;
         handle.anchorMax = center;
         handle.pivot = center;
-        handle.anchoredPosition = Vector2.zero;
+        handle.anchoredPosition = Vector2.zero;        
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
@@ -71,8 +71,9 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             cam = canvas.worldCamera;
 
         Vector2 position = RectTransformUtility.WorldToScreenPoint(cam, background.position);
-        Vector2 pos2 = eventData.position - halfSize;
+        Vector2 pos2 = eventData.position;// - halfSize;
         Vector2 radius = background.sizeDelta / 2;
+        
         input = (pos2 - position) / (radius * canvas.scaleFactor);
         FormatInput();
         HandleInput(input.magnitude, input.normalized, radius, cam);
@@ -141,9 +142,13 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     protected Vector2 ScreenPointToAnchoredPosition(Vector2 screenPosition)
     {
         Vector2 localPoint = Vector2.zero;
+
+        if (cam == null) cam = canvas.worldCamera;
+
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(baseRect, screenPosition, cam, out localPoint))
         {
             Vector2 pivotOffset = baseRect.pivot * baseRect.sizeDelta;
+
             return localPoint - (background.anchorMax * baseRect.sizeDelta) + pivotOffset;
         }
         return Vector2.zero;

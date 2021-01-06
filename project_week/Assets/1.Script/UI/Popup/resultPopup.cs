@@ -44,7 +44,7 @@ namespace week
 
         private void Start()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < _per.Length; i++)
             {
                 _per[i].SetActive(false);
             }

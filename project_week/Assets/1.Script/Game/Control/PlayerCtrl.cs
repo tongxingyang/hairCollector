@@ -412,6 +412,7 @@ namespace week
                 _seasonStt[(int)snowStt.exp]            = BaseManager.userGameData.AddStats[5];
                 _seasonStt[(int)snowStt.def]            = (1f - BaseManager.userGameData.AddStats[2]);
                 _seasonStt[(int)snowStt.cool]           = (1f - BaseManager.userGameData.AddStats[4]);
+                _seasonStt[(int)snowStt.coin]           = BaseManager.userGameData.AddStats[(int)snowStt.coin];
             }
 
             _spine.skeleton.SetSkin(BaseManager.userGameData.Skin.ToString());
