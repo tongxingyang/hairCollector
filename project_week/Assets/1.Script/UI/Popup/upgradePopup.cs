@@ -83,7 +83,7 @@ namespace week
             List<SkillKeyList> sk = new List<SkillKeyList>();
             for (SkillKeyList i = SkillKeyList.hp; i < SkillKeyList.present; i++)
             {
-                if (i < SkillKeyList.snowball)
+                if (i < SkillKeyList.Snowball)
                 {
                     if (_player.Abils[i].chk_lvl)
                     {
@@ -109,7 +109,7 @@ namespace week
 
             for (int i = 0; i < 3; i++)
             {
-                int lvl = (slct[i] < SkillKeyList.snowball) ? _player.Abils[slct[i]].Lvl : _player.Skills[slct[i]].Lvl;
+                int lvl = (slct[i] < SkillKeyList.Snowball) ? _player.Abils[slct[i]].Lvl : _player.Skills[slct[i]].Lvl;
 
                 upBtns[i].setBtn(slct[i], lvl, _player.getSkill, pressThrowBtn);
             }

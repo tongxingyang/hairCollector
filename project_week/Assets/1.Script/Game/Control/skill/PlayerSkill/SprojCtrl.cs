@@ -18,7 +18,7 @@ namespace week
         public override void repeatInit(float dmg, float size, float speed = 1f, float keep = 1f)
         {
             _dmg = dmg;
-            if (getSkillType == SkillKeyList.snowball && _player.SnowballDmg > 0)
+            if (getSkillType == SkillKeyList.Snowball && _player.SnowballDmg > 0)
             {
                 _dmg += _dmg * _player.SnowballDmg;
             }
@@ -105,7 +105,7 @@ namespace week
 
             float val = id.getDamaged(_dmg, false);
 
-            if (getSkillType == SkillKeyList.snowball) 
+            if (getSkillType == SkillKeyList.Snowball) 
             {
                 if (_player.BloodMount > 0)
                 {
@@ -116,7 +116,7 @@ namespace week
                     id.setFrozen(1f);
                 }
             } 
-            else if (getSkillType == SkillKeyList.pet)
+            else if (getSkillType == SkillKeyList.Pet)
             {
                 id.setFrozen(1f);
             }
@@ -138,15 +138,15 @@ namespace week
         {
             switch (getSkillType)
             {
-                case SkillKeyList.snowball:
-                case SkillKeyList.icefist:
-                case SkillKeyList.halficicle:
-                case SkillKeyList.pet:
+                case SkillKeyList.Snowball:
+                case SkillKeyList.IceFist:
+                case SkillKeyList.HalfIcicle:
+                case SkillKeyList.Pet:
                     projDestroy();
                     break;
-                case SkillKeyList.icicle:
+                case SkillKeyList.IcicleSpear:
                     break;
-                case SkillKeyList.hammer:
+                case SkillKeyList.Hammer:
                     Vector3 mob = _gs.mostCloseEnemy(transform, 0.5f);
                     if (Vector3.Distance(transform.position, mob) < 2f)
                     {

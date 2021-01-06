@@ -23,6 +23,8 @@ namespace week
         static Dictionary<mapObstacle, GameObject> _obstacleFabs;
         static Dictionary<SkillKeyList, GameObject> _shotFabs;
         static Dictionary<EnShot, GameObject> _enProjFabs;
+        static Dictionary<SkillKeyList, Sprite> _launchImg;
+        static Dictionary<snowballType, Sprite> _snowballImg;
         public static Dictionary<Mob, GameObject> MobFabs { get => _mobFabs; set => _mobFabs = value; }
         public static Dictionary<Boss, GameObject> BobFabs { get => _bobFabs; set => _bobFabs = value; }
         public static Dictionary<mapObstacle, GameObject> ObstacleFabs { get => _obstacleFabs; set => _obstacleFabs = value; }
@@ -35,6 +37,9 @@ namespace week
         public static Dictionary<StatusData, Sprite> Statusicon { get => _statusicon; set => _statusicon = value; }
         public static Dictionary<SkillKeyList, Sprite> Skillicon { get => _skillicon; set => _skillicon = value; }
         public static Dictionary<SkinKeyList, Sprite> SkinSprite { get => _skinSprite; set => _skinSprite = value; }
+        public static Dictionary<SkillKeyList, Sprite> LaunchImg { get => _launchImg; }
+        public static Dictionary<snowballType, Sprite> SnowballImg { get => _snowballImg; }
+        
 
         public static bool LoadBGdata()
         {
@@ -83,9 +88,9 @@ namespace week
             }
 
             _shotFabs = new Dictionary<SkillKeyList, GameObject>();
-            for (SkillKeyList i = SkillKeyList.snowball; i < SkillKeyList.max; i++)
+            for (SkillKeyList i = SkillKeyList.Snowball; i < SkillKeyList.max; i++)
             {
-                if (i == SkillKeyList.icetornado || i == SkillKeyList.iceshield || i == SkillKeyList.iceage || i == SkillKeyList.blizzard)
+                if (i == SkillKeyList.Shield || i == SkillKeyList.IceAge || i == SkillKeyList.Blizzard)
                     continue;
 
                 GameObject go = Resources.Load("prefabs/skill/playerSkill/" + i.ToString()) as GameObject;

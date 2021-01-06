@@ -15,7 +15,7 @@ namespace week
         #region ----------------[GameObject Values]----------------
 
         [SerializeField] Rigidbody2D _rigid;
-        
+
         [Header("Skill")]
         [SerializeField] tornado _tornado = null;
         [SerializeField] shield _shield = null;
@@ -56,19 +56,19 @@ namespace week
         /// 현재 - 계절,버프등 일시적으로 증가하거나 감소하는 효과는 없음
         /// max체력은 확정 증가만 있음 - (계절,버프 적용시 추가작업 필요)
         /// </summary>
-        public float MaxHp 
+        public float MaxHp
         {
             get { return _standardStt[(int)snowStt.maxHp]; }
             set { _standardStt[(int)snowStt.maxHp] = value; }
         }
         float _hp;
-        float Hp 
+        float Hp
         {
             get { return _hp; }
             set { _hp = value; chkWild(); }
         }
 
-        float Att 
+        float Att
         {
             get
             {
@@ -108,7 +108,7 @@ namespace week
         {
             get
             {
-                float calHpgen = _standardStt[(int)snowStt.hpgen] + _skillStt[(int)SkillKeyList.hpgen] + _buffStt[(int)eBuff.hpgen];                
+                float calHpgen = _standardStt[(int)snowStt.hpgen] + _skillStt[(int)SkillKeyList.gen] + _buffStt[(int)eBuff.hpgen];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -120,7 +120,7 @@ namespace week
             }
         }
 
-        
+
         float Cool
         {
             get
@@ -136,7 +136,7 @@ namespace week
             }
         }
 
-        
+
         float Exp
         {
             get
@@ -171,7 +171,7 @@ namespace week
         {
             get
             {
-                float calHealMount = _standardStt[(int)snowStt.heal] * _skillStt[(int)SkillKeyList.healmount] * _buffStt[(int)eBuff.heal];
+                float calHealMount = _standardStt[(int)snowStt.heal] * _skillStt[(int)SkillKeyList.heal] * _buffStt[(int)eBuff.heal];
 
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
@@ -182,7 +182,7 @@ namespace week
             }
         }
 
-        float Speed 
+        float Speed
         {
             get
             {
@@ -199,10 +199,10 @@ namespace week
 
         public float Coin
         {
-            get 
+            get
             {
                 float calCoin = _standardStt[(int)snowStt.coin] * _buffStt[(int)eBuff.coin];
-                
+
                 if (BaseManager.userGameData.ApplySeason == _gs.ClockMng.Season)
                 {
                     return calCoin * _seasonStt[(int)snowStt.coin];
@@ -262,13 +262,13 @@ namespace week
         public float CriDmg { get => _criDmg; }
         public float SnowballDmg { get => _snowballDmg; }
         public bool IsHero { get => _isHero; }
-        public bool IsInvinc 
+        public bool IsInvinc
         {
             get { return _isInvinc; }
-            set 
-            { 
+            set
+            {
                 _invincield.SetActive(value);
-                _isInvinc = value; 
+                _isInvinc = value;
             }
         }
         public bool RebirthBonus { get => _rebirth_bonus; set => _rebirth_bonus = value; }
@@ -279,6 +279,10 @@ namespace week
         bool _isAlmighty;
         float _almighTime;
         float _dustTime;
+
+        LaunchSkillCtrl _launch;
+        RangeSkillCtrl _range;
+
         SsnowballCtrl _sbc;
         BaseProjControl _pjt;
         SsuddenObstacleCtrl _soc;
@@ -319,7 +323,7 @@ namespace week
 
             for (SkillKeyList i = SkillKeyList.hp; i < SkillKeyList.max; i++)
             {
-                if (i < SkillKeyList.snowball)
+                if (i < SkillKeyList.Snowball)
                 {
                     ability ab = new ability();
                     ab.Init((int)i);
@@ -345,9 +349,9 @@ namespace week
             _buffList = new List<BuffEffect>();
             _dotDmg = new dotDmg();
 
-            _pet.Init(_gs, () => { _skills[SkillKeyList.snowball].att *= 2; });
-            
-            getSkill(SkillKeyList.snowball);
+            // _pet.Init(_gs, () => { _skills[SkillKeyList.Snowball].att *= 2; });
+
+            getSkill(SkillKeyList.Snowball);
 
 #if UNITY_EDITOR
 
@@ -355,7 +359,7 @@ namespace week
 #endif
             if (BaseManager.userGameData.SkinBval[(int)skinBvalue.mine])
             {
-                getSkill(SkillKeyList.mine);
+                getSkill(SkillKeyList.Mine);
                 // selectEquips[0] = SkillKeyList.mine;
             }
             if (_hasPresent)
@@ -365,7 +369,7 @@ namespace week
 
             _almightCase.SetActive(false);
 
-            StartCoroutine(skillUpdate());            
+            StartCoroutine(skillUpdate());
         }
 
         IEnumerator chk()
@@ -381,44 +385,44 @@ namespace week
         void getOriginStatus()
         {
             // hpgen[3]은 합연산이라 초기값 0
-            _standardStt    = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f }; // snowStt (10개)
-            _addedStt       = new float[] { 0f, 0f, 1f }; //, 0f, 0f, 0f, 0f, 0f, 0f, 0f }; // snowStt (10개)
-            _skillStt       = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f }; // SkillKeyList (9개)
-            _seasonStt      = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f }; // snowStt (10개)
+            _standardStt = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f }; // snowStt (10개)
+            _addedStt = new float[] { 0f, 0f, 1f }; //, 0f, 0f, 0f, 0f, 0f, 0f, 0f }; // snowStt (10개)
+            _skillStt = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f }; // SkillKeyList (9개)
+            _seasonStt = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f }; // snowStt (10개)
             // hpgen[2]은 합연산이라 초기값 0
             _buffStt = new float[] { 1f, 1f, 1f, 0f, 1f, 1f, 1f, 1f, 1f, 1f, 1f }; // ebuff (11개)
 
             // _standardStt : (def, cool)은 감소형태로 (1 - value) 계산
             if (BaseManager.userGameData.ApplySeason == null)
             {
-                Hp = _standardStt[(int)snowStt.maxHp]  = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0];                 // 체력 곱
-                _standardStt[(int)snowStt.att]          = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1];                // 공격 곱
-                _standardStt[(int)snowStt.def]          = (1f - BaseManager.userGameData.o_Def) * (1f - BaseManager.userGameData.AddStats[2]);  // 방어 (1 - 곱)
-                _standardStt[(int)snowStt.hpgen]        = BaseManager.userGameData.AddStats[3];              // 체젠 합
-                _standardStt[(int)snowStt.cool]         = (1f - BaseManager.userGameData.o_Cool) * (1f - BaseManager.userGameData.AddStats[4]); // 쿨탐 (1 - 곱)
-                _standardStt[(int)snowStt.exp]          = BaseManager.userGameData.o_ExpFactor * BaseManager.userGameData.AddStats[5];          // 경치 곱
+                Hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp * BaseManager.userGameData.AddStats[0];                 // 체력 곱
+                _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att * BaseManager.userGameData.AddStats[1];                // 공격 곱
+                _standardStt[(int)snowStt.def] = (1f - BaseManager.userGameData.o_Def) * (1f - BaseManager.userGameData.AddStats[2]);  // 방어 (1 - 곱)
+                _standardStt[(int)snowStt.hpgen] = BaseManager.userGameData.AddStats[3];              // 체젠 합
+                _standardStt[(int)snowStt.cool] = (1f - BaseManager.userGameData.o_Cool) * (1f - BaseManager.userGameData.AddStats[4]); // 쿨탐 (1 - 곱)
+                _standardStt[(int)snowStt.exp] = BaseManager.userGameData.o_ExpFactor * BaseManager.userGameData.AddStats[5];          // 경치 곱
             }
             else
             {
-                Hp = _standardStt[(int)snowStt.maxHp]  = BaseManager.userGameData.o_Hp;
-                _standardStt[(int)snowStt.att]          = BaseManager.userGameData.o_Att;
-                _standardStt[(int)snowStt.hpgen]        = 0f;
-                _standardStt[(int)snowStt.exp]          = BaseManager.userGameData.o_ExpFactor;
-                _standardStt[(int)snowStt.def]          = (1f - BaseManager.userGameData.o_Def);
-                _standardStt[(int)snowStt.cool]         = (1f - BaseManager.userGameData.o_Cool);
+                Hp = _standardStt[(int)snowStt.maxHp] = BaseManager.userGameData.o_Hp;
+                _standardStt[(int)snowStt.att] = BaseManager.userGameData.o_Att;
+                _standardStt[(int)snowStt.hpgen] = 0f;
+                _standardStt[(int)snowStt.exp] = BaseManager.userGameData.o_ExpFactor;
+                _standardStt[(int)snowStt.def] = (1f - BaseManager.userGameData.o_Def);
+                _standardStt[(int)snowStt.cool] = (1f - BaseManager.userGameData.o_Cool);
 
-                _seasonStt[(int)snowStt.att]            = BaseManager.userGameData.AddStats[1];
-                _seasonStt[(int)snowStt.hpgen]          = BaseManager.userGameData.AddStats[3];
-                _seasonStt[(int)snowStt.exp]            = BaseManager.userGameData.AddStats[5];
-                _seasonStt[(int)snowStt.def]            = (1f - BaseManager.userGameData.AddStats[2]);
-                _seasonStt[(int)snowStt.cool]           = (1f - BaseManager.userGameData.AddStats[4]);
-                _seasonStt[(int)snowStt.coin]           = BaseManager.userGameData.AddStats[(int)snowStt.coin];
+                _seasonStt[(int)snowStt.att] = BaseManager.userGameData.AddStats[1];
+                _seasonStt[(int)snowStt.hpgen] = BaseManager.userGameData.AddStats[3];
+                _seasonStt[(int)snowStt.exp] = BaseManager.userGameData.AddStats[5];
+                _seasonStt[(int)snowStt.def] = (1f - BaseManager.userGameData.AddStats[2]);
+                _seasonStt[(int)snowStt.cool] = (1f - BaseManager.userGameData.AddStats[4]);
+                _seasonStt[(int)snowStt.coin] = BaseManager.userGameData.AddStats[(int)snowStt.coin];
             }
 
             _spine.skeleton.SetSkin(BaseManager.userGameData.Skin.ToString());
 
             _ballType = BaseManager.userGameData.BallType;
-                        
+
             _hasWild = BaseManager.userGameData.SkinBval[(int)skinBvalue.wild];
             _wildMount = BaseManager.userGameData.SkinFval[(int)skinFvalue.wild] * 0.01f;
             _invSlow = BaseManager.userGameData.SkinBval[(int)skinBvalue.invSlow];
@@ -438,7 +442,7 @@ namespace week
         /// <summary> 모험 스탯강화 적용 </summary>
         void abilityApply(SkillKeyList type)
         {
-            if (type < SkillKeyList.snowball)
+            if (type < SkillKeyList.Snowball)
             {
                 switch (type)
                 {
@@ -447,18 +451,19 @@ namespace week
                         Hp *= (_abils[type].val * 0.01f);
                         break;
                     case SkillKeyList.att:          // 공격 곱
-                    case SkillKeyList.healmount:    // 힐증가량 곱
+                    case SkillKeyList.heal:         // 힐증가량 곱
                     case SkillKeyList.size:         // 크기 곱
                     case SkillKeyList.spd:          // 속도 곱
                     case SkillKeyList.exp:          // 경치 곱
+                    case SkillKeyList.coin:         // 코인 곱
                         _skillStt[(int)type] *= (_abils[type].val * 0.01f);
                         break;
                     case SkillKeyList.def:          // 방어 뺌 (1 - 값/100)
                         _skillStt[(int)type] -= (_abils[type].val * 0.01f);
                         break;
-                    case SkillKeyList.hpgen:        // 체젠 합 (값/100)
+                    case SkillKeyList.gen:        // 체젠 합 (값/100)
                     case SkillKeyList.cool:         // 쿨탐 합
-                        _skillStt[(int)type] += _abils[type].val * 0.01f;                        
+                        _skillStt[(int)type] += _abils[type].val * 0.01f;
                         break;
                     default:
                         break;
@@ -505,7 +510,7 @@ namespace week
         }
 
         #region [ skill ]
-        
+
         /// <summary> 라이프 사이클 </summary>
         IEnumerator skillUpdate()
         {
@@ -520,9 +525,11 @@ namespace week
                 closedMob = _gs.mostCloseEnemy(transform);
                 mobDist = Vector3.Distance(transform.position, closedMob);
 
+                launchSequence(closedMob, mobDist, delTime);
+
                 skillSequence(closedMob, mobDist, delTime);
 
-                // equipSequence(closedMob, mobDist, delTime);
+
 
                 skinSequence(closedMob, mobDist, delTime);
 
@@ -543,171 +550,254 @@ namespace week
             }
         }
 
-        void skillSequence(Vector3 closedMob,float mobDist, float delTime)
+        /// <summary> launch 시퀀스 </summary>
+        void launchSequence(Vector3 closedMob, float mobDist, float delTime)
         {
-            if (_skills[SkillKeyList.snowball].chk_shotable(delTime, Cool, mobDist)) // 눈덩이
+            if (_skills[SkillKeyList.Snowball].chk_shotable(delTime, Cool, mobDist)) // 눈덩이
             {
                 int num = 1 + BaseManager.userGameData.SkinIval[(int)skinIvalue.snowball];
                 float angle = (num - 1) * -10f;
 
                 for (int i = 0; i < num; i++)
                 {
-                    _sbc = (SsnowballCtrl)_psm.getPrej(SkillKeyList.snowball);
-                    _sbc.transform.position = transform.position;
-                    _sbc.setTarget(closedMob, angle + (20f * i));
-                    _sbc.setSprite(_ballType);
-                    _sbc.repeatInit(_skills[SkillKeyList.snowball].att * Att, _skills[SkillKeyList.snowball].size * Size);
+                    _launch = _psm.getLaunch(SkillKeyList.Snowball);
+                    _launch.transform.position = transform.position;
+                    _launch.setTarget(closedMob, angle + (20f * i));
+
+                    _launch.repeatInit(SkillKeyList.Snowball, _skills[SkillKeyList.Snowball].att * Att, _skills[SkillKeyList.Snowball].size * Size)
+                        .setSnowSprite(_ballType)
+                        .play();
                 }
             }
 
-            if (_skills[SkillKeyList.icefist].chk_shotable(delTime, Cool, mobDist)) // 얼음주먹
+            if (_skills[SkillKeyList.IcicleSpear].chk_shotable(delTime, Cool, mobDist)) // 얼창
             {
-                _pjt = _psm.getPrej(SkillKeyList.icefist);
-                _pjt.transform.position = transform.position;
-                _pjt.setTarget(closedMob);
-                _pjt.repeatInit(_skills[SkillKeyList.icefist].att * Att, _skills[SkillKeyList.icefist].size * Size);
+                _launch = _psm.getLaunch(SkillKeyList.IcicleSpear);
+                _launch.transform.position = transform.position;
+                _launch.setTarget(closedMob);
+                _launch.repeatInit(SkillKeyList.IcicleSpear, _skills[SkillKeyList.IcicleSpear].att * Att, _skills[SkillKeyList.IcicleSpear].size * Size)
+                        .play();
             }
 
-            if (_skills[SkillKeyList.icicle].chk_shotable(delTime, Cool, mobDist)) // 고드름
+            if (_skills[SkillKeyList.FrostDrill].chk_shotable(delTime, Cool, mobDist)) // 얼드릴
             {
-                _pjt = _psm.getPrej(SkillKeyList.icicle);
-                _pjt.transform.position = transform.position;
-                _pjt.setTarget(closedMob);
-                _pjt.repeatInit(_skills[SkillKeyList.icicle].att * Att, _skills[SkillKeyList.icicle].size * Size);
+                _launch = _psm.getLaunch(SkillKeyList.FrostDrill);
+                _launch.transform.position = transform.position;
+                _launch.setTarget(closedMob);
+                _launch.repeatInit(SkillKeyList.FrostDrill, _skills[SkillKeyList.FrostDrill].att * Att, _skills[SkillKeyList.FrostDrill].size * Size)
+                        .play();
             }
 
-            if (_skills[SkillKeyList.halficicle].chk_shotable(delTime, Cool, mobDist)) // 반달고드름
+            if (_skills[SkillKeyList.IceFist].chk_shotable(delTime, Cool, mobDist)) // 얼주먹
             {
-                int num = _skills[SkillKeyList.halficicle].Lvl;
+                _launch = _psm.getLaunch(SkillKeyList.IceFist);
+                _launch.transform.position = transform.position;
+                _launch.setTarget(closedMob);
+                _launch.repeatInit(SkillKeyList.IceFist, _skills[SkillKeyList.IceFist].att * Att, _skills[SkillKeyList.IceFist].size * Size)
+                        .play();
+            }
+
+            if (_skills[SkillKeyList.IceKnuckle].chk_shotable(delTime, Cool, mobDist)) // 얼꿀밤
+            {
+                _launch = _psm.getLaunch(SkillKeyList.IceKnuckle);
+                _launch.transform.position = transform.position;
+                _launch.setTarget(closedMob);
+                _launch.repeatInit(SkillKeyList.IceKnuckle, _skills[SkillKeyList.IceKnuckle].att * Att, _skills[SkillKeyList.IceKnuckle].size * Size)
+                        .play();
+            }
+
+            if (_skills[SkillKeyList.HalfIcicle].chk_shotable(delTime, Cool, mobDist)) // 반달고드름
+            {
+                int num = _skills[SkillKeyList.HalfIcicle].Lvl;
                 float degree = 360f / num;
                 Vector3 mce = closedMob;
 
                 for (int i = 0; i < num; i++)
                 {
-                    _pjt = _psm.getPrej(SkillKeyList.halficicle);
-                    _pjt.transform.position = transform.position;
-                    _pjt.setTarget(mce, degree * i);
-                    _pjt.repeatInit(_skills[SkillKeyList.halficicle].att * Att, _skills[SkillKeyList.halficicle].size * Size);
+                    _launch = _psm.getLaunch(SkillKeyList.HalfIcicle);
+                    _launch.transform.position = transform.position;
+                    _launch.setTarget(mce, degree * i);
+                    _launch.repeatInit(SkillKeyList.HalfIcicle, _skills[SkillKeyList.HalfIcicle].att * Att, _skills[SkillKeyList.HalfIcicle].size * Size)
+                        .play();
                 }
             }
 
-            if (_skills[SkillKeyList.hail].chk_Time(delTime, Cool)) // 우박
+            if (_skills[SkillKeyList.SnowDart].chk_shotable(delTime, Cool, mobDist)) // 얼음표창
             {
-                StartCoroutine(fallingHail());
-            }
+                int num = _skills[SkillKeyList.SnowDart].Lvl;
+                float degree = 360f / num;
+                Vector3 mce = closedMob;
 
-            if (_skills[SkillKeyList.icewall].chk_Time(delTime, Cool)) // 빙벽
-            {
-                _soc = (SsuddenObstacleCtrl)_psm.getSudden(SkillKeyList.icewall);
-                Vector3 pos = _gs.pVector * -1;
-                _soc.transform.position = transform.position + (pos * 1.2f);
-                _soc.Init(_skills[SkillKeyList.icicle]);
-            }
-
-            if (_skills[SkillKeyList.iceage].chk_Time(delTime, Cool)) // 아이스에이지
-            {
-                StartCoroutine(iceage());
-                if (_iceHealMount > 0)
+                for (int i = 0; i < num; i++)
                 {
-                    getHealed(MaxHp * _iceHealMount);
+                    _launch = _psm.getLaunch(SkillKeyList.HalfIcicle);
+                    _launch.transform.position = transform.position;
+                    _launch.setTarget(mce, degree * i);
+                    _launch.repeatInit(SkillKeyList.HalfIcicle, _skills[SkillKeyList.HalfIcicle].att * Att, _skills[SkillKeyList.HalfIcicle].size * Size)
+                        .play();
                 }
             }
 
-            if (_skills[SkillKeyList.blizzard].chk_Time(delTime, Cool)) // 블리자드
+            if (_skills[SkillKeyList.Hammer].chk_shotable(delTime, Cool, mobDist)) // 망치
             {
-                StartCoroutine(blizzarding());
-                if (_iceHealMount > 0)
+                _launch = _psm.getLaunch(SkillKeyList.Hammer);
+                _launch.transform.position = transform.position;
+                _launch.setTarget(closedMob);
+
+                _launch.repeatInit(SkillKeyList.Hammer, _skills[SkillKeyList.Hammer].att * Att, _skills[SkillKeyList.Hammer].size * Size, 1.2f)
+                    .setHammer(_skills[SkillKeyList.Hammer].Lvl)
+                    .play();
+            }
+
+            if (_skills[SkillKeyList.GigaDrill].chk_shotable(delTime, Cool, mobDist)) // 기가드릴
+            {
+                _launch = _psm.getLaunch(SkillKeyList.GigaDrill);
+                _launch.transform.position = transform.position;
+                _launch.setTarget(closedMob);
+                _launch.repeatInit(SkillKeyList.GigaDrill, _skills[SkillKeyList.GigaDrill].att * Att, _skills[SkillKeyList.GigaDrill].size * Size)
+                        .play();
+            }
+
+            if (_skills[SkillKeyList.Ricoche].chk_shotable(delTime, Cool, mobDist)) // 도탄
+            {
+                float degree = 72f;
+                Vector3 mce = closedMob;
+
+                for (int i = 0; i < 5; i++)
                 {
-                    getHealed(MaxHp * _iceHealMount);
+                    _launch = _psm.getLaunch(SkillKeyList.Ricoche);
+                    _launch.transform.position = transform.position;
+                    _launch.setTarget(mce, degree * i);
+                    _launch.repeatInit(SkillKeyList.Ricoche, _skills[SkillKeyList.Ricoche].att * Att, _skills[SkillKeyList.Ricoche].size * Size)
+                        .play();
                 }
             }
-
-            if (_skills[SkillKeyList.snowbomb].chk_shotable(delTime, Cool, mobDist)) // 눈폭탄
+        }
+        void rangeSequence(Vector3 closedMob, float mobDist, float delTime)
+        {
+            if (_skills[SkillKeyList.Iceball].chk_shotable(delTime, Cool, mobDist)) // 얼덩이
             {
-                _pjt = _psm.getPrej(SkillKeyList.snowbomb);
-                _pjt.transform.position = transform.position;
-                _pjt.setTarget(closedMob);
-                _pjt.repeatInit(_skills[SkillKeyList.snowbomb].att * Att, _skills[SkillKeyList.snowbomb].size * Size);
+                _range = _psm.getRange(SkillKeyList.Iceball);
+                _range.transform.position = transform.position;
+                _range.setTarget(closedMob);
+                _range.repeatInit(SkillKeyList.Iceball, _skills[SkillKeyList.Iceball].att * Att, _skills[SkillKeyList.Iceball].size * Size);
             }
+        }
 
-            if (_skills[SkillKeyList.iceshield].chk_Time(delTime, Cool) && _shield.IsUse == false) // 실드
-            {
-                _shield.repeatInit(_skills[SkillKeyList.iceshield].att * Att, () => { _skills[SkillKeyList.iceshield]._timer = 0; });
-            }
+        void skillSequence(Vector3 closedMob,float mobDist, float delTime)
+        {
+            
 
-            if (_skills[SkillKeyList.poison].chk_shotable(delTime, Cool, mobDist)) // 독병
-            {
-                _pjt = _psm.getPrej(SkillKeyList.poison);
-                _pjt.transform.position = transform.position;
-                _pjt.setTarget(closedMob);
-                _pjt.repeatInit(_skills[SkillKeyList.poison].att, _skills[SkillKeyList.poison].size * Size, 1f, _skills[SkillKeyList.poison].keep);
-            }
+            //if (_skills[SkillKeyList.hail].chk_Time(delTime, Cool)) // 우박
+            //{
+            //    StartCoroutine(fallingHail());
+            //}
 
-            if (_skills[SkillKeyList.hammer].chk_shotable(delTime, Cool, mobDist)) // 망치
-            {
-                _pjt = _psm.getPrej(SkillKeyList.hammer);
-                _pjt.transform.position = transform.position;
-                _pjt.setTarget(closedMob);
-                _pjt.skillLvl = _skills[SkillKeyList.hammer].Lvl;
-                _pjt.repeatInit(_skills[SkillKeyList.hammer].att * Att, _skills[SkillKeyList.hammer].size * Size, 1.2f);
-            }
+            //if (_skills[SkillKeyList.icewall].chk_Time(delTime, Cool)) // 빙벽
+            //{
+            //    _soc = (SsuddenObstacleCtrl)_psm.getSudden(SkillKeyList.icewall);
+            //    Vector3 pos = _gs.pVector * -1;
+            //    _soc.transform.position = transform.position + (pos * 1.2f);
+            //    _soc.Init(_skills[SkillKeyList.icicle]);
+            //}
 
-            if (_skills[SkillKeyList.thunder].chk_rangeshotable(delTime, Cool, mobDist)) // 번개
-            {
-                _sec = (SsuddenEnergeCtrl)_psm.getSudden(SkillKeyList.thunder);
+            //if (_skills[SkillKeyList.iceage].chk_Time(delTime, Cool)) // 아이스에이지
+            //{
+            //    StartCoroutine(iceage());
+            //    if (_iceHealMount > 0)
+            //    {
+            //        getHealed(MaxHp * _iceHealMount);
+            //    }
+            //}
 
-                _sec.transform.position = _gs.randomCloseEnemy(transform, _skills[SkillKeyList.thunder].range); // 근거리 아무적으로 교체
-                _sec.Init(_skills[SkillKeyList.thunder]);
-            }
+            //if (_skills[SkillKeyList.blizzard].chk_Time(delTime, Cool)) // 블리자드
+            //{
+            //    StartCoroutine(blizzarding());
+            //    if (_iceHealMount > 0)
+            //    {
+            //        getHealed(MaxHp * _iceHealMount);
+            //    }
+            //}
 
-            if (_skills[SkillKeyList.mine].chk_Time(delTime, Cool)) // 지뢰
-            {
-                for (int i = 0; i < 1 + _skills[SkillKeyList.mine].Lvl + BaseManager.userGameData.SkinIval[(int)skinIvalue.mine]; i++)
-                {
-                    _pjt = _psm.getPrej(SkillKeyList.mine);
-                    _pjt.transform.position = transform.position;
-                    _pjt.setTarget(transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * _skills[SkillKeyList.mine].range);
-                    _pjt.repeatInit(_skills[SkillKeyList.mine].att * Att, _skills[SkillKeyList.mine].size * Size, 1f, _skills[SkillKeyList.mine].keep);
-                }
-            }
+            //if (_skills[SkillKeyList.snowbomb].chk_shotable(delTime, Cool, mobDist)) // 눈폭탄
+            //{
+            //    _pjt = _psm.getPrej(SkillKeyList.snowbomb);
+            //    _pjt.transform.position = transform.position;
+            //    _pjt.setTarget(closedMob);
+            //    _pjt.repeatInit(_skills[SkillKeyList.snowbomb].att * Att, _skills[SkillKeyList.snowbomb].size * Size);
+            //}
 
-            if (_skills[SkillKeyList.blackhole].chk_shotable(delTime, Cool, mobDist)) // 소용돌이
-            {
-                _pjt = _psm.getPrej(SkillKeyList.blackhole);
-                _pjt.transform.position = transform.position;
-                _pjt.setTarget(closedMob);
-                _pjt.repeatInit(_skills[SkillKeyList.blackhole].att * Att, _skills[SkillKeyList.blackhole].size * Size, 1f, _skills[SkillKeyList.blackhole].keep);
-            }
+            //if (_skills[SkillKeyList.iceshield].chk_Time(delTime, Cool) && _shield.IsUse == false) // 실드
+            //{
+            //    _shield.repeatInit(_skills[SkillKeyList.iceshield].att * Att, () => { _skills[SkillKeyList.iceshield]._timer = 0; });
+            //}
 
-            if (_skills[SkillKeyList.pet].chk_shotable(delTime, Cool, mobDist)) // 쫄따구
-            {
-                _pjt = _psm.getPrej(SkillKeyList.pet);
-                _pjt.transform.position = _pet.Pos.position;
+            //if (_skills[SkillKeyList.poison].chk_shotable(delTime, Cool, mobDist)) // 독병
+            //{
+            //    _pjt = _psm.getPrej(SkillKeyList.poison);
+            //    _pjt.transform.position = transform.position;
+            //    _pjt.setTarget(closedMob);
+            //    _pjt.repeatInit(_skills[SkillKeyList.poison].att, _skills[SkillKeyList.poison].size * Size, 1f, _skills[SkillKeyList.poison].keep);
+            //}
 
-                _pjt.setTarget(closedMob);
-                _pjt.repeatInit(_skills[SkillKeyList.pet].att * Att, _skills[SkillKeyList.pet].size);
-            }
+            
 
-            if (_skills[SkillKeyList.present].chk_Time(delTime, Cool)) // 선물
-            {
-                float heal = MaxHp * _presentHeal;
+            //if (_skills[SkillKeyList.thunder].chk_rangeshotable(delTime, Cool, mobDist)) // 번개
+            //{
+            //    _sec = (SsuddenEnergeCtrl)_psm.getSudden(SkillKeyList.thunder);
 
-                for (int i = 0; i < BaseManager.userGameData.SkinIval[(int)skinIvalue.present]; i++)
-                {
-                    _pjt = _psm.getPrej(SkillKeyList.present);
-                    _pjt.transform.position = transform.position;
-                    _pjt.setTarget(transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * _skills[SkillKeyList.mine].range);
+            //    _sec.transform.position = _gs.randomCloseEnemy(transform, _skills[SkillKeyList.thunder].range); // 근거리 아무적으로 교체
+            //    _sec.Init(_skills[SkillKeyList.thunder]);
+            //}
 
-                    _pjt.repeatInit(heal, _skills[SkillKeyList.present].size * Size, 1f, _skills[SkillKeyList.present].keep);
-                }
-            }
+            //if (_skills[SkillKeyList.mine].chk_Time(delTime, Cool)) // 지뢰
+            //{
+            //    for (int i = 0; i < 1 + _skills[SkillKeyList.mine].Lvl + BaseManager.userGameData.SkinIval[(int)skinIvalue.mine]; i++)
+            //    {
+            //        _pjt = _psm.getPrej(SkillKeyList.mine);
+            //        _pjt.transform.position = transform.position;
+            //        _pjt.setTarget(transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * _skills[SkillKeyList.mine].range);
+            //        _pjt.repeatInit(_skills[SkillKeyList.mine].att * Att, _skills[SkillKeyList.mine].size * Size, 1f, _skills[SkillKeyList.mine].keep);
+            //    }
+            //}
+
+            //if (_skills[SkillKeyList.blackhole].chk_shotable(delTime, Cool, mobDist)) // 소용돌이
+            //{
+            //    _pjt = _psm.getPrej(SkillKeyList.blackhole);
+            //    _pjt.transform.position = transform.position;
+            //    _pjt.setTarget(closedMob);
+            //    _pjt.repeatInit(_skills[SkillKeyList.blackhole].att * Att, _skills[SkillKeyList.blackhole].size * Size, 1f, _skills[SkillKeyList.blackhole].keep);
+            //}
+
+            //if (_skills[SkillKeyList.pet].chk_shotable(delTime, Cool, mobDist)) // 쫄따구
+            //{
+            //    _pjt = _psm.getPrej(SkillKeyList.pet);
+            //    _pjt.transform.position = _pet.Pos.position;
+
+            //    _pjt.setTarget(closedMob);
+            //    _pjt.repeatInit(_skills[SkillKeyList.pet].att * Att, _skills[SkillKeyList.pet].size);
+            //}
+
+            //if (_skills[SkillKeyList.present].chk_Time(delTime, Cool)) // 선물
+            //{
+            //    float heal = MaxHp * _presentHeal;
+
+            //    for (int i = 0; i < BaseManager.userGameData.SkinIval[(int)skinIvalue.present]; i++)
+            //    {
+            //        _pjt = _psm.getPrej(SkillKeyList.present);
+            //        _pjt.transform.position = transform.position;
+            //        _pjt.setTarget(transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * _skills[SkillKeyList.mine].range);
+
+            //        _pjt.repeatInit(heal, _skills[SkillKeyList.present].size * Size, 1f, _skills[SkillKeyList.present].keep);
+            //    }
+            //}
         }
 
         IEnumerator fallingHail()
         {
             Vector2 initPos;
             Vector2 targetPos;
-            for (int i = 0; i < _skills[SkillKeyList.hail].count; i++)
+            for (int i = 0; i < _skills[SkillKeyList.Hail].count; i++)
             {
                 _hail = _psm.getHail();
 
@@ -715,7 +805,7 @@ namespace week
                 initPos = targetPos + Vector2.one * 6;
 
                 _hail.transform.position = initPos;
-                _hail.Init(targetPos, _skills[SkillKeyList.halficicle].att * Att);
+                _hail.Init(targetPos, _skills[SkillKeyList.Hail].att * Att);
 
                 yield return new WaitForSeconds(0.1f);
                 yield return new WaitUntil(()=>_gs.Pause == false);
@@ -727,8 +817,8 @@ namespace week
             _iceage.gameObject.SetActive(true);
             _iceage.SetTrigger("iceage");
 
-            EnemyFrozen(_skills[SkillKeyList.iceage].keep);
-            EnemyDamage(_skills[SkillKeyList.iceage].att * Att);
+            EnemyFrozen(_skills[SkillKeyList.IceAge].keep);
+            EnemyDamage(_skills[SkillKeyList.IceAge].att * Att);
 
             yield return new WaitForSeconds(3f);
 
@@ -751,12 +841,12 @@ namespace week
                     time = 0;
                     cnt++;
 
-                    EnemyDamage(_skills[SkillKeyList.blizzard].att * Att);
+                    EnemyDamage(_skills[SkillKeyList.Blizzard].att * Att);
                 }
                 yield return new WaitUntil(() => _gs.Pause == false);
             }            
 
-            _skills[SkillKeyList.blizzard]._timer = 0;
+            _skills[SkillKeyList.Blizzard]._timer = 0;
                         
             Blizzard(false);
         }
@@ -925,7 +1015,7 @@ namespace week
         /// <summary> 스킬얻음 </summary>
         public void getSkill(SkillKeyList num)
         {
-            if (num < SkillKeyList.snowball)
+            if (num < SkillKeyList.Snowball)
             {
                 _abils[num].skillUp();
             }
@@ -935,19 +1025,20 @@ namespace week
 
                 if (_skills[num].active)
                 {
-                    if (num == SkillKeyList.icetornado)
-                    {
-                        _tornado.gameObject.SetActive(true);
-                        _tornado.Init(_skills[num].att, _skills[num].delay, _skills[num].size);
-                    }
-                    else if (num == SkillKeyList.iceshield && _shield.IsUse == false)
+                    //if (num == SkillKeyList.icetornado)
+                    //{
+                    //    _tornado.gameObject.SetActive(true);
+                    //    _tornado.Init(_skills[num].att, _skills[num].delay, _skills[num].size);
+                    //}
+                    //else 
+                    if (num == SkillKeyList.Shield && _shield.IsUse == false)
                     {
                         _shield.repeatInit(_skills[num].att, () => { _skills[num]._timer = 0; });
                     }
-                    else if (num == SkillKeyList.pet)
+                    else if (num == SkillKeyList.Pet)
                     {
                         _pet.gameObject.SetActive(true);
-                        _pet.appear(_skills[SkillKeyList.pet].Lvl);
+                        _pet.appear(_skills[SkillKeyList.Pet].Lvl);
                     }
                 }
             }
@@ -980,7 +1071,7 @@ namespace week
         /// <summary> 오브젝트가 있는 스킬 체크 </summary>
         public void chkSkillObj()
         {
-            if (_skills[SkillKeyList.pet].active == false)
+            if (_skills[SkillKeyList.Pet].active == false)
             {
                 _pet.gameObject.SetActive(false);
             }
@@ -1361,7 +1452,7 @@ namespace week
             //}
 
             // 쿨타임 초기화
-            for (SkillKeyList eq = SkillKeyList.snowball; eq < SkillKeyList.poison; eq++)
+            for (SkillKeyList eq = SkillKeyList.Snowball; eq < SkillKeyList.Poison; eq++)
             {
                 _skills[eq]._timer = 0;
             }

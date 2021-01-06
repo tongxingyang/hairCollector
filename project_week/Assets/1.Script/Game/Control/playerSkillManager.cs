@@ -5,10 +5,15 @@ using UnityEngine;
 
 namespace week
 {
+    /// <summary> 플레이어 스킬은 내가 다 관리한다!!! </summary>
     public class playerSkillManager : MonoBehaviour
     {
         GameScene _gs;
         effManager _efm;
+
+        List<LaunchSkillCtrl> _launchSkills;
+        List<RangeSkillCtrl> _rangeSkills;
+        List<skillMarkCtrl> _skillMarks;
 
         List<BaseProjControl> _shotSkillList;
         List<SsuddenAppearCtrl> _suddenList;
@@ -23,15 +28,93 @@ namespace week
             _gs = gs;
             _efm = gs.EfMng;
 
+            _launchSkills = new List<LaunchSkillCtrl>();
+            _rangeSkills = new List<RangeSkillCtrl>();
+
             _shotSkillList = new List<BaseProjControl>();
             _suddenList = new List<SsuddenAppearCtrl>();
             _hailList = new List<hailSkill>();
         }
 
+        /// <summary> [launch] 투사체 가져오기  </summary>
+        public LaunchSkillCtrl getLaunch(SkillKeyList sk)
+        {
+            // 혹시나 에러 체크
+            if (sk < SkillKeyList.Snowball || sk > SkillKeyList.Iceball)
+            {
+                Debug.LogError("launch스킬생성 요청에러: " + sk.ToString());
+                return null;
+            }
+
+            for (int i = 0; i < _launchSkills.Count; i++)
+            {
+                if (_launchSkills[i].IsUse == false)
+                {
+                    return _launchSkills[i];
+                }
+            }
+
+            LaunchSkillCtrl lsc = Instantiate(DataManager.ShotFabs[sk]).GetComponent<LaunchSkillCtrl>();
+            _launchSkills.Add(lsc);
+            lsc.fixedInit(_gs, _efm);
+            lsc.transform.parent = transform;
+            return lsc;
+        }
+
+        /// <summary> [range] 발사체 가져오기  </summary>
+        public RangeSkillCtrl getRange(SkillKeyList sk)
+        {
+            // 혹시나 에러 체크
+            if (sk < SkillKeyList.Iceball || sk > SkillKeyList.IceBat)
+            {
+                Debug.LogError("range스킬생성 요청에러: " + sk.ToString());
+                return null;
+            }
+
+            for (int i = 0; i < _rangeSkills.Count; i++)
+            {
+                if (_rangeSkills[i].IsUse == false)
+                {
+                    return _rangeSkills[i];
+                }
+            }
+
+            RangeSkillCtrl rsc = Instantiate(DataManager.ShotFabs[sk]).GetComponent<RangeSkillCtrl>();
+            _rangeSkills.Add(rsc);
+            rsc.fixedInit(_gs, this, _efm);
+            rsc.transform.parent = transform;
+            return rsc;
+        }
+
+        ///// <summary> [range]-[mark] 스킬 마크/스킬 오브젝트 가져오기  </summary>
+        //public skillMarkCtrl getRangeMark(SkillKeyList sk)
+        //{
+        //    // 혹시나 에러 체크
+        //    if (sk < SkillKeyList.Iceball || sk > SkillKeyList.IceBat)
+        //    {
+        //        Debug.LogError("range스킬생성 요청에러: " + sk.ToString());
+        //        return null;
+        //    }
+
+        //    for (int i = 0; i < _skillMarks.Count; i++)
+        //    {
+        //        if (_skillMarks[i].IsUse == false)
+        //        {
+        //            return _skillMarks[i];
+        //        }
+        //    }
+
+        //    skillMarkCtrl mark = Instantiate(DataManager.ShotFabs[sk]).GetComponent<skillMarkCtrl>();
+        //    _skillMarks.Add(mark);
+        //    mark.fixedInit(_gs, this, _efm);
+        //    mark.transform.parent = transform;
+        //    return mark;
+        //}
+
         /// <summary> 투사체 생성 </summary>
         public BaseProjControl getPrej(SkillKeyList sk)
         {
-            if (sk < SkillKeyList.snowball)
+            if (sk < SkillKeyList.Snowball)
             {
                 Debug.LogError("잘못된, 능력치 생성 요청");
                 return null;
@@ -86,7 +169,7 @@ namespace week
                 }
             }
 
-            hailSkill hail = Instantiate(DataManager.ShotFabs[SkillKeyList.hail]).GetComponent<hailSkill>();
+            hailSkill hail = Instantiate(DataManager.ShotFabs[SkillKeyList.Hail]).GetComponent<hailSkill>();
             _hailList.Add(hail);
             hail.setting(_gs, _efm);
             hail.select();

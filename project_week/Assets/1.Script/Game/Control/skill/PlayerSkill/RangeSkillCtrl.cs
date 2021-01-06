@@ -5,62 +5,92 @@ using UnityEngine;
 
 namespace week
 {
-    public class ScurvedPorjCtrl : BaseProjControl
+    public class RangeSkillCtrl : shotBaseCtrl
     {
+        [SerializeField] SpriteRenderer _render;
         [Header("Child")]
         [SerializeField] Transform _bomb;
-        [SerializeField] secondEffCtrl _eff;
+        // [SerializeField] secondEffCtrl _eff;
         [SerializeField] GameObject _shadow;
+
+        playerSkillManager _psm;
 
         Vector3 _direct;
         float _dest;
 
         SpriteRenderer _bombSp;
 
-        protected override void whenFixedInit()
+        public SkillKeyList SkillType { get => _skillType; }
+        public float Damage { get => _dmg; }
+        public float Keep { get => _keep; }
+
+        #region [ Init ]
+
+        /// <summary> 첫 생성 </summary>
+        public void fixedInit(GameScene gs,playerSkillManager psm, effManager efm)
         {
+            _gs = gs;
+            _player = gs.Player;
+            _psm = psm;
+            _efm = efm;
+
             _bombSp = _bomb.GetComponent<SpriteRenderer>();
             // _eff.setting(_gs);
         }
 
-        public override void setTarget(Vector3 target, float addAngle = 0f, bool rand = false)
+        /// <summary> 재사용 및 투사체 데이터 설정 </summary>
+        public RangeSkillCtrl repeatInit(SkillKeyList skillType, float dmg, float size = 1f, float speed = 1f, float keep = 0.7f)
         {
-            _direct = target;
-            _dest = Vector3.Distance(target, transform.position) * 0.5f;
-        }
+            // 타입
+            _skillType = skillType;
 
-        public override void repeatInit(float dmg, float size, float speed = 1f, float keep = 0.7f) 
-        {
+            // 데미지
             _dmg = dmg;
+            // 크기            // _size = size;
+            transform.localScale = Vector3.one * size;
+            // 투사체 속도
             _speed = gameValues._defaultCurvProjSpeed * speed;
+            // 지속시간
             _keep = keep;
 
-            // transform.localScale = Vector3.one * size;
+            // 이미지 설정
+            _render.sprite = DataManager.LaunchImg[skillType];
 
-            preInit();
-
+            //=========[ 자식 에프터-이펙트 초기화 ]========================
             _bomb.gameObject.SetActive(true);
-            _eff.gameObject.SetActive(false);
             _shadow.SetActive(true);
 
-            switch (getSkillType)
+            //_eff.gameObject.SetActive(false);
+
+            preInit();
+            return this;
+        }
+
+        /// <summary> 시작 </summary>
+        public void play()
+        {
+            switch (_skillType)
             {
+                case SkillKeyList.Iceball:
+                case SkillKeyList.Crevasse:
+                case SkillKeyList.Poison:
+                case SkillKeyList.sulfurous:
+                    StartCoroutine(oneBounce(bombExplored));
+                    break;
                 case SkillKeyList.SnowBomb:
                     StartCoroutine(twoBounce(bombExplored));
                     break;
-                case SkillKeyList.Poison:
-                //case SkillKeyList.blackhole:
-                //    StartCoroutine(oneBounce(bombExplored));
-                //    break;
                 case SkillKeyList.Mine:
                 case SkillKeyList.present:
                     StartCoroutine(rotateBounce(bombExplored));
                     break;
                 default:
-                    Debug.LogError("잘못된 요청 : " + gameObject.name + "/" + getSkillType);
+                    Debug.LogError("잘못된 요청 : " + gameObject.name + "/" + _skillType);
                     break;
             }
         }
+
+        #region [ bounce ]
 
         IEnumerator oneBounce(Action dest)
         {
@@ -98,7 +128,7 @@ namespace week
         // Update is called once per frame
         IEnumerator twoBounce(Action dest)
         {
-            SoundManager.instance.PlaySFX(SFX.shot);  
+            SoundManager.instance.PlaySFX(SFX.shot);
 
             float time = 0;
             float spdRate = _speed / _dest;
@@ -148,7 +178,7 @@ namespace week
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
-            
+
             yield return new WaitForSeconds(0f);
 
             dest();
@@ -169,7 +199,7 @@ namespace week
             {
                 with = time * spdRate;
                 transform.position = Vector3.Lerp(origin, _direct, with);
-                _bomb.rotation = Quaternion.Euler(0, 0, 360f * with);  
+                _bomb.rotation = Quaternion.Euler(0, 0, 360f * with);
                 time += Time.deltaTime;
 
                 d = 4 * _dest * _dest * with * (1 - with);
@@ -188,25 +218,50 @@ namespace week
             dest();
         }
 
+        #endregion
+
+        public override void Destroy()
+        {
+            preDestroy();
+
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
+        #endregion
+
+        #region [ 움직임 설정 ]
+
+        public void setTarget(Vector3 target, float addAngle = 0f, bool rand = false)
+        {
+            _direct = target;
+            _dest = Vector3.Distance(target, transform.position) * 0.5f;
+        }
+
+        #endregion
+
+        #region [ after-effect ]
+
         void bombExplored()
         {
             _bomb.gameObject.SetActive(false);
             _shadow.SetActive(false);
 
-            if (getSkillType == SkillKeyList.Mine)
-            {
-                _dmg *= BaseManager.userGameData.SkinFval[(int)skinFvalue.mine];
-            }
+            //if (_skillType == SkillKeyList.Mine)
+            //{
+            //    _dmg *= BaseManager.userGameData.SkinFval[(int)skinFvalue.mine];
+            //}
 
-            //_eff.Init(_dmg, _keep, () =>
-            // {
-            //     Destroy();
-            // });
+            //_eff.Init(this, () =>
+            //{
+            //    Destroy();
+            //});
         }
+
+        #endregion
 
         public override void onPause(bool bl)
         {
-            // _eff.onPause(bl);
+            //_eff.onPause(bl);
         }
     }
 }

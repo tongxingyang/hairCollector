@@ -165,7 +165,7 @@ namespace week
             int num = 0;
             getSkillCase gsc;
 
-            for (SkillKeyList sk = SkillKeyList.hp; sk < SkillKeyList.snowball; sk++)
+            for (SkillKeyList sk = SkillKeyList.hp; sk < SkillKeyList.Snowball; sk++)
             {
                 if (_gs.Player.Abils[sk].active)
                 {
@@ -182,7 +182,7 @@ namespace week
                 }            
             }
 
-            for (SkillKeyList sk = SkillKeyList.snowball; sk < SkillKeyList.max; sk++)
+            for (SkillKeyList sk = SkillKeyList.Snowball; sk < SkillKeyList.max; sk++)
             {
                 if (_gs.Player.Skills[sk].active)
                 {
