@@ -27,8 +27,20 @@ namespace week
 
         IEnumerator respone()
         {
-            yield return new WaitForSeconds(regenTime);
-            _tem.SetActive(true);
+            float t = 0f;
+
+            while (true)
+            {
+                t += Time.deltaTime;
+
+                if (t > regenTime)
+                {
+                    t = 0f; 
+                    _tem.SetActive(true);
+                }
+
+                yield return new WaitUntil(() => _gs.Pause == false);
+            }
         }
 
         public void presentRespone()

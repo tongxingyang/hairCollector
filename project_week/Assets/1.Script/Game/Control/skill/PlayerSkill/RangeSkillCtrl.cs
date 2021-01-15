@@ -11,7 +11,7 @@ namespace week
         [Header("Child")]
         [SerializeField] Transform _bomb;
         // [SerializeField] secondEffCtrl _eff;
-        [SerializeField] GameObject _shadow;
+        // [SerializeField] GameObject _shadow;
 
         playerSkillManager _psm;
 
@@ -27,12 +27,12 @@ namespace week
         #region [ Init ]
 
         /// <summary> 첫 생성 </summary>
-        public void fixedInit(GameScene gs,playerSkillManager psm, effManager efm)
+        public void fixedInit(GameScene gs, playerSkillManager psm)
         {
             _gs = gs;
             _player = gs.Player;
             _psm = psm;
-            _efm = efm;
+            _efm = gs.EfMng;
 
             _bombSp = _bomb.GetComponent<SpriteRenderer>();
             // _eff.setting(_gs);
@@ -57,8 +57,8 @@ namespace week
             _render.sprite = DataManager.LaunchImg[skillType];
 
             //=========[ 자식 에프터-이펙트 초기화 ]========================
-            _bomb.gameObject.SetActive(true);
-            _shadow.SetActive(true);
+            // _bomb.gameObject.SetActive(true);
+            // _shadow.SetActive(true);
 
             //_eff.gameObject.SetActive(false);
 
@@ -74,14 +74,14 @@ namespace week
                 case SkillKeyList.Iceball:
                 case SkillKeyList.Crevasse:
                 case SkillKeyList.Poison:
-                case SkillKeyList.sulfurous:
+                case SkillKeyList.Sulfurous:
                     StartCoroutine(oneBounce(bombExplored));
                     break;
                 case SkillKeyList.SnowBomb:
                     StartCoroutine(twoBounce(bombExplored));
                     break;
                 case SkillKeyList.Mine:
-                case SkillKeyList.present:
+                case SkillKeyList.Present:
                     StartCoroutine(rotateBounce(bombExplored));
                     break;
                 default:
@@ -243,18 +243,10 @@ namespace week
 
         void bombExplored()
         {
-            _bomb.gameObject.SetActive(false);
-            _shadow.SetActive(false);
+            Destroy();
 
-            //if (_skillType == SkillKeyList.Mine)
-            //{
-            //    _dmg *= BaseManager.userGameData.SkinFval[(int)skinFvalue.mine];
-            //}
-
-            //_eff.Init(this, () =>
-            //{
-            //    Destroy();
-            //});
+            skillMarkCtrl smc = _psm.getRangeMark(_skillType);
+            smc.repeatInit(_skillType, _dmg, _keep);
         }
 
         #endregion

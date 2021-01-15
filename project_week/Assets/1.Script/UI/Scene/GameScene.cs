@@ -114,15 +114,14 @@ namespace week
 
             _player._gameOver = gameOver;
             _player.EnemyDamage = _enemyMng.enemyDamaged;
-            _player.Blizzard = blizzard;
             _player.EnemyFrozen = _enemyMng.enemyFrozen;
             _ExpBar.fillAmount = 0f;
 
             _pausePanel.pauseStart(this);
-            _upgradePanel.setting(_player, closeUpgradePanel);
+            _upgradePanel.setting(_player, whenCloseUpgradePanel);
 
             SoundManager.instance.PlayBGM(BGM.Battle);
-            standardSnow();
+            stopSnow();
 
             StartCoroutine(move());
             StartCoroutine(_enemyMng.startMakeEnemy());
@@ -490,7 +489,7 @@ namespace week
             _pausePanel.openPause();
         }
 
-        void closeUpgradePanel()
+        void whenCloseUpgradePanel()
         {
             Time.timeScale = 1;
             whenResume();
@@ -544,19 +543,39 @@ namespace week
             }
         }
 
-        public void blizzard(bool bl)
+        public void storm(float val)
         {
-            if (bl)
+            if (val == 2)
             {
-                hardSnow();
+                blizzard();
+            }
+            else if (val == 1)
+            {
+                snowStorm();
             }
             else
             {
-                standardSnow();
+                stopSnow();
             }
         }
 
-        void standardSnow()
+        public void fog(float val)
+        {
+            if (val == 2)
+            {
+                snowFog();
+            }
+            else if (val == 1)
+            {
+                whiteout();
+            }
+            else
+            {
+                stopSnow();
+            }
+        }
+
+        void stopSnow()
         {
             _snow.OnMasterChanged(1f);
             _snow.OnSnowChanged(0f);
@@ -564,12 +583,44 @@ namespace week
             _snow.OnFogChanged(0f);
         }
 
-        void hardSnow()
+        //void hardSnow()
+        //{
+        //    _snow.OnMasterChanged(1f);
+        //    _snow.OnSnowChanged(1f);
+        //    _snow.OnWindChanged(0.5f);
+        //    _snow.OnFogChanged(0.5f);
+        //}
+
+        void snowStorm()
+        {
+            _snow.OnMasterChanged(1f);
+            _snow.OnSnowChanged(0.5f);
+            _snow.OnWindChanged(0.25f);
+            _snow.OnFogChanged(0f);
+        }
+
+        void blizzard()
         {
             _snow.OnMasterChanged(1f);
             _snow.OnSnowChanged(1f);
             _snow.OnWindChanged(0.5f);
+            _snow.OnFogChanged(0f);
+        }
+
+        void snowFog()
+        {
+            _snow.OnMasterChanged(1f);
+            _snow.OnSnowChanged(0f);
+            _snow.OnWindChanged(0.25f);
             _snow.OnFogChanged(0.5f);
+        }
+
+        void whiteout()
+        {
+            _snow.OnMasterChanged(1f);
+            _snow.OnSnowChanged(0f);
+            _snow.OnWindChanged(0.5f);
+            _snow.OnFogChanged(1f);
         }
     }
 }

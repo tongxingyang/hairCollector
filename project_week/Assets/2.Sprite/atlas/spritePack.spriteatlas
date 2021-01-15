@@ -49,7 +49,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 578e513cc70e5f24e9c25b943c105710, type: 3}
     - {fileID: 102900000, guid: 4f489253b1c3a37408a270925b8bd3b7, type: 3}
     - {fileID: 102900000, guid: ffee5b2594a591642a555b7802b3ced1, type: 3}
-    totalSpriteSurfaceArea: 25633434
+    totalSpriteSurfaceArea: 25731738
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -77,6 +77,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a40951c0533518e47ae094a03b54b15e, type: 3}
   - {fileID: 21300000, guid: 225275c0148403c4fbb343c8fd1f5e28, type: 3}
   - {fileID: 21300000, guid: 82569ac06f686b94e95306e906518516, type: 3}
+  - {fileID: 21300000, guid: 8097abc04f5dd404cac4af28447dad0e, type: 3}
   - {fileID: 21300000, guid: c6882ad090927b5428b5681cf372b297, type: 3}
   - {fileID: 21300000, guid: a10b8bf08c4a22d4483f128c38252a53, type: 3}
   - {fileID: -6535566156686275472, guid: 098717013e9ee8544a60957e43a002ec, type: 3}
@@ -280,6 +281,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 52d88a3b6a7b4f24883a79d3325ffca4, type: 3}
   - {fileID: 21300000, guid: 89108f6bb407e914b96ea1a99a9a4483, type: 3}
   - {fileID: 21300000, guid: bd7e0e8b84fcc4a4aacfdd3ddc16c9b0, type: 3}
+  - {fileID: 21300000, guid: 90437a9bb2c0bb745bbdf8948f5d95b9, type: 3}
   - {fileID: 3581108391064161169, guid: 08b1edbbbd2b2bd4f80fc7bb2bba004b, type: 3}
   - {fileID: -900783696612406636, guid: 08b1edbbbd2b2bd4f80fc7bb2bba004b, type: 3}
   - {fileID: 9078623318578753597, guid: 08b1edbbbd2b2bd4f80fc7bb2bba004b, type: 3}
@@ -386,6 +388,7 @@ SpriteAtlas:
   - newmain
   - healRound
   - arrow
+  - flurry
   - exclamation
   - cowboy
   - pet1_0
@@ -589,6 +592,7 @@ SpriteAtlas:
   - axHead
   - pause
   - clock_spring
+  - bat
   - thunder_2
   - thunder_3
   - thunder_0

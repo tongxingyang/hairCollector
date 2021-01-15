@@ -53,7 +53,7 @@ namespace week
                 //    StartCoroutine(oneBounce(bombExplored));
                 //    break;
                 case SkillKeyList.Mine:
-                case SkillKeyList.present:
+                case SkillKeyList.Present:
                     StartCoroutine(rotateBounce(bombExplored));
                     break;
                 default:

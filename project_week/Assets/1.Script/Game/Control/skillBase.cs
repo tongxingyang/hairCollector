@@ -9,6 +9,8 @@ namespace week
     {
         protected SkillKeyList type;
 
+        public string name;
+
         protected int lvl;
         protected int max_lvl;
 
@@ -16,32 +18,36 @@ namespace week
         public string information;
         public bool upGrade;
 
-        public abstract void Init(int i);
+        public abstract void Init(SkillKeyList sk);
         public abstract void skillUp();
 
+        public SkillKeyList Type { get => type; }
         public bool chk_lvl { get { return lvl < max_lvl; } }
         public bool active { get { return lvl > 0; } }
         public int Lvl { get => lvl; }
+        public int MaxLvl { get => max_lvl; }
     }
+
+    /// <summary> 능력치 </summary>
     public class ability : skillBase
     {
         public float val;
 
         public Action<SkillKeyList> skUp;
 
-        public override void Init(int i)
+        public override void Init(SkillKeyList sk)
         {
-            type = (SkillKeyList)i;
+            type = sk;
 
             upGrade = false;
             lvl = 0;
 
-            max_lvl = DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.max_level.ToString());
+            max_lvl = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.max_level.ToString());
 
-            explain = DataManager.GetTable<string>(DataTable.skill, i.ToString(), SkillValData.explain.ToString());
-            information = DataManager.GetTable<string>(DataTable.skill, i.ToString(), SkillValData.information.ToString());
+            explain = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.explain.ToString());
+            information = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.info.ToString());
 
-            val = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.val.ToString());
+            val = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.stat_val.ToString());
         }
 
         public override void skillUp()
@@ -54,53 +60,56 @@ namespace week
             lvl++;
         }
     }
+
+    /// <summary> 스킬 </summary>
     public class skill : skillBase
     {
-        public float att;
-        public float delay;
-        public float keep;
-        public int count;
-        public float size;
-        public float range;
+        public float att;   // 공격력
+        public float delay; // 쿨
+        public float keep;  // 지속시간
+        public int count;   // 개수
+        public float size;  // 크기
+        public float range; // 사거리
 
-        public float att_increase;
-        public float delay_reduce;
-        public float keep_increase;
-        public float size_increase;
-        public int count_increase;
+        //public float att_increase;  // 공격력 증가량
+        //public float delay_reduce;  // 쿨 감소량
+        //public float keep_increase; // 지속시간 증가량
+        //public float size_increase; // 크기 증가량
+        //public int count_increase;  // 개수 증가량
 
-        public skillNote note;
+        public bool _preCondition;      // 선행 스킬 필요 여부
+        public SkillKeyList _preSkill;  // 필요한 선행 스킬
 
-        public float _timer;
+        public float _timer;        // 쿨 타이머
 
         float rangeDelay;
 
-        public override void Init(int i)
+        public override void Init(SkillKeyList sk)
         {
-            type = (SkillKeyList)i;
+            type = sk;
+
             upGrade = false;
             _timer = 0;
 
             lvl = 0;
-            max_lvl = DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.max_level.ToString());
+            max_lvl = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.max_level.ToString());
 
-            explain = DataManager.GetTable<string>(DataTable.skill, i.ToString(), SkillValData.explain.ToString());
-            information = DataManager.GetTable<string>(DataTable.skill, i.ToString(), SkillValData.information.ToString());
+            name = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.skill_name.ToString());
+            explain = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.explain.ToString());
+            information = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.info.ToString());
 
-            att = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.att.ToString());
-            delay = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.delay.ToString()); // * BaseManager.userGameData.o_Cool;
-            keep = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.keep.ToString());
-            count = DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.count.ToString());
+            att = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.att.ToString());
+            delay = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.delay.ToString()); // * BaseManager.userGameData.o_Cool;
+            keep = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.keep.ToString());
+            count = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count.ToString());
             size = 1;
 
-            att_increase = (100f + DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.att_increase.ToString())) / 100;
-            delay_reduce = (100f - DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.delay_reduce.ToString())) / 100;
-            keep_increase = (100f - DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.keep_increase.ToString())) / 100;
-            size_increase = (100f + DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.size_increase.ToString())) / 100;
-            count_increase = DataManager.GetTable<int>(DataTable.skill, i.ToString(), SkillValData.count_increase.ToString());
-            range = DataManager.GetTable<float>(DataTable.skill, i.ToString(), SkillValData.range.ToString());
-
-            note = EnumHelper.StringToEnum<skillNote>(DataManager.GetTable<string>(DataTable.skill, i.ToString(), SkillValData.note.ToString()));
+            //att_increase = (100f + DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.att_increase.ToString())) / 100;
+            //delay_reduce = (100f - DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.delay_reduce.ToString())) / 100;
+            //keep_increase = (100f - DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.keep_increase.ToString())) / 100;
+            //size_increase = (100f + DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.size_increase.ToString())) / 100;
+            //count_increase = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count_increase.ToString());
+            range = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.range.ToString());
         }
 
         public override void skillUp()
@@ -110,11 +119,11 @@ namespace week
             }
             else if (lvl < max_lvl)
             {
-                att *= att_increase;
-                delay *= delay_reduce;
-                keep *= keep_increase;
-                count += count_increase;
-                size *= size_increase;
+                //att     *= att_increase;
+                //delay   *= delay_reduce;
+                //keep    *= keep_increase;
+                //count   += count_increase;
+                //size    *= size_increase;
             }
 
             lvl++;
@@ -179,7 +188,7 @@ namespace week
 
         public void clear()
         {
-            Init((int)type);
+            Init(type);
         }
     }
 }

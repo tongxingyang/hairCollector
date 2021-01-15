@@ -15,7 +15,7 @@ namespace week
         {
             _img.sprite = DataManager.Skillicon[skill];
 
-            string str = DataManager.GetTable<string>(DataTable.skill, ((int)skill).ToString(), SkillValData.skill.ToString()) + System.Environment.NewLine + $"lvl.{lvl}";
+            string str = DataManager.GetTable<string>(DataTable.skill, ((int)skill).ToString(), SkillValData.skill_name.ToString()) + System.Environment.NewLine + $"lvl.{lvl}";
             _txt.text = str;
         }
     }

@@ -59,6 +59,7 @@ namespace week
 
         public static T GetTable<T>(DataTable data, string key, string row)
         {
+            // Debug.Log(key + "," + row);
             T t = datalist[(int)data][key].Get<T>(datalist[(int)data].GetField(row));
             return t;
         }
@@ -127,7 +128,7 @@ namespace week
             {
                 name = sps[i].name;
 
-                for (SkillKeyList sk= SkillKeyList.hp; sk < SkillKeyList.present; sk++)
+                for (SkillKeyList sk= SkillKeyList.HP; sk < SkillKeyList.Present; sk++)
                 {
                     if (name.Equals(sk.ToString()))
                     {

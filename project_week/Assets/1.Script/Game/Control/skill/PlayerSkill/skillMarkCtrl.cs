@@ -50,11 +50,11 @@ namespace week
         }
 
         /// <summary> 재사용 </summary>
-        public skillMarkCtrl repeatInit(RangeSkillCtrl rsc)
+        public skillMarkCtrl repeatInit(SkillKeyList sk, float dmg,float keep)
         {
-            _skillType = rsc.SkillType;
-            _dmg = rsc.Damage;
-            _keep = rsc.Keep;
+            _skillType = sk;
+            _dmg = dmg;
+            _keep = keep;
 
             // _sprite.sprite = 
             _sprite.color = Color.white * 0f;
@@ -67,7 +67,7 @@ namespace week
 
         public void play()
         {
-            _targetEnemy = (_skillType == SkillKeyList.present) ? false : true;
+            _targetEnemy = (_skillType == SkillKeyList.Present) ? false : true;
             switch (_skillType)
             {
                 case SkillKeyList.Iceball:  // 한번
@@ -77,13 +77,13 @@ namespace week
                     StartCoroutine(oneEff(0.5f, 0.5f));
                     break;
                 case SkillKeyList.Circle:   // 각각 효과
-                case SkillKeyList.thuncall:
+                case SkillKeyList.Thuncall:
                     break;                
-                case SkillKeyList.sulfurous:// 반복데미지
+                case SkillKeyList.Sulfurous:// 반복데미지
                     StartCoroutine(secondEff());
                     break;
                 case SkillKeyList.Mine:     // 상호작용 있음, 시간체크
-                case SkillKeyList.present:
+                case SkillKeyList.Present:
                     _col.enabled = true;
                     StartCoroutine(timechk());
                     break;

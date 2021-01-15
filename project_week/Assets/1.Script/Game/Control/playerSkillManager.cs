@@ -14,6 +14,8 @@ namespace week
         List<LaunchSkillCtrl> _launchSkills;
         List<RangeSkillCtrl> _rangeSkills;
         List<skillMarkCtrl> _skillMarks;
+        RushCloseCtrl _bat;
+        RushCloseCtrl _flurry;
 
         List<BaseProjControl> _shotSkillList;
         List<SsuddenAppearCtrl> _suddenList;
@@ -22,6 +24,7 @@ namespace week
         GameObject _icetornado;
 
         public List<SsuddenAppearCtrl> IcewallList { get => _suddenList; }
+        
 
         public void Init(GameScene gs)
         {
@@ -30,6 +33,7 @@ namespace week
 
             _launchSkills = new List<LaunchSkillCtrl>();
             _rangeSkills = new List<RangeSkillCtrl>();
+            _skillMarks = new List<skillMarkCtrl>();
 
             _shotSkillList = new List<BaseProjControl>();
             _suddenList = new List<SsuddenAppearCtrl>();
@@ -81,35 +85,59 @@ namespace week
 
             RangeSkillCtrl rsc = Instantiate(DataManager.ShotFabs[sk]).GetComponent<RangeSkillCtrl>();
             _rangeSkills.Add(rsc);
-            rsc.fixedInit(_gs, this, _efm);
+            rsc.fixedInit(_gs, this);
             rsc.transform.parent = transform;
             return rsc;
         }
 
-        ///// <summary> [range]-[mark] 스킬 마크/스킬 오브젝트 가져오기  </summary>
-        //public skillMarkCtrl getRangeMark(SkillKeyList sk)
-        //{
-        //    // 혹시나 에러 체크
-        //    if (sk < SkillKeyList.Iceball || sk > SkillKeyList.IceBat)
-        //    {
-        //        Debug.LogError("range스킬생성 요청에러: " + sk.ToString());
-        //        return null;
-        //    }
+        /// <summary> [range]-[mark] 스킬 마크/스킬 오브젝트 가져오기  </summary>
+        public skillMarkCtrl getRangeMark(SkillKeyList sk)
+        {
+            // 혹시나 에러 체크
+            if (sk < SkillKeyList.Iceball || sk >= SkillKeyList.IceBat)
+            {
+                Debug.LogError("range스킬생성 요청에러: " + sk.ToString());
+                return null;
+            }
 
-        //    for (int i = 0; i < _skillMarks.Count; i++)
-        //    {
-        //        if (_skillMarks[i].IsUse == false)
-        //        {
-        //            return _skillMarks[i];
-        //        }
-        //    }
+            // 풀에 잔여 오브젝트 있음
+            for (int i = 0; i < _skillMarks.Count; i++)
+            {
+                if (_skillMarks[i].IsUse == false)
+                {
+                    return _skillMarks[i];
+                }
+            }
 
-        //    skillMarkCtrl mark = Instantiate(DataManager.ShotFabs[sk]).GetComponent<skillMarkCtrl>();
-        //    _skillMarks.Add(mark);
-        //    mark.fixedInit(_gs, this, _efm);
-        //    mark.transform.parent = transform;
-        //    return mark;
-        //}
+            // 새로 생성 필요
+            skillMarkCtrl mark = Instantiate(DataManager.ShotFabs[sk]).GetComponent<skillMarkCtrl>();
+            _skillMarks.Add(mark);
+            mark.fixedInit(_gs, this);
+            mark.transform.parent = transform;
+            return mark;
+        }
+
+        public RushCloseCtrl getBat()
+        {
+            if (_bat == null)
+            {
+                _bat = Instantiate(DataManager.ShotFabs[SkillKeyList.IceBat]).GetComponent<RushCloseCtrl>();
+                _bat.fixedInit(_gs);
+            }
+
+            return _bat;
+        }
+
+        public RushCloseCtrl getFlurry()
+        {
+            if (_flurry == null)
+            {
+                _flurry = Instantiate(DataManager.ShotFabs[SkillKeyList.Flurry]).GetComponent<RushCloseCtrl>();
+                _flurry.fixedInit(_gs);
+            }
+
+            return _flurry;
+        }
 
         /// <summary> 투사체 생성 </summary>
         public BaseProjControl getPrej(SkillKeyList sk)

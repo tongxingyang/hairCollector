@@ -34,7 +34,7 @@ namespace week
             float add = (rand) ? Random.Range(-addAngle, addAngle) : addAngle;
             transform.rotation = Quaternion.AngleAxis(angle + add, Vector3.back);
         }
-        public virtual void repeatInit(float dmg, float size, float speed = 1f, float keep = 1f) { }
+        public virtual void repeatInit(float dmg, float size = 1f, float speed = 1f, float keep = 1f) { }
 
         public override void Destroy()
         {

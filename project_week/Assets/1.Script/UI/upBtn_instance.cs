@@ -15,27 +15,40 @@ namespace week
         [SerializeField] TextMeshProUGUI _explain;
 
         SkillKeyList _skType;
-        Action<SkillKeyList> _btnFunction;
-        Action _close;
+        Action<SkillKeyList> _instantApply;
+        Action<SkillKeyList> _openTree;
+        Action _whenClose;
 
-        public void selectSkill()
+        public void FixedInit(Action<SkillKeyList> instantApply, Action<SkillKeyList> openTree, Action whenClose)
         {
-            _btnFunction(_skType);
-            _close();
+            _instantApply = instantApply;
+            _openTree = openTree;
+            _whenClose = whenClose;
         }
 
-        public void setBtn(SkillKeyList sk, int lvl, Action<SkillKeyList> BtnFunction, Action close)
+        public void setBtn(SkillKeyList sk, int lvl)
         {
             _skType = sk;
-            _name.text = DataManager.GetTable<string>(DataTable.skill, $"{(int)sk}", "skill");
+            _name.text = DataManager.GetTable<string>(DataTable.skill, $"{sk}", SkillValData.skill_name.ToString());
             _skillImg.sprite = DataManager.Skillicon[sk];
 
             _lvl.text = $"Lvl.{lvl + 1}";
-            string str = DataManager.GetTable<string>(DataTable.skill, $"{(int)sk}", SkillValData.explain.ToString());            
+            string str = DataManager.GetTable<string>(DataTable.skill, $"{sk}", SkillValData.explain.ToString());            
             _explain.text = str.Replace("\\\\n", "\n");
-            _btnFunction = BtnFunction;
+        }
 
-            _close = close;
+        public void selectSkill()
+        {
+            if (_skType < SkillKeyList.Snowball)
+            {
+                _instantApply?.Invoke(_skType);
+
+                _whenClose?.Invoke();
+            }
+            else
+            {
+                _openTree?.Invoke(_skType);
+            }
         }
     }
 }

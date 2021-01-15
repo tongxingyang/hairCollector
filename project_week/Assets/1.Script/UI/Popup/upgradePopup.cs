@@ -10,11 +10,12 @@ namespace week
     public class upgradePopup : MonoBehaviour
     {
         [Header("upgrade")]
-        [SerializeField] GameObject upgradePanel;
+        [SerializeField] GameObject _suggestPanel;
+        [SerializeField] GameObject _presentPanel;
+        [SerializeField] GameObject _treePanel;
         [SerializeField] upBtn_instance[] upBtns;
 
         [Header("Present")]
-        [SerializeField] GameObject presentPanel;
         [SerializeField] Transform _light;
         [Space]
         [SerializeField] Image presentAni;
@@ -37,12 +38,14 @@ namespace week
         TextMeshProUGUI setBtnTxt;
 
         PlayerCtrl _player;
+        skillTreeComp _tree;
 
         SkillKeyList _newEquip;
         int _slotCnt = 2;
         int _selectNum;
 
-        Action _close;
+        // 창 종료시 gameScene 행동
+        Action _whenCloseUpgradePanel;
 
         Color _blue = new Color(0.54f, 0.68f, 0.98f);
         Color _brown = new Color(0.91f, 0.8f, 0.64f);
@@ -50,6 +53,7 @@ namespace week
         // Start is called before the first frame update
         void Awake()
         {
+            _treePanel.SetActive(false);
             gameObject.SetActive(false);
             setBtnTxt = setBtn.GetComponentInChildren<TextMeshProUGUI>();
         }
@@ -59,10 +63,24 @@ namespace week
             _light.Rotate(Vector3.forward * 2);
         }
 
-        public void setting(PlayerCtrl player, Action close)
+        public void setting(PlayerCtrl player, Action whenCloseUpgradePanel)
         {
             _player = player;
-            _close = close;
+            _whenCloseUpgradePanel = whenCloseUpgradePanel;
+
+            _tree = _treePanel.GetComponent<skillTreeComp>();
+            _tree.Init(_player);
+
+            for (int i = 0; i < 3; i++)
+            {
+                upBtns[i].FixedInit(_player.getSkill, (type)=> {
+                    _treePanel.SetActive(true);
+                    _suggestPanel.SetActive(false);
+                    _presentPanel.SetActive(false);
+
+                    _tree.openTap(type);                    
+                }, pressThrowBtn);
+            }
         }
 
         #region upgrade
@@ -71,8 +89,9 @@ namespace week
         public void levelUpOpen()
         {
             gameObject.SetActive(true);
-            upgradePanel.SetActive(true);
-            presentPanel.SetActive(false);
+            _suggestPanel.SetActive(true);
+            _treePanel.SetActive(false);
+            _presentPanel.SetActive(false);
 
             suggest();
         }
@@ -80,39 +99,56 @@ namespace week
         /// <summary> 업그레이드 제안 </summary>
         void suggest()
         {
-            List<SkillKeyList> sk = new List<SkillKeyList>();
-            for (SkillKeyList i = SkillKeyList.hp; i < SkillKeyList.present; i++)
-            {
-                if (i < SkillKeyList.Snowball)
-                {
-                    if (_player.Abils[i].chk_lvl)
-                    {
-                        sk.Add(i);
-                    }
-                }
-                else if (i < SkillKeyList.present)
-                {
-                    if (_player.Skills[i].chk_lvl)
-                    {
-                        sk.Add(i);
-                    }
-                }
-            }
-
-            SkillKeyList[] slct = new SkillKeyList[3];
-            for (int i = 0; i < 3; i++)
-            {
-                int val = UnityEngine.Random.Range(0, sk.Count);
-                slct[i] = sk[val];
-                sk.Remove(slct[i]);
-            }
+            List<SkillKeyList> slct = new List<SkillKeyList>();
+            List<SkillKeyList> _skillList 
+                = new List<SkillKeyList> { SkillKeyList.Snowball, SkillKeyList.Iceball, SkillKeyList.IceBat, SkillKeyList.Shield, SkillKeyList.Field, SkillKeyList.Pet };
 
             for (int i = 0; i < 3; i++)
             {
-                int lvl = (slct[i] < SkillKeyList.Snowball) ? _player.Abils[slct[i]].Lvl : _player.Skills[slct[i]].Lvl;
+                float num = UnityEngine.Random.Range(0, 10);
 
-                upBtns[i].setBtn(slct[i], lvl, _player.getSkill, pressThrowBtn);
+                if (num < 9 - (i * 4)) // 스킬
+                {
+                    int s = UnityEngine.Random.Range(0, _skillList.Count);
+                    //slct.Add(_skillList[s]);
+                    slct.Add(SkillKeyList.Snowball); // 테스트용
+                    _skillList.Remove(_skillList[s]);
+                    
+                }
+                else // 능력치
+                {
+                    SkillKeyList ab;
+                    bool bl = false;
+
+                    do
+                    {
+                        ab = (SkillKeyList)UnityEngine.Random.Range(0, (int)SkillKeyList.Snowball);
+
+                        if (_player.Abils[ab].chk_lvl && slct.Contains(ab) == false)
+                        {
+                            slct.Add(ab);
+                            bl = false;
+                        }
+                        else
+                            bl = true;
+
+                    } while (bl);
+                }
             }
+
+            for (int i = 0; i < 3; i++)
+            {
+                int lvl = (slct[i] < SkillKeyList.Snowball) ? _player.Abils[slct[i]].Lvl : 0;
+
+                upBtns[i].setBtn(slct[i], lvl);
+            }
+        }
+
+        public void pressThrowBtn()
+        {
+            _whenCloseUpgradePanel();
+
+            gameObject.SetActive(false);
         }
 
         #endregion
@@ -357,15 +393,11 @@ namespace week
             //    }
             //}
 
-            _close();
+            _whenCloseUpgradePanel();
             gameObject.SetActive(false);
         }
 
-        public void pressThrowBtn()
-        {
-            _close(); 
-            gameObject.SetActive(false);
-        }
+        
 
         #endregion
     }

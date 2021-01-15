@@ -107,16 +107,16 @@ namespace week
     /// <summary> 스킬 리스트 </summary>
     public enum SkillKeyList
     {
-        hp,
-        att,
-        def,
-        gen,
-        cool,
-        exp,
-        coin,
-        size,
-        heal,
-        spd,
+        HP,
+        ATT,
+        DEF,
+        GEN,
+        COOL,
+        EXP,
+        COIN,
+        SIZE,
+        HEAL,
+        SPD,
 
         Snowball, // SB_Enhance,
         IcicleSpear, FrostDrill,
@@ -131,7 +131,7 @@ namespace week
         SnowBomb, Crevasse,
         Circle,
         Poison, Lightning,
-        sulfurous, thuncall,
+        Sulfurous, Thuncall,
 
         IceBat, // Bat_Enhance,
         OpenRoader, IcePowder,
@@ -177,7 +177,7 @@ namespace week
         //blackhole,
         //pet,
 
-        present,
+        Present,
 
         max
     }
@@ -186,11 +186,15 @@ namespace week
     public enum SkillValData
     {
         name,
-        skill,
+        type,
+        skill_name,
         max_level,
-        explain,
-        information,
-        val,
+        precondition,
+        precondition2,
+        precondition_item,
+        info,
+        explain,        
+        stat_val,
         att,
         att_increase,
         delay,
@@ -201,7 +205,6 @@ namespace week
         count,
         count_increase,
         range,
-        note,
         max
     }
 
