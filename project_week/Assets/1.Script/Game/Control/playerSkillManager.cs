@@ -11,8 +11,8 @@ namespace week
         GameScene _gs;
         effManager _efm;
 
-        List<LaunchSkillCtrl> _launchSkills;
-        List<RangeSkillCtrl> _rangeSkills;
+        List<shotCtrl> _launchSkills;
+        List<curvedShotCtrl> _rangeSkills;
         List<skillMarkCtrl> _skillMarks;
         RushCloseCtrl _bat;
         RushCloseCtrl _flurry;
@@ -31,8 +31,8 @@ namespace week
             _gs = gs;
             _efm = gs.EfMng;
 
-            _launchSkills = new List<LaunchSkillCtrl>();
-            _rangeSkills = new List<RangeSkillCtrl>();
+            _launchSkills = new List<shotCtrl>();
+            _rangeSkills = new List<curvedShotCtrl>();
             _skillMarks = new List<skillMarkCtrl>();
 
             _shotSkillList = new List<BaseProjControl>();
@@ -41,7 +41,7 @@ namespace week
         }
 
         /// <summary> [launch] 투사체 가져오기  </summary>
-        public LaunchSkillCtrl getLaunch(SkillKeyList sk)
+        public shotCtrl getLaunch(SkillKeyList sk)
         {
             // 혹시나 에러 체크
             if (sk < SkillKeyList.Snowball || sk > SkillKeyList.Iceball)
@@ -58,23 +58,16 @@ namespace week
                 }
             }
 
-            LaunchSkillCtrl lsc = Instantiate(DataManager.ShotFabs[sk]).GetComponent<LaunchSkillCtrl>();
+            shotCtrl lsc = Instantiate(DataManager.ShotFabs).GetComponent<shotCtrl>();
             _launchSkills.Add(lsc);
             lsc.fixedInit(_gs, _efm);
             lsc.transform.parent = transform;
             return lsc;
         }
 
-        /// <summary> [range] 발사체 가져오기  </summary>
-        public RangeSkillCtrl getRange(SkillKeyList sk)
-        {
-            // 혹시나 에러 체크
-            if (sk < SkillKeyList.Iceball || sk > SkillKeyList.IceBat)
-            {
-                Debug.LogError("range스킬생성 요청에러: " + sk.ToString());
-                return null;
-            }
-
+        /// <summary> [range] 곡사체 가져오기  </summary>
+        public curvedShotCtrl getCurved()
+        {      
             for (int i = 0; i < _rangeSkills.Count; i++)
             {
                 if (_rangeSkills[i].IsUse == false)
@@ -83,23 +76,16 @@ namespace week
                 }
             }
 
-            RangeSkillCtrl rsc = Instantiate(DataManager.ShotFabs[sk]).GetComponent<RangeSkillCtrl>();
+            curvedShotCtrl rsc = Instantiate(DataManager.CurvedFabs).GetComponent<curvedShotCtrl>();
             _rangeSkills.Add(rsc);
             rsc.fixedInit(_gs, this);
             rsc.transform.parent = transform;
             return rsc;
         }
 
-        /// <summary> [range]-[mark] 스킬 마크/스킬 오브젝트 가져오기  </summary>
-        public skillMarkCtrl getRangeMark(SkillKeyList sk)
-        {
-            // 혹시나 에러 체크
-            if (sk < SkillKeyList.Iceball || sk >= SkillKeyList.IceBat)
-            {
-                Debug.LogError("range스킬생성 요청에러: " + sk.ToString());
-                return null;
-            }
-
+        /// <summary> 스탬프 오브젝트 가져오기  </summary>
+        public skillMarkCtrl getStamp()
+        {      
             // 풀에 잔여 오브젝트 있음
             for (int i = 0; i < _skillMarks.Count; i++)
             {
@@ -110,7 +96,7 @@ namespace week
             }
 
             // 새로 생성 필요
-            skillMarkCtrl mark = Instantiate(DataManager.ShotFabs[sk]).GetComponent<skillMarkCtrl>();
+            skillMarkCtrl mark = Instantiate(DataManager.StampFabs).GetComponent<skillMarkCtrl>();
             _skillMarks.Add(mark);
             mark.fixedInit(_gs, this);
             mark.transform.parent = transform;
@@ -121,7 +107,7 @@ namespace week
         {
             if (_bat == null)
             {
-                _bat = Instantiate(DataManager.ShotFabs[SkillKeyList.IceBat]).GetComponent<RushCloseCtrl>();
+                _bat = Instantiate(DataManager.ShotFabs).GetComponent<RushCloseCtrl>();
                 _bat.fixedInit(_gs);
             }
 
@@ -132,7 +118,7 @@ namespace week
         {
             if (_flurry == null)
             {
-                _flurry = Instantiate(DataManager.ShotFabs[SkillKeyList.Flurry]).GetComponent<RushCloseCtrl>();
+                _flurry = Instantiate(DataManager.ShotFabs).GetComponent<RushCloseCtrl>();
                 _flurry.fixedInit(_gs);
             }
 
@@ -157,7 +143,7 @@ namespace week
                 }
             }
 
-            BaseProjControl pjt = Instantiate(DataManager.ShotFabs[sk]).GetComponent<BaseProjControl>();
+            BaseProjControl pjt = Instantiate(DataManager.ShotFabs).GetComponent<BaseProjControl>();
             _shotSkillList.Add(pjt);
             pjt.fixedInit(_gs, _efm);
 
@@ -177,7 +163,7 @@ namespace week
                 }
             }
 
-            SsuddenAppearCtrl sac = Instantiate(DataManager.ShotFabs[sk]).GetComponent<SsuddenAppearCtrl>();
+            SsuddenAppearCtrl sac = Instantiate(DataManager.ShotFabs).GetComponent<SsuddenAppearCtrl>();
             _suddenList.Add(sac);
             sac.select();
             sac.setting(_gs);
@@ -197,7 +183,7 @@ namespace week
                 }
             }
 
-            hailSkill hail = Instantiate(DataManager.ShotFabs[SkillKeyList.Hail]).GetComponent<hailSkill>();
+            hailSkill hail = Instantiate(DataManager.ShotFabs).GetComponent<hailSkill>();
             _hailList.Add(hail);
             hail.setting(_gs, _efm);
             hail.select();
@@ -215,6 +201,20 @@ namespace week
             foreach (SsuddenAppearCtrl sc in _suddenList)
             {
                 sc.onPause(bl);
+            }
+
+            //=============================
+            foreach (shotCtrl sc in _launchSkills)
+            {
+                sc.onPause(bl);
+            }
+            foreach (curvedShotCtrl csc in _rangeSkills)
+            {
+                csc.onPause(bl);
+            }
+            foreach (skillMarkCtrl smc in _skillMarks)
+            {
+                smc.onPause(bl);
             }
         }
 

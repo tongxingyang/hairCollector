@@ -22,6 +22,7 @@ namespace week
         protected float _dmg;
         protected float _speed = 4f;
         protected float _keep;
+        protected float _size;
 
         #endregion
     }

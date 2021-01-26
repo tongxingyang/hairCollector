@@ -166,7 +166,7 @@ TextureImporter:
     second: Lightning
   - first:
       213: -3921087108199702177
-    second: Sulfurous
+    second: PoisonBomb
   - first:
       213: 7961999306597196276
     second: Thuncall
@@ -250,7 +250,7 @@ TextureImporter:
     second: SnowBomb
   - first:
       213: -3102928689034092940
-    second: Crevasse
+    second: SnowMissile
   - first:
       213: -3053636490903639564
     second: Circle
@@ -262,7 +262,7 @@ TextureImporter:
     second: Lightning
   - first:
       213: -8142240815940665449
-    second: Sulfurous
+    second: PoisonBomb
   - first:
       213: -230998714910839065
     second: Thuncall
@@ -1161,7 +1161,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Crevasse
+      name: SnowMissile
       rect:
         serializedVersion: 2
         x: 0
@@ -1245,7 +1245,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulfurous
+      name: PoisonBomb
       rect:
         serializedVersion: 2
         x: 512

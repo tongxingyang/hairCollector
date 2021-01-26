@@ -128,10 +128,10 @@ namespace week
 
         Iceball, // IB_Enhance,
         Hail, Meteor,
-        SnowBomb, Crevasse,
+        SnowBomb, SnowMissile,
         Circle,
         Poison, Lightning,
-        Sulfurous, Thuncall,
+        PoisonBomb, Thuncall,
 
         IceBat, // Bat_Enhance,
         OpenRoader, IcePowder,
@@ -158,25 +158,6 @@ namespace week
         IceWall, Iceberg, Shard,
         Mine,
 
-        //snowball,
-        //icefist,
-        //icicle,
-        //halficicle,
-        //hail,
-        //icewall,
-        //icetornado,
-        //iceage,
-        //blizzard,
-        //snowbomb,
-        //iceshield,
-
-        //poison,
-        //hammer,
-        //thunder,
-        //mine,
-        //blackhole,
-        //pet,
-
         Present,
 
         max
@@ -192,6 +173,7 @@ namespace week
         precondition,
         precondition2,
         precondition_item,
+        shot,
         info,
         explain,        
         stat_val,
@@ -340,6 +322,52 @@ namespace week
         coin,
         max
     }
+                
+    public enum ShotList
+    {
+        Snowball,
+        Icespear,
+        Icefist,
+        Halficicle,
+        Icedrill,
+        Iceknuckle,
+        Snowdart,
+        Hammer,
+        Gigadrill,
+        Recoche,
+        Snowbullet,
+        Icebalt,
+        Pet,
+        Shard,
+
+        Iceball,
+        Snowbomb,
+        Snowmissile,
+        Poison,
+        PoisonBomb,
+        Mine,
+        Present,
+
+        None
+    }
+
+    public enum Stamp
+    {
+        iceballStamp,
+        snowbombStamp,
+        hailStamp,
+        circleStamp,
+        crevassStamp,
+        meteorStamp,
+        poisonStamp,
+        lightningStamp,
+        sulfurousStamp,
+        thuncallStamp,
+
+        icewallStamp,
+        icebergStamp,
+        mineStamp
+    }
 
     public enum EnShot
     {
@@ -437,7 +465,7 @@ namespace week
     public enum skinBvalue { mine, wild, rebirth, blood, invincible, light, invSlow, frozen, hero, critical, present, max }
     public enum skinFvalue { mine, wild, rebirth, blood, invincible, snowball, iceHeal, criticDmg, present, max }
     public enum skinIvalue { snowball, mine, present, max }
-    public enum snowballType { standard, citrus, square, rock, present }
+    public enum snowballType { Citrusbaall, Squareball, Rockball, Presentball, standard }
 
     #endregion
 

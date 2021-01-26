@@ -24,7 +24,9 @@ namespace week
 
         [Header("Line")]
         [SerializeField]  UILineRenderer[] _take;
-        List<SkillKeyList> prev;
+        List<SkillKeyList[]> prev; // (or)and(or)and(or) 구조
+        List<UILineRenderer[]> _takes;
+
         Func<bool> _temChk;
         Image[] _temImg;
 
@@ -32,6 +34,10 @@ namespace week
         [SerializeField] UILineRenderer _rein;
 
         List<SkillKeyList>[] _chkGoLine;
+
+        SkillKeyList[] _selectBrother;
+
+        bool _onlyChk = false;
 
         Color orange = new Color(1f, 0.7f, 0f);
 
@@ -58,23 +64,55 @@ namespace week
             return this;
         }
 
-        public skillBox setFrom(SkillKeyList p0, SkillKeyList p1 = SkillKeyList.max)
+        public skillBox setFrom(SkillKeyList[] p0, SkillKeyList[] p1 = null)
         {
-            prev = new List<SkillKeyList>();
+            prev = new List<SkillKeyList[]>();
 
             prev.Add(p0);
 
-            if (p1 != SkillKeyList.max)
+            if (p1 != null)
                 prev.Add(p1);
+
+            if (_take.Length > 0)
+            {
+                _takes = new List<UILineRenderer[]>();
+                int n = 0;
+                for (int i = 0; i < prev.Count; i++)
+                {
+                    UILineRenderer[] ulr = new UILineRenderer[prev[i].Length];
+                    for (int j = 0; j < prev[i].Length; j++)
+                    {
+                        //Debug.Log(_data._type);
+                        //Debug.Log(ulr.Length + "~" + _take.Length);
+                        ulr[j] = _take[n++];
+                    }
+                    _takes.Add(ulr);
+                }
+            }
 
             return this;
         }
 
-        public void setDefault(List<SkillKeyList>[] chkGoLine)
+        public skillBox setDefault(List<SkillKeyList>[] chkGoLine)
         {
-            _chkGoLine = chkGoLine;
+            setGoLine(chkGoLine);
 
             _data._btnType = btnType.defaultType;
+
+            return this;
+        }
+
+        public void setGoLine(List<SkillKeyList>[] chkGoLine)
+        {
+            _chkGoLine = chkGoLine;
+        }
+
+        public skillBox setSelectType(SkillKeyList[] skl)
+        {
+            _data._btnType = btnType.selectType;
+            _selectBrother = skl;
+
+            return this;
         }
 
         public void setRein()
@@ -86,6 +124,11 @@ namespace week
         {
             _temImg = ob.GetComponentsInChildren<Image>();
             _temChk = temChk;
+        }
+
+        public void setChecker()
+        {
+            _onlyChk = true;
         }
 
         /// <summary> 창 열릴때 </summary>
@@ -121,6 +164,7 @@ namespace week
                     }
                     break;
                 case btnType.standardType:
+                case btnType.selectType:
                     {
                         _num.text = $"{_refer.Lvl} / {_refer.MaxLvl}";
                         boxColor = Color.white;
@@ -154,7 +198,9 @@ namespace week
         /// <summary> 선택 </summary>
         public void OnClickSkillBtn()
         {
-            _tree._nowData = _data;
+            _tree._nowData.copy(_data);            
+
+            Debug.Log(_data._type + " / " + _tree._nowData._type);
             _infoSet?.Invoke(_refer.name, _refer.explain);
             _tree.chkOpenApply(chkGetable());
         }
@@ -198,6 +244,7 @@ namespace week
                         }
                         break;
                     case btnType.standardType:
+                    case btnType.selectType:
                         {
                             _num.text = $"{lvl} / {_refer.MaxLvl}";
 
@@ -232,37 +279,23 @@ namespace week
         {
             if (_take.Length > 0 && prev != null)
             {
-                if (_take.Length == prev.Count)
+                for (int i = 0; i < prev.Count; i++)
                 {
-                    for (int i = 0; i < prev.Count; i++)
-                    {
-                        if (_tree.player.Skills[prev[i]].chk_lvl == false)
-                        {
+                    for (int j = 0; j < prev[i].Length; j++)
+                    {                        
+                        if (_tree.player.Skills[prev[i][j]].chk_lvl == false)
+                        {                            
                             if (_refer.Lvl > 0)
-                                _take[i].color = orange;
+                                _takes[i][j].color = orange;
                             else
-                                _take[i].color = Color.white;
+                                _takes[i][j].color = Color.white;
                         }
                         else
                         {
-                            _take[i].color = Color.grey;
+                            // Debug.Log(_data._type + "의 " + prev[i][j]);
+                            _takes[i][j].color = Color.grey;
                         }
                     }
-                }
-                else if (_take.Length < prev.Count)
-                {
-                    bool chk = false;
-                    for (int i = 0; i < prev.Count; i++)
-                    {
-                        chk = _tree.player.Skills[prev[i]].chk_lvl || chk;
-                    }
-
-                    if (chk) 
-                        _take[0].color = Color.grey;
-                    else
-                    {
-                        _take[0].color = (_refer.chk_lvl == false) ? orange : Color.white;
-                    }                        
                 }
             }
 
@@ -272,7 +305,7 @@ namespace week
                 {
                     // 가지친 스킬중 하나라도 습득했는지 체크
                     bool result = false;
-                    for (int j = 0; j < _chkGoLine.Length; j++)
+                    for (int j = 0; j < _chkGoLine[i].Count; j++)
                     {
                         if (_tree.player.Skills[_chkGoLine[i][j]].Lvl > 0)
                         {
@@ -318,17 +351,50 @@ namespace week
         {
             bool chk = false;
 
-            if (_refer.Lvl >= ((_data._btnType == btnType.reinType) ? 99 : _refer.MaxLvl))
-            {
+            // 애초에 강화 불가 오로지 체크용 (ex: 서클)
+            if (_onlyChk)
                 return false;
-            }
+
+            // 버튼에 따라서
+            switch (_data._btnType)
+            {
+                case btnType.defaultType:
+                case btnType.standardType:
+                    if (_refer.Lvl >= _refer.MaxLvl)
+                    {
+                        return false;
+                    }
+                    break;
+                case btnType.selectType:
+                    if (_refer.Lvl >= _refer.MaxLvl)
+                    {
+                        return false;
+                    }
+                    else if (_refer.Lvl == 0)
+                    {
+                        for (int i = 0; i < _selectBrother.Length; i++)
+                        {
+                            if (_tree.player.Skills[_selectBrother[i]].Lvl > 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    break;
+                case btnType.reinType:
+                    if (_refer.Lvl < _refer.MaxLvl || _refer.Lvl >= 99)
+                    {
+                        return false;
+                    }
+                    break;
+            }            
 
             // 이전 스킬 체크
             if (prev != null)
             {
                 for (int i = 0; i < prev.Count; i++)
                 {
-                    chk = _tree.player.Skills[prev[i]].chk_lvl || chk;
+                    chk = !preSkillOrChk(prev[i]) || chk;
                 }
             }
 
@@ -339,6 +405,19 @@ namespace week
             }
             else
                 return !chk;
+        }
+
+        bool preSkillOrChk(SkillKeyList[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (_tree.player.Skills[arr[i]].chk_lvl == false)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

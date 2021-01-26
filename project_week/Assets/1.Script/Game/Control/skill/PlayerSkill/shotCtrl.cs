@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace week
 {
-    public class LaunchSkillCtrl : shotBaseCtrl
+    public class shotCtrl : shotBaseCtrl
     {
         [SerializeField] SpriteRenderer _render;                                
                 
@@ -14,7 +14,7 @@ namespace week
         int _bounce; // 튕기기
         int _bounceChk;
 
-        Action<float> dmgAction;
+        Action<float> _dmgAction;
         Action<IDamage> idmgAction;
 
         #endregion
@@ -30,7 +30,7 @@ namespace week
         }
 
         /// <summary> 재사용 및 투사체 데이터 설정 </summary>
-        public LaunchSkillCtrl repeatInit(SkillKeyList skillType, float dmg, float size = 1f, float speed = 1f, float keep = 1f)
+        public shotCtrl repeatInit(SkillKeyList skillType, float dmg, float size = 1f, float speed = 1f, float keep = 1f)
         {
             // 타입
             _skillType = skillType;
@@ -47,24 +47,35 @@ namespace week
             _bounce = 0;
 
             // 이미지 설정
-            _render.sprite = DataManager.LaunchImg[skillType];
+            ShotList sl = EnumHelper.StringToEnum<ShotList>(DataManager.GetTable<string>(DataTable.skill, skillType.ToString(), SkillValData.shot.ToString()));
+            _render.sprite = DataManager.ShotImgs[sl];
 
             preInit();
             return this;
         }
 
         /// <summary> 햄머 초기화 </summary>
-        public LaunchSkillCtrl setHammer(int bounce)
+        public shotCtrl setHammer(int bounce)
         {
             _bounce = bounce;
+            _bounceChk = 0;
 
             return this;
         }
 
-        public LaunchSkillCtrl setSnowSprite(snowballType sbt)
+        public shotCtrl setSnowSprite(snowballType sbt)
         {
-            _render.sprite = DataManager.SnowballImg[sbt];
+            if (sbt != snowballType.standard)
+            {
+                _render.sprite = DataManager.SnowballImg[sbt];
+            }
 
+            return this;
+        }        
+
+        public shotCtrl setDmgAction(Action<float> value)
+        { 
+            _dmgAction = value;
             return this;
         }
 
@@ -81,9 +92,17 @@ namespace week
             SoundManager.instance.PlaySFX(SFX.shot);
             float time = 0;
 
+            int i = UnityEngine.Random.Range(0, 2);
+            i = (i == 0) ? 2 : -2;
+
             while (_isUse)
             {
                 // 이부분에서 눈표창, 도탄첫탄은 각도 틀기
+                if (_skillType == SkillKeyList.SnowDart ||
+                    (_skillType == SkillKeyList.Ricoche && _bounceChk == 0))
+                {
+                    transform.Rotate(0f, 0f, i);
+                }
 
                 transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
 
@@ -138,12 +157,16 @@ namespace week
             }
             else if (collision.gameObject.tag.Equals("interOb"))
             {
-                onTriggerEnemy(collision.gameObject);
+                onTriggerInterOb(collision.gameObject);
             }
             else if (collision.gameObject.tag.Equals("obstacle"))
             {
                 _efm.makeEff(effAni.attack, transform.position);
-                Destroy();
+
+                if (_skillType != SkillKeyList.FrostDrill && _skillType != SkillKeyList.GigaDrill)
+                {
+                    Destroy();
+                }
             }
         }
 
@@ -157,11 +180,18 @@ namespace week
             }
 
             // 아직 크리티컬 없음
-            
 
+            // 타입별
+            switch (_skillType)
+            {
+                case SkillKeyList.IceKnuckle:
+                    _dmg += id.getHp() * _player.Skills[SkillKeyList.IceKnuckle].att * 0.01f;
+                break;
+            }
+            //Debug.Log(_dmg);
             float val = id.getDamaged(_dmg, false);
 
-            dmgAction?.Invoke(val);
+            _dmgAction?.Invoke(val);
             idmgAction?.Invoke(id);
 
             // 밀치기
@@ -170,6 +200,23 @@ namespace week
                 Vector3 nor = (go.transform.position - transform.position).normalized * 0.05f;
                 id.getKnock(nor, 0.05f, 0.1f);
             }
+
+            _efm.makeEff(effAni.attack, transform.position);
+
+            destroyChk();
+        }
+
+        /// <summary> 상호작용 장애물 </summary>
+        void onTriggerInterOb(GameObject go)
+        {
+            IDamage id = go.GetComponentInParent<IDamage>();
+            if (id == null)            
+                return;
+            
+            float val = id.getDamaged(1, true);
+
+            _dmgAction?.Invoke(val);
+            idmgAction?.Invoke(id);
 
             _efm.makeEff(effAni.attack, transform.position);
 
@@ -198,11 +245,12 @@ namespace week
                 case SkillKeyList.GigaDrill:
                     break;
                 case SkillKeyList.Hammer:
+                case SkillKeyList.Ricoche:
                     Vector3 mob = _gs.mostCloseEnemy(transform, 0.5f);
-                    if (Vector3.Distance(transform.position, mob) < 2f)
+                    if (Vector3.Distance(transform.position, mob) < 2.5f)
                     {
-                        setTarget(mob);
                         _bounceChk++;
+                        setTarget(mob);
                         if (_bounceChk > _bounce)
                         {
                             Destroy();

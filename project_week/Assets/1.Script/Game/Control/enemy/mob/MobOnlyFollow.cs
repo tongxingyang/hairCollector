@@ -14,6 +14,7 @@ namespace week
 
         protected override void otherWhenRepeatInit()
         {
+            _dotDmg.reset();
             //_hp *= 10000;
         }
 

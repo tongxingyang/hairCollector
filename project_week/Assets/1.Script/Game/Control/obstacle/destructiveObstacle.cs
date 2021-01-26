@@ -9,11 +9,15 @@ namespace week
     {
         [SerializeField] GameObject _fix;
 
-        float _hp = 20f;
+        int _hp = 2;
+        public float getHp()
+        {
+            return _hp;
+        }
 
         public void Init()
         {
-            _hp = 20f;
+            _hp = 2;
             _fix.SetActive(true);
             SetAnimation("idle", true, 0.5f);
 
@@ -33,7 +37,7 @@ namespace week
 
         public float getDamaged(float val, bool ignoreDef = false)
         {
-            _hp -= val;
+            _hp -= (int)val;
 
             if (_hp <= 0)
             {

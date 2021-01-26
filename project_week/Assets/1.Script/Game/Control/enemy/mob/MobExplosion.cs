@@ -13,6 +13,7 @@ namespace week
 
         protected override void otherWhenRepeatInit()
         {
+            _dotDmg.reset();
         }
 
         protected override void otherWhenDie()

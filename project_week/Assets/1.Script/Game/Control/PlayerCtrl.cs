@@ -280,8 +280,8 @@ namespace week
         float _almighTime;
         float _dustTime;
 
-        LaunchSkillCtrl _launch;
-        RangeSkillCtrl _range;
+        shotCtrl _launch;
+        curvedShotCtrl _range;
         skillMarkCtrl _stamp;
 
         SsnowballCtrl _sbc;
@@ -334,6 +334,7 @@ namespace week
                 {
                     skill sk = new skill();
                     sk.Init(i);
+                    sk.OverChk = (skl)=> { _skills[skl].Overrided = true; };
                     _skills.Add(i, sk);
                 }
             }
@@ -347,7 +348,8 @@ namespace week
 
             // _pet.Init(_gs, () => { _skills[SkillKeyList.Snowball].att *= 2; });
 
-            getSkill(SkillKeyList.Snowball);
+            getSkill(SkillKeyList.Meteor);
+            //getSkill(SkillKeyList.Ricoche);
 
 #if UNITY_EDITOR
 
@@ -523,7 +525,7 @@ namespace week
 
                 //launchSequence(closedMob, mobDist, delTime); // 런치 스킬
 
-                //skillSequence(closedMob, mobDist, delTime); // 레인지 스킬
+                rangeSequence(closedMob, mobDist, delTime); // 레인지 스킬
 
                 //rushSequence(closedMob, mobDist, delTime); // 돌파 스킬
 
@@ -601,12 +603,12 @@ namespace week
                         .play();
             }
 
-            if (_skills[SkillKeyList.IceKnuckle].chk_shotable(delTime, Cool, mobDist)) // 얼꿀밤
+            if (_skills[SkillKeyList.IceKnuckle].chk_shotable(delTime, Cool, mobDist)) // 얼꿀밤 (얼주먹 데미지 + 얼꿀밤 퍼뎀)
             {
                 _launch = _psm.getLaunch(SkillKeyList.IceKnuckle);
                 _launch.transform.position = transform.position;
                 _launch.setTarget(closedMob);
-                _launch.repeatInit(SkillKeyList.IceKnuckle, _skills[SkillKeyList.IceKnuckle].att * Att, _skills[SkillKeyList.IceKnuckle].size * Size)
+                _launch.repeatInit(SkillKeyList.IceKnuckle, _skills[SkillKeyList.IceFist].att * Att, _skills[SkillKeyList.IceKnuckle].size * Size)
                         .play();
             }
 
@@ -629,15 +631,17 @@ namespace week
             if (_skills[SkillKeyList.SnowDart].chk_shotable(delTime, Cool, mobDist)) // 얼음표창
             {
                 int num = _skills[SkillKeyList.SnowDart].Lvl;
+                Debug.Log(num);
                 float degree = 360f / num;
                 Vector3 mce = closedMob;
 
                 for (int i = 0; i < num; i++)
                 {
-                    _launch = _psm.getLaunch(SkillKeyList.HalfIcicle);
+                    _launch = _psm.getLaunch(SkillKeyList.SnowDart);
                     _launch.transform.position = transform.position;
                     _launch.setTarget(mce, degree * i);
-                    _launch.repeatInit(SkillKeyList.HalfIcicle, _skills[SkillKeyList.HalfIcicle].att * Att, _skills[SkillKeyList.HalfIcicle].size * Size)
+                    _launch.repeatInit(SkillKeyList.SnowDart, _skills[SkillKeyList.SnowDart].att * Att, _skills[SkillKeyList.SnowDart].size * Size)
+                        .setDmgAction((val) => { _skills[SkillKeyList.SnowDart]._timer += 0.13f; })
                         .play();
                 }
             }
@@ -673,6 +677,7 @@ namespace week
                     _launch.transform.position = transform.position;
                     _launch.setTarget(mce, degree * i);
                     _launch.repeatInit(SkillKeyList.Ricoche, _skills[SkillKeyList.Ricoche].att * Att, _skills[SkillKeyList.Ricoche].size * Size)
+                        .setHammer(3)
                         .play();
                 }
             }
@@ -683,91 +688,96 @@ namespace week
         {
             if (_skills[SkillKeyList.Iceball].chk_shotable(delTime, Cool, mobDist)) // 얼덩이
             {
-                _range = _psm.getRange(SkillKeyList.Iceball);
+                _range = _psm.getCurved();
                 _range.transform.position = transform.position;
                 _range.setTarget(closedMob);
-                _range.repeatInit(SkillKeyList.Iceball, _skills[SkillKeyList.Iceball].att * Att, _skills[SkillKeyList.Iceball].size * Size)
+
+                _range.repeatInit(SkillKeyList.Iceball, _skills[SkillKeyList.Iceball].att * Att)
+                    .setSize(_skills[SkillKeyList.Iceball].size * Size)
                     .play();
             }
 
             if (_skills[SkillKeyList.Hail].chk_shotable(delTime, Cool, mobDist)) // 우박
             {
-                _stamp = _psm.getRangeMark(SkillKeyList.Hail);
-                _stamp.transform.position = transform.position;
-
-                _stamp.repeatInit(SkillKeyList.Hail, _skills[SkillKeyList.Hail].att * Att, _skills[SkillKeyList.Hail].size * Size)
-                    .play();
+                StartCoroutine(fallingHail());
             }
 
             if (_skills[SkillKeyList.Meteor].chk_shotable(delTime, Cool, mobDist)) // 별똥별
             {
-                _stamp = _psm.getRangeMark(SkillKeyList.Meteor);
-                _stamp.transform.position = transform.position;
-
-                _stamp.repeatInit(SkillKeyList.Meteor, _skills[SkillKeyList.Meteor].att * Att, _skills[SkillKeyList.Meteor].size * Size)
-                    .play();
+                StartCoroutine(fallingMeteor());
             }
 
             if (_skills[SkillKeyList.SnowBomb].chk_shotable(delTime, Cool, mobDist)) // 눈폭탄
             {
-                _range = _psm.getRange(SkillKeyList.SnowBomb);
+                _range = _psm.getCurved();
                 _range.transform.position = transform.position;
                 _range.setTarget(closedMob);
-                _range.repeatInit(SkillKeyList.SnowBomb, _skills[SkillKeyList.SnowBomb].att * Att, _skills[SkillKeyList.SnowBomb].size * Size)
+                _range.repeatInit(SkillKeyList.SnowBomb, _skills[SkillKeyList.SnowBomb].att * Att)
+                    .setSize(_skills[SkillKeyList.SnowBomb].size * Size)
+                    .setKeep(_skills[SkillKeyList.SnowBomb].keep)
                     .play();
             }
 
-            if (_skills[SkillKeyList.Crevasse].chk_shotable(delTime, Cool, mobDist)) // 크레바스
+            if (_skills[SkillKeyList.SnowMissile].chk_shotable(delTime, Cool, mobDist)) // 눈미사일
             {
-                _range = _psm.getRange(SkillKeyList.Crevasse);
+                _range = _psm.getCurved();
                 _range.transform.position = transform.position;
                 _range.setTarget(closedMob);
-                _range.repeatInit(SkillKeyList.Crevasse, _skills[SkillKeyList.Crevasse].att * Att, _skills[SkillKeyList.Crevasse].size * Size)
+                _range.repeatInit(SkillKeyList.SnowMissile, _skills[SkillKeyList.SnowMissile].att * Att)
+                    .setSize(_skills[SkillKeyList.SnowMissile].size * Size)
+                    .setKeep(_skills[SkillKeyList.SnowMissile].keep)
                     .play();
             }
 
             if (_skills[SkillKeyList.Circle].chk_shotable(delTime, Cool, mobDist)) // 서클
             {
-                _stamp = _psm.getRangeMark(SkillKeyList.Circle);
+                _stamp = _psm.getStamp();
                 _stamp.transform.position = transform.position;
 
-                _stamp.repeatInit(SkillKeyList.Circle, _skills[SkillKeyList.Circle].att * Att, _skills[SkillKeyList.Circle].size * Size)
+                _stamp.repeatInit(SkillKeyList.Circle, _skills[SkillKeyList.Circle].att * Att)
+                    .setSize(_skills[SkillKeyList.Circle].size * Size)
                     .play();
             }
 
             if (_skills[SkillKeyList.Poison].chk_shotable(delTime, Cool, mobDist)) // 독병
             {
-                _range = _psm.getRange(SkillKeyList.Poison);
+                _range = _psm.getCurved();
                 _range.transform.position = transform.position;
                 _range.setTarget(closedMob);
-                _range.repeatInit(SkillKeyList.Poison, _skills[SkillKeyList.Poison].att * Att, _skills[SkillKeyList.Poison].size * Size)
+                _range.repeatInit(SkillKeyList.Poison, _skills[SkillKeyList.Poison].att * Att)
+                    .setKeep(_skills[SkillKeyList.Poison].keep)
+                    .setSize(_skills[SkillKeyList.Poison].size * Size)
                     .play();
             }
 
             if (_skills[SkillKeyList.Lightning].chk_shotable(delTime, Cool, mobDist)) // 번개
             {
-                _stamp = _psm.getRangeMark(SkillKeyList.Lightning);
-                _stamp.transform.position = transform.position;
+                _stamp = _psm.getStamp();
+                _stamp.transform.position = closedMob;
 
-                _stamp.repeatInit(SkillKeyList.Lightning, _skills[SkillKeyList.Lightning].att * Att, _skills[SkillKeyList.Lightning].size * Size)
+                _stamp.repeatInit(SkillKeyList.Lightning, _skills[SkillKeyList.Lightning].att * Att)
+                    .setSize(_skills[SkillKeyList.Lightning].size * Size)
                     .play();
             }
 
-            if (_skills[SkillKeyList.Sulfurous].chk_shotable(delTime, Cool, mobDist)) // 유황땅
+            if (_skills[SkillKeyList.PoisonBomb].chk_shotable(delTime, Cool, mobDist)) // 독미사일
             {
-                _range = _psm.getRange(SkillKeyList.Sulfurous);
+                _range = _psm.getCurved();
                 _range.transform.position = transform.position;
                 _range.setTarget(closedMob);
-                _range.repeatInit(SkillKeyList.Sulfurous, _skills[SkillKeyList.Sulfurous].att * Att, _skills[SkillKeyList.Sulfurous].size * Size)
+                _range.repeatInit(SkillKeyList.PoisonBomb, _skills[SkillKeyList.PoisonBomb].att * Att)
+                    .setSize(_skills[SkillKeyList.PoisonBomb].size * Size)
+                    .setKeep(_skills[SkillKeyList.PoisonBomb].keep)
                     .play();
             }
 
             if (_skills[SkillKeyList.Thuncall].chk_shotable(delTime, Cool, mobDist)) // 번개마법진
             {
-                _stamp = _psm.getRangeMark(SkillKeyList.Thuncall);
+                _stamp = _psm.getStamp();
                 _stamp.transform.position = transform.position;
 
-                _stamp.repeatInit(SkillKeyList.Thuncall, _skills[SkillKeyList.Thuncall].att * Att, _skills[SkillKeyList.Thuncall].size * Size)
+                _stamp.repeatInit(SkillKeyList.Thuncall, _skills[SkillKeyList.Thuncall].att * Att)
+                    .setSize(_skills[SkillKeyList.Thuncall].size * Size)
                     .play();
             }
         }
@@ -794,7 +804,6 @@ namespace week
                     // _launch.setTarget(closedMob, angle + (20f * i));
 
                     _launch.repeatInit(SkillKeyList.Snowball, _skills[SkillKeyList.Snowball].att * Att, _skills[SkillKeyList.Snowball].size * Size)
-                        .setSnowSprite(_ballType)
                         .play();
                 }
             }
@@ -903,19 +912,21 @@ namespace week
 
             if (_skills[SkillKeyList.IceWall].chk_Time(delTime, Cool)) // 빙벽
             {
-                _stamp = _psm.getRangeMark(SkillKeyList.IceWall);
+                _stamp = _psm.getStamp();
                 Vector3 pos = _gs.pVector * -1;
                 _stamp.transform.position = transform.position + (pos * 1.2f);
-                _stamp.repeatInit(SkillKeyList.IceWall, _skills[SkillKeyList.IceWall].att * Att, _skills[SkillKeyList.IceWall].keep)
+                _stamp.repeatInit(SkillKeyList.IceWall, _skills[SkillKeyList.IceWall].att * Att)
+                    .setKeep(_skills[SkillKeyList.IceWall].keep)
                     .play();
             }
 
             if (_skills[SkillKeyList.Iceberg].chk_Time(delTime, Cool)) // 빙산
             {
-                _stamp = _psm.getRangeMark(SkillKeyList.Iceberg);
+                _stamp = _psm.getStamp();
                 Vector3 pos = _gs.pVector * -2.3f;
                 _stamp.transform.position = transform.position + pos;
-                _stamp.repeatInit(SkillKeyList.Iceberg, _skills[SkillKeyList.Iceberg].att * Att, _skills[SkillKeyList.Iceberg].keep)
+                _stamp.repeatInit(SkillKeyList.Iceberg, _skills[SkillKeyList.Iceberg].att * Att)
+                    .setKeep(_skills[SkillKeyList.Iceberg].keep)
                     .play();
             }
 
@@ -923,10 +934,11 @@ namespace week
             {
                 for (int i = 0; i < _skills[SkillKeyList.Shard].Lvl; i++)
                 {
-                    _stamp = _psm.getRangeMark(SkillKeyList.IceWall);
+                    _stamp = _psm.getStamp();
                     Vector3 pos = _gs.pVector * -1;
                     _stamp.transform.position = transform.position + (pos * 1.2f * (i + 1));
-                    _stamp.repeatInit(SkillKeyList.IceWall, _skills[SkillKeyList.IceWall].att * Att, _skills[SkillKeyList.IceWall].keep)
+                    _stamp.repeatInit(SkillKeyList.IceWall, _skills[SkillKeyList.IceWall].att * Att)
+                        .setKeep(_skills[SkillKeyList.IceWall].keep)
                         .play();
                 }
             }
@@ -935,10 +947,13 @@ namespace week
             {
                 for (int i = 0; i < 1 + _skills[SkillKeyList.Mine].Lvl + BaseManager.userGameData.SkinIval[(int)skinIvalue.mine]; i++)
                 {
-                    _range = _psm.getRange(SkillKeyList.Mine);
+                    _range = _psm.getCurved();
                     _range.transform.position = transform.position;
                     _range.setTarget(transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * _skills[SkillKeyList.Mine].range);
-                    _range.repeatInit(SkillKeyList.Mine, _skills[SkillKeyList.Mine].att * Att, _skills[SkillKeyList.Mine].size * Size, 1f, _skills[SkillKeyList.Mine].keep);
+                    _range.repeatInit(SkillKeyList.Mine, _skills[SkillKeyList.Mine].att * Att)
+                        .setSize(_skills[SkillKeyList.Mine].size * Size)
+                        .setKeep(_skills[SkillKeyList.Mine].keep)
+                        .play();
                 }
             }
         }
@@ -967,24 +982,46 @@ namespace week
             //}
         }
 
-        //IEnumerator fallingHail()
-        //{
-        //    Vector2 initPos;
-        //    Vector2 targetPos;
-        //    for (int i = 0; i < _skills[SkillKeyList.Hail].count; i++)
-        //    {
-        //        _hail = _psm.getHail();
+        #region [ 시간 필요 ]
+        IEnumerator fallingHail()
+        {
+            Vector2 targetPos;
 
-        //        targetPos = (Vector2)transform.position + new Vector2(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-3f, 3f));
-        //        initPos = targetPos + Vector2.one * 6;
+            for (int i = 0; i < _skills[SkillKeyList.Hail].count; i++)
+            {
+                _stamp = _psm.getStamp();
+                targetPos = (Vector2)transform.position + new Vector2(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-3f, 3f));
+                _stamp.transform.position = targetPos;
 
-        //        _hail.transform.position = initPos;
-        //        _hail.Init(targetPos, _skills[SkillKeyList.Hail].att * Att);
+                _stamp.repeatInit(SkillKeyList.Hail, _skills[SkillKeyList.Hail].att * Att)
+                    .setSize(_skills[SkillKeyList.Hail].size * Size)
+                    .play();
 
-        //        yield return new WaitForSeconds(0.1f);
-        //        yield return new WaitUntil(()=>_gs.Pause == false);
-        //    }
-        //}
+                yield return new WaitForSeconds(0.1f);
+                yield return new WaitUntil(() => _gs.Pause == false);
+            }
+        }
+
+        IEnumerator fallingMeteor()
+        {
+            //Vector2 targetPos;
+            Debug.Log(_skills[SkillKeyList.Meteor].count);
+            for (int i = 0; i < _skills[SkillKeyList.Meteor].count; i++)
+            {
+                _stamp = _psm.getStamp();
+                //targetPos = (Vector2)transform.position + new Vector2(UnityEngine.Random.Range(-2f, 2f), UnityEngine.Random.Range(-3f, 3f));
+                _stamp.transform.position = transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * 3.2f;
+
+                _stamp.repeatInit(SkillKeyList.Meteor, _skills[SkillKeyList.Meteor].att * Att)
+                    .setSize(_skills[SkillKeyList.Meteor].size * Size)
+                .play();
+
+                yield return new WaitForSeconds(0.1f);
+                yield return new WaitUntil(() => _gs.Pause == false);
+            }
+        }
+
+        #endregion
 
         IEnumerator iceage()
         {
@@ -1135,11 +1172,14 @@ namespace week
 
                 for (int i = 0; i < BaseManager.userGameData.SkinIval[(int)skinIvalue.present]; i++)
                 {
-                    _range = _psm.getRange(SkillKeyList.Present);
+                    _range = _psm.getCurved();
                     _range.transform.position = transform.position;
                     _range.setTarget(transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * _skills[SkillKeyList.Present].range);
 
-                    _range.repeatInit(SkillKeyList.Present, heal, _skills[SkillKeyList.Present].size * Size, 1f, _skills[SkillKeyList.Present].keep);
+                    _range.repeatInit(SkillKeyList.Present, heal)
+                        .setSize(_skills[SkillKeyList.Present].size * Size)
+                        .setKeep(_skills[SkillKeyList.Present].keep)
+                        .play();
                 }
             }
         }
@@ -1247,19 +1287,20 @@ namespace week
                     //    _tornado.Init(_skills[num].att, _skills[num].delay, _skills[num].size);
                     //}
                     //else 
-                    if (num == SkillKeyList.Shield && _shield.OnNor == false)
-                    {
-                        _shield.setNorShield(num, _skills[num].att, () => { _skills[num]._timer = 0; });
-                    }
-                    else if (num >= SkillKeyList.LightningShield && num < SkillKeyList.Invincible)
-                    {
-                        _shield.setNorLightning(num, _skills[num].att);
-                    }
-                    else if (num == SkillKeyList.Pet)
-                    {
-                        _pet.gameObject.SetActive(true);
-                        _pet.appear(_skills[SkillKeyList.Pet].Lvl);
-                    }
+
+                    //if (num == SkillKeyList.Shield && _shield.OnNor == false) 살려
+                    //{
+                    //    _shield.setNorShield(num, _skills[num].att, () => { _skills[num]._timer = 0; });
+                    //}
+                    //else if (num >= SkillKeyList.LightningShield && num < SkillKeyList.Invincible)
+                    //{
+                    //    _shield.setNorLightning(num, _skills[num].att);
+                    //}
+                    //else if (num == SkillKeyList.Pet)
+                    //{
+                    //    _pet.gameObject.SetActive(true);
+                    //    _pet.appear(_skills[SkillKeyList.Pet].Lvl);
+                    //}
                 }
             }
             //else
@@ -1358,10 +1399,12 @@ namespace week
 
         public void getDamaged(float dmg, bool ignoreDef = false)
         {
+            return;
+
             if (_gs.Pause)
                 return;
 
-            dmg = _shield.getDamage(dmg); // 실드
+            // dmg = _shield.getDamage(dmg); // 실드
             if (dmg == 0) 
             {
                 return;

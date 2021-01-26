@@ -14,7 +14,12 @@ namespace week
         [SerializeField] SkeletonAnimation[] _spines;
 
         season _season;
-        float _hp = 20f;
+        int _hp = 2;
+
+        public float getHp()
+        {
+            return _hp;
+        }
 
         #region
 
@@ -58,7 +63,7 @@ namespace week
         {
             _season = ss; 
             
-            _hp = 20f;
+            _hp = 2;
             for (season i = season.spring; i < season.not; i++)
             {
                 _trees[(int)i].SetActive(_season == i);
@@ -69,7 +74,7 @@ namespace week
 
         public float getDamaged(float val, bool igD = false)
         {
-            _hp -= val;
+            _hp -= (int)val;
 
             if (_hp <= 0)
             {

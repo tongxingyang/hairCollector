@@ -96,6 +96,8 @@ namespace week
             _skill0 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill0.ToString());
             _skill1 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill1.ToString());
 
+            _dotDmg = new dotDmg();
+
             otherWhenFixInit();
 
             RepeatInit();
@@ -103,7 +105,7 @@ namespace week
 
         public void RepeatInit() 
         {
-            _dotDmg = new dotDmg();
+            _dotDmg.reset();
 
             _finalStt = new float[(int)snowStt.max];
 
@@ -145,6 +147,7 @@ namespace week
             _homePos = homePos;
         }
 
+        /// <summary> 보스 독뎀 1% </summary>
         protected void chkDotDmg()
         {
             _dot = _dotDmg.dotDmging(deltime);

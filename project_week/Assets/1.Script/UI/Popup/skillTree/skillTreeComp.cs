@@ -31,6 +31,11 @@ namespace week
         {
             return !((a._type == b._type) && (a._btnType == b._btnType));
         }
+        public void copy(skillBtnData d)
+        {
+            _type = d._type;
+            _btnType = d._btnType;
+        }
     }
 
     public class skillTreeComp : MonoBehaviour
@@ -46,14 +51,16 @@ namespace week
 
         ISkillTap[] _taps;
         Action _refresh;
+        Action _whenCloseUpgradePanel;
 
         PlayerCtrl _player;
         public PlayerCtrl player { get => _player; }
         public skillBtnData _nowData { get; set; }
 
-        public void Init(PlayerCtrl player)
+        public void Init(PlayerCtrl player, Action whenCloseUpgradePanel)
         {
             _player = player;
+            _whenCloseUpgradePanel = whenCloseUpgradePanel;
             _nowData = new skillBtnData();
 
             _taps = new ISkillTap[_tapObjs.Length];
@@ -67,13 +74,52 @@ namespace week
 
         public void openTap(SkillKeyList type)
         {
+            for (int i = 0; i < _taps.Length; i++)
+            {
+                _tapObjs[i].SetActive(false);
+            }
+
             string str = DataManager.GetTable<string>(DataTable.skill, type.ToString(), SkillValData.type.ToString());
 
-            int n = (int)EnumHelper.StringToEnum<skillType>(str);
+            skillType n = EnumHelper.StringToEnum<skillType>(str);
+            Color col = Color.white;
+
+            switch (n)
+            {
+                case skillType.launch:
+                    _title.text = "발 사";                    
+                    ColorUtility.TryParseHtmlString("#3197DDFF", out col);                    
+                    break;
+                case skillType.range:
+                    _title.text = "광 역";
+                    ColorUtility.TryParseHtmlString("#468B96FF", out col);
+                    break;
+                case skillType.rush:
+                    _title.text = "돌 파";
+                    ColorUtility.TryParseHtmlString("#474D96FF", out col);
+                    break;
+                case skillType.shield:
+                    _title.text = "실 드";
+                    ColorUtility.TryParseHtmlString("#874696FF", out col);
+                    break;
+                case skillType.environment:
+                    _title.text = "환 경";
+                    ColorUtility.TryParseHtmlString("#B76C27FF", out col);
+                    break;
+                case skillType.summon:
+                    _title.text = "소 환";
+                    ColorUtility.TryParseHtmlString("#F8DB58FF", out col);
+                    break;
+            }
+            _panel.color = col;
 
             _nowData.reset();
-            _taps[n].OnOpen();
-            _refresh = _taps[n].refreshSkill;
+            chkOpenApply(false);
+            _explainName.text = "--";
+            _explain.text = "--";
+
+            _taps[(int)n].OnOpen();
+            _refresh = _taps[(int)n].refreshSkill;
         }
 
         public void setTitle(string str) { _title.text = str; }
@@ -87,7 +133,10 @@ namespace week
 
         public void SelectSKill()
         {
+            Debug.Log(_nowData._type);
             _player.getSkill(_nowData._type);
+            gameObject.SetActive(false);
+            _whenCloseUpgradePanel?.Invoke();
         }
 
         public void chkOpenApply(bool bl)

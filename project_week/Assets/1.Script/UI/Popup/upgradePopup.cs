@@ -69,7 +69,7 @@ namespace week
             _whenCloseUpgradePanel = whenCloseUpgradePanel;
 
             _tree = _treePanel.GetComponent<skillTreeComp>();
-            _tree.Init(_player);
+            _tree.Init(_player, ()=> { gameObject.SetActive(false); _whenCloseUpgradePanel(); });
 
             for (int i = 0; i < 3; i++)
             {
@@ -110,8 +110,8 @@ namespace week
                 if (num < 9 - (i * 4)) // 스킬
                 {
                     int s = UnityEngine.Random.Range(0, _skillList.Count);
-                    //slct.Add(_skillList[s]);
-                    slct.Add(SkillKeyList.Snowball); // 테스트용
+                    // slct.Add(_skillList[s]);
+                    slct.Add(SkillKeyList.Iceball); // 테스트용
                     _skillList.Remove(_skillList[s]);
                     
                 }

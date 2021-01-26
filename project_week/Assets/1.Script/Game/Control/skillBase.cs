@@ -77,12 +77,16 @@ namespace week
         //public float size_increase; // 크기 증가량
         //public int count_increase;  // 개수 증가량
 
-        public bool _preCondition;      // 선행 스킬 필요 여부
-        public SkillKeyList _preSkill;  // 필요한 선행 스킬
+        // public bool _preCondition;      // 선행 스킬 필요 여부
+        public List<SkillKeyList> _preSkills;  // 필요한 선행 스킬
+        private bool _overrided;         // 진화형 오버라이드
+        public Action<SkillKeyList> OverChk { get; set; }
 
         public float _timer;        // 쿨 타이머
 
         float rangeDelay;
+
+        public bool Overrided { set => _overrided = value; }
 
         public override void Init(SkillKeyList sk)
         {
@@ -110,12 +114,33 @@ namespace week
             //size_increase = (100f + DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.size_increase.ToString())) / 100;
             //count_increase = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count_increase.ToString());
             range = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.range.ToString());
+
+            _preSkills = new List<SkillKeyList>();
+            string str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.precondition.ToString());
+            if (str.Equals("n") == false)
+            {
+                SkillKeyList skl = EnumHelper.StringToEnum<SkillKeyList>(str);
+                _preSkills.Add(skl);
+
+                str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.precondition2.ToString());
+                if (str.Equals("n") == false)
+                {
+                    skl = EnumHelper.StringToEnum<SkillKeyList>(str);
+                    _preSkills.Add(skl);
+                }
+            }
+
+            _overrided = false;
         }
 
         public override void skillUp()
         {
             if (lvl == 0)
             {
+                for (int i = 0; i < _preSkills.Count; i++)
+                {
+                    OverChk(_preSkills[i]);
+                }                
             }
             else if (lvl < max_lvl)
             {
@@ -147,6 +172,9 @@ namespace week
 
         public bool chk_shotable(float delta, float cool, float dist)
         {
+            if (_overrided)
+                return false;
+
             if (lvl > 0)
             {
                 _timer += delta;

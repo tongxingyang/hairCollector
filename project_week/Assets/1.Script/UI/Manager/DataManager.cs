@@ -21,14 +21,19 @@ namespace week
         static Dictionary<Mob, GameObject> _mobFabs;
         static Dictionary<Boss, GameObject> _bobFabs;
         static Dictionary<mapObstacle, GameObject> _obstacleFabs;
-        static Dictionary<SkillKeyList, GameObject> _shotFabs;
+        static GameObject _shotFabs;
+        static GameObject _curvedFabs;
+        static GameObject _stampFabs;
         static Dictionary<EnShot, GameObject> _enProjFabs;
-        static Dictionary<SkillKeyList, Sprite> _launchImg;
+        static Dictionary<ShotList, Sprite> _shotImgs;
+        static Dictionary<ShotList, Sprite> _curveImgs;
         static Dictionary<snowballType, Sprite> _snowballImg;
         public static Dictionary<Mob, GameObject> MobFabs { get => _mobFabs; set => _mobFabs = value; }
         public static Dictionary<Boss, GameObject> BobFabs { get => _bobFabs; set => _bobFabs = value; }
         public static Dictionary<mapObstacle, GameObject> ObstacleFabs { get => _obstacleFabs; set => _obstacleFabs = value; }
-        public static Dictionary<SkillKeyList, GameObject> ShotFabs { get => _shotFabs; set => _shotFabs = value; }
+        public static GameObject ShotFabs { get => _shotFabs; set => _shotFabs = value; }
+        public static GameObject CurvedFabs { get => _curvedFabs; set => _curvedFabs = value; }
+        public static GameObject StampFabs { get => _stampFabs; set => _stampFabs = value; }
         public static Dictionary<EnShot, GameObject> EnProjFabs { get => _enProjFabs; set => _enProjFabs = value; }
 
         static Dictionary<StatusData, Sprite> _statusicon;
@@ -37,7 +42,8 @@ namespace week
         public static Dictionary<StatusData, Sprite> Statusicon { get => _statusicon; set => _statusicon = value; }
         public static Dictionary<SkillKeyList, Sprite> Skillicon { get => _skillicon; set => _skillicon = value; }
         public static Dictionary<SkinKeyList, Sprite> SkinSprite { get => _skinSprite; set => _skinSprite = value; }
-        public static Dictionary<SkillKeyList, Sprite> LaunchImg { get => _launchImg; }
+        public static Dictionary<ShotList, Sprite> ShotImgs { get => _shotImgs; }
+        public static Dictionary<ShotList, Sprite> CurveImgs { get => _curveImgs; }
         public static Dictionary<snowballType, Sprite> SnowballImg { get => _snowballImg; }
         
 
@@ -59,7 +65,7 @@ namespace week
 
         public static T GetTable<T>(DataTable data, string key, string row)
         {
-            // Debug.Log(key + "," + row);
+            //Debug.Log(key + "," + row);
             T t = datalist[(int)data][key].Get<T>(datalist[(int)data].GetField(row));
             return t;
         }
@@ -88,15 +94,9 @@ namespace week
                 _obstacleFabs.Add(i, go);
             }
 
-            _shotFabs = new Dictionary<SkillKeyList, GameObject>();
-            for (SkillKeyList i = SkillKeyList.Snowball; i < SkillKeyList.max; i++)
-            {
-                if (i == SkillKeyList.Shield || i == SkillKeyList.IceAge || i == SkillKeyList.Blizzard)
-                    continue;
-
-                GameObject go = Resources.Load("prefabs/skill/playerSkill/" + i.ToString()) as GameObject;
-                _shotFabs.Add(i, go);
-            }
+            _shotFabs = Resources.Load("prefabs/skill/playerSkill/shotFab") as GameObject;
+            _curvedFabs = Resources.Load("prefabs/skill/playerSkill/curvedFab") as GameObject;
+            _stampFabs = Resources.Load("prefabs/skill/playerSkill/stampFab") as GameObject;
 
             _enProjFabs = new Dictionary<EnShot, GameObject>();
             for (EnShot i = (EnShot)0; i < EnShot.max; i++)
@@ -135,6 +135,34 @@ namespace week
                         _skillicon.Add(sk, sps[i]);
                     }
                 }
+            }
+
+            _shotImgs = new Dictionary<ShotList, Sprite>();
+            _snowballImg = new Dictionary<snowballType, Sprite>();
+            Sprite[] shots = Resources.LoadAll<Sprite>("sprite/skillShot");
+
+            for (int i = 0; i < shots.Length; i++)
+            {
+                name = shots[i].name;
+
+                for (ShotList sk = ShotList.Snowball; sk < ShotList.None; sk++)
+                {
+                    if (name.Equals(sk.ToString()))
+                    {
+                        _shotImgs.Add(sk, shots[i]);
+                        break;
+                    }
+                }
+
+                for (snowballType ball = snowballType.Citrusbaall; ball < snowballType.standard; ball++)
+                {
+                    if (name.Equals(ball.ToString()))
+                    {
+                        _snowballImg.Add(ball, shots[i]);
+                        break;
+                    }
+                }
+                
             }
 
             _skinSprite = new Dictionary<SkinKeyList, Sprite>();

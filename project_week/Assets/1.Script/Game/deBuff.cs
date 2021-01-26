@@ -108,5 +108,14 @@ namespace week
 
             return 0;
         }
+
+        public void reset()
+        {
+            _used = false;
+
+            _duration = 0f;
+            _time = 0f;
+            _duTime = 0f;
+        }
     }
 }

@@ -244,12 +244,13 @@ namespace week
             }
         }
 
+        /// <summary> 몹 독뎀 5% </summary>
         protected void chkDotDmg(float del)
         {
             _dot = _dotDmg.dotDmging(del);
             if (_dot > 0)
             {
-                _dot = MaxHp * _dot * 0.02f;
+                _dot = MaxHp * _dot * 0.05f;
                 getDamaged(_dot, true);
             }
         }

@@ -41,6 +41,7 @@ namespace week
 
         protected override void otherWhenRepeatInit()
         {
+            _dotDmg.reset();
             applyAttack();
             _shotTerm = 0.5f;
         }

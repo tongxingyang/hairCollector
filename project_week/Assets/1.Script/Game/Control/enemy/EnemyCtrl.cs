@@ -39,6 +39,11 @@ namespace week
         protected abstract void otherWhenRepeatInit(); 
         protected abstract void otherWhenDie();
 
+        public float getHp()
+        {
+            return _hp;
+        }
+
         public virtual float getDamaged(float val, bool ignoreDef = false)
         {
             if (ignoreDef == false)

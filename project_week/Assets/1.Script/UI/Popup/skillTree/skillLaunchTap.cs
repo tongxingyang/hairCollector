@@ -7,24 +7,9 @@ using UnityEngine.UI.Extensions;
 
 namespace week
 {
-    public class skillLaunchTap : UIBase, ISkillTap
+    public class skillLaunchTap : ISkillTap
     {
         #region [uibase]
-
-        enum e_Line 
-        {
-            l_fromball,
-            l_toUp,
-            l_toSpear,
-            l_toFist,
-            l_toHalf,
-            l_toHM,            
-            l_toDrill,
-            l_toKnuckle,
-            l_toDart,
-            l_toGiga,
-            l_toRico
-        }
 
         enum e_box
         { 
@@ -41,26 +26,13 @@ namespace week
             b_Rico
         }
 
-        Enum GetEnumLine()
-        {
-            return new e_Line();
-        }
-
         Enum GetEnumBox()
         {
             return new e_box();
         }
 
-        public UILineRenderer[] mLines;
-        public skillBox[] mBoxes;
-
         protected override void OtherSetContent()
         {
-            if (GetEnumLine() != null)
-            {
-                mLines = SetComponent<UILineRenderer>(GetEnumLine());
-            }
-
             if (GetEnumBox() != null)
             {
                 mBoxes = SetComponent<skillBox>(GetEnumBox());
@@ -69,10 +41,8 @@ namespace week
 
         #endregion
 
+        [Header("Item")]
         [SerializeField] GameObject _tems;
-
-        PlayerCtrl _player;
-        skillTreeComp _tree;
 
         public bool _getHmTem()
         {
@@ -81,43 +51,25 @@ namespace week
             return false;
         }
 
-        // Start is called before the first frame update
-        public void Init(PlayerCtrl player, skillTreeComp tree)
+        #region [ override ]
+        public override void mBoxSetting()
         {
-            _player = player;
-            _tree = tree;
-
             List<SkillKeyList>[] skl 
                 = new List<SkillKeyList>[1] { new List<SkillKeyList>() { SkillKeyList.IcicleSpear, SkillKeyList.IceFist, SkillKeyList.HalfIcicle } };
 
-            mBoxes[(int)e_box.b_launchBase] .Init(tree, _player.Skills[SkillKeyList.Snowball])      .setDefault(skl);
-            mBoxes[(int)e_box.b_launchUp]   .Init(tree, _player.Skills[SkillKeyList.Snowball])      .setRein();
-            mBoxes[(int)e_box.b_Spear]      .Init(tree, _player.Skills[SkillKeyList.IcicleSpear])   .setFrom(SkillKeyList.Snowball);
-            mBoxes[(int)e_box.b_Drill]      .Init(tree, _player.Skills[SkillKeyList.FrostDrill])    .setFrom(SkillKeyList.IcicleSpear);
-            mBoxes[(int)e_box.b_Fist]       .Init(tree, _player.Skills[SkillKeyList.IceFist])       .setFrom(SkillKeyList.Snowball);
-            mBoxes[(int)e_box.b_Knuckle]    .Init(tree, _player.Skills[SkillKeyList.IceKnuckle])    .setFrom(SkillKeyList.IceFist);
-            mBoxes[(int)e_box.b_Half]       .Init(tree, _player.Skills[SkillKeyList.HalfIcicle])    .setFrom(SkillKeyList.Snowball);
-            mBoxes[(int)e_box.b_Dart]       .Init(tree, _player.Skills[SkillKeyList.SnowDart])      .setFrom(SkillKeyList.HalfIcicle);
-            mBoxes[(int)e_box.b_Hammer]     .Init(tree, _player.Skills[SkillKeyList.Hammer])        .setFrom(SkillKeyList.Snowball)     .setTem(_tems, _getHmTem);
-            mBoxes[(int)e_box.b_Giga]       .Init(tree, _player.Skills[SkillKeyList.GigaDrill])     .setFrom(SkillKeyList.FrostDrill, SkillKeyList.IceKnuckle);
-            mBoxes[(int)e_box.b_Rico]       .Init(tree, _player.Skills[SkillKeyList.Ricoche])       .setFrom(SkillKeyList.SnowDart, SkillKeyList.Hammer);
+            mBoxes[(int)e_box.b_launchBase] .Init(_tree, _player.Skills[SkillKeyList.Snowball])      .setDefault(skl);
+            mBoxes[(int)e_box.b_launchUp]   .Init(_tree, _player.Skills[SkillKeyList.Snowball])      .setRein();
+            mBoxes[(int)e_box.b_Spear]      .Init(_tree, _player.Skills[SkillKeyList.IcicleSpear])   .setFrom(new SkillKeyList[] { SkillKeyList.Snowball });
+            mBoxes[(int)e_box.b_Drill]      .Init(_tree, _player.Skills[SkillKeyList.FrostDrill])    .setFrom(new SkillKeyList[] { SkillKeyList.IcicleSpear });
+            mBoxes[(int)e_box.b_Fist]       .Init(_tree, _player.Skills[SkillKeyList.IceFist])       .setFrom(new SkillKeyList[] { SkillKeyList.Snowball });
+            mBoxes[(int)e_box.b_Knuckle]    .Init(_tree, _player.Skills[SkillKeyList.IceKnuckle])    .setFrom(new SkillKeyList[] { SkillKeyList.IceFist });
+            mBoxes[(int)e_box.b_Half]       .Init(_tree, _player.Skills[SkillKeyList.HalfIcicle])    .setFrom(new SkillKeyList[] { SkillKeyList.Snowball });
+            mBoxes[(int)e_box.b_Dart]       .Init(_tree, _player.Skills[SkillKeyList.SnowDart])      .setFrom(new SkillKeyList[] { SkillKeyList.HalfIcicle });
+            mBoxes[(int)e_box.b_Hammer]     .Init(_tree, _player.Skills[SkillKeyList.Hammer])        .setFrom(new SkillKeyList[] { SkillKeyList.Snowball })     .setTem(_tems, _getHmTem);
+            mBoxes[(int)e_box.b_Giga]       .Init(_tree, _player.Skills[SkillKeyList.GigaDrill])     .setFrom(new SkillKeyList[] { SkillKeyList.FrostDrill }, new SkillKeyList[] { SkillKeyList.IceKnuckle });
+            mBoxes[(int)e_box.b_Rico]       .Init(_tree, _player.Skills[SkillKeyList.Ricoche])       .setFrom(new SkillKeyList[] { SkillKeyList.SnowDart }, new SkillKeyList[] { SkillKeyList.Hammer });
         }
 
-        public void OnOpen()
-        {
-            gameObject.SetActive(true);
-            for (int i = 0; i < mBoxes.Length; i++)
-            {
-                mBoxes[i].OnOpen();
-            }
-        }
-
-        public void refreshSkill()
-        {
-            for (int i = 0; i < mBoxes.Length; i++)
-            {
-                mBoxes[i].OnSelect(_tree._nowData);
-            }
-        }
+        #endregion
     }
 }
