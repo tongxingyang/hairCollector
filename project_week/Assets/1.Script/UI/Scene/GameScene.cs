@@ -40,7 +40,7 @@ namespace week
         [SerializeField] GameObject _apIcon;
         [SerializeField] TextMeshProUGUI _apTxt;
 
-        public bool gemIcon { set { _gemIcon.SetActive(value);_gemTxt.gameObject.SetActive(value); } }
+        public bool gemIcon { set { _gemIcon.SetActive(value); _gemTxt.gameObject.SetActive(value); } }
         public bool apIcon { set { _apIcon.SetActive(value); _apTxt.gameObject.SetActive(value); } }
 
         [Space]
@@ -49,7 +49,7 @@ namespace week
         [Header("etc")]
         [SerializeField] TextMeshProUGUI _lvlTmp;
 
-        int _lvl = 1;
+        public int _lvl = 1;
 
         float _coin = 0;
         int _gem = 0;
@@ -59,7 +59,7 @@ namespace week
         int _mobKill = 0;
         int _getArti = 0;
 
-        Vector3 targetPos;        
+        Vector3 targetPos;
 
         float _mobCoin;
 
@@ -68,11 +68,24 @@ namespace week
         bool _stagePlay;
 
         public PlayerCtrl Player { get => _player; }
+        public bool Uping { get; set; }
         public bool Pause { get => _pause; set => _pause = value; }
         public bool GameOver { get => _gameOver; }
         public bool StagePlay { get => _stagePlay; }
 
-        public Vector2 pVector { get => _joyStick.Direction; }
+        Vector2 _pVec;
+        public Vector2 pVector
+        {
+            get
+            {
+                if (_joyStick.Direction != Vector2.zero)
+                {
+                    _pVec = _joyStick.Direction;
+                }
+
+                return _pVec;
+            }
+        }
 
         bossControl _boss;
         public MapManager MapMng { get => _mapMng; }
@@ -113,15 +126,12 @@ namespace week
             _mobCoin = gameValues._firstMopCoin;
 
             _player._gameOver = gameOver;
-            _player.EnemyDamage = _enemyMng.enemyDamaged;
-            _player.EnemyFrozen = _enemyMng.enemyFrozen;
             _ExpBar.fillAmount = 0f;
 
             _pausePanel.pauseStart(this);
             _upgradePanel.setting(_player, whenCloseUpgradePanel);
 
             SoundManager.instance.PlayBGM(BGM.Battle);
-            stopSnow();
 
             StartCoroutine(move());
             StartCoroutine(_enemyMng.startMakeEnemy());
@@ -190,9 +200,9 @@ namespace week
 
         #region EXP
 
-        void ExpRefresh()
+        public void ExpRefresh(float val)
         {
-            _ExpBar.fillAmount = _player.ExpRate;
+            _ExpBar.fillAmount = val;
         }
 
         public void levelUp()
@@ -242,7 +252,6 @@ namespace week
             getCoin(_mobCoin);
 
             _player.getExp(gameValues._startMobExp);
-            ExpRefresh();
         }
 
         public void getBossKill(float _bossCoin)
@@ -257,7 +266,6 @@ namespace week
             getCoin(_bossCoin);
 
             _player.getExp(gameValues._startBobExp);
-            ExpRefresh();
         }
 
         public void getCoin(float coin, bool isAni = false)
@@ -492,7 +500,10 @@ namespace week
         void whenCloseUpgradePanel()
         {
             Time.timeScale = 1;
+            Uping = false;
+
             whenResume();
+
             _player.setAlmighty();
         }
 
@@ -541,86 +552,6 @@ namespace week
             {
                 ec.onPause(false);
             }
-        }
-
-        public void storm(float val)
-        {
-            if (val == 2)
-            {
-                blizzard();
-            }
-            else if (val == 1)
-            {
-                snowStorm();
-            }
-            else
-            {
-                stopSnow();
-            }
-        }
-
-        public void fog(float val)
-        {
-            if (val == 2)
-            {
-                snowFog();
-            }
-            else if (val == 1)
-            {
-                whiteout();
-            }
-            else
-            {
-                stopSnow();
-            }
-        }
-
-        void stopSnow()
-        {
-            _snow.OnMasterChanged(1f);
-            _snow.OnSnowChanged(0f);
-            _snow.OnWindChanged(0f);
-            _snow.OnFogChanged(0f);
-        }
-
-        //void hardSnow()
-        //{
-        //    _snow.OnMasterChanged(1f);
-        //    _snow.OnSnowChanged(1f);
-        //    _snow.OnWindChanged(0.5f);
-        //    _snow.OnFogChanged(0.5f);
-        //}
-
-        void snowStorm()
-        {
-            _snow.OnMasterChanged(1f);
-            _snow.OnSnowChanged(0.5f);
-            _snow.OnWindChanged(0.25f);
-            _snow.OnFogChanged(0f);
-        }
-
-        void blizzard()
-        {
-            _snow.OnMasterChanged(1f);
-            _snow.OnSnowChanged(1f);
-            _snow.OnWindChanged(0.5f);
-            _snow.OnFogChanged(0f);
-        }
-
-        void snowFog()
-        {
-            _snow.OnMasterChanged(1f);
-            _snow.OnSnowChanged(0f);
-            _snow.OnWindChanged(0.25f);
-            _snow.OnFogChanged(0.5f);
-        }
-
-        void whiteout()
-        {
-            _snow.OnMasterChanged(1f);
-            _snow.OnSnowChanged(0f);
-            _snow.OnWindChanged(0.5f);
-            _snow.OnFogChanged(1f);
         }
     }
 }

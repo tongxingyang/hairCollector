@@ -14,7 +14,7 @@ namespace week
 
         public static UserGameData userGameData;
         public static Option option;
-        private static PreGameData preGameData;
+        private static PreGameData preGameData;               
 
         public Camera _main;
 

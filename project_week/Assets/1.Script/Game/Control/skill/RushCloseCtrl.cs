@@ -51,10 +51,7 @@ namespace week
             _ani.SetTrigger("shot");
         }
 
-        public void endOfAni()
-        {
-            gameObject.SetActive(false);
-        }
+        
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

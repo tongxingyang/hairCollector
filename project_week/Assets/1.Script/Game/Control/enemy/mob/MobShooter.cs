@@ -7,7 +7,7 @@ namespace week
     public class MobShooter : MobControl
     {
         [SerializeField] Transform[] _shotPos;
-        [SerializeField] bool _isCurved;
+        bool _isCurved;
         float _shootTime;
         float _pAngle;
 
@@ -31,9 +31,10 @@ namespace week
 
         protected override void otherWhenFixInit()
         {
-            if (getType == Mob.mob_monkey)
+            if (_mobName.Equals("monkey"))
             {
-                _shotType = EnShot.banana; 
+                _isCurved = true;
+                _shotType = EnShot.banana;
             }
 
             _dotDmg = new dotDmg();
@@ -115,7 +116,7 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                _player.getDamaged(_patt);
+                _player.getDamaged(this, _patt);
             }
         }
 

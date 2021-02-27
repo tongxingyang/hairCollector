@@ -131,6 +131,11 @@ namespace week
             otherWhenRepeatInit();
         }
 
+        public override void setBuff(eBuff bff, float val)
+        {
+            Debug.LogError("보스는 디버프 걸리지 않음");
+        }
+
         protected void refreshHpbar()
         {
             _hpbar.localScale = new Vector2(_hp / MaxHp, 1f);
@@ -196,7 +201,7 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                _player.getDamaged(Att);
+                _player.getDamaged(this, Att);
             }
             else if (collision.gameObject.tag.Equals("Enemy"))
             {

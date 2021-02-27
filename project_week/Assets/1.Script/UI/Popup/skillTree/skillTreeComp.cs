@@ -79,9 +79,8 @@ namespace week
                 _tapObjs[i].SetActive(false);
             }
 
-            string str = DataManager.GetTable<string>(DataTable.skill, type.ToString(), SkillValData.type.ToString());
-
-            skillType n = EnumHelper.StringToEnum<skillType>(str);
+            int rank = DataManager.GetTable<int>(DataTable.skill, type.ToString(), SkillValData.rank.ToString());
+            skillType n = (skillType)(rank / 10);
             Color col = Color.white;
 
             switch (n)

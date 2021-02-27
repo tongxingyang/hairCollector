@@ -16,40 +16,39 @@ namespace week
         GameScene _gs;
         PlayerCtrl _player;
 
-        Action _maxup;
-
         Vector3 closedMob;
 
         public Transform Pos { get => _pos; }
 
-        public void Init(GameScene gs, Action up)
+        public void Init(GameScene gs)
         {
             _gs = gs;
             _player = gs.Player;
-            _maxup = up;
         }
 
-        public void appear(int lvl)
+        public void setPet(SkillKeyList sk)
         {
-            if (lvl == 3)
-            {
-                if (UnityEngine.Random.Range(0, 10) == 0)
-                {
-                    _ani.SetTrigger("up1");
-                    _maxup();
-                }
-                else
-                {
-                    _ani.SetTrigger("up0");
-                }
-            }
-            else if(lvl == 1)
+            if (sk == SkillKeyList.Pet)
             {
                 _isUse = true;
                 transform.position = _player.transform.position;
-                _ani.SetTrigger("standard");
-                StartCoroutine(play());
+
+                _ani.SetTrigger("standard");                
             }
+            else if (sk == SkillKeyList.Pet2)
+            {
+                _ani.SetTrigger("up0");
+            }
+            else if (sk == SkillKeyList.BPet)
+            {
+                _ani.SetTrigger("up1");
+            }
+            else
+            {
+                Debug.LogError("wrong : " + sk.ToString());
+            }
+
+            StartCoroutine(play());
         }
 
         IEnumerator play()

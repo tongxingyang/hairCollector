@@ -14,17 +14,64 @@ namespace week
         List<shotCtrl> _launchSkills;
         List<curvedShotCtrl> _rangeSkills;
         List<skillMarkCtrl> _skillMarks;
-        RushCloseCtrl _bat;
-        RushCloseCtrl _flurry;
-
-        List<BaseProjControl> _shotSkillList;
-        List<SsuddenAppearCtrl> _suddenList;
-        List<hailSkill> _hailList;
+        RushCtrl _rushMng;
+        ShieldCtrl _shieldMng;
+        FieldCtrl _fieldMng;
+        SpetCtrl _petMng;
 
         GameObject _icetornado;
 
-        public List<SsuddenAppearCtrl> IcewallList { get => _suddenList; }
-        
+        public RushCtrl RushMng
+        {
+            get 
+            {
+                if (_rushMng == null)
+                {
+                    _rushMng = Instantiate(DataManager.RushFabs, _gs.Player.transform).GetComponent<RushCtrl>();
+                    _rushMng.Init(_gs);
+                }
+
+                return _rushMng; 
+            }
+        }
+        public ShieldCtrl ShieldMng 
+        {
+            get 
+            {
+                if (_shieldMng == null)
+                {
+                    _shieldMng = Instantiate(DataManager.ShieldFabs, _gs.Player.transform).GetComponent<ShieldCtrl>();
+                    _shieldMng.ShieldInit(_gs);
+                }
+                return _shieldMng;
+            } 
+        }
+
+        public FieldCtrl FieldMng
+        {
+            get
+            {
+                if (_fieldMng == null)
+                {
+                    _fieldMng = Instantiate(DataManager.FieldFabs, _gs.Player.transform).GetComponent<FieldCtrl>();
+                    _fieldMng.Init(_gs);
+                }
+                return _fieldMng;
+            }
+        }
+
+        public SpetCtrl PetMng
+        {
+            get
+            {
+                if (_petMng == null)
+                {
+                    _petMng = Instantiate(DataManager.PetFabs, transform).GetComponent<SpetCtrl>();
+                    _petMng.Init(_gs);
+                }
+                return _petMng;
+            }
+        }
 
         public void Init(GameScene gs)
         {
@@ -34,22 +81,11 @@ namespace week
             _launchSkills = new List<shotCtrl>();
             _rangeSkills = new List<curvedShotCtrl>();
             _skillMarks = new List<skillMarkCtrl>();
-
-            _shotSkillList = new List<BaseProjControl>();
-            _suddenList = new List<SsuddenAppearCtrl>();
-            _hailList = new List<hailSkill>();
         }
 
         /// <summary> [launch] 투사체 가져오기  </summary>
         public shotCtrl getLaunch(SkillKeyList sk)
         {
-            // 혹시나 에러 체크
-            if (sk < SkillKeyList.Snowball || sk > SkillKeyList.Iceball)
-            {
-                Debug.LogError("launch스킬생성 요청에러: " + sk.ToString());
-                return null;
-            }
-
             for (int i = 0; i < _launchSkills.Count; i++)
             {
                 if (_launchSkills[i].IsUse == false)
@@ -103,106 +139,8 @@ namespace week
             return mark;
         }
 
-        public RushCloseCtrl getBat()
-        {
-            if (_bat == null)
-            {
-                _bat = Instantiate(DataManager.ShotFabs).GetComponent<RushCloseCtrl>();
-                _bat.fixedInit(_gs);
-            }
-
-            return _bat;
-        }
-
-        public RushCloseCtrl getFlurry()
-        {
-            if (_flurry == null)
-            {
-                _flurry = Instantiate(DataManager.ShotFabs).GetComponent<RushCloseCtrl>();
-                _flurry.fixedInit(_gs);
-            }
-
-            return _flurry;
-        }
-
-        /// <summary> 투사체 생성 </summary>
-        public BaseProjControl getPrej(SkillKeyList sk)
-        {
-            if (sk < SkillKeyList.Snowball)
-            {
-                Debug.LogError("잘못된, 능력치 생성 요청");
-                return null;
-            }
-
-            for (int i = 0; i < _shotSkillList.Count; i++)
-            {
-                if (_shotSkillList[i].IsUse == false && _shotSkillList[i].getSkillType == sk)
-                {
-                    //_shotSkillList[i].select();
-                    return _shotSkillList[i];
-                }
-            }
-
-            BaseProjControl pjt = Instantiate(DataManager.ShotFabs).GetComponent<BaseProjControl>();
-            _shotSkillList.Add(pjt);
-            pjt.fixedInit(_gs, _efm);
-
-            pjt.transform.parent = transform;
-            return pjt;
-        }
-
-        /// <summary> 갑분등 스킬 생성 </summary>
-        public SsuddenAppearCtrl getSudden(SkillKeyList sk)
-        {
-            for (int i = 0; i < _suddenList.Count; i++)
-            {
-                if (_suddenList[i].getSkillType == sk && _suddenList[i].IsUse == false)
-                {
-                    _suddenList[i].select();
-                    return _suddenList[i];
-                }
-            }
-
-            SsuddenAppearCtrl sac = Instantiate(DataManager.ShotFabs).GetComponent<SsuddenAppearCtrl>();
-            _suddenList.Add(sac);
-            sac.select();
-            sac.setting(_gs);
-            sac.transform.parent = transform;
-            return sac;
-        }
-
-        /// <summary> 우박 생성 </summary>
-        public hailSkill getHail()
-        {
-            for (int i = 0; i < _hailList.Count; i++)
-            {
-                if (_hailList[i].IsUse == false)
-                {
-                    _hailList[i].select();
-                    return _hailList[i];
-                }
-            }
-
-            hailSkill hail = Instantiate(DataManager.ShotFabs).GetComponent<hailSkill>();
-            _hailList.Add(hail);
-            hail.setting(_gs, _efm);
-            hail.select();
-            hail.transform.parent = transform;
-            return hail;
-        }
-
         public void onPause(bool bl)
         {
-            foreach (BaseProjControl bp in _shotSkillList)
-            {
-                bp.onPause(bl);
-            }
-
-            foreach (SsuddenAppearCtrl sc in _suddenList)
-            {
-                sc.onPause(bl);
-            }
-
             //=============================
             foreach (shotCtrl sc in _launchSkills)
             {
@@ -216,22 +154,26 @@ namespace week
             {
                 smc.onPause(bl);
             }
+
+            _petMng?.onPause(bl);
+
+            _rushMng?.onPause(bl);
         }
 
         public void onClear()
         {
-            foreach (BaseProjControl bpc in _shotSkillList)
-            {
-                bpc.Destroy();
-            }
-            foreach (SsuddenAppearCtrl sac in _suddenList)
-            {
-                sac.Destroy();
-            }
-            foreach (hailSkill hs in _hailList)
-            {
-                hs.Destroy();
-            }
+            //foreach (BaseProjControl bpc in _shotSkillList)
+            //{
+            //    bpc.Destroy();
+            //}
+            //foreach (SsuddenAppearCtrl sac in _suddenList)
+            //{
+            //    sac.Destroy();
+            //}
+            //foreach (hailSkill hs in _hailList)
+            //{
+            //    hs.Destroy();
+            //}
         }
     }
 }

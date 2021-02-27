@@ -169,7 +169,9 @@ namespace week
         }
         public ObscuredInt UtilChkList { get => _userEntity._util._chkList; set => _userEntity._util._chkList = value; }
         public bool FreeNichkChange { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.freeNickChange)) > 0;
-                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.freeNickChange) : 0; }        
+                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.freeNickChange) : 0; }
+        public bool Change_SecondStatus { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.change_SecondStatus)) > 0;
+                                        set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.change_SecondStatus) : 0; }
 
         #endregion
 
@@ -209,6 +211,15 @@ namespace week
             applySkin();
         }
 
+        public UserGameData setTest()
+        {
+            _userEntity._property._nickName = "Test";
+            FreeNichkChange = true;
+            _userEntity._property._hasSkin = 131071;
+
+            return this;
+        }
+
         public void flashData()
         {
         }
@@ -231,7 +242,7 @@ namespace week
                 Ap.RandomizeCryptoKey();
 
                 // 강화창
-                for (int i = 0; i < (int)StatusData.max; i++)
+                for (int i = 0; i < (int)statusKeyList.max; i++)
                 {
                     _userEntity._status._statusLevel[i].RandomizeCryptoKey();
                     StatusLevel[i].RandomizeCryptoKey();
@@ -242,27 +253,27 @@ namespace week
         /// <summary> 스탯 레벨 -> 스탯에 적용 </summary>
         public void applyLevel()
         {
-            o_Hp            = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hp.ToString())
-                                        + (getAddit(StatusData.hp) * StatusLevel[(int)StatusData.hp]);
-            o_Att           = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.att.ToString())
-                                + (getAddit(StatusData.att) * StatusLevel[(int)StatusData.att]);
-            o_Def           = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.def.ToString())
-                                + (getAddit(StatusData.def) * StatusLevel[(int)StatusData.def]);
-            o_Hpgen         = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hpgen.ToString())
-                                + (getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen]);
-            o_Cool          = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.cool.ToString())
-                                + (getAddit(StatusData.cool) * StatusLevel[(int)StatusData.cool]);
-            o_ExpFactor     = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.exp.ToString())
-                                + (getAddit(StatusData.exp) * StatusLevel[(int)StatusData.exp]);
-            o_CoinFactor    = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.coin.ToString())
-                                + (getAddit(StatusData.coin) * StatusLevel[(int)StatusData.coin]);
-            SkinEnhance     = StatusLevel[(int)StatusData.skin];
+            o_Hp            = DataManager.GetTable<int>(DataTable.status, statusKeyList.hp.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.hp) * StatusLevel[(int)statusKeyList.hp]);
+            o_Att           = DataManager.GetTable<int>(DataTable.status, statusKeyList.att.ToString(), StatusData.origin.ToString())
+                                + (getAddit(statusKeyList.att) * StatusLevel[(int)statusKeyList.att]);
+            o_Def           = DataManager.GetTable<int>(DataTable.status, statusKeyList.def.ToString(), StatusData.origin.ToString())
+                                + (getAddit(statusKeyList.def) * StatusLevel[(int)statusKeyList.def]);
+            o_Hpgen         = DataManager.GetTable<int>(DataTable.status, statusKeyList.hpgen.ToString(), StatusData.origin.ToString())
+                                + (getAddit(statusKeyList.hpgen) * StatusLevel[(int)statusKeyList.hpgen]);
+            o_Cool          = DataManager.GetTable<int>(DataTable.status, statusKeyList.cool.ToString(), StatusData.origin.ToString())
+                                + (getAddit(statusKeyList.cool) * StatusLevel[(int)statusKeyList.cool]);
+            o_ExpFactor     = DataManager.GetTable<int>(DataTable.status, statusKeyList.exp.ToString(), StatusData.origin.ToString())
+                                + (getAddit(statusKeyList.exp) * StatusLevel[(int)statusKeyList.exp]);
+            o_CoinFactor    = DataManager.GetTable<int>(DataTable.status, statusKeyList.coin.ToString(), StatusData.origin.ToString())
+                                + (getAddit(statusKeyList.coin) * StatusLevel[(int)statusKeyList.coin]);
+            SkinEnhance     = StatusLevel[(int)statusKeyList.skin];
         }
 
-        public float getAddit(StatusData type)
+        public float getAddit(statusKeyList type)
         {
-            float add = (float)DataManager.GetTable<int>(DataTable.status, statusKeyList.addition.ToString(), type.ToString());
-            float rate = (float)DataManager.GetTable<int>(DataTable.status, statusKeyList.additrate.ToString(), type.ToString());
+            float add = (float)DataManager.GetTable<int>(DataTable.status, type.ToString(), StatusData.addition.ToString());
+            float rate = (float)DataManager.GetTable<int>(DataTable.status, type.ToString(), StatusData.additrate.ToString());
             return (add / rate);
         }
 
@@ -271,42 +282,42 @@ namespace week
         #region [강화/스킨/적용]
 
         /// <summary> 스탯 레벨 업 </summary>
-        public void statusLevelUp(StatusData stat)
+        public void statusLevelUp(statusKeyList stat)
         {
             StatusLevel[(int)stat]++;
 
             switch (stat)
             {
-                case StatusData.hp:
-                    o_Hp = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hp.ToString())
-                                        + (getAddit(StatusData.hp) * StatusLevel[(int)StatusData.hp]);
+                case statusKeyList.hp:
+                    o_Hp = DataManager.GetTable<int>(DataTable.status, statusKeyList.hp.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.hp) * StatusLevel[(int)statusKeyList.hp]);
                     break;
-                case StatusData.att:
-                    o_Att = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.att.ToString())
-                                        + (getAddit(StatusData.att) * StatusLevel[(int)StatusData.att]);
+                case statusKeyList.att:
+                    o_Att = DataManager.GetTable<int>(DataTable.status, statusKeyList.att.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.att) * StatusLevel[(int)statusKeyList.att]);
                     break;
-                case StatusData.def:
-                    o_Def = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.def.ToString())
-                                        + (getAddit(StatusData.def) * StatusLevel[(int)StatusData.def]);
+                case statusKeyList.def:
+                    o_Def = DataManager.GetTable<int>(DataTable.status, statusKeyList.def.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.def) * StatusLevel[(int)statusKeyList.def]);
                     break;
-                case StatusData.hpgen:
-                    o_Hpgen = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.hpgen.ToString())
-                                        + (getAddit(StatusData.hpgen) * StatusLevel[(int)StatusData.hpgen]);
+                case statusKeyList.hpgen:
+                    o_Hpgen = DataManager.GetTable<int>(DataTable.status, statusKeyList.hpgen.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.hpgen) * StatusLevel[(int)statusKeyList.hpgen]);
                     break;
-                case StatusData.cool:
-                    o_Cool = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.cool.ToString())
-                                        + (getAddit(StatusData.cool) * StatusLevel[(int)StatusData.cool]);
+                case statusKeyList.cool:
+                    o_Cool = DataManager.GetTable<int>(DataTable.status, statusKeyList.cool.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.cool) * StatusLevel[(int)statusKeyList.cool]);
                     break;
-                case StatusData.exp:
-                    o_ExpFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.exp.ToString())
-                                        + (getAddit(StatusData.exp) * StatusLevel[(int)StatusData.exp]);
+                case statusKeyList.exp:
+                    o_ExpFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.exp.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.exp) * StatusLevel[(int)statusKeyList.exp]);
                     break;
-                case StatusData.coin:
-                    o_CoinFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.origin.ToString(), StatusData.coin.ToString())
-                                        + (getAddit(StatusData.coin) * StatusLevel[(int)StatusData.coin]);
+                case statusKeyList.coin:
+                    o_CoinFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.coin.ToString(), StatusData.origin.ToString())
+                                        + (getAddit(statusKeyList.coin) * StatusLevel[(int)statusKeyList.coin]);
                     break;
-                case StatusData.skin:
-                    SkinEnhance = StatusLevel[(int)StatusData.skin];
+                case statusKeyList.skin:
+                    SkinEnhance = StatusLevel[(int)statusKeyList.skin];
                     break;
             }
         }
@@ -357,7 +368,7 @@ namespace week
                 skinFvalue sfv = EnumHelper.StringToEnum<skinFvalue>(t_F);
                 
                 _skinFval[(int)sfv] = DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval0.ToString());
-                _skinFval[(int)sfv] += _userEntity._status._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
+                _skinFval[(int)sfv] += _userEntity._status._statusLevel[(int)statusKeyList.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
             }
 
             string t_I = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeI.ToString());
@@ -399,7 +410,7 @@ namespace week
                 skinFvalue sfv = EnumHelper.StringToEnum<skinFvalue>(t_F);
 
                 fval[(int)sfv] = DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval0.ToString());
-                fval[(int)sfv] += _userEntity._status._statusLevel[(int)StatusData.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
+                fval[(int)sfv] += _userEntity._status._statusLevel[(int)statusKeyList.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
             }
 
             string t_I = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeI.ToString());

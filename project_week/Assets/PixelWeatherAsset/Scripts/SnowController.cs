@@ -52,11 +52,15 @@ public class SnowController : MonoBehaviour
     void UpdateAll(){
         snowEmission.rate = 110f * masterIntensity * snowIntensity;
         snowShape.radius = 30f * Mathf.Clamp(windIntensity, 0.4f, 1f) * masterIntensity;
-        snowForce.x = new ParticleSystem.MinMaxCurve(-9f * windIntensity, -3-14f * windIntensity);
-        windEmission.rate = 14f * masterIntensity * (windIntensity + fogIntensity);
+
+        snowForce.x = new ParticleSystem.MinMaxCurve(-5f * windIntensity, -2 - 8f * windIntensity);
+        
+        windEmission.rate = (fogIntensity + (snowIntensity + windIntensity) * 0.5f) * masterIntensity;
         windMain.startLifetime = 2f + 6f * (1f - windIntensity);
-        windMain.startSpeed = new ParticleSystem.MinMaxCurve(15f * windIntensity, 20 * windIntensity);
-        fogEmission.rate = (fogIntensity + (snowIntensity + windIntensity)*0.5f) * masterIntensity;
+        windMain.startSpeed = new ParticleSystem.MinMaxCurve(5f * windIntensity, 10f * windIntensity);
+
+        fogEmission.rate = 14f * masterIntensity * fogIntensity;
+
         snowMat.SetFloat("_SnowLevel", snowLevel);
     }
 

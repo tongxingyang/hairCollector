@@ -46,10 +46,13 @@ namespace week
         List<MobControl> _mobList;
         List<bossControl> _bossList;
 
-        float[] _buffStt;
-        List<BuffEffect> _bffEff;
+        float[] _initBff;                       // 생성시 적용 버프
 
-        //float[] _etime;
+        List<BuffEffect> _bffList;              // 버프 리스트
+        Dictionary<eBuff, float> _fieldBuff;    // 버프리스트가 적용된 값
+
+        public int _blindRate; // 실명 확률
+
         int _stageEnemyAmount = 1;
 
         int _rangeOfRound;
@@ -59,9 +62,24 @@ namespace week
 
         public List<MobControl> EnemyList { get => _mobList; }
         public List<bossControl> BossList { get => _bossList; }
-        public float[] BuffStt { get => _buffStt; set => _buffStt = value; }
+        public float[] InitBff { get => _initBff; set => _initBff = value; }
+        public Dictionary<eBuff, float> FieldBuff { get => _fieldBuff; set => _fieldBuff = value; }
+        public bool isEnemyBlind
+        {
+            get
+            {
+                for (int i = 0; i < _bffList.Count; i++)
+                {
+                    if (_bffList[i].Bff == eBuff.blind)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
 
-        // Start is called before the first frame update
+        /// <summary> 초기화 </summary>
         public void Init(GameScene gs)
         {
             _gs = gs;
@@ -79,15 +97,17 @@ namespace week
             _nowTurnEnemyList = new List<Mob>();
             mobCount = new int[(int)Mob.max];
 
-            _bffEff = new List<BuffEffect>();
-            _buffStt = new float[(int)snowStt.max];
-            for(int i = 0; i < (int)snowStt.max;i++)
-            {
-                _buffStt[i] = 1f;
-            }
+            _initBff = new float[3] { 1f, 1f, 0f };
+            _bffList = new List<BuffEffect>();
+            _fieldBuff = new Dictionary<eBuff, float>();
+            _fieldBuff.Add(eBuff.att, 1f);
+            _fieldBuff.Add(eBuff.def, 0f);
+            _fieldBuff.Add(eBuff.speed, 1f);
+            _fieldBuff.Add(eBuff.size, 1f);
+            _fieldBuff.Add(eBuff.blind, 1f);
 
             mobDatas = new mobData[(int)Mob.max];
-            for (Mob i = Mob.mob_fire; i < Mob.max; i++)
+            for (Mob i = Mob.fire; i < Mob.max; i++)
             {
                 mobDatas[(int)i] = new mobData(
                     i,
@@ -116,41 +136,41 @@ namespace week
                 deltime = Time.deltaTime;
                 ss = 3 * (int)_clock.Season;
 
-                if (mobDatas[(int)Mob.mob_fire].chkTime(deltime))
+                if (mobDatas[(int)Mob.fire].chkTime(deltime))
                 {
                     for (int j = 0; j < _stageEnemyAmount; j++)
                     {
-                        makeEnemySet(Mob.mob_fire);
+                        makeEnemySet(Mob.fire);
                     }
                 }
 
                 if (_clock.chk1Wave)
                 {
-                    if (mobDatas[(int)Mob.mob_ant+ ss].chkTime(deltime))
+                    if (mobDatas[(int)Mob.closed].chkTime(deltime))
                     {
                         for (int j = 0; j < _stageEnemyAmount; j++)
                         {
-                            makeEnemySet(Mob.mob_ant+ ss);
+                            makeEnemySet(Mob.closed);
                         }
                     }
                 }
                 if (_clock.chk2Wave)
                 {
-                    if (mobDatas[(int)Mob.mob_beetle+ ss].chkTime(deltime))
+                    if (mobDatas[(int)Mob.ranged].chkTime(deltime))
                     {
                         for (int j = 0; j < _stageEnemyAmount; j++)
                         {
-                            makeEnemySet(Mob.mob_beetle + ss);
+                            makeEnemySet(Mob.ranged);
                         }
                     }
                 }
                 if (_clock.chk3Wave)
                 {
-                    if (mobDatas[(int)Mob.mob_snail + ss].chkTime(deltime))
+                    if (mobDatas[(int)Mob.hard].chkTime(deltime))
                     {
                         for (int j = 0; j < _stageEnemyAmount; j++)
                         {
-                            makeEnemySet(Mob.mob_snail + ss);
+                            makeEnemySet(Mob.hard);
                         }
                     }
                 }
@@ -159,6 +179,16 @@ namespace week
 
                 deBuffChk(deltime);
                 // ExpRefresh();
+                //StartCoroutine(chk());
+            }
+        }
+
+        IEnumerator chk()
+        {
+            while (true)
+            {
+                Debug.Log("spd : " + _fieldBuff[eBuff.speed]);
+                yield return new WaitForSeconds(1f);
             }
         }
 
@@ -175,7 +205,7 @@ namespace week
                 if (ec.getType == type && ec.IsUse == false)
                 {
                     ec.transform.position = pos;
-                    ec.RepeatInit();
+                    ec.RepeatInit(_gs.ClockMng.Season);
 
                     return;
                 }
@@ -193,7 +223,7 @@ namespace week
             ect.transform.position = pos;
 
             ect.setting(_gs);
-            ect.FixInit();// _playerPos.position - ect.transform.position);
+            ect.FixInit(_gs.ClockMng.Season);// _playerPos.position - ect.transform.position);
             mobCount[(int)type]++;
         }
 
@@ -274,14 +304,14 @@ namespace week
 
         #region [enemy batch ctrl]
 
-        /// <summary> </summary>
+        /// <summary> 버프/디버프 </summary>
         public BuffEffect setDeBuff(eBuff bff, float term, float val, BuffEffect.buffTermType isterm = BuffEffect.buffTermType.term)
         {
             BuffEffect DBuff = new BuffEffect(bff, term, val, isterm);
 
-            _buffStt[(int)bff] *= DBuff.Val;
+            _fieldBuff[bff] *= DBuff.Val;
 
-            _bffEff.Add(DBuff);
+            _bffList.Add(DBuff);
 
             return DBuff;
         }
@@ -291,22 +321,22 @@ namespace week
         {
             eBuff ebff = bff.Bff;
 
-            _bffEff.Remove(bff);
+            _bffList.Remove(bff);
 
             reCalBuff(ebff);
         }
 
         void deBuffChk(float delTime)
         {
-            for (int i = 0; i < _bffEff.Count; i++)
+            for (int i = 0; i < _bffList.Count; i++)
             {
-                _bffEff[i].Term -= delTime;
+                _bffList[i].Term -= delTime;
 
-                if (_bffEff[i].TermOver)
+                if (_bffList[i].TermOver)
                 {
-                    eBuff bff = _bffEff[i].Bff;
+                    eBuff bff = _bffList[i].Bff;
 
-                    _bffEff.RemoveAt(i);
+                    _bffList.RemoveAt(i);
 
                     reCalBuff(bff);
                     i--;
@@ -317,24 +347,30 @@ namespace week
         /// <summary> 삭제된 타입 버프 일괄계산 </summary>
         void reCalBuff(eBuff bff)
         {
-            _buffStt[(int)bff] = 1f;
+            if (bff != eBuff.att && bff != eBuff.def && bff != eBuff.speed && bff != eBuff.blind)
+                Debug.LogError("잘못된 요청 : " + bff);
 
-            for (int i = 0; i < _bffEff.Count; i++)
+            _fieldBuff[bff] = (bff == eBuff.def) ? 0f : 1f;
+
+            for (int i = 0; i < _bffList.Count; i++)
             {
-                if (_bffEff[i].Bff == bff)
+                if (_bffList[i].Bff == bff)
                 {
-                    _buffStt[(int)bff] *= _bffEff[i].Val;
+                    if (bff == eBuff.def)
+                    {
+                        _fieldBuff[bff] += _bffList[i].Val;
+                    }
+                    else
+                    {
+                        _fieldBuff[bff] *= _bffList[i].Val;
+                    }
                 }
             }
         }
-        public void enemyFrozen(float term)
-        {
-            for (int i = 0; i < EnemyList.Count; i++)
-            {
-                EnemyList[i].setFrozen(term);
-            }
-        }
 
+        #region [ 전체몹 컨트롤 ]
+
+        /// <summary> 전체 몹 데미지 </summary>
         public void enemyDamaged(float dmg)
         {
             for (int i = 0; i < EnemyList.Count; i++)
@@ -346,10 +382,41 @@ namespace week
             }
         }
 
+        /// <summary> 전체 몹중 범위내 몹 데미지 </summary>
+        public void enemyDamagedRange(float dmg, float range)
+        {
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                if (EnemyList[i].IsUse && EnemyList[i].PlayerDist < range)
+                {
+                    EnemyList[i].getDamaged(dmg);
+                }
+            }
+        }
+
+        /// <summary> 전체 몹 슬로우 </summary>
         public void enemySlow(float term, float val, BuffEffect.buffTermType bf = BuffEffect.buffTermType.term)
         {
             setDeBuff(eBuff.speed, term, val, bf);
         }
+
+        /// <summary> 전체 몹 빙결 </summary>
+        public void enemyFrozen(float term)
+        {
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                EnemyList[i].setFrozen(term);
+            }
+        }
+
+        /// <summary> 전체 몹 실명 </summary>
+        public void enemyBlind(float term, int rate, BuffEffect.buffTermType bf = BuffEffect.buffTermType.term)
+        {
+            setDeBuff(eBuff.blind, term, 1f, bf);
+            _blindRate = rate;
+        }
+
+        #endregion
 
         #endregion
     }

@@ -357,7 +357,7 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                _player.getDamaged(Att);
+                _player.getDamaged(this, Att);
             }
         }
 

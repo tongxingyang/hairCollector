@@ -70,7 +70,10 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                _player.getDamaged(Att);
+                if (Att == 0)
+                    _gs.DmgfntMng.getText(transform, "빗나감", dmgTxtType.standard, true);
+                else
+                    _player.getDamaged(this, Att); ;
             }
         }
 

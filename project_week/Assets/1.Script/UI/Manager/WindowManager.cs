@@ -15,7 +15,8 @@ namespace week
         celebrationEffect   win_celebrate;
         coingenerator       win_coinGenerator;
         purchasePopup       win_purchase;
-        accountListWin win_accountList;
+        accountListWin      win_accountList;
+        serverLoading       win_serverWait;
 
         public loadScene        Win_loading         { get => win_loading; }
         public messagePopup     Win_message         { get => win_message; }
@@ -23,6 +24,7 @@ namespace week
         public coingenerator    Win_coinGenerator   { get => win_coinGenerator; }
         public purchasePopup    Win_purchase        { get => win_purchase; }
         public accountListWin   Win_accountList     { get => win_accountList; }
+        public serverLoading    Win_serverWait      { get => win_serverWait; }
 
         #endregion
 
@@ -74,7 +76,7 @@ namespace week
 
                     if (go == null)
                     {
-                        Debug.Log(win.ToString());
+                        Debug.LogError(win.ToString());
                     }
                     WindowPack.Add(win, Instantiate(go));
                     WindowPack[win].transform.SetParent(transform);
@@ -97,6 +99,7 @@ namespace week
             win_celebrate       = _windowPack[Windows.win_celebrateEff].GetComponent<celebrationEffect>();
             win_coinGenerator   = _windowPack[Windows.win_coinAni].GetComponent<coingenerator>();
             win_accountList     = _windowPack[Windows.win_accountList].GetComponent<accountListWin>();
+            win_serverWait      = _windowPack[Windows.win_serverLoad].GetComponent<serverLoading>();
 
             win_purchase.WhenClose = win_celebrate.allClose;
         }

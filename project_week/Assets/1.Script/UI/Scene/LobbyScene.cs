@@ -107,30 +107,33 @@ namespace week
             getMyPreRanking();
 
             // 로비에서 연결되는 창 초기화            
-            _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
-            _quest.Init(this, (chk) => { mGos[(int)eGO.questExcla].SetActive(chk); });
-            _rank = mGos[(int)eGO.Rank].GetComponent<rankComp>();
-            _rank.Init();
-            _post = mGos[(int)eGO.Post].GetComponent<postComp>();
-            _post.Init(this, (chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
-
+            // 각 탭
             _store = mGos[(int)eGO.Store].GetComponent<storeComp>();
-            _store.Init((chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
             _snowman = mGos[(int)eGO.Snowman].GetComponent<snowmanComp>();
-            _snowman.Init(refreshCost, refreshSnowImg, _quest.refreshCheckQuest);
             _lobbyCmp = mGos[(int)eGO.Lobby].GetComponent<lobbyComp>();
-            _lobbyCmp.Init();
-
+            // 서브 창
+            _quest = mGos[(int)eGO.Quest].GetComponent<questComp>();
+            _rank = mGos[(int)eGO.Rank].GetComponent<rankComp>();
+            _post = mGos[(int)eGO.Post].GetComponent<postComp>();
             _option = mGos[(int)eGO.option].GetComponent<optionComp>();
-            _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();
+            _nickPanel = mGos[(int)eGO.nicChangePanel].GetComponent<nickChangePopup>();            
+
+            // 각 탭 초기화
+            _store.Init((chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
+            _snowman.Init(refresh_Cost, refresh_SnowImg, _quest.refresh_CheckQuest);
+            _lobbyCmp.Init();
+            // 서브 창 초기화
+            _quest.Init(this, (chk) => { mGos[(int)eGO.questExcla].SetActive(chk); });
+            _rank.Init();
+            _post.Init(this, (chk) => { mGos[(int)eGO.postExcla].SetActive(chk); });
             _option.Init(this, () =>
              {
                  mGos[(int)eGO.option].SetActive(false);
                  _nickPanel.open();
              });
             _nickPanel.completeChange = () => {
-                setStage(); 
-                refreshCost(); 
+                setStage();
+                refresh_Cost(); 
             };
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
@@ -154,7 +157,7 @@ namespace week
             SoundManager.instance.PlayBGM(BGM.Lobby);
 
             // 로비 눈사람 이미지
-            refreshSnowImg();
+            refresh_SnowImg();
 
             // 로비 눈 이펙트
             _snow.OnMasterChanged(0.5f);
@@ -181,11 +184,12 @@ namespace week
                 openUpdate();
             }
 
-            refreshCost();
+            refresh_Cost();
 
-            modify();
+            modify(); // 특별히 체크해주거나 적용해줘야 할 값
+
             AuthManager.instance.checkNextDay();
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
         }
 
         void modify()
@@ -197,6 +201,38 @@ namespace week
             if (BaseManager.userGameData.MulCoin3p)
             {
                 BaseManager.userGameData.AddMulCoinList(mulCoinChkList.mul_1st_3p);
+            }
+
+            // BaseManager.userGameData.UtilChkList &= ~(1 << (int)utilityChkList.change_SecondStatus);
+
+            if (BaseManager.userGameData.Change_SecondStatus == false)
+            {
+                int leng = BaseManager.userGameData.StatusLevel.Length;
+                int exist_ap = 0;
+
+                int cost, stair;
+                int v, m;
+
+                for (statusKeyList i = 0; i < statusKeyList.max; i++)
+                {
+                    int lvl = BaseManager.userGameData.StatusLevel[(int)i];
+
+                    cost = DataManager.GetTable<int>(DataTable.status, i.ToString(), StatusData.cost.ToString());
+                    stair = DataManager.GetTable<int>(DataTable.status, i.ToString(), StatusData.stair.ToString());
+
+                    v = lvl / stair;
+                    m = lvl % stair;
+
+                    int cc = (int)((1 + v) * (m + stair * v * 0.5f)) * cost;
+
+                    exist_ap += cc;
+                    BaseManager.userGameData.StatusLevel[(int)i] = 0;
+                }
+
+                BaseManager.userGameData.Ap += exist_ap;
+                BaseManager.userGameData.Change_SecondStatus = true;
+
+                _snowman.refresh_Status();
             }
         }
 
@@ -249,19 +285,19 @@ namespace week
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
             MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();
-            _snowman.purchaseBtnRefresh();
+            _snowman.refresh_AboutAp();
         }
 
-        public void refreshCost()
+        public void refresh_Cost()
         {
             MTmps[(int)eTmp.CoinTxt].text = ((int)BaseManager.userGameData.Coin).ToString();
             MTmps[(int)eTmp.GemTxt].text = ((int)BaseManager.userGameData.Gem).ToString();
-            _snowman.purchaseBtnRefresh();
+            _snowman.refresh_AboutAp();
         }
 
         public void refreshAp()
         {
-            _snowman.apPurchaseBtnRefresh();
+            _snowman.refresh_AboutAp();
         }
 
         public void PlayGame()
@@ -305,7 +341,7 @@ namespace week
                 _isLobby = true;
 
                 allClose(true);
-                refreshSnowImg();
+                refresh_SnowImg();
             }
         }
 
@@ -342,7 +378,7 @@ namespace week
             }
         }
 
-        void refreshSnowImg()
+        void refresh_SnowImg()
         {
             mImgs[(int)eImg.snowmanImg].sprite = DataManager.SkinSprite[BaseManager.userGameData.Skin];
         }
@@ -368,15 +404,15 @@ namespace week
             BaseManager.userGameData.Gem += 2000;
             BaseManager.userGameData.Coin += 500000;
 
-            refreshCost();
+            refresh_Cost();
         }
 
         [Button]
         public void reset()
         {
             BaseManager.userGameData = new UserGameData();
-            AuthManager.instance.SaveDataServer();
-            refreshCost();
+            AuthManager.instance.SaveDataServer(false);
+            refresh_Cost();
             setStage();
         }
     }

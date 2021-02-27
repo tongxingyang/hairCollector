@@ -171,7 +171,7 @@ namespace week
                 possibleSelect();
                 _refreshCost?.Invoke();
 
-                AuthManager.instance.SaveDataServer();
+                AuthManager.instance.SaveDataServer(true);
             }
             else
             {

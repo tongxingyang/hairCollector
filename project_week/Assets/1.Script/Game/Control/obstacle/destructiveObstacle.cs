@@ -59,6 +59,12 @@ namespace week
 
         public void setFrozen(float f)
         {
+            Debug.LogError("장애물은 디버프 걸리지 않음");
+        }
+
+        public void setBuff(eBuff bff, float val)
+        {
+            Debug.LogError("장애물은 디버프 걸리지 않음");
         }
     }
 }

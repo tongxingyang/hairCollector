@@ -104,5 +104,10 @@ namespace week
         public void getKnock(Vector3 v, float p, float d) { }
 
         public void setFrozen(float f) { }
+
+        public void setBuff(eBuff bff, float val)
+        {
+            Debug.LogError("장애물은 디버프 걸리지 않음");
+        }
     }
 }

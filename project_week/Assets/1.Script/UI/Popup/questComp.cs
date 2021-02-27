@@ -70,12 +70,12 @@ namespace week
         #region [interface]
         public void open()
         {
-            refreshCheckQuest();
+            refresh_CheckQuest();
             gameObject.SetActive(true);
         }
         public void close()
         {
-            refreshCheckQuest();
+            refresh_CheckQuest();
             gameObject.SetActive(false);
         }
 
@@ -93,10 +93,10 @@ namespace week
             _lobby = lobby;
             _exclamation = exclamation;
 
-            refreshCheckQuest();
+            refresh_CheckQuest();
         }
 
-        public void refreshCheckQuest()
+        public void refresh_CheckQuest()
         {
             bool chk = false;
             chk |= refreshDayQuest();
@@ -221,7 +221,7 @@ namespace week
 
                 refreshDayQuest();
 
-                AuthManager.instance.SaveDataServer();
+                AuthManager.instance.SaveDataServer(true);
             }
         }
 
@@ -260,7 +260,7 @@ namespace week
 
                 refreshQuest(i);
 
-                AuthManager.instance.SaveDataServer();
+                AuthManager.instance.SaveDataServer(true);
             }
         }
 

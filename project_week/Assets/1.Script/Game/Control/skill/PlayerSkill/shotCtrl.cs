@@ -13,6 +13,7 @@ namespace week
 
         int _bounce; // 튕기기
         int _bounceChk;
+        float _perDem;
 
         Action<float> _dmgAction;
         Action<IDamage> idmgAction;
@@ -30,20 +31,18 @@ namespace week
         }
 
         /// <summary> 재사용 및 투사체 데이터 설정 </summary>
-        public shotCtrl repeatInit(SkillKeyList skillType, float dmg, float size = 1f, float speed = 1f, float keep = 1f)
-        {
-            // 타입
-            _skillType = skillType;
+        public shotCtrl repeatInit(SkillKeyList skillType, float dmg, float size)
+        {            
+            _skillType = skillType;     // 타입
+            
+            _dmg = dmg;                 // 데미지
 
-            // 데미지
-            _dmg = dmg;
-            // 크기            // _size = size;
-            transform.localScale = Vector3.one * size;
-            // 투사체 속도
-            _speed = gameValues._defaultProjSpeed * speed;
-            // 지속시간
-            _keep = keep;
+            transform.localScale = Vector3.one;         // 크기           
+            _speed = gameValues._defaultProjSpeed;      // 투사체 속도      
+            transform.localScale = Vector3.one * size;  // 크기
+            _keep = 1f;                                 // 지속시간
 
+            _perDem = 0;
             _bounce = 0;
 
             // 이미지 설정
@@ -51,6 +50,28 @@ namespace week
             _render.sprite = DataManager.ShotImgs[sl];
 
             preInit();
+            return this;
+        }
+
+        public shotCtrl setSpeed(float speed)
+        {
+            _speed = gameValues._defaultProjSpeed * speed;
+            return this;
+        }
+        public shotCtrl setKeep(float keep)
+        {
+            _keep = keep;
+            return this;
+        }
+        
+        /// <summary> 눈덩이 이미지 세팅 </summary>
+        public shotCtrl setSnowSprite(snowballType sbt)
+        {
+            if (sbt != snowballType.standard)
+            {
+                _render.sprite = DataManager.SnowballImg[sbt];
+            }
+
             return this;
         }
 
@@ -63,15 +84,11 @@ namespace week
             return this;
         }
 
-        public shotCtrl setSnowSprite(snowballType sbt)
+        public shotCtrl setPerDamage(float val)
         {
-            if (sbt != snowballType.standard)
-            {
-                _render.sprite = DataManager.SnowballImg[sbt];
-            }
-
+            _perDem = val;
             return this;
-        }        
+        }
 
         public shotCtrl setDmgAction(Action<float> value)
         { 
@@ -111,13 +128,28 @@ namespace week
                 time += Time.deltaTime;
                 if (time > _keep)
                 {
+                    if (_skillType == SkillKeyList.Recovery || _skillType == SkillKeyList.LockOn)
+                    {
+                        yield return StartCoroutine(backToPlayer());
+                    }
+
                     Destroy();
                 }
+            }
+        }
 
-                //if (Vector3.Distance(Player.transform.position, transform.position) > 3f)
-                //{
-                //    Destroy();
-                //}
+        IEnumerator backToPlayer()
+        {
+            while (_isUse)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, gameValues._defaultProjSpeed * 1.5f * Time.deltaTime);
+
+                yield return new WaitUntil(() => _gs.Pause == false);
+
+                if (Vector3.Distance(transform.position, _player.transform.position) < 0.1f)
+                {
+                    break;
+                }
             }
         }
 
@@ -163,7 +195,8 @@ namespace week
             {
                 _efm.makeEff(effAni.attack, transform.position);
 
-                if (_skillType != SkillKeyList.FrostDrill && _skillType != SkillKeyList.GigaDrill)
+                if (_skillType != SkillKeyList.FrostDrill && _skillType != SkillKeyList.GigaDrill 
+                    && _skillType != SkillKeyList.Recovery && _skillType != SkillKeyList.LockOn)
                 {
                     Destroy();
                 }
@@ -181,14 +214,20 @@ namespace week
 
             // 아직 크리티컬 없음
 
-            // 타입별
+            // 스킬별 효과
             switch (_skillType)
             {
                 case SkillKeyList.IceKnuckle:
-                    _dmg += id.getHp() * _player.Skills[SkillKeyList.IceKnuckle].att * 0.01f;
-                break;
+                    _dmg += id.getHp() * _perDem * 0.01f;
+                    break;
+                case SkillKeyList.IcePowder:
+                    id.setBuff(eBuff.def, _player.Skills[_skillType].val1* -1f);
+                    break;
+                case SkillKeyList.Pet2:
+                    id.setFrozen(1.5f);
+                    break;
             }
-            //Debug.Log(_dmg);
+
             float val = id.getDamaged(_dmg, false);
 
             _dmgAction?.Invoke(val);
@@ -225,8 +264,6 @@ namespace week
 
         #endregion
 
-
-
         #region 
 
         void destroyChk()
@@ -238,11 +275,20 @@ namespace week
                 case SkillKeyList.IceKnuckle:
                 case SkillKeyList.HalfIcicle:
                 case SkillKeyList.SnowDart:
+                case SkillKeyList.OpenRoader:
+                case SkillKeyList.IcePowder:
+                case SkillKeyList.Shard:
+                case SkillKeyList.Pet:
+                case SkillKeyList.Pet2:
+                case SkillKeyList.BPet:
                     Destroy();
                     break;
                 case SkillKeyList.IcicleSpear:
                 case SkillKeyList.FrostDrill:
                 case SkillKeyList.GigaDrill:
+                case SkillKeyList.IceBalt:
+                case SkillKeyList.Recovery:
+                case SkillKeyList.LockOn:
                     break;
                 case SkillKeyList.Hammer:
                 case SkillKeyList.Ricoche:

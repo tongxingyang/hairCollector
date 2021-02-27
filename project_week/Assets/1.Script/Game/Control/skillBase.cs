@@ -17,6 +17,7 @@ namespace week
         public string explain;
         public string information;
         public bool upGrade;
+        protected bool val0_mul;
 
         public abstract void Init(SkillKeyList sk);
         public abstract void skillUp();
@@ -31,9 +32,10 @@ namespace week
     /// <summary> 능력치 </summary>
     public class ability : skillBase
     {
-        public float val;
+        public float val0;
+        float val0_increase;
 
-        public Action<SkillKeyList> skUp;
+        public Action<SkillKeyList> skUp { get; set; }
 
         public override void Init(SkillKeyList sk)
         {
@@ -47,7 +49,10 @@ namespace week
             explain = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.explain.ToString());
             information = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.info.ToString());
 
-            val = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.stat_val.ToString());
+            val0             = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0.ToString());
+            val0_increase    = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0_increase.ToString());
+            string m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.val0_cal.ToString());
+            val0_mul = (m.Equals("m")) ? true : false;
         }
 
         public override void skillUp()
@@ -55,38 +60,51 @@ namespace week
             if (lvl < max_lvl)
             {
                 skUp(type);
-            }
 
-            lvl++;
+                if (val0_mul)
+                    val0 *= val0_increase;
+                else
+                    val0 += val0_increase;
+
+                lvl++;
+            }
         }
     }
 
     /// <summary> 스킬 </summary>
     public class skill : skillBase
     {
-        public float att;   // 공격력
+        int skillRank;  // 스킬 랭크
+
+        public float val0;  // 값0
+        public float val1;  // 값1
+
+        float val0_increase; // 값0 증가량
+        float val1_increase; // 값1 증가량
+        bool val1_mul;
+
         public float delay; // 쿨
         public float keep;  // 지속시간
         public int count;   // 개수
         public float size;  // 크기
         public float range; // 사거리
 
-        //public float att_increase;  // 공격력 증가량
-        //public float delay_reduce;  // 쿨 감소량
-        //public float keep_increase; // 지속시간 증가량
-        //public float size_increase; // 크기 증가량
-        //public int count_increase;  // 개수 증가량
+        float delay_reduce;  // 쿨 감소량
+        float keep_increase; // 지속시간 증가량
+        float size_increase; // 크기 증가량
+        int count_increase;  // 개수 증가량
 
-        // public bool _preCondition;      // 선행 스킬 필요 여부
-        public List<SkillKeyList> _preSkills;  // 필요한 선행 스킬
+        public SkillKeyList _essential = SkillKeyList.max;      // 선행 스킬 필요 여부
+        public List<SkillKeyList> _choice;  // 필요한 선행 스킬
         private bool _overrided;         // 진화형 오버라이드
+
+        public inheritType _inherit;
+
         public Action<SkillKeyList> OverChk { get; set; }
 
         public float _timer;        // 쿨 타이머
 
         float rangeDelay;
-
-        public bool Overrided { set => _overrided = value; }
 
         public override void Init(SkillKeyList sk)
         {
@@ -98,37 +116,52 @@ namespace week
             lvl = 0;
             max_lvl = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.max_level.ToString());
 
+            skillRank = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.rank.ToString()) % 10;
+
             name = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.skill_name.ToString());
             explain = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.explain.ToString());
             information = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.info.ToString());
 
-            att = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.att.ToString());
+            val0 = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0.ToString()); 
+            val0_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0_increase.ToString());
+            string m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.val0_cal.ToString());
+            val0_mul = (m.Equals("m")) ? true : false;
+            
+            val1 = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val1.ToString());
+            val1_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val1_increase.ToString());
+            m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.val1_cal.ToString());
+            val1_mul = (m.Equals("m")) ? true : false;
+
             delay = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.delay.ToString()); // * BaseManager.userGameData.o_Cool;
             keep = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.keep.ToString());
             count = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count.ToString());
             size = 1;
+            
+            m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.inheritType.ToString());
+            _inherit = EnumHelper.StringToEnum<inheritType>(m);
 
-            //att_increase = (100f + DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.att_increase.ToString())) / 100;
-            //delay_reduce = (100f - DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.delay_reduce.ToString())) / 100;
-            //keep_increase = (100f - DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.keep_increase.ToString())) / 100;
-            //size_increase = (100f + DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.size_increase.ToString())) / 100;
-            //count_increase = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count_increase.ToString());
+            delay_reduce = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.delay_reduce.ToString());
+            keep_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.keep_increase.ToString());
+            size_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.size_increase.ToString());
+            count_increase = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count_increase.ToString());
             range = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.range.ToString());
 
-            _preSkills = new List<SkillKeyList>();
-            string str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.precondition.ToString());
+            string str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.essential.ToString());
             if (str.Equals("n") == false)
             {
-                SkillKeyList skl = EnumHelper.StringToEnum<SkillKeyList>(str);
-                _preSkills.Add(skl);
+                _essential = EnumHelper.StringToEnum<SkillKeyList>(str);
+                _choice = new List<SkillKeyList>();
 
-                str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.precondition2.ToString());
-                if (str.Equals("n") == false)
+                for (int i = 0; i < 2; i++)
                 {
-                    skl = EnumHelper.StringToEnum<SkillKeyList>(str);
-                    _preSkills.Add(skl);
+                    str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), (SkillValData.choice0 + i).ToString());
+                    if (str.Equals("n") == false)
+                    {
+                        SkillKeyList skl = EnumHelper.StringToEnum<SkillKeyList>(str);
+                        _choice.Add(skl);
+                    }
                 }
-            }
+            }            
 
             _overrided = false;
         }
@@ -137,28 +170,63 @@ namespace week
         {
             if (lvl == 0)
             {
-                for (int i = 0; i < _preSkills.Count; i++)
+                switch (_inherit)
                 {
-                    OverChk(_preSkills[i]);
-                }                
+                    case inheritType.non:
+                        break;
+                    case inheritType.over:
+                        Debug.Log("over : " + _essential.ToString());
+                        OverChk(_essential);
+                        break;
+                    case inheritType.overover:
+                    case inheritType.overSelect:
+                        OverChk(_essential); 
+                        
+                        for (int i = 0; _choice != null && i < _choice.Count; i++)
+                        {
+                            OverChk(_choice[i]);
+                        }
+                        break;
+                }
             }
-            else if (lvl < max_lvl)
+            else
             {
-                //att     *= att_increase;
-                //delay   *= delay_reduce;
-                //keep    *= keep_increase;
-                //count   += count_increase;
-                //size    *= size_increase;
+                if (val0_mul) // 값0
+                    val0 *= val0_increase;
+                else
+                    val0 += val0_increase;
+
+                if (val1_mul) // 값1
+                    val1 *= val1_increase;
+                else
+                    val1 += val1_increase;
+
+                delay -= delay_reduce;
+                keep += keep_increase;
+                count += count_increase;
+                size *= size_increase;
             }
 
             lvl++;
         }
 
+        public void overrideOff()
+        {
+            if (skillRank == 0)
+                return;
+
+            _overrided = true;
+        }
+
         public bool chk_Time(float delta, float cool)
         {
+            if (_overrided)
+                return false;                       
+
             if (lvl > 0)
             {
                 _timer += delta;
+
                 if (_timer > delay * cool)
                 {
                     _timer = 0;
@@ -178,6 +246,7 @@ namespace week
             if (lvl > 0)
             {
                 _timer += delta;
+                // Debug.Log(_timer +" > "+ delay * cool);
                 if (_timer > delay * cool)
                 {
                     if (dist < range)
@@ -191,28 +260,28 @@ namespace week
             return false;
         }
 
-        public bool chk_rangeshotable(float delta, float cool, float dist)
-        {
-            if (lvl > 0)
-            {
-                if (_timer <= 0f)
-                {
-                    rangeDelay = UnityEngine.Random.Range(1.5f, delay);
-                }
+        //public bool chk_rangeshotable(float delta, float cool, float dist)
+        //{
+        //    if (lvl > 0)
+        //    {
+        //        if (_timer <= 0f)
+        //        {
+        //            rangeDelay = UnityEngine.Random.Range(1.5f, delay);
+        //        }
 
-                _timer += delta;
-                if (_timer > rangeDelay * cool)
-                {
-                    if (dist < range)
-                    {
-                        _timer = 0;
-                        return true;
-                    }
-                }
-                return false;
-            }
-            return false;
-        }
+        //        _timer += delta;
+        //        if (_timer > rangeDelay * cool)
+        //        {
+        //            if (dist < range)
+        //            {
+        //                _timer = 0;
+        //                return true;
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //    return false;
+        //}
 
         public void clear()
         {

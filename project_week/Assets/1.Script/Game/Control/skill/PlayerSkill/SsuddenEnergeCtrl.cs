@@ -11,7 +11,7 @@ namespace week
         public override void Init(skillBase state)
         {
             skill _skill = (skill)state;
-            _att = _skill.att;
+            _att = _skill.val0;
 
             _ani.SetTrigger("start");
         }

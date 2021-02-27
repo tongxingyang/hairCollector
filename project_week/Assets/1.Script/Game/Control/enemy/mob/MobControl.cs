@@ -11,9 +11,8 @@ namespace week
     public abstract class MobControl : EnemyCtrl
     {
         [Header("type")]
-        [SerializeField] Mob _enemy = Mob.mob_fire;
+        [SerializeField] Mob _enemy = Mob.fire;
         [SerializeField] protected SpriteRenderer _render;
-        [SerializeField] GameObject _ice;
 
         protected enum stat { trace, attack, attack2, die }
         protected stat _stat;
@@ -21,9 +20,26 @@ namespace week
         protected MapManager _map;
 
         protected float MaxHp { get { return _finalStt[(int)snowStt.maxHp]; } }
-        protected float Att { get { return _finalStt[(int)snowStt.att] * _enMng.BuffStt[(int)snowStt.att]; } }
-        protected float Def { get { return _finalStt[(int)snowStt.def] * _enMng.BuffStt[(int)snowStt.def]; } }
-        protected float Speed { get { return _finalStt[(int)snowStt.speed] * _enMng.BuffStt[(int)snowStt.speed]; } }
+        protected float Att 
+        {
+            get
+            {
+                if (_enMng.isEnemyBlind)
+                {
+                    int rate = UnityEngine.Random.Range(0, 100);
+                    if (rate < _enMng._blindRate)
+                    {
+                        return 0;
+                    }
+                }
+
+                return _finalStt[(int)snowStt.att] * _enMng.FieldBuff[eBuff.att] * _mobBuff[(int)eBuff.att];                
+            }
+        }
+        protected float Def { get { return _finalStt[(int)snowStt.def] + _enMng.FieldBuff[eBuff.def] + _mobBuff[(int)eBuff.def]; } }
+        protected float Speed { get { return _finalStt[(int)snowStt.speed] * _enMng.FieldBuff[eBuff.speed]; } }
+
+        protected float[] _mobBuff; // 몹 디버프는 시간제한 없음
 
         protected float _patt = 1;
         protected float _pspeed = 5f;
@@ -51,6 +67,7 @@ namespace week
         protected EnSkillControl _esc;
         protected float _shotTerm = 2f;
         protected Animator _ani;
+        protected string _mobName;
 
         public void setting(GameScene gs)
         {
@@ -66,7 +83,7 @@ namespace week
             killFunc = _gs.getKill;
         }
 
-        public void FixInit()
+        public void FixInit(season ss)
         {
             _ani = GetComponentInChildren<Animator>();
             _standardStt = new float[(int)snowStt.max];
@@ -74,12 +91,14 @@ namespace week
             _standardStt[(int)snowStt.att]      = DataManager.GetTable<int>(DataTable.monster, _enemy.ToString(), MonsterData.att.ToString());
             _standardStt[(int)snowStt.def]      = DataManager.GetTable<int>(DataTable.monster, (getType).ToString(), MonsterData.def.ToString());
             _standardStt[(int)snowStt.speed]    = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.speed.ToString()) * gameValues._defaultSpeed;
-            
+
+            _mobBuff = new float[3] { 1f, 1f, 0f };
+
             _patt       = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.patt.ToString());            
             _calSpeed   = _standardStt[(int)snowStt.speed];
             _pspeed     = DataManager.GetTable<float>(DataTable.monster, _enemy.ToString(), MonsterData.pspeed.ToString());
             
-            if (getType == Mob.mob_fire || (int)getType % 3 == 1)
+            if (getType == Mob.fire || (int)getType % 3 == 1)
                 _def = 0.5f;
             else if ((int)getType % 3 == 2)
                 _def = 1f;
@@ -88,39 +107,43 @@ namespace week
 
             otherWhenFixInit();
 
-            RepeatInit();
+            RepeatInit(ss);
         }
 
-        public void RepeatInit()
+        public void RepeatInit(season ss)
         {
-            preInit(); 
-            
+            preInit();
+
+            _mobName = DataManager.GetTable<string>(DataTable.monster, getType.ToString(), ss.ToString());
+
+            // 몹 스탯 적용
             _finalStt = new float[(int)snowStt.max];
-            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(gameValues._mobIncrease, _clMng.Day);
-            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(gameValues._mobIncrease, _clMng.Day);
-            _finalStt[(int)snowStt.def] = _standardStt[(int)snowStt.def] + (_def * _clMng.Day);
+            _finalStt[(int)snowStt.maxHp]   = _standardStt[(int)snowStt.maxHp]  * Mathf.Pow(gameValues._mobIncrease, _clMng.Day)    * _enMng.InitBff[(int)eBuff.hp];
+            _hp = MaxHp;
+            _finalStt[(int)snowStt.att]     = _standardStt[(int)snowStt.att]    * Mathf.Pow(gameValues._mobIncrease, _clMng.Day)    * _enMng.InitBff[(int)eBuff.att];
+            _finalStt[(int)snowStt.def]     = _standardStt[(int)snowStt.def]    + (_def * _clMng.Day)                               + _enMng.InitBff[(int)eBuff.def];
             if (_finalStt[(int)snowStt.def] > 80f)
                 _finalStt[(int)snowStt.def] = 80f;
+            else if (_finalStt[(int)snowStt.def] < -80f)
+                _finalStt[(int)snowStt.def] = -80f;
 
             _finalStt[(int)snowStt.speed] = _standardStt[(int)snowStt.speed];
 
-            //Debug.Log(gameObject.name + " : " + _finalStt[(int)snowStt.maxHp] + "," + _finalStt[(int)snowStt.att] + "," + _finalStt[(int)snowStt.def]);
+            // Debug.Log("체 : " + MaxHp + ", 공 : " + _finalStt[(int)snowStt.att] + ", 방 : " + _finalStt[(int)snowStt.def]);
+
+            float val = _enMng.FieldBuff[eBuff.size];
+            transform.localScale = new Vector3(val, val);
+
             _isDie = false;
             _isFrozen = false;
-            _ice.gameObject.SetActive(false);
-            _shotTerm = 2f;
+            _shotTerm = 2f;           
             
-            _hp = MaxHp;
-            float val = _enMng.BuffStt[(int)snowStt.size];
-            transform.localScale = new Vector3(val, val);
             _coolTime = 0;
             _isCool = false;
 
             _render.color = Color.white;
             
             _isDmgAction = false;
-
-            //_target = target.normalized;
 
             applyMove();
 
@@ -134,6 +157,7 @@ namespace week
         void applyMove()
         {
             switchStat(stat.trace);
+            _ani.SetTrigger($"{_mobName}_play");
 
             StartCoroutine(lifeCycle());
         }
@@ -183,6 +207,7 @@ namespace week
 
             //checkDist();
         }
+
         protected void switchAttckMove()
         {
             if (_isFrozen == false)
@@ -201,6 +226,26 @@ namespace week
         }
 
         #endregion
+
+        /// <summary> 받은 데미지~방어력 계산해서 </summary>
+        public override float getDamaged(float val, bool ignoreDef = false)
+        {
+            if (ignoreDef == false) // 방어력 적용
+            {
+                val = val * (100f - Def) * 0.01f;
+            }
+
+            dmgFunc(transform, Convert.ToInt32(val).ToString(), dmgTxtType.standard, false);
+            _hp -= val;
+
+            if (_hp <= 0)
+            {
+                enemyDie();
+            }
+
+            damagedAni();
+            return val;
+        }
 
         #region BuffEffect
 
@@ -225,7 +270,7 @@ namespace week
                 _frozenTerm = term;
             }
 
-            _ice.gameObject.SetActive(true);
+            _ani.SetTrigger("frozen");
         }
 
         protected void chkFrozen(float deltime)
@@ -239,8 +284,25 @@ namespace week
                     _isFrozen = false;
                     _frozenTerm = 0;
                     _frozenTime = 0;
-                    _ice.gameObject.SetActive(false);
+                    _ani.SetTrigger($"{_mobName}_play");
                 }
+            }
+        }
+
+        /// <summary> 버프/디버프 </summary>
+        public override void setBuff(eBuff bff, float val)
+        {
+            switch (bff)
+            {
+                case eBuff.att:
+                    _mobBuff[(int)bff] *= val;
+                    break;
+                case eBuff.def:
+                    _mobBuff[(int)bff] += val;
+                    break;
+                default:
+                    Debug.LogError("현재 관련 디버프 없음");
+                    break;
             }
         }
 
@@ -250,7 +312,7 @@ namespace week
             _dot = _dotDmg.dotDmging(del);
             if (_dot > 0)
             {
-                _dot = MaxHp * _dot * 0.05f;
+                _dot = MaxHp * _dot * 0.01f;
                 getDamaged(_dot, true);
             }
         }

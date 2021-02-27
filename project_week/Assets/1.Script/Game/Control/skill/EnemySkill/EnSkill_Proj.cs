@@ -114,7 +114,11 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                _player.getDamaged(_dmg);
+                if (_dmg == 0)
+                    _gs.DmgfntMng.getText(transform, "빗나감", dmgTxtType.standard, true);
+                else
+                    _player.getDamaged(_dmg);
+
                 if (_triggDestroy)
                 {
                     Destroy();

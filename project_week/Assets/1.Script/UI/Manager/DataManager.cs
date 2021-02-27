@@ -24,6 +24,10 @@ namespace week
         static GameObject _shotFabs;
         static GameObject _curvedFabs;
         static GameObject _stampFabs;
+        static GameObject _rushFabs;
+        static GameObject _shieldFabs;
+        static GameObject _fieldFabs;
+        static GameObject _petFabs;
         static Dictionary<EnShot, GameObject> _enProjFabs;
         static Dictionary<ShotList, Sprite> _shotImgs;
         static Dictionary<ShotList, Sprite> _curveImgs;
@@ -34,12 +38,17 @@ namespace week
         public static GameObject ShotFabs { get => _shotFabs; set => _shotFabs = value; }
         public static GameObject CurvedFabs { get => _curvedFabs; set => _curvedFabs = value; }
         public static GameObject StampFabs { get => _stampFabs; set => _stampFabs = value; }
+        public static GameObject RushFabs { get => _rushFabs; set => _rushFabs = value; }
+        public static GameObject ShieldFabs { get => _shieldFabs; set => _shieldFabs = value; }
+        public static GameObject FieldFabs { get => _fieldFabs; set => _fieldFabs = value; }
+        public static GameObject PetFabs { get => _petFabs; set => _petFabs = value; }
+
         public static Dictionary<EnShot, GameObject> EnProjFabs { get => _enProjFabs; set => _enProjFabs = value; }
 
-        static Dictionary<StatusData, Sprite> _statusicon;
+        static Dictionary<statusKeyList, Sprite> _statusicon;
         static Dictionary<SkillKeyList, Sprite> _skillicon;
         static Dictionary<SkinKeyList, Sprite> _skinSprite;
-        public static Dictionary<StatusData, Sprite> Statusicon { get => _statusicon; set => _statusicon = value; }
+        public static Dictionary<statusKeyList, Sprite> Statusicon { get => _statusicon; set => _statusicon = value; }
         public static Dictionary<SkillKeyList, Sprite> Skillicon { get => _skillicon; set => _skillicon = value; }
         public static Dictionary<SkinKeyList, Sprite> SkinSprite { get => _skinSprite; set => _skinSprite = value; }
         public static Dictionary<ShotList, Sprite> ShotImgs { get => _shotImgs; }
@@ -75,7 +84,7 @@ namespace week
             _mobFabs = new Dictionary<Mob, GameObject>();
             for (Mob i = (Mob)0; i < Mob.max; i++)
             {
-                GameObject go = Resources.Load("prefabs/enemy/mop/" + i.ToString()) as GameObject;
+                GameObject go = Resources.Load("prefabs/enemy/mop/mob_" + i.ToString()) as GameObject;
                 _mobFabs.Add(i, go);
             }
 
@@ -97,6 +106,10 @@ namespace week
             _shotFabs = Resources.Load("prefabs/skill/playerSkill/shotFab") as GameObject;
             _curvedFabs = Resources.Load("prefabs/skill/playerSkill/curvedFab") as GameObject;
             _stampFabs = Resources.Load("prefabs/skill/playerSkill/stampFab") as GameObject;
+            _rushFabs = Resources.Load("prefabs/skill/playerSkill/rushFab") as GameObject;
+            _shieldFabs = Resources.Load("prefabs/skill/playerSkill/shieldFab") as GameObject;
+            _fieldFabs = Resources.Load("prefabs/skill/playerSkill/fieldFab") as GameObject;
+            _petFabs = Resources.Load("prefabs/skill/playerSkill/PetFab") as GameObject;
 
             _enProjFabs = new Dictionary<EnShot, GameObject>();
             for (EnShot i = (EnShot)0; i < EnShot.max; i++)
@@ -105,14 +118,14 @@ namespace week
                 _enProjFabs.Add(i, go);
             }
 
-            _statusicon = new Dictionary<StatusData, Sprite>();
+            _statusicon = new Dictionary<statusKeyList, Sprite>();
             Sprite[] sts = Resources.LoadAll<Sprite>("sprite/statIcons");
             string name;
             for (int i = 0; i < sts.Length; i++)
             {
                 name = sts[i].name;
 
-                for (StatusData sd = StatusData.hp; sd < StatusData.max; sd++)
+                for (statusKeyList sd = statusKeyList.hp; sd < statusKeyList.max; sd++)
                 {
                     if (name.Equals(sd.ToString()))
                     {

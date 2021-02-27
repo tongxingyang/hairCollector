@@ -11,8 +11,6 @@ namespace week
     {
         [SerializeField] Image _skillImg;
         [SerializeField] TextMeshProUGUI _name;
-        [SerializeField] TextMeshProUGUI _lvl;
-        [SerializeField] TextMeshProUGUI _explain;
 
         SkillKeyList _skType;
         Action<SkillKeyList> _instantApply;
@@ -32,9 +30,15 @@ namespace week
             _name.text = DataManager.GetTable<string>(DataTable.skill, $"{sk}", SkillValData.skill_name.ToString());
             _skillImg.sprite = DataManager.Skillicon[sk];
 
-            _lvl.text = $"Lvl.{lvl + 1}";
+            //_lvl.text = $"Lvl.{lvl + 1}";
             string str = DataManager.GetTable<string>(DataTable.skill, $"{sk}", SkillValData.explain.ToString());            
-            _explain.text = str.Replace("\\\\n", "\n");
+            //_explain.text = str.Replace("\\\\n", "\n");
+        }
+
+        public void setFeedback(Action whenClose)
+        {
+            _name.text = "환류";
+            _whenClose = whenClose;
         }
 
         public void selectSkill()
@@ -43,6 +47,10 @@ namespace week
             {
                 _instantApply?.Invoke(_skType);
 
+                _whenClose?.Invoke();
+            }
+            else if (_skType == SkillKeyList.max)
+            {
                 _whenClose?.Invoke();
             }
             else

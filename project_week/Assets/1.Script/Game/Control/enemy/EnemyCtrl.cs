@@ -68,12 +68,15 @@ namespace week
         {
             if (_isDie == false && _isBoss == false)
             {
-                transform.DOJump(transform.position + endP, power, 1, duration);
+                // transform.DOJump(transform.position + endP, power, 1, duration);
+                transform.DOMove(transform.position + endP, duration);
             }
         }
 
-        public virtual void enemyDie() { }
         public abstract void setFrozen(float term);
+        public abstract void setBuff(eBuff bff, float val);
+
+        public virtual void enemyDie() { }
         public override void Destroy() { }
 
         #region damage Animation

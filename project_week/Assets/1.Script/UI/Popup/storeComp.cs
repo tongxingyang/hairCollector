@@ -128,7 +128,7 @@ namespace week
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.removead, AnalyticsManager.instance.getKey());
         }
 
@@ -174,7 +174,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.startpack, key);
         }
 
@@ -206,7 +206,7 @@ namespace week
             WindowManager.instance.Win_celebrate.whenPurchase();
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.bonus_3_0, AnalyticsManager.instance.getKey());
         }
 
@@ -247,7 +247,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.wildskinpack, key);
         }
 
@@ -404,7 +404,7 @@ namespace week
             BaseManager.userGameData.Gem += g;
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.ad_gem].position, _lobby.GemTxt.position, currency.gem, g, 0, 10);
             BaseManager.instance.PlayTimeMng.adGemRefresh();
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
 
             _adUsable = true;
 #elif UNITY_ANDROID
@@ -446,7 +446,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.s_gem, key);
         }
 
@@ -464,7 +464,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.m_gem, key);
         }
 
@@ -482,7 +482,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.l_gem, key);
         }
 
@@ -504,7 +504,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.s_ap, key);
         }
 
@@ -522,7 +522,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.m_ap, key);
         }
 
@@ -540,7 +540,7 @@ namespace week
             NanooManager.instance.getPostCount(_refreshExcla);
 
             BaseManager.userGameData.StoreUseCount++;
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
             setAnalytics(productKeyList.l_ap, key);
         }
 
@@ -569,7 +569,7 @@ namespace week
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.s_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 10);
 
                     BaseManager.userGameData.StoreUseCount++;
-                    AuthManager.instance.SaveDataServer();
+                    AuthManager.instance.SaveDataServer(true);
                 }
                 else
                 {
@@ -599,7 +599,7 @@ namespace week
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.m_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 15);
 
                     BaseManager.userGameData.StoreUseCount++;
-                    AuthManager.instance.SaveDataServer();
+                    AuthManager.instance.SaveDataServer(true);
                 }
                 else
                 {
@@ -629,7 +629,7 @@ namespace week
                     WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.l_coin].position, _lobby.CoinTxt.position, currency.coin, i, 0, 22);
 
                     BaseManager.userGameData.StoreUseCount++;
-                    AuthManager.instance.SaveDataServer();
+                    AuthManager.instance.SaveDataServer(true);
                 }
                 else
                 {

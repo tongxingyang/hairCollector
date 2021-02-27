@@ -83,8 +83,8 @@ namespace week
             
             yield return new WaitUntil(() => complete == true);
 
-            _lobby.refreshCost();
-            AuthManager.instance.SaveDataServer();
+            _lobby.refresh_Cost();
+            AuthManager.instance.SaveDataServer(true);
             AnalyticsManager.instance.Send("coupon_" + presentSize.ToString(), context, null);
             _input.text = "";
         }

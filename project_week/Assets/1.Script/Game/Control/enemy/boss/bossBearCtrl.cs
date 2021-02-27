@@ -81,7 +81,7 @@ namespace week
                         _jumpArea.SetTrigger("wave");
                         if (Vector3.Distance(_player.transform.position, transform.position) < 5f)
                         {
-                            _player.getDamaged(Skill0);
+                            _player.getDamaged(this, Skill0);
                             _player.setDeBuff(eBuff.speed, 3, 0.8f);
                         }
                         _player.cameraShake();

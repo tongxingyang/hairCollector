@@ -10,6 +10,7 @@ public class TweenAnim : MonoBehaviour
     {
         Fade,
         Scale,
+        RotateScale
     }
 
     public AnimType AnimationType = AnimType.Fade;
@@ -33,6 +34,10 @@ public class TweenAnim : MonoBehaviour
         else if (AnimationType == AnimType.Scale)
         {
             tweenAnimSub = ScaleAnim.instance;
+        }
+        else if (AnimationType == AnimType.RotateScale)
+        {
+            tweenAnimSub = RotateScaleAnim.instance;
         }
     }
 
@@ -107,6 +112,37 @@ public class TweenAnim : MonoBehaviour
                 .SetEase(Ease.OutBack)
                 .OnComplete(tweenAnim.OnOpenComplete)
                 .SetUpdate(true);
+        }
+
+        public void Close(TweenAnim tweenAnim)
+        {
+            tweenAnim.transform.localScale = Vector3.one;
+            tweenAnim.transform.DOScale(Vector3.zero, tweenAnim.closeTime)
+               .SetEase(Ease.InBack)
+               .OnComplete(tweenAnim.OnCloseComplete)
+               .SetUpdate(true);
+        }
+
+        public void OnDisable(TweenAnim tweenAnim)
+        {
+            tweenAnim.transform.DOKill();
+        }
+    }
+
+    class RotateScaleAnim : ITweenAnimSub
+    {
+        public static RotateScaleAnim instance = new RotateScaleAnim();
+        
+        public void OnEnable(TweenAnim tweenAnim)
+        {
+            Sequence seq = DOTween.Sequence(); 
+            
+            tweenAnim.transform.localScale = Vector3.zero;
+            tweenAnim.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+
+            seq.Append(tweenAnim.transform.DOScale(Vector3.one, tweenAnim.openTime).SetEase(Ease.OutBack));
+            seq.Join(tweenAnim.transform.DORotate(new Vector3(00f, 0f, 360f), tweenAnim.openTime).SetEase(Ease.OutSine));
+            seq.OnComplete(tweenAnim.OnOpenComplete).SetUpdate(true);            
         }
 
         public void Close(TweenAnim tweenAnim)

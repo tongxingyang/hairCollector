@@ -16,6 +16,8 @@ namespace week
         Vector3 _direct;
         float _dest;
 
+        float _dotRate = 0;
+
         public SkillKeyList SkillType { get => _skillType; }
         public float Damage { get => _dmg; }
         public float Keep { get => _keep; }
@@ -72,6 +74,12 @@ namespace week
 
             return this;
         }
+        public curvedShotCtrl setDotRate(float rate)
+        {
+            _dotRate = rate;
+
+            return this;
+        }
 
         /// <summary> 시작 </summary>
         public void play()
@@ -125,7 +133,6 @@ namespace week
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
 
-            Debug.Log("chk");
             yield return new WaitForSeconds(0f);
 
             bombExplored();
@@ -252,12 +259,13 @@ namespace week
 
         void bombExplored()
         {
-            Debug.Log(_skillType);
+            // Debug.Log(_skillType);
             skillMarkCtrl smc = _psm.getStamp();
 
             smc.transform.position = transform.position;
             smc.repeatInit(_skillType, _dmg)
                 .setKeep(_keep)
+                .setDotRate(_dotRate)
                 .play();
 
             Destroy();

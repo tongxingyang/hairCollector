@@ -130,7 +130,7 @@ namespace week
                     });
                     yield return new WaitUntil(() => result == true);
 
-                    AuthManager.instance.SaveDataServer();
+                    AuthManager.instance.SaveDataServer(true);
                 }
                 else // 아직 안지남
                 {

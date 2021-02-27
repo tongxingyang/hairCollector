@@ -82,8 +82,6 @@ namespace week
                     UILineRenderer[] ulr = new UILineRenderer[prev[i].Length];
                     for (int j = 0; j < prev[i].Length; j++)
                     {
-                        //Debug.Log(_data._type);
-                        //Debug.Log(ulr.Length + "~" + _take.Length);
                         ulr[j] = _take[n++];
                     }
                     _takes.Add(ulr);

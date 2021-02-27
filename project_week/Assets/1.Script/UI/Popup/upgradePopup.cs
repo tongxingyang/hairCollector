@@ -81,6 +81,11 @@ namespace week
                     _tree.openTap(type);                    
                 }, pressThrowBtn);
             }
+
+            upBtns[3].setFeedback(()=> {
+                
+                pressThrowBtn();
+            });
         }
 
         #region upgrade
@@ -110,8 +115,8 @@ namespace week
                 if (num < 9 - (i * 4)) // 스킬
                 {
                     int s = UnityEngine.Random.Range(0, _skillList.Count);
-                    // slct.Add(_skillList[s]);
-                    slct.Add(SkillKeyList.Iceball); // 테스트용
+                    slct.Add(_skillList[s]);
+                    // slct.Add(SkillKeyList.Field); // 테스트용
                     _skillList.Remove(_skillList[s]);
                     
                 }
@@ -123,7 +128,7 @@ namespace week
                     do
                     {
                         ab = (SkillKeyList)UnityEngine.Random.Range(0, (int)SkillKeyList.Snowball);
-
+                        
                         if (_player.Abils[ab].chk_lvl && slct.Contains(ab) == false)
                         {
                             slct.Add(ab);

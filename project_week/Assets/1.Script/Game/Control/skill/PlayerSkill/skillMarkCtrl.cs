@@ -23,6 +23,8 @@ namespace week
         float _dmg;
         float _keep;
         float _size;
+        float _dotRate = 1f;
+
 
         bool _targetEnemy = true;
 
@@ -64,9 +66,9 @@ namespace week
         }
 
         /// <summary> 재사용 </summary>
-        public skillMarkCtrl repeatInit(SkillKeyList sk, float dmg)
+        public skillMarkCtrl repeatInit(SkillKeyList skilln, float dmg)
         {
-            _skillType = sk;
+            _skillType = skilln;
             _dmg = dmg;
 
             _marks[1].SetActive(false);
@@ -85,6 +87,7 @@ namespace week
             Ani.enabled = true;
 
             preInit();
+            Debug.Log($"셋팅");
 
             return this;
         }
@@ -100,6 +103,12 @@ namespace week
             _size = size;
             return this;
         }
+        public skillMarkCtrl setDotRate(float rate)
+        {
+            _dotRate = rate;
+            return this;
+        }
+        
 
         public void play()
         {
@@ -121,6 +130,10 @@ namespace week
                 case SkillKeyList.SnowMissile:
                 case SkillKeyList.PoisonBomb:
                     StartCoroutine(timeNeff());
+                    break;
+                case SkillKeyList.Shard:
+                    Ani.SetTrigger(SkillKeyList.IceWall.ToString());
+                    Debug.Log($"켜짐? : {Ani.enabled}");
                     break;
                 case SkillKeyList.Mine:                  
                 case SkillKeyList.Present:
@@ -189,62 +202,27 @@ namespace week
             _efm.makeEff(effAni.hail, transform.position);
         }
 
-        ///// <summary> 한번 </summary>
-        //IEnumerator oneEff(float open, float end)
-        //{
-        //    float time = 0;
-        //    while (time < open+_keep+end)
-        //    {
-        //        time += Time.deltaTime;
+        /// <summary> 파편 애니 </summary>
+        public void getShard()
+        {
+            if (_skillType == SkillKeyList.Shard)
+            {
+                shotCtrl _shotBullet;
+                int num = _gs.Player.Skills[SkillKeyList.Shard].Lvl + 2;
+                float rAngle = 360f / num;
+                float _angle = UnityEngine.Random.Range(0f, rAngle);
 
-        //        if (time < open)
-        //        {
-        //            _sprite.color = Color.white * (time / open);
-        //            _col.enabled = true;
-        //        }
-        //        else if (time < open + _keep)
-        //        {
-        //            _sprite.color = Color.white;
-                    
-        //        }
-        //        else if (time < open + _keep + end)
-        //        {
-        //            _col.enabled = false;
-        //            _sprite.color = Color.white * (1 - ((time - open - _keep) / end));
-        //        }
-        //        else
-        //        {
-        //            _sprite.color = Color.white * 0f;
-        //        }
+                for (int i = 0; i < num; i++)
+                {
 
-        //        yield return new WaitUntil(() => _gs.Pause == false);
-        //    }
-
-        //    Destroy();
-        //}
-
-        ///// <summary>  </summary>
-        //IEnumerator secondEff()
-        //{
-        //    Ani.SetTrigger("start");
-
-        //    float time = 0;
-        //    while (time < _keep)
-        //    {
-        //        time += Time.deltaTime;
-        //        yield return new WaitUntil(() => _gs.Pause == false);
-        //    }
-
-        //    Ani.SetTrigger("end");
-        //    time = 0;
-        //    while (time < 1f)
-        //    {
-        //        time += Time.deltaTime;
-        //        yield return new WaitUntil(() => _gs.Pause == false);
-        //    }
-
-        //    Destroy();
-        //}
+                    _shotBullet = _psm.getLaunch(SkillKeyList.Shard);
+                    _shotBullet.transform.position = transform.position;
+                    _shotBullet.setTarget(Vector3.up, _angle + rAngle * i);
+                    _shotBullet.repeatInit(SkillKeyList.Shard, _dmg * 1.5f, 1f)
+                    .play();
+                }
+            }
+        }
 
         public void EndAni()
         {
@@ -295,6 +273,25 @@ namespace week
             }
         }
 
+        private void OnCollisionEnter2D(Collision2D coll)
+        {
+            // Debug.Log(coll.tag);
+            if (_targetEnemy)
+            {
+                if (coll.gameObject.tag.Equals("Enemy") || coll.gameObject.tag.Equals("Boss"))
+                {
+                    ec = coll.gameObject.GetComponentInParent<EnemyCtrl>();
+                    if (ec == null)
+                    {
+                        // Debug.LogError(coll.gameObject.name);
+                        return;
+                    }
+
+                    chkCollision(ec);
+                }
+            }
+        }
+
         void chkCollision(EnemyCtrl ec)
         {
             switch (_skillType)
@@ -308,10 +305,11 @@ namespace week
                 case SkillKeyList.Circle:
                 case SkillKeyList.IceWall:
                 case SkillKeyList.Iceberg:
+                case SkillKeyList.Shard:
                     ec.getDamaged(_dmg);
                     break;
                 case SkillKeyList.Poison:   // 데미지 없고 중독
-                    ec.DotDmg.setDotDmg(_dmg, _keep);
+                    ec.DotDmg.setDotDmg(_dotRate, _keep);
                     break;
                 case SkillKeyList.Thuncall:
                     {
@@ -324,8 +322,8 @@ namespace week
                     }
                     break;              
                 case SkillKeyList.PoisonBomb:   // 데미지 + 중독
-                    ec.getDamaged(_dmg); 
-                    ec.DotDmg.setDotDmg(_dmg, _keep);
+                    ec.getDamaged(_dmg);                    
+                    ec.DotDmg.setDotDmg(_dotRate, _keep);
                     break;
                 case SkillKeyList.Present:
                     //
@@ -350,48 +348,5 @@ namespace week
                 Ani.speed = (bl) ? 0 : 1f;
             }
         }
-
-        //IEnumerator tickEff()
-        //{
-        //    Ani.SetTrigger("start");
-
-        //    float time = 0;
-        //    float tick = 0;
-        //    EnemyCtrl ec;
-        //    while (time < _keep)
-        //    {
-        //        time += Time.deltaTime;
-        //        tick += Time.deltaTime;
-
-        //        if (tick > 0.3f)
-        //        {
-        //            tick = 0;
-        //            for (int i = 0; i < _enemies.Count; i++)
-        //            {
-        //                ec = _enemies[i];
-        //                ec.getKnock((transform.position - ec.transform.position).normalized, 0.1f, 0.25f);
-
-        //                ec.getDamaged(_dmg);
-        //                if (ec.IsUse == false)
-        //                {
-        //                    _enemies.Remove(ec);
-        //                    i--;
-        //                }
-        //            }
-        //        }
-
-        //        yield return new WaitUntil(() => _gs.Pause == false);
-        //    }
-
-        //    Ani.SetTrigger("end");
-        //    time = 0;
-        //    while (time < 1f)
-        //    {
-        //        time += Time.deltaTime;
-        //        yield return new WaitUntil(() => _gs.Pause == false);
-        //    }
-
-        //    Destroy();
-        //}
     }
 }

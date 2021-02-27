@@ -91,7 +91,7 @@ namespace week
             }
 
             completeChange?.Invoke();
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
 
             // 랭킹
 

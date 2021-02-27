@@ -291,8 +291,11 @@ namespace week
         }
 
         /// <summary> 서버 저장 </summary>
-        public void SaveDataServer()
+        public void SaveDataServer(bool wantWait)
         {
+            if (wantWait)
+                WindowManager.instance.openWin(Windows.win_serverLoad);
+
             StartCoroutine(saveDataToFB());
         }
 
@@ -313,11 +316,15 @@ namespace week
                 {
                     Debug.Log(task.Exception);
                 }
+                
                 Debug.Log("저장 완료");
+
                 complete = true;
             });
 
             yield return new WaitUntil(() => complete == true);
+
+            WindowManager.instance.Win_serverWait.close();
         }
 
         public IEnumerator loadDataFromFB()

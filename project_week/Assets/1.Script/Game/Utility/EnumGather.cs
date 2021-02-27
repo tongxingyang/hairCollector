@@ -22,6 +22,7 @@ namespace week
         win_celebrateEff,
         win_coinAni,
         win_accountList,
+        win_serverLoad,
 
         max
     }
@@ -72,6 +73,7 @@ namespace week
     public enum utilityChkList
     {
         freeNickChange,     // 무료 닉변
+        change_SecondStatus // 새 능력치로 변경되었는가 여부
     }
 
     #endregion
@@ -83,6 +85,26 @@ namespace week
     /// <summary> 스탯 </summary>
     public enum StatusData
     {
+        name,
+        sName,
+
+        origin,
+        addition,
+        additrate,
+
+        bronze,
+        silver,
+        gold,
+        platinum,
+
+        cost,
+        stair,
+
+        max
+    }
+
+    public enum statusKeyList
+    {
         hp,
         att,
         def,
@@ -91,16 +113,6 @@ namespace week
         exp,
         coin,
         skin,
-        max
-    }
-
-    public enum statusKeyList
-    {
-        origin,
-        addition,
-        additrate,
-        cost,
-        costTerm,
         max
     }
 
@@ -167,18 +179,27 @@ namespace week
     public enum SkillValData
     {
         name,
-        type,
+        rank,
         skill_name,
         max_level,
-        precondition,
-        precondition2,
-        precondition_item,
+
+        inheritType,
+        essential,
+        choice0,
+        choice1,
+        essential_Tem,
+
         shot,
         info,
         explain,        
-        stat_val,
-        att,
-        att_increase,
+
+        val0,        
+        val0_increase,
+        val0_cal, 
+        val1,
+        val1_increase,
+        val1_cal,
+
         delay,
         delay_reduce,
         keep,
@@ -261,25 +282,20 @@ namespace week
         max
     }
 
+    public enum inheritType
+    { 
+        non,
+        over,
+        overover,
+        overSelect
+    }
+
     public enum Mob
     {
-        mob_fire,
-
-        mob_ant,
-        mob_beetle,
-        mob_snail,
-
-        mob_flamingo,
-        mob_monkey,
-        mob_crab,
-
-        mob_dragonfly,
-        mob_candle,
-        mob_rino,
-
-        mob_deer,
-        mob_stick,
-        mob_mam,
+        fire,
+        closed,
+        ranged,
+        hard,
 
         max
     }
@@ -292,10 +308,20 @@ namespace week
         def,
         attspeed,
         speed,
+        
         patt,
         pspeed,
+        
+        coin,
+        exp,
+        
         appear_term,
-        map,
+        
+        spring,
+        summer,
+        fall,
+        winter,
+
         max
     }
 
@@ -521,7 +547,8 @@ namespace week
         crowfire,
         tel,
         playerhit,
-        selfEx
+        selfEx,
+        storm
     }
 
     public enum dmgTxtType
@@ -530,7 +557,8 @@ namespace week
         shield,
         heal,
         att,
-        def
+        def,
+        poison
     }
 
     #endregion
@@ -548,7 +576,7 @@ namespace week
     #region 유저 데이터
 
     public enum snowStt { maxHp,    att, def, hpgen, cool, exp, coin, size, heal, speed, max }
-    public enum eBuff   { hp,       att, def, hpgen, cool, exp, coin, size, heal, speed, snowball, max }
+    public enum eBuff   { hp,       att, def, hpgen, cool, exp, coin, size, heal, speed, snowball, blind, max }
     public enum dayQuest { rein, skin, ad }
 
     #endregion

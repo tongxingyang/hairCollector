@@ -79,7 +79,10 @@ namespace week
             switch (getSkillType)
             {
                 case EnShot.banana:
-                    player.getDamaged(_dmg);
+                    if (_dmg == 0)
+                        _gs.DmgfntMng.getText(transform, "빗나감", dmgTxtType.standard, true);
+                    else
+                        player.getDamaged(_dmg); ;
                     break;
                 case EnShot.scarecrow_shot:
                     player.getDamaged(_dmg);

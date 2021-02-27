@@ -157,7 +157,7 @@ namespace week
 
             yield return new WaitUntil(() => complete == true);
 
-            AuthManager.instance.SaveDataServer();
+            AuthManager.instance.SaveDataServer(true);
         }
 
         public void close()

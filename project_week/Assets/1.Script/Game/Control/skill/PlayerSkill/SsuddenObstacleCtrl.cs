@@ -15,7 +15,7 @@ namespace week
 
             skill _skill = (skill)status;
 
-            _hp = _skill.att;
+            _hp = _skill.val0;
             transform.localScale = Vector3.one * _skill.size;
 
             _ani.SetTrigger("icewall");
