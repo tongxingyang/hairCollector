@@ -103,12 +103,17 @@ namespace week
         void showSnowmanInfo()
         {
             _snowman.sprite = DataManager.SkinSprite[_selectSkin];
+            refresh_StatusInfo();
 
-            string str;
-            float f;
+            _effTxt.text = BaseManager.userGameData.getSkinExplain(_selectSkin);
+        }
 
-            str = BaseManager.userGameData.o_Hp.ToString();
-            f = (BaseManager.userGameData.AddStats[0] > 0) ? (BaseManager.userGameData.AddStats[0] - 1) : 0;
+        void refresh_StatusInfo()
+        {
+            BaseManager.userGameData.applyLevel();
+
+            string str = BaseManager.userGameData.o_Hp.ToString();
+            float f = (BaseManager.userGameData.AddStats[0] > 0) ? (BaseManager.userGameData.AddStats[0] - 1) : 0;
             str += $" (<color=green>+ {Convert.ToInt32(BaseManager.userGameData.o_Hp * f)}</color>)";
             _hpTxt.text = str;
 
@@ -126,8 +131,6 @@ namespace week
             f = (BaseManager.userGameData.AddStats[3] > 0) ? (BaseManager.userGameData.AddStats[3] - 1) : 0;
             str += string.Format("/초 (<color=green>+ {0:0.0}</color>)", BaseManager.userGameData.o_Hpgen * f);
             _hpgenTxt.text = str;
-
-            _effTxt.text = BaseManager.userGameData.getSkinExplain(_selectSkin);
         }
 
         #endregion
@@ -220,7 +223,7 @@ namespace week
             }
 
             refresh_Status();
-            showSnowmanInfo();
+            refresh_StatusInfo();
 
             AuthManager.instance.SaveDataServer(true);
         }

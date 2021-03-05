@@ -61,7 +61,9 @@ namespace week
         public Mob getType { get { return _enemy; } }
         float _def;
 
-        protected Action killFunc;
+        protected Action<float, float> killFunc;
+        float _exp;
+        float _coin;
 
         // 슈팅
         protected EnSkillControl _esc;
@@ -81,6 +83,8 @@ namespace week
 
             dmgFunc = _gs.DmgfntMng.getText;
             killFunc = _gs.getKill;
+            _exp = DataManager.GetTable<float>(DataTable.monster, getType.ToString(), MonsterData.exp.ToString());
+            _coin = DataManager.GetTable<float>(DataTable.monster, getType.ToString(), MonsterData.exp.ToString());
         }
 
         public void FixInit(season ss)
@@ -334,7 +338,7 @@ namespace week
             if (_isDie == false)
             {
                 // SoundManager.instance.PlaySFX(SFX.endie);
-                killFunc();
+                killFunc(_exp, _coin);
                 _efMng.makeEff(effAni.explosion, transform.position);
                 otherWhenDie();
                 Destroy();

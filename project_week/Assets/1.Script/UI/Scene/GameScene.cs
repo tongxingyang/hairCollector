@@ -61,8 +61,6 @@ namespace week
 
         Vector3 targetPos;
 
-        float _mobCoin;
-
         bool _pause;
         bool _gameOver;
         bool _stagePlay;
@@ -122,8 +120,6 @@ namespace week
             apIcon = false;
 
             managersManager();
-
-            _mobCoin = gameValues._firstMopCoin;
 
             _player._gameOver = gameOver;
             _ExpBar.fillAmount = 0f;
@@ -245,13 +241,13 @@ namespace week
 
         #endregion
 
-        public void getKill()
+        public void getKill(float exp, float coin)
         {
             _mobKill++;
             
-            getCoin(_mobCoin);
+            getCoin(coin);
 
-            _player.getExp(gameValues._startMobExp);
+            _player.getExp(exp);
         }
 
         public void getBossKill(float _bossCoin)

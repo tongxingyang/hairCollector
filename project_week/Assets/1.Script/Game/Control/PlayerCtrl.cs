@@ -239,7 +239,6 @@ namespace week
         bool _rebirth_bonus;
         bool _invSlow;
         bool _isHero;
-        bool _hasPresent;
         float _presentHeal;
 
         bool _isInvinc;
@@ -349,9 +348,12 @@ namespace week
             if (BaseManager.userGameData.SkinBval[(int)skinBvalue.mine])
             {
                 getSkill(SkillKeyList.Mine);
-                // selectEquips[0] = SkillKeyList.mine;
             }
-            if (_hasPresent)
+            else if (BaseManager.userGameData.SkinBval[(int)skinBvalue.invincible])
+            {
+                getSkill(SkillKeyList.Invincible);
+            }
+            else if (BaseManager.userGameData.SkinBval[(int)skinBvalue.present])
             {
                 getSkill(SkillKeyList.Present);
             }
@@ -449,7 +451,7 @@ namespace week
             _wildMount = BaseManager.userGameData.SkinFval[(int)skinFvalue.wild] * 0.01f;
             _invSlow = BaseManager.userGameData.SkinBval[(int)skinBvalue.invSlow];
             _isHero = BaseManager.userGameData.SkinBval[(int)skinBvalue.hero];
-            _hasPresent = BaseManager.userGameData.SkinBval[(int)skinBvalue.present];
+            
             _presentHeal = BaseManager.userGameData.SkinFval[(int)skinFvalue.present] * 0.01f;
             _wildAtt = 1f;
             _rebirth_skin = BaseManager.userGameData.SkinBval[(int)skinBvalue.rebirth];
@@ -557,7 +559,7 @@ namespace week
 
                 petSequence(closedMob, mobDist, delTime); // 펫 스킬
 
-                //skinSequence(closedMob, mobDist, delTime); 스킨 스킬
+                skinSequence(closedMob, mobDist, delTime); // 스킨 스킬
 
                 // _compass.comPassMove();
 
@@ -1243,19 +1245,8 @@ namespace week
 
         void skinSequence(Vector3 closedMob, float mobDist, float delTime)
         {
-            if (BaseManager.userGameData.SkinBval[(int)skinBvalue.invincible])
-            {
-                _chkInvincTime += delTime;
-                if (_chkInvincTime > _invincibleCool) // 무적
-                {
-                    _chkInvincTime = 0;
-                    StartCoroutine(invincible());
-                }
-            }
-
             if (_skills[SkillKeyList.Present].chk_Time(delTime, Cool)) // 선물
             {
-                Debug.Log("asdf");
                 float heal = MaxHp * _presentHeal;
 
                 for (int i = 0; i < BaseManager.userGameData.SkinIval[(int)skinIvalue.present]; i++)

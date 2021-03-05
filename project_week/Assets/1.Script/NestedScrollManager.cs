@@ -18,7 +18,10 @@ namespace week
 
         TextMeshProUGUI[] _btnTxts;
 
-        const int SIZE = 3;
+        const int SIZE = 4;
+        int width = 288;
+        int maxFont = 160, minFont = 80;
+
         float[] _pos = new float[SIZE];
         float _distance;
         float _curPos;
@@ -66,8 +69,8 @@ namespace week
 
                     for (int i = 0; i < _btns.Length; i++)
                     {
-                        _btns[i].sizeDelta = new Vector2(i == _targetIndex ? 720f : 360f, btnSizeY);
-                        _btnTxts[i].fontSize = i == _targetIndex ? 160f : 110f;
+                        _btns[i].sizeDelta = new Vector2(i == _targetIndex ? width * 2 : width, btnSizeY);
+                        _btnTxts[i].fontSize = i == _targetIndex ? maxFont : minFont;
                     }
                 }
 
