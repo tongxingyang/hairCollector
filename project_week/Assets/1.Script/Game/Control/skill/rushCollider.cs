@@ -10,6 +10,8 @@ namespace week
 
         GameScene _gs;
         RushCtrl _rush;
+        ParticleSystem _part;
+        public bool OnStorm { get; set; }
 
         public SkillKeyList Skill { get => _skill; set => _skill = value; }
         public int StormCnt { get; set; }
@@ -18,19 +20,20 @@ namespace week
         {
             _gs = gs;
             _rush = rush;
+            _part = GetComponentInChildren<ParticleSystem>();
+
             gameObject.SetActive(false);
         }
 
         private void OnTriggerEnter2D(Collider2D coll)
         {
-            //Debug.Log(coll.name);
             if (coll.gameObject.tag.Equals("Enemy"))
             {
                 _rush.onTriggerEnemy(coll.gameObject, _skill);
             }
             else if (coll.gameObject.tag.Equals("Boss"))
             {
-                _rush.onTriggerEnemy(coll.gameObject, _skill);
+                _rush.onTriggerEnemy(coll.gameObject, _skill, true);
             }
         }
 
@@ -38,9 +41,11 @@ namespace week
         {
             if (_skill == SkillKeyList.RotateStorm)
             {
-                if (_rush.OnStorm && StormCnt < 3)
+                if (OnStorm && StormCnt < 3)
                 {
                     transform.localScale *= 1.5f;
+                    ParticleSystem.ShapeModule md = _part.shape;
+                    md.radius *= 1.5f;
                 }
                 else
                 {
@@ -55,8 +60,25 @@ namespace week
 
         public void endStorm()
         {
-            _gs.EfMng.makeEff(effAni.storm, transform.position);
+            _gs.EfMng.makeEff("storm", transform.position);
             StormCnt++;
+        }
+
+        public void sizeReset(SkillKeyList skl)
+        {
+            float v = 1f;
+
+            if (skl == SkillKeyList.LockOn)
+                v = 1.6f;
+            else if (skl == SkillKeyList.RotateStorm)
+            {
+                OnStorm = false;
+                StormCnt = 0;
+            }
+
+            transform.localScale = Vector3.one * v;
+            ParticleSystem.ShapeModule md = _part.shape;
+            md.radius = v;
         }
     }
 }

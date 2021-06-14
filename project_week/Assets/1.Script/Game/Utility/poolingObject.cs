@@ -4,28 +4,24 @@ using UnityEngine;
 
 namespace week
 {
-    public abstract class poolingObject : MonoBehaviour, IPause
+    public abstract class poolingObject : MonoBehaviour
     {
         // use
-        protected bool _isUse;
-        public bool IsUse { get => _isUse; set => _isUse = value; }
+        public bool IsUse { get; protected set; }
 
         // init
         protected void preInit()
         {
-            _isUse = true;
+            IsUse = true;
             gameObject.SetActive(true);
         }
 
         // destroy
-        public abstract void Destroy();
+        protected abstract void Destroy();
         protected void preDestroy()
         {
-            _isUse = false;
+            IsUse = false;
             gameObject.SetActive(false);
         }
-
-        // pause
-        public abstract void onPause(bool bl);
     }
 }

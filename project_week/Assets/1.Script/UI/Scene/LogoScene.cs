@@ -127,7 +127,6 @@ namespace week
             ConnectComplete = false;
             BaseManager.userGameData = new UserGameData();
 #if UNITY_EDITOR
-
             if (AuthManager.instance.networkCheck())
             {
                 AuthManager.instance.LoginWithEmail();
@@ -149,7 +148,7 @@ namespace week
 
                     BaseManager.userGameData = new UserGameData(); // 만들고
                                                                    // AuthManager.instance.SaveDataServer(); // 기기, 서버 저장
-                    yield return StartCoroutine(AuthManager.instance.saveDataToFB(true));
+                    yield return StartCoroutine(AuthManager.instance.saveDataToFB(null, true));
                 }
 
                 BaseManager.instance.KeyRandomizing();
@@ -169,7 +168,6 @@ namespace week
             {
                 yield break;
             }
-
             NanooManager.instance.setUid(AuthManager.instance.Uid); // 나누 접속
             //AnalyticsManager.instance.AnalyticsLogin(AuthManager.instance.Uid); // 애널리스틱
 
@@ -239,6 +237,8 @@ namespace week
                                 BaseManager.NeedPatch = true;
                             }
                         }
+                        else if (r_num < i_num)
+                            break;
                     }
                 }
 
@@ -257,7 +257,7 @@ namespace week
 
                     BaseManager.userGameData = new UserGameData(); // 만들고
                     // AuthManager.instance.SaveDataServer(); // 기기, 서버 저장
-                    yield return StartCoroutine(AuthManager.instance.saveDataToFB(true));
+                    yield return StartCoroutine(AuthManager.instance.saveDataToFB(null, true));
                 }
             }
             else // 인터넷 연결해제
@@ -302,12 +302,6 @@ namespace week
         /// <summary> 로비가기전에 해결할일 </summary>
         public void readyLobby()
         {
-            // 시즌랭킹코드가 없거나 다르면 새걸로 세팅
-            if (string.IsNullOrEmpty(BaseManager.userGameData.NowSeasonRankKey) ||
-                BaseManager.userGameData.NowSeasonRankKey.Equals(NanooManager.instance.getRANK_CODE) == false)
-            {
-                BaseManager.userGameData.whenRecordNewSeason();
-            }
         }
 
         /// <summary> 종료 </summary>

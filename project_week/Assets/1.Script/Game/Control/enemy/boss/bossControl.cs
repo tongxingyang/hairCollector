@@ -20,17 +20,18 @@ namespace week
         protected stat _stats;
         protected dir _dir;
 
-        protected Action<float> killFunc;
+        protected Action<float, float> killFunc;
         protected LandObject _home;
         protected Vector3 _homePos;
         protected readonly float _bossRange = 7.5f;
         protected readonly float _bossSkillCool = 4f;
 
-        protected float MaxHp { get { return _finalStt[(int)snowStt.maxHp]; } }
-        protected float Att { get { return _finalStt[(int)snowStt.att]; } }
-        protected float Def { get { return _finalStt[(int)snowStt.def]; } }
-        protected float Speed { get { return _standardStt[(int)snowStt.speed]; } }
-        protected float Exp { get { return _standardStt[(int)snowStt.exp]; } }
+        protected float MaxHp { get { return _finalStt[(int)enemyStt.HP]; } }
+        protected float Att { get { return _finalStt[(int)enemyStt.ATT]; } }
+        protected float Def { get { return _finalStt[(int)enemyStt.DEF]; } }
+        protected float Speed { get { return _finalStt[(int)enemyStt.SPEED]; } }
+        protected float Exp { get { return _finalStt[(int)enemyStt.EXP]; } }
+        protected float Coin { get { return _finalStt[(int)enemyStt.COIN]; } }
 
         protected float _bossCoin = 1;
 
@@ -48,16 +49,16 @@ namespace week
 
         public Boss getType { get { return _boss; } }
 
-
-        public override float getDamaged(float val, bool ignoreDef = false)
+        public override float getDamaged(attackData data)
         {
-            if (ignoreDef == false)
+            if (data.def_Ignore == false)
             {
-                val = (val - Def > 0) ? val - Def : 0;
+                data.damage = (Def >= 100f) ? 0f : data.damage * (100f - Def) * 0.01f;
             }
 
-            dmgFunc(transform, Convert.ToInt32(val).ToString(), dmgTxtType.standard, false);
-            _hp -= val;
+            dmgFunc(transform, Convert.ToInt32(data.damage).ToString(), dmgTxtType.standard, false);
+            _gs.setInQuestData(inQuest_goal_key.dmg, inQuest_goal_valtype.boss, data.damage);            
+            _hp -= data.damage;
 
             refreshHpbar();
 
@@ -67,16 +68,17 @@ namespace week
             }
 
             damagedAni();
-            return val;
+            return data.damage;
         }
 
-        public void setting(GameScene gs, Action<Transform, string, dmgTxtType, bool> dmg, Action<float> kill)
+        public void setting(GameScene gs, Action<Transform, string, dmgTxtType, bool> dmg, Action<float, float> kill)
         {
             _player = gs.Player;
             _gs = gs;
             _efMng = gs.EfMng;
             _enProjMng = gs.EnProjMng;
             _clMng = gs.ClockMng;
+            _enMng = gs.EnemyMng;
 
             dmgFunc = dmg;
             killFunc = kill;
@@ -84,17 +86,16 @@ namespace week
 
         public void FixInit()
         {
-            _standardStt = new float[(int)snowStt.max];
-            _standardStt[(int)snowStt.maxHp] = DataManager.GetTable<int>(DataTable.boss, _boss.ToString(), BossValData.hp.ToString());
-            _standardStt[(int)snowStt.att] = DataManager.GetTable<int>(DataTable.boss, _boss.ToString(), BossValData.att.ToString());
-            _standardStt[(int)snowStt.def]    = DataManager.GetTable<int>(DataTable.boss, _boss.ToString(), BossValData.def.ToString());
-            _standardStt[(int)snowStt.speed]  = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.speed.ToString()) * gameValues._defaultSpeed;
-            _standardStt[(int)snowStt.exp] = 100f;
-
-            _bossCoin = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.coin.ToString());
-
-            _skill0 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill0.ToString());
-            _skill1 = DataManager.GetTable<float>(DataTable.boss, _boss.ToString(), BossValData.skill1.ToString());
+            _standardStt = new float[(int)enemyStt.max];
+            _standardStt[(int)enemyStt.HP]      = D_boss.GetEntity(_boss.ToString()).f_hp;
+            _standardStt[(int)enemyStt.ATT]     = D_boss.GetEntity(_boss.ToString()).f_att;
+            _standardStt[(int)enemyStt.DEF]     = D_boss.GetEntity(_boss.ToString()).f_def;
+            _standardStt[(int)enemyStt.SPEED]   = D_boss.GetEntity(_boss.ToString()).f_speed * gameValues._defaultSpeed;
+            _standardStt[(int)enemyStt.EXP]     = D_boss.GetEntity(_boss.ToString()).f_exp;
+            _standardStt[(int)enemyStt.COIN]    = D_boss.GetEntity(_boss.ToString()).f_coin;
+            
+            _skill0     = D_boss.GetEntity(_boss.ToString()).f_skill0;
+            _skill1     = D_boss.GetEntity(_boss.ToString()).f_skill1;
 
             _dotDmg = new dotDmg();
 
@@ -107,15 +108,17 @@ namespace week
         {
             _dotDmg.reset();
 
-            _finalStt = new float[(int)snowStt.max];
+            _finalStt = new float[(int)enemyStt.max];
 
-            _finalStt[(int)snowStt.maxHp] = _standardStt[(int)snowStt.maxHp] * Mathf.Pow(1.2f, _clMng.Day);
-            _finalStt[(int)snowStt.att] = _standardStt[(int)snowStt.att] * Mathf.Pow(1.2f, _clMng.Day);
-            _finalStt[(int)snowStt.def] = _standardStt[(int)snowStt.def] * Mathf.Pow(1.1f, _clMng.Day);
-
-            Skill0 = _skill0 * _finalStt[(int)snowStt.att];
-            Skill1 = _skill1 * _finalStt[(int)snowStt.att];
-
+            _finalStt[(int)enemyStt.HP]  = _standardStt[(int)enemyStt.HP] * _enMng.MobRate * _enMng.MobDayRate;
+            _finalStt[(int)enemyStt.ATT] = _standardStt[(int)enemyStt.ATT] * _enMng.MobRate * _enMng.MobDayRate;
+            _finalStt[(int)enemyStt.DEF] = _standardStt[(int)enemyStt.DEF] * Mathf.Pow(1.11f, _enMng.MobDayRate);
+            _finalStt[(int)enemyStt.SPEED] = _standardStt[(int)enemyStt.SPEED];
+            _finalStt[(int)enemyStt.EXP] = _standardStt[(int)enemyStt.EXP];
+            _finalStt[(int)enemyStt.COIN] = _standardStt[(int)enemyStt.COIN];
+            Debug.Log(_finalStt[(int)enemyStt.HP]);
+            Skill0 = _skill0 * _finalStt[(int)enemyStt.ATT];
+            Skill1 = _skill1 * _finalStt[(int)enemyStt.ATT];
 
             _hp = MaxHp;
             _isDie = false;
@@ -131,7 +134,7 @@ namespace week
             otherWhenRepeatInit();
         }
 
-        public override void setBuff(eBuff bff, float val)
+        public override void setBuff(enemyStt bff, float val)
         {
             Debug.LogError("보스는 디버프 걸리지 않음");
         }
@@ -152,25 +155,29 @@ namespace week
             _homePos = homePos;
         }
 
-        /// <summary> 보스 독뎀 1% </summary>
+        /// <summary> 보스 독뎀 절반 </summary>
         protected void chkDotDmg()
         {
             _dot = _dotDmg.dotDmging(deltime);
             if (_dot > 0)
             {
-                _dot = MaxHp * _dot * 0.01f;
-                getDamaged(_dot, true);
+                Debug.Log(_dot);
+                _dot = MaxHp * _dot * 0.5f * 0.01f;
+                _dotData.setDot(_dot);
+                _dotData.def_Ignore = true;
+
+                getDamaged(_dotData);
             }
         }
 
         public override void enemyDie()
         {
             SoundManager.instance.PlaySFX(SFX.bossdie);
-            killFunc(_bossCoin);
+            killFunc(Coin, Exp);
 
             _player.getNamedBuff(_boss);            
 
-            _efMng.makeEff(effAni.bossExplosion, transform.position);
+            _efMng.makeEff("bossExplosion", transform.position);
             Destroy();
         }
 
@@ -182,7 +189,7 @@ namespace week
             }
         }
 
-        public override void Destroy()
+        protected override void Destroy()
         {
             _isDie = true;
             preDestroy();

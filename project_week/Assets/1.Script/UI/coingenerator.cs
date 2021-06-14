@@ -19,6 +19,7 @@ namespace week
             _fabs = new List<curFabs>();
         }
 
+        /// <summary>  </summary>
         public void getWealth2Point(Vector3 start, Vector3 direct, currency cur, int count, int posNum = 0, int cnt = 0)
         {
             StartCoroutine(getAnimation(start, direct, cur, count, posNum, cnt));
@@ -36,7 +37,8 @@ namespace week
             for (int i = 0; i < cnt; i++)
             {
                 cf = getFab(pos2);
-                cf.transform.position = pos;
+
+                cf.transform.position = new Vector3(pos.x, pos.y, 500f);
 
                 int num = cost / (cnt - i);
                 cost -= num;
@@ -48,9 +50,9 @@ namespace week
                     else if (cur == currency.gem)
                         BaseManager.userGameData.followGem += num;
 
-
                     _refreshFollowCost?.Invoke(); 
                 });
+                SoundManager.instance.PlaySFX(SFX.coin2);
 
                 yield return new WaitForSeconds(0.05f);
             }
@@ -70,7 +72,7 @@ namespace week
             for (int i = 0; i < cnt; i++)
             {
                 cf = getFab(target);
-                cf.transform.position = transform.position;
+                cf.transform.position = new Vector3(transform.position.x, transform.position.y, -100f);
 
                 cf.setCurinGame(cur, () =>
                 {
@@ -81,6 +83,7 @@ namespace week
             }
         }
 
+        /// <summary> 이미지팹 생산 </summary>
         curFabs getFab(Vector3 pos)
         {
             for (int i = 0; i < _fabs.Count; i++)

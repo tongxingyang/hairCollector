@@ -6,16 +6,39 @@ namespace week
 {
     public class seasonlySprite : seasonlyBase
     {
-        [SerializeField] SpriteRenderer render;
         [SerializeField] Sprite[] imgs;
+        SpriteRenderer[] render;
 
-        public override void FixedInit()
+        /// <summary> 최초 초기화 - 추가 작업 </summary>
+        protected override void whenFixedInit()
         {
+            render = GetComponentsInChildren<SpriteRenderer>();
         }
 
-        public override void setSeason(season ss)
+        /// <summary> 재사용 초기화 - 추가 작업 </summary>
+        protected override void whenRepeatInit()
         {
-            render.sprite = imgs[(int)ss];
+            setSeason();
+        }
+
+        /// <summary> 계절설정 </summary>
+        protected override void setSeason()
+        {
+            _season = _gs.ClockMng.NowSeason;
+
+            foreach (SpriteRenderer ren in render)
+            {
+                ren.sprite = imgs[(int)_season];
+            }
+        }
+
+        protected override void Destroy()
+        {
+            preDestroy();
+        }
+
+        public override void onPause(bool bl)
+        {
         }
     }
 }

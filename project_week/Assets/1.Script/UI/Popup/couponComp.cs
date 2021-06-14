@@ -61,21 +61,17 @@ namespace week
                         presentSize = productKeyList.m_gem;
                         BaseManager.userGameData.Gem += mount;
                         break;
-                    case nanooPost.ap:
-                        presentSize = productKeyList.m_ap;
-                        BaseManager.userGameData.Ap += mount;
-                        break;
                 }
 
-                WindowManager.instance.Win_purchase.setOpen(DataManager.GetTable<Sprite>(DataTable.product, presentSize.ToString(), productValData.image.ToString())
-               , "").couponNotice($"보석{mount}개 선물").setImgSize(false);
+                WindowManager.instance.Win_purchase.setCoupon(D_product.GetEntity(presentSize.ToString()).f_image, $"보석{mount}개 선물")
+                .setImgSize(false);
 
                 WindowManager.instance.Win_coinGenerator.getWealth2Point(transform.position, _lobby.GemTxt.position, currency.gem, mount);
                 
                 string key = AnalyticsManager.instance.getKey();
 
                 context = new Context(key, analyticsWhere.store.ToString())
-                   .setProduct(DataManager.GetTable<string>(DataTable.product, presentSize.ToString(), productValData.name.ToString()), 0, 0, 0);
+                   .setProduct(D_product.GetEntity(presentSize.ToString()).f_name, 0, 0);
                 
 
                 complete = true;

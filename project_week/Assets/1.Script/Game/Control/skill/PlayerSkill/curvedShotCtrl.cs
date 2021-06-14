@@ -44,8 +44,9 @@ namespace week
             _speed = gameValues._defaultCurvProjSpeed;
 
             // 이미지 설정
-            ShotList sl = EnumHelper.StringToEnum<ShotList>(DataManager.GetTable<string>(DataTable.skill, skillType.ToString(), SkillValData.shot.ToString()));
-            _render.sprite = DataManager.ShotImgs[sl];
+            ShotList sl = EnumHelper.StringToEnum<ShotList>(D_skill.GetEntity(skillType.ToString()).f_shot);
+            // Debug.Log(sl.ToString());
+            _render.sprite = DataManager.CurveImgs[sl];
 
             preInit();
             return this;
@@ -86,13 +87,13 @@ namespace week
         {
             switch (_skillType)
             {
-                case SkillKeyList.Iceball:
-                case SkillKeyList.SnowBomb:
+                case SkillKeyList.IceBall:
+                case SkillKeyList.SinkHole:
+                case SkillKeyList.Crevasse:
                 case SkillKeyList.Poison:
+                case SkillKeyList.Vespene:
                     StartCoroutine(oneBounce());
                     break;
-                case SkillKeyList.SnowMissile:
-                case SkillKeyList.PoisonBomb:
                 case SkillKeyList.Mine:
                 case SkillKeyList.Present:
                     StartCoroutine(rotateBounce());
@@ -109,25 +110,30 @@ namespace week
         {
             SoundManager.instance.PlaySFX(SFX.shot);
 
-            float time = 0;
+            float time = 0f;
             float spdRate = _speed / _dest;
             Vector3 origin = transform.position;
             Vector3 bounce = (_direct - origin).normalized * 0.5f;
-            float with = 0f;
+            float progress = 0f;    // 0 ~ 1
             float d;
 
-            while (with <= 1f)
+            Func<bool> chkProgress = ()=> {
+                progress = time * spdRate;
+                return (progress <= 1f);
+            };
+
+            while (chkProgress())
             {
-                with = time * spdRate;
-                transform.position = Vector3.Lerp(origin, _direct, with);
                 time += Time.deltaTime;
 
-                d = 4 * _dest * _dest * with * (1 - with);
-                if (d >= 0)
+                transform.position = Vector3.Lerp(origin, _direct, progress);
+
+                d = 4 * _dest * _dest * progress * (1f - progress);
+                if (true || d >= 0)
                 {
-                    float root = Mathf.Sqrt(d);
-                    _render.sortingOrder = (root > 1) ? 11 : 8;
-                    _bullet.transform.localPosition = new Vector3(0, root, root * -0.5f);
+
+                    _render.sortingOrder = (progress > 0.2f && progress < 0.8f) ? 32 : 24;
+                    _bullet.transform.localPosition = new Vector3(0, d, -2 * d);
                 }
 
                 yield return new WaitUntil(() => _gs.Pause == false);
@@ -215,12 +221,12 @@ namespace week
                 _bullet.rotation = Quaternion.Euler(0, 0, 360f * with);
                 time += Time.deltaTime;
 
-                d = 4 * _dest * _dest * with * (1 - with);
+                d = 4 * _dest * _dest * with * (1f - with);
                 if (d >= 0)
                 {
                     float root = Mathf.Sqrt(d);
-                    _render.sortingOrder = (root > 1) ? 11 : 8;
-                    _bullet.transform.localPosition = new Vector3(0, root, root * -0.5f);
+                    _render.sortingOrder = (root > 1) ? 32 : 24;
+                    _bullet.transform.localPosition = new Vector3(0, root, (root * -0.5f) * 2f); 
                 }
 
                 yield return new WaitUntil(() => _gs.Pause == false);
@@ -233,7 +239,7 @@ namespace week
 
         #endregion
 
-        public override void Destroy()
+        protected override void Destroy()
         {
             preDestroy();
 
@@ -259,7 +265,6 @@ namespace week
 
         void bombExplored()
         {
-            // Debug.Log(_skillType);
             skillMarkCtrl smc = _psm.getStamp();
 
             smc.transform.position = transform.position;

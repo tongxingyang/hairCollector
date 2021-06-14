@@ -80,7 +80,6 @@ namespace week
                     temp.Add(new Parameter("product", context.Product));
                     temp.Add(new Parameter("coin", context.Coin));
                     temp.Add(new Parameter("gem", context.Gem));
-                    temp.Add(new Parameter("ap", context.AP));
                 }
 
                 //if (string.IsNullOrWhiteSpace(context.source2) == false)

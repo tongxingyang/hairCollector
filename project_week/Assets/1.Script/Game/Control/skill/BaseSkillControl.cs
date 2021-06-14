@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace week
 {
-    public abstract class BaseProjControl : poolingObject
+    public abstract class BaseProjControl : poolingObject, IPause
     {
         [SerializeField] SkillKeyList _skillType;
         public SkillKeyList getSkillType { get => _skillType; protected set => _skillType = value; }
@@ -36,11 +36,15 @@ namespace week
         }
         public virtual void repeatInit(float dmg, float size = 1f, float speed = 1f, float keep = 1f) { }
 
-        public override void Destroy()
+        protected override void Destroy()
         {
             preDestroy();
 
             transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
+        public virtual void onPause(bool bl)
+        {
         }
     }
 }

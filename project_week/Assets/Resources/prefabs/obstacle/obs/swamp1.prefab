@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 0c002f4657d80194c819e772701e4c5d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -92,7 +92,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -258,6 +258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6476478966517022831}
   - component: {fileID: 6411262397868950826}
+  - component: {fileID: 6073578064272450803}
   m_Layer: 0
   m_Name: swamp1
   m_TagString: Untagged
@@ -293,6 +294,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e87b115b7a1064cac8beafb83259c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gemTem: {fileID: 6811020186737809150}
+--- !u!50 &6073578064272450803
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447236527038809511}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &6626303859636824594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368,3 +391,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6626303859636824594}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6811020186737809150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 392031449294208236, guid: 151cc4a85faa4f644bcf9458d417f4f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6626303859636824594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18604198e3815e43adb5eb13881d777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

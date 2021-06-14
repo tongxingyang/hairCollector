@@ -40,9 +40,7 @@ namespace week
                         break;
                 }
 
-                chkDotDmg(deltime);
-                chkDestroy(deltime);
-                chkFrozen(deltime);
+                check_mobStair(deltime);
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
@@ -53,7 +51,7 @@ namespace week
             if (_isDie == false)
             {
                 // SoundManager.instance.PlaySFX(SFX.endie);
-                _efMng.makeEff(effAni.selfEx, transform.position);
+                _efMng.makeEff("selfEx", transform.position);
                 otherWhenDie();
                 Destroy();
             }
@@ -63,16 +61,9 @@ namespace week
         {
             if (collision.gameObject.tag.Equals("Player"))
             {
-                if (Att == 0)
-                    _gs.DmgfntMng.getText(transform, "빗나감", dmgTxtType.standard, true);
-                else
-                    _player.getDamaged(this, Att);
+                _player.getDamaged(this, Att);
 
                 selfEnemyDie();
-            }
-            else if (collision.gameObject.tag.Equals("Finish"))
-            {
-                Destroy();
             }
         }
 

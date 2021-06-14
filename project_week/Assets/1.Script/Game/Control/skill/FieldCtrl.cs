@@ -2,13 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 namespace week
 {
     public class FieldCtrl : MonoBehaviour
-    {
-        [SerializeField] ParticleSystem _Aurora;
+    {        
+        [Header("Blizzard Handle")]
+        [SerializeField] Material[] _flakeMaterial;
+        [SerializeField] ParticleSystemRenderer _blizz;
+        [Header("WhiteOut Handle")]
+        //[SerializeField] Material[] _flakeMaterial;
         [Space]
+        [Header("Aurora Handle")]
+        [SerializeField] ParticleSystem _Aurora;
+        [SerializeField] ParticleSystemRenderer _Aurr;
+        [Header("Iceage Handle")]
         [SerializeField] Canvas _fieldCanvas;
         [SerializeField] Animator _iceage;
         
@@ -24,7 +34,7 @@ namespace week
         Gradient[] _colorGradient;
 
         public void Init(GameScene gs)
-        {
+        {            
             _gs = gs;
             _enm = _gs.EnemyMng;
             _fieldCanvas.worldCamera = _gs.Player.MainCamera;
@@ -33,6 +43,7 @@ namespace week
 
             _colorModule = _Aurora.colorOverLifetime;
 
+            //_Aurora.Stop();
             _Aurora.gameObject.SetActive(false);
             _iceage.gameObject.SetActive(false);
 
@@ -42,6 +53,8 @@ namespace week
         public void getField(SkillKeyList sk, float keep, float val, float dmg = 0f)
         {
             _skill = sk;
+
+            SFX sfx = SFX.field;
 
             switch (_skill)
             {
@@ -58,24 +71,29 @@ namespace week
                     StartCoroutine(auroring(keep, val));
                     break;
                 case SkillKeyList.IceAge:
+                    sfx = SFX.iceage;
                     StartCoroutine(iceage(keep, val));
                     break;
-            }            
+            }
+
+            SoundManager.instance.PlaySFXtimer(sfx, keep);
         }
 
         /// <summary> 눈보라 -> 블리자드 </summary>
         IEnumerator storming(float keep, float slow, float dmg)
         {
             bool isUp = _skill == SkillKeyList.Blizzard;
+
+            _blizz.material = _flakeMaterial[(isUp) ? 1 : 0];
+            _blizz.lengthScale = (isUp) ? 3f : 1f;
             setSnowWeather(isUp);
+
             float time = 0f, term = 1f;
-            float kp = 1f + keep;
 
             int cnt = 0;
 
-            _enm.enemySlow(kp, (100 - slow * 2f) * 0.01f); // 눈보라 - 슬로우
-
-            // yield return new WaitForSeconds(0.5f);
+            _enm.enemySlow(keep, (100 - slow) * 0.01f); // 눈보라 - 슬로우
+            _blizz.material.DOFade(0.8f, 0f);
 
             // +블리자드의 공격력
             while (time < keep)
@@ -89,11 +107,17 @@ namespace week
                     cnt++;
 
                     if (isUp)
-                        _enm.enemyDamaged(dmg);
+                    {
+                        Debug.Log("쓰");
+                        _enm.enemyDamaged(dmg, _skill);
+                    }
                 }
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
+
+            _blizz.material.DOFade(0.4f, 1f);
+            yield return new WaitForSeconds(0.5f);
 
             stopSnow();
         }
@@ -105,11 +129,10 @@ namespace week
             setSnowWeather(isUp);
 
             float time = 0f, term = 1f;
-            float kp = 1f + keep;
 
             int cnt = 0;
 
-            _enm.enemyBlind(kp, rate); // 눈안개 실명
+            _enm.enemyBlind(keep, rate); // 눈안개 실명
 
             yield return new WaitForSeconds(0.5f);
 
@@ -124,11 +147,13 @@ namespace week
                     cnt++;
 
                     if (isUp)
-                        _enm.enemyDamaged(dmg);
+                        _enm.enemyDamaged(dmg, _skill);
                 }
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
+
+            yield return new WaitForSeconds(0.5f);
 
             stopSnow();
         }
@@ -162,8 +187,10 @@ namespace week
                     break;
             }
 
+            //_Aurora.pl .Play();
             _Aurora.gameObject.SetActive(true);
             _colorModule.color = _colorGradient[(int)col];
+            _Aurr.material.DOFade(1f, 1f);
 
             float time = 0f;
 
@@ -174,20 +201,27 @@ namespace week
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
 
+            _Aurr.material.DOFade(0f, 1f);
+            yield return new WaitForSeconds(1f);
+
             _enm.InitBff = new float[3] { 1f, 1f, 0f };
             _Aurora.gameObject.SetActive(false);
+            //_Aurora.Stop();
         }
 
         /// <summary> 아이스에이지 </summary>
         IEnumerator iceage(float keep, float dmg)
         {
             _iceage.gameObject.SetActive(true);
-            _iceage.SetTrigger("iceage");
+            // _iceage.SetTrigger("iceage");
 
             _enm.enemyFrozen(keep);
-            _enm.enemyDamaged(dmg);
+            _enm.enemyDamaged(dmg, SkillKeyList.IceAge);
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
+
+            _iceage.SetTrigger("off");
+            yield return new WaitForSeconds(1f);
 
             _iceage.gameObject.SetActive(false);
         }
@@ -195,13 +229,13 @@ namespace week
         void setSnowWeather(bool isUp = false)
         {
             _snow.OnMasterChanged(1f);
-            _snow.OnWindChanged((isUp) ? 0.5f : 0.25f);
-            float storm = (_skill == SkillKeyList.SnowStorm || _skill == SkillKeyList.Blizzard) ? 1f : 0f; 
-            float fog = (_skill == SkillKeyList.SnowFog || _skill == SkillKeyList.WhiteOut) ? 1f : 0f;
+            _snow.OnWindChanged((isUp) ? 0.6f : 0.3f);
 
-            _snow.OnSnowChanged((isUp) ? storm : storm * 0.5f);
+            float storm = (_skill == SkillKeyList.SnowStorm || _skill == SkillKeyList.Blizzard) ? 0.5f : 0f;
+            _snow.OnSnowChanged(storm);
+
+            float fog = (_skill == SkillKeyList.SnowFog || _skill == SkillKeyList.WhiteOut) ? 1f : 0f;
             _snow.OnFogChanged((isUp) ? fog : fog * 0.5f);
-            Debug.Log("dhks");
         }
 
         void stopSnow()
@@ -225,7 +259,7 @@ namespace week
             _colorGradient[(int)colorModule.blue].alphaKeys = new GradientAlphaKey[3]
                 {
                     new GradientAlphaKey(0f, 0f),
-                    new GradientAlphaKey(0.8f, 0.5f),
+                    new GradientAlphaKey(0.5f, 0.5f),
                     new GradientAlphaKey(0f, 1f)
                 };
 
@@ -238,7 +272,7 @@ namespace week
             _colorGradient[(int)colorModule.green].alphaKeys = new GradientAlphaKey[3]
                 {
                     new GradientAlphaKey(0f, 0f),
-                    new GradientAlphaKey(0.8f, 0.5f),
+                    new GradientAlphaKey(0.5f, 0.5f),
                     new GradientAlphaKey(0f, 1f)
                 };
 
@@ -251,7 +285,7 @@ namespace week
             _colorGradient[(int)colorModule.purple].alphaKeys = new GradientAlphaKey[3]
                 {
                     new GradientAlphaKey(0f, 0f),
-                    new GradientAlphaKey(0.8f, 0.5f),
+                    new GradientAlphaKey(0.5f, 0.5f),
                     new GradientAlphaKey(0f, 1f)
                 };
 
@@ -266,7 +300,7 @@ namespace week
             _colorGradient[(int)colorModule.rainbow].alphaKeys = new GradientAlphaKey[3]
                 {
                     new GradientAlphaKey(0f, 0f),
-                    new GradientAlphaKey(0.8f, 0.5f),
+                    new GradientAlphaKey(0.5f, 0.5f),
                     new GradientAlphaKey(0f, 1f)
                 };
         }

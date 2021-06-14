@@ -61,7 +61,7 @@ namespace week
                 {
                     ObscuredInt value = Convert.ToInt32(reader.Value);
                     return value;
-                }
+                }                
                 else if (objectType == typeof(ObscuredBool))
                 {
                     ObscuredBool value = Convert.ToBoolean(reader.Value);
@@ -84,6 +84,7 @@ namespace week
                 }
                 else
                 {
+                    
                     Debug.LogError("Code not implemented yet! : " + objectType);
                 }
             }

@@ -4,35 +4,56 @@ using UnityEngine;
 
 namespace week
 {
+    public class obsData
+    {
+        public obstacleKeyList _obs;
+        public int _h;
+        public int _w;
+        public int _mount;
+
+        public obsData(obstacleKeyList obs)
+        {
+            _obs = obs;
+            _h      = D_obstacle.GetEntity(_obs.ToString()).f_hsize;
+            _w      = D_obstacle.GetEntity(_obs.ToString()).f_wsize;
+            _mount  = D_obstacle.GetEntity(_obs.ToString()).f_mount;
+        }
+    }
+
     public class PreGameData
     {
-        public class obsData
+        /// <summary> 초기화 </summary>
+        public PreGameData()
         {
-            public obstacleList _ob;
-            public int _x;
-            public int _y;
-            public int _val;
+            setMobData();
+            setBossValData();
+            setObsValData();
+        }
 
-            public obsData(obstacleList o, int x, int y, int v)
+        #region [ mob ]
+
+        /// <summary> 몹생성 한계량 </summary>
+        public int[] MobFullRate { get; private set; }
+
+        /// <summary> 몹 데이터 세팅 </summary>
+        void setMobData()
+        {
+            MobFullRate = new int[4];
+            for (Mob i = 0; i < Mob.ash; i++)
             {
-                _ob = o;
-                _x = x;
-                _y = y;
-                _val = v;
+                for (int j = (int)i; j < (int)Mob.ash; j++)
+                {
+                    MobFullRate[j] += D_monster.GetEntity(i.ToString()).f_mount;
+                }
             }
         }
 
+        #endregion
+
+        #region [ boss ]
+
         List<Boss> _mapBossList;
-        public List<Boss> MapBossList { get => _mapBossList; set => _mapBossList = value; }
-
-        List<obsData> _obstacleData;
-        List<int> _obVal;
-
-        public PreGameData()
-        {
-            setBossValData();
-        }
-
+        public List<Boss> MapBossList { get => _mapBossList; set => _mapBossList = value; }/// <summary> 보스 데이터 세팅 </summary>
         void setBossValData()
         {
             _mapBossList = new List<Boss>();
@@ -43,30 +64,55 @@ namespace week
             }
         }
 
-        //public obstacleType getBoss()
-        //{
-        //    int cnt = MapBossList.Count;
-        //    cnt = Random.Range(0, cnt);
-        //    string str = MapBossList[cnt].ToString() + "_zone";
+        #endregion
 
-        //    return EnumHelper.StringToEnum<obstacleType>(str);
-        //}
+        #region [ obstacle ]
 
-        //public obsData getObs()
-        //{
-        //    int cnt = Random.Range(0, _obVal);
+        /// <summary> 장애물 데이터 </summary>
+        public Dictionary<obstacleKeyList, obsData> _obsData;
+        /// <summary> 장애물 리스트(등장확률 포함) </summary>
+        public List<obstacleKeyList>[] _obsRate; 
 
-        //    foreach (obsData od in _obstacleData)
-        //    {
-        //        if (od._val > cnt)
-        //        {
-        //            return od;
-        //        }
-        //    }
+        /// <summary> 장애물 데이터 세팅 </summary>
+        void setObsValData()
+        {
+            _obsData = new Dictionary<obstacleKeyList, obsData>();
+            _obsRate = new List<obstacleKeyList>[3] { new List<obstacleKeyList>(), new List<obstacleKeyList>(), new List<obstacleKeyList>() };
 
-        //    int lt = _obstacleData.Count;
-        //    Debug.LogError("레인지 벗어남 : " + cnt + " > " + _obstacleData[lt - 1]._val);
-        //    return null;
-        //}
+            for (obstacleKeyList obk = 0; obk < obstacleKeyList.max; obk++)
+            {
+                obsData data = new obsData(obk);
+                _obsData.Add(obk, data);
+
+                for (levelKey i = 0; i < levelKey.max; i++)
+                {
+                    int n = D_obstacle.GetEntity(obk.ToString()).Get<int>(i.ToString());
+                    for (int j = 0; j < n; j++)
+                    {
+                        _obsRate[(int)i].Add(obk);
+                    }
+                }
+            }
+
+            // 섞기
+            obstacleKeyList tmp;
+            int rand;
+            for (levelKey i = 0; i < levelKey.max; i++)
+            {
+                for (int j = 0; j < _obsRate[(int)i].Count; j++)
+                {
+                    rand = Random.Range(0, _obsRate[(int)i].Count);
+                    if (j != rand)
+                    {
+                        tmp = _obsRate[(int)i][j];
+                        _obsRate[(int)i][j] = _obsRate[(int)i][rand];
+                        _obsRate[(int)i][rand] = tmp;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
     }
 }

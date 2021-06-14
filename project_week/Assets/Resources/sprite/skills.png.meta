@@ -4,562 +4,220 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 1676308008278888504
-    second: hp
+    second: i_HP
   - first:
       213: 3403258472632580065
-    second: att
+    second: i_ATT
   - first:
       213: -3270749691070897954
-    second: def
+    second: i_DEF
   - first:
       213: -7637036698441226068
-    second: hpgen
+    second: i_HPGEN
   - first:
       213: -8065029926712156904
-    second: cool
+    second: i_HEALMOUNT
   - first:
       213: -591448513898628455
-    second: exp
+    second: i_COOL
   - first:
       213: 1216849358509855973
-    second: size
+    second: i_SPEED
   - first:
       213: -3610600748765567780
-    second: healmount
+    second: i_SIZE
   - first:
       213: -936124954036847002
-    second: spd
+    second: i_BOSS
   - first:
       213: 7116899043160303953
-    second: snowball
+    second: i_DODGE
   - first:
       213: 8616979712302491551
-    second: icefist
+    second: i_EXP
   - first:
       213: 9122645907860882979
-    second: icicle
+    second: i_COIN
   - first:
       213: 8444848628205088410
-    second: halficicle
+    second: i_SnowBall
   - first:
       213: 1260598644945743368
-    second: hail
+    second: i_Icicle
   - first:
       213: -6802124631727338565
-    second: icewall
+    second: i_FrostDrill
   - first:
       213: 3534807678236495575
-    second: icetornado
+    second: i_IceFist
   - first:
       213: 1381141789245080190
-    second: iceage
+    second: i_IceKnuckle
   - first:
       213: -979634279710815963
-    second: blizzard
+    second: i_HalfIcicle
   - first:
       213: 4327745837452563964
-    second: snowbomb
+    second: i_SnowDart
   - first:
       213: 1272625545277882964
-    second: iceshield
-  - first:
-      213: 2699690948931973556
-    second: hp
-  - first:
-      213: -8349441610429473957
-    second: att
-  - first:
-      213: 1001335397471412244
-    second: def
-  - first:
-      213: -311060758190069102
-    second: hpgen
-  - first:
-      213: -8480210042104453766
-    second: cool
-  - first:
-      213: 3916952164690605817
-    second: exp
-  - first:
-      213: -6641963222802053443
-    second: size
-  - first:
-      213: -1962705706096205573
-    second: healmount
-  - first:
-      213: -1700799707984825909
-    second: spd
-  - first:
-      213: 2662490594941133216
-    second: snowball
-  - first:
-      213: -3056926046134470839
-    second: icefist
-  - first:
-      213: -8276882940171292194
-    second: icicle
-  - first:
-      213: -4832461662596045739
-    second: halficicle
-  - first:
-      213: -2106857525733146881
-    second: hail
-  - first:
-      213: 5095760796770042756
-    second: icewall
-  - first:
-      213: 5649500198522591138
-    second: icetornado
-  - first:
-      213: 4629414716965752750
-    second: iceage
-  - first:
-      213: 1938895465957115625
-    second: blizzard
-  - first:
-      213: 8128461997721531061
-    second: snowbomb
-  - first:
-      213: -4872927118924271982
-    second: iceshield
+    second: i_Hammer
   - first:
       213: 8371138620016785461
-    second: poison
+    second: i_GigaDrill
   - first:
       213: -2882701144099320679
-    second: hammer
-  - first:
-      213: -5902318011064438333
-    second: poison
-  - first:
-      213: -7497851991244160483
-    second: hammer
+    second: i_Ricoche
   - first:
       213: 359565531509693294
-    second: thunder
+    second: i_IceBall
   - first:
       213: -2660724389008253964
-    second: mine
+    second: i_Hail
   - first:
       213: 6151629929949816017
-    second: blackhole
+    second: i_Meteor
   - first:
       213: -2863861358245869155
-    second: pet
-  - first:
-      213: 2381383118262694331
-    second: thunder
-  - first:
-      213: -144835488030441656
-    second: mine
-  - first:
-      213: -3102928689034092940
-    second: blackhole
-  - first:
-      213: -3053636490903639564
-    second: pet
+    second: i_SinkHole
   - first:
       213: -8137839267706186765
-    second: Poison
+    second: i_Crevasse
   - first:
       213: 1259471636057757339
-    second: Lightning
+    second: i_Circle
   - first:
       213: -3921087108199702177
-    second: PoisonBomb
+    second: i_Poison
   - first:
       213: 7961999306597196276
-    second: Thuncall
+    second: i_Lightning
   - first:
       213: 3837553764291604187
-    second: IceBat
+    second: i_Vespene
   - first:
       213: 291482919000558167
-    second: slot
-  - first:
-      213: 2699690948931973556
-    second: HP
-  - first:
-      213: -8349441610429473957
-    second: ATT
-  - first:
-      213: 1001335397471412244
-    second: DEF
-  - first:
-      213: -311060758190069102
-    second: GEN
-  - first:
-      213: -8480210042104453766
-    second: COOL
-  - first:
-      213: 3916952164690605817
-    second: EXP
-  - first:
-      213: -6641963222802053443
-    second: COIN
-  - first:
-      213: -1962705706096205573
-    second: SIZE
-  - first:
-      213: -1700799707984825909
-    second: HEAL
-  - first:
-      213: 2662490594941133216
-    second: SPD
-  - first:
-      213: -3056926046134470839
-    second: Snowball
-  - first:
-      213: -8276882940171292194
-    second: IcicleSpear
-  - first:
-      213: -4832461662596045739
-    second: FrostDrill
-  - first:
-      213: -2106857525733146881
-    second: IceFist
-  - first:
-      213: 5095760796770042756
-    second: IceKnuckle
-  - first:
-      213: 5649500198522591138
-    second: HalfIcicle
-  - first:
-      213: 4629414716965752750
-    second: SnowDart
-  - first:
-      213: 1938895465957115625
-    second: Hammer
-  - first:
-      213: 8128461997721531061
-    second: GigaDrill
-  - first:
-      213: -4872927118924271982
-    second: Ricoche
-  - first:
-      213: -5902318011064438333
-    second: Iceball
-  - first:
-      213: -7497851991244160483
-    second: Hail
-  - first:
-      213: 2381383118262694331
-    second: Meteor
-  - first:
-      213: -144835488030441656
-    second: SnowBomb
-  - first:
-      213: -3102928689034092940
-    second: SnowMissile
-  - first:
-      213: -3053636490903639564
-    second: Circle
-  - first:
-      213: -3352661863489200324
-    second: Poison
-  - first:
-      213: -2084827519432759088
-    second: Lightning
-  - first:
-      213: -8142240815940665449
-    second: PoisonBomb
-  - first:
-      213: -230998714910839065
-    second: Thuncall
-  - first:
-      213: 4784518566994387362
-    second: IceBat
-  - first:
-      213: -2693081519473137435
-    second: OpenRoader
+    second: i_Thuncall
   - first:
       213: -5258154135475835959
-    second: IcePowder
+    second: i_IceBat
   - first:
       213: -5987545944329257516
-    second: IceBalt
+    second: i_SnowBullet
   - first:
       213: 7170312608093094923
-    second: Recovery
+    second: i_SnowPoint
   - first:
       213: -1148165678238741113
-    second: Flurry
+    second: i_IceBalt
   - first:
       213: 5575568442903493558
-    second: EyeOfFlurry
+    second: i_Recovery
   - first:
       213: -6793822770884829338
-    second: ColdStorm
+    second: i_Flurry
   - first:
       213: 4014847391174052708
-    second: RotateStorm
+    second: i_EyeOfFlurry
   - first:
       213: 7868614714891284549
-    second: LockOn
+    second: i_ColdStorm
   - first:
       213: 5001935934039671464
-    second: Shield
+    second: i_RotateStorm
   - first:
       213: 7332436458939416571
-    second: HugeShield
+    second: i_LockOn
   - first:
       213: 757850514516602712
-    second: GiantShield
+    second: skills_42
   - first:
       213: 8637311036866665520
-    second: ThornShield
+    second: skills_43
   - first:
       213: -3647463822961986966
-    second: ReflectShield
+    second: i_Shield
   - first:
       213: 5177267748372996257
-    second: LightningShield
+    second: i_HugeShield
   - first:
       213: 9101752143483502170
-    second: ChargeShield
+    second: i_GiantShield
   - first:
       213: -8602575724214924652
-    second: Invincible
+    second: i_ThornShield
   - first:
       213: -922969118306938430
-    second: Absorb
+    second: i_ReflectShield
   - first:
       213: -8751764464060839332
-    second: Hide
+    second: i_ChargeShield
   - first:
       213: -2097593393608851709
-    second: Chill
+    second: i_Invincible
   - first:
       213: 1258488386730693875
-    second: Field
+    second: i_Absorb
   - first:
       213: 3461533940048546005
-    second: SnowStorm
+    second: i_Hide
   - first:
       213: -8694888159958641445
-    second: Blizzard
+    second: i_Chill
   - first:
       213: 2645261354948954999
-    second: SnowFog
+    second: i_Field
   - first:
       213: -2080669079038515918
-    second: WhiteOut
+    second: i_SnowStorm
   - first:
       213: -4012309058824067021
-    second: Aurora
+    second: i_Blizzard
   - first:
       213: 4093048160847888728
-    second: SubStorm
+    second: i_SnowFog
   - first:
       213: -5956020511276178458
-    second: IceAge
+    second: i_WhiteOut
   - first:
       213: 7600936266306342461
-    second: Summon
+    second: i_Aurora
   - first:
       213: -8461472824750075357
-    second: Pet
+    second: i_SubStorm
   - first:
       213: 2247898120551445822
-    second: Pet2
+    second: i_IceAge
   - first:
       213: -531533630160224027
-    second: BPet
+    second: i_Summon
   - first:
       213: 3805158426689959734
-    second: IceWall
+    second: i_Pet
   - first:
       213: -4160871732136254767
-    second: Iceberg
+    second: i_Pet2
   - first:
       213: -6916338270877608271
-    second: Shard
+    second: i_BPet
   - first:
       213: 6224020165058956547
-    second: Mine
+    second: i_IceWall
   - first:
       213: 5258604799763732913
-    second: skills_67
+    second: i_IceBerg
   - first:
       213: 8719712831545514219
-    second: skills_68
+    second: i_Shard
   - first:
       213: 8923061309207901426
-    second: skills_69
+    second: i_Mine
   - first:
       213: -1924545975743334621
-    second: skills_70
+    second: i_Present
   - first:
       213: 7714095684564675693
-    second: skills_71
-  - first:
-      213: 8208726154383232401
-    second: skills_72
-  - first:
-      213: 4278595842457033981
-    second: skills_73
-  - first:
-      213: -3925138556083535889
-    second: skills_74
-  - first:
-      213: 1257020115323320528
-    second: skills_75
-  - first:
-      213: -8806104138529524948
-    second: skills_76
-  - first:
-      213: -5541087745636114835
-    second: skills_77
-  - first:
-      213: 28111940015684386
-    second: skills_78
-  - first:
-      213: -3555961007283886948
-    second: skills_79
-  - first:
-      213: 8784718840936988391
-    second: skills_80
-  - first:
-      213: 4875288643045140054
-    second: skills_81
-  - first:
-      213: 6461032719075658346
-    second: skills_82
-  - first:
-      213: -4783944770991252967
-    second: skills_83
-  - first:
-      213: -3431758947683729717
-    second: skills_84
-  - first:
-      213: -6952880513432009079
-    second: skills_85
-  - first:
-      213: 6129753881448496829
-    second: skills_86
-  - first:
-      213: -467147873640977168
-    second: skills_87
-  - first:
-      213: 8522131976720693798
-    second: skills_88
-  - first:
-      213: -5541327976701152032
-    second: skills_89
-  - first:
-      213: -480672510177178236
-    second: skills_90
-  - first:
-      213: 4649266767624176984
-    second: skills_91
-  - first:
-      213: 8552750831930051870
-    second: skills_92
-  - first:
-      213: -4667125205396149782
-    second: skills_93
-  - first:
-      213: -7848583909039932710
-    second: skills_94
-  - first:
-      213: 6698514883764355953
-    second: skills_95
-  - first:
-      213: -3572882546988443664
-    second: skills_96
-  - first:
-      213: 5119524970609714584
-    second: skills_97
-  - first:
-      213: -5304728841002217743
-    second: skills_98
-  - first:
-      213: 8413223668212720935
-    second: skills_99
-  - first:
-      213: 4020782707428442260
-    second: skills_100
-  - first:
-      213: -6932962719426198256
-    second: skills_101
-  - first:
-      213: -316517932946059140
-    second: skills_102
-  - first:
-      213: -7179304955463701495
-    second: skills_103
-  - first:
-      213: -4319904193336545697
-    second: skills_104
-  - first:
-      213: 3901694846266730955
-    second: skills_105
-  - first:
-      213: -6954944494709832473
-    second: skills_106
-  - first:
-      213: 8009736750006809495
-    second: skills_107
-  - first:
-      213: -2591924323314247184
-    second: skills_108
-  - first:
-      213: -6921638985226573548
-    second: skills_109
-  - first:
-      213: -4645091514031080078
-    second: skills_110
-  - first:
-      213: 1431129768696790822
-    second: skills_111
-  - first:
-      213: 3484023177776819431
-    second: skills_112
-  - first:
-      213: 2569898191887918118
-    second: skills_113
-  - first:
-      213: -3582669797607052222
-    second: skills_114
-  - first:
-      213: 5428523325911684476
-    second: skills_115
-  - first:
-      213: 7824918338709561218
-    second: skills_116
-  - first:
-      213: -3950069176096345410
-    second: skills_117
-  - first:
-      213: 5948614970392251022
-    second: skills_118
-  - first:
-      213: -6042336170975683280
-    second: skills_119
-  - first:
-      213: -8761052807315216844
-    second: skills_120
-  - first:
-      213: -6541370011344397083
-    second: skills_121
-  - first:
-      213: 2806813941593099548
-    second: skills_122
-  - first:
-      213: -6923043446613675280
-    second: skills_123
-  - first:
-      213: -3120850486525451354
-    second: skills_124
-  - first:
-      213: 1264983265756976361
-    second: skills_125
-  - first:
-      213: 1478892570790228229
-    second: skills_126
-  - first:
-      213: 5681886553891416861
-    second: skills_127
+    second: i_Dash
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -657,7 +315,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HP
+      name: i_HP
       rect:
         serializedVersion: 2
         x: 0
@@ -665,20 +323,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b17d6e4d9a377520800000000000000
-      internalID: 2699690948931973556
+      spriteID: 8301b978041734710800000000000000
+      internalID: 1676308008278888504
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ATT
+      name: i_ATT
       rect:
         serializedVersion: 2
         x: 128
@@ -686,20 +344,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5b5c71b713d02c80800000000000000
-      internalID: -8349441610429473957
+      spriteID: 1e77a14bc8dca3f20800000000000000
+      internalID: 3403258472632580065
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DEF
+      name: i_DEF
       rect:
         serializedVersion: 2
         x: 256
@@ -707,20 +365,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 410ee4b1d3575ed00800000000000000
-      internalID: 1001335397471412244
+      spriteID: ed020823c76fb92d0800000000000000
+      internalID: -3270749691070897954
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GEN
+      name: i_HPGEN
       rect:
         serializedVersion: 2
         x: 384
@@ -728,20 +386,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29a648473e3eeabf0800000000000000
-      internalID: -311060758190069102
+      spriteID: ca8e9c4e59bc30690800000000000000
+      internalID: -7637036698441226068
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: COOL
+      name: i_HEALMOUNT
       rect:
         serializedVersion: 2
         x: 512
@@ -749,20 +407,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a75e9a395ed305a80800000000000000
-      internalID: -8480210042104453766
+      spriteID: 81d5d631302431090800000000000000
+      internalID: -8065029926712156904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: EXP
+      name: i_COOL
       rect:
         serializedVersion: 2
         x: 640
@@ -770,20 +428,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f6b49aad3fcb5630800000000000000
-      internalID: 3916952164690605817
+      spriteID: 99ab322d5b0cac7f0800000000000000
+      internalID: -591448513898628455
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: COIN
+      name: i_SPEED
       rect:
         serializedVersion: 2
         x: 768
@@ -791,20 +449,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db6cca5b3a103d3a0800000000000000
-      internalID: -6641963222802053443
+      spriteID: 5e4542f5b0e13e010800000000000000
+      internalID: 1216849358509855973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SIZE
+      name: i_SIZE
       rect:
         serializedVersion: 2
         x: 896
@@ -812,20 +470,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf0e0852f8113c4e0800000000000000
-      internalID: -1962705706096205573
+      spriteID: cd4a110bfb194edc0800000000000000
+      internalID: -3610600748765567780
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HEAL
+      name: i_BOSS
       rect:
         serializedVersion: 2
         x: 0
@@ -833,20 +491,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc1f9734dab8568e0800000000000000
-      internalID: -1700799707984825909
+      spriteID: 66e314960573203f0800000000000000
+      internalID: -936124954036847002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SPD
+      name: i_DODGE
       rect:
         serializedVersion: 2
         x: 128
@@ -854,20 +512,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a1e841f61113f420800000000000000
-      internalID: 2662490594941133216
+      spriteID: 15923e909fd44c260800000000000000
+      internalID: 7116899043160303953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Snowball
+      name: i_EXP
       rect:
         serializedVersion: 2
         x: 256
@@ -875,20 +533,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 947f38315fd9395d0800000000000000
-      internalID: -3056926046134470839
+      spriteID: f97a984c469a59770800000000000000
+      internalID: 8616979712302491551
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IcicleSpear
+      name: i_COIN
       rect:
         serializedVersion: 2
         x: 384
@@ -896,104 +554,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed1799791da922d80800000000000000
-      internalID: -8276882940171292194
+      spriteID: 32608bd8e162a9e70800000000000000
+      internalID: 9122645907860882979
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FrostDrill
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 1792
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 554e44aa8b5afecb0800000000000000
-      internalID: -4832461662596045739
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceFist
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 1792
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ffe31523e30f2c2e0800000000000000
-      internalID: -2106857525733146881
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceKnuckle
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 1792
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 48307d73277c7b640800000000000000
-      internalID: 5095760796770042756
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HalfIcicle
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 1792
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a7107b8f7e076e40800000000000000
-      internalID: 5649500198522591138
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SnowDart
+      name: i_SnowBall
       rect:
         serializedVersion: 2
         x: 0
@@ -1001,20 +575,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eaf85ba482cfe3040800000000000000
-      internalID: 4629414716965752750
+      spriteID: a9eeb1aa511223570800000000000000
+      internalID: 8444848628205088410
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hammer
+      name: i_Icicle
       rect:
         serializedVersion: 2
         x: 128
@@ -1022,20 +596,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e64df0572758ea10800000000000000
-      internalID: 1938895465957115625
+      spriteID: 80e6454e9cb8e7110800000000000000
+      internalID: 1260598644945743368
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GigaDrill
+      name: i_FrostDrill
       rect:
         serializedVersion: 2
         x: 256
@@ -1043,20 +617,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b23478de191ec070800000000000000
-      internalID: 8128461997721531061
+      spriteID: bbb05f7cfaff991a0800000000000000
+      internalID: -6802124631727338565
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ricoche
+      name: i_IceFist
       rect:
         serializedVersion: 2
         x: 384
@@ -1064,20 +638,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29ea62c6a92ef5cb0800000000000000
-      internalID: -4872927118924271982
+      spriteID: 7de0c9aead82e0130800000000000000
+      internalID: 3534807678236495575
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Iceball
+      name: i_IceKnuckle
       rect:
         serializedVersion: 2
         x: 512
@@ -1085,20 +659,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c13d1f6a01c61ea0800000000000000
-      internalID: -5902318011064438333
+      spriteID: e728664c32dca2310800000000000000
+      internalID: 1381141789245080190
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hail
+      name: i_HalfIcicle
       rect:
         serializedVersion: 2
         x: 640
@@ -1106,20 +680,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d12cf6bd65742f790800000000000000
-      internalID: -7497851991244160483
+      spriteID: 5298a0c10d3a762f0800000000000000
+      internalID: -979634279710815963
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Meteor
+      name: i_SnowDart
       rect:
         serializedVersion: 2
         x: 768
@@ -1127,20 +701,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb1f826345f5c0120800000000000000
-      internalID: 2381383118262694331
+      spriteID: cf51987e8ed3f0c30800000000000000
+      internalID: 4327745837452563964
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SnowBomb
+      name: i_Hammer
       rect:
         serializedVersion: 2
         x: 896
@@ -1148,20 +722,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84f331914e07dfdf0800000000000000
-      internalID: -144835488030441656
+      spriteID: 4524066d03649a110800000000000000
+      internalID: 1272625545277882964
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SnowMissile
+      name: i_GigaDrill
       rect:
         serializedVersion: 2
         x: 0
@@ -1169,20 +743,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47e11ce1cce20f4d0800000000000000
-      internalID: -3102928689034092940
+      spriteID: 53877a309324c2470800000000000000
+      internalID: 8371138620016785461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Circle
+      name: i_Ricoche
       rect:
         serializedVersion: 2
         x: 128
@@ -1190,146 +764,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f9a4865acd4f95d0800000000000000
-      internalID: -3053636490903639564
+      spriteID: 99c095825969ef7d0800000000000000
+      internalID: -2882701144099320679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Poison
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 1536
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c3f1abe5cc3f871d0800000000000000
-      internalID: -3352661863489200324
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Lightning
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 1536
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0d8604eba643113e0800000000000000
-      internalID: -2084827519432759088
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PoisonBomb
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 1536
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 79f7b2a0e13f00f80800000000000000
-      internalID: -8142240815940665449
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Thuncall
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 1536
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7eeea2684e35bccf0800000000000000
-      internalID: -230998714910839065
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceBat
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 1536
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a126f68946066240800000000000000
-      internalID: 4784518566994387362
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OpenRoader
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 1536
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5e862a860a040aad0800000000000000
-      internalID: -2693081519473137435
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IcePowder
+      name: i_IceBall
       rect:
         serializedVersion: 2
         x: 0
@@ -1337,7 +785,217 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6b1c1322fe6df400800000000000000
+      internalID: 359565531509693294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Hail
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1408
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fbd1fbe345331bd0800000000000000
+      internalID: -2660724389008253964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Meteor
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1408
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d4e15c14dafe5550800000000000000
+      internalID: 6151629929949816017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_SinkHole
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1408
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9989cf94458148d0800000000000000
+      internalID: -2863861358245869155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Crevasse
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1408
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f3d5295d46901f80800000000000000
+      internalID: -8137839267706186765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Circle
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1408
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9617efa7ca8a7110800000000000000
+      internalID: 1259471636057757339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Poison
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1408
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f51a466cc008599c0800000000000000
+      internalID: -3921087108199702177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Lightning
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1408
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f1e1a35f24be7e60800000000000000
+      internalID: 7961999306597196276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Vespene
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1280
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bde601ff0dab14530800000000000000
+      internalID: 3837553764291604187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_Thuncall
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1280
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75a4f15ab2e8b0400800000000000000
+      internalID: 291482919000558167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: i_IceBat
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1152
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1350,15 +1008,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IceBalt
+      name: i_SnowBullet
       rect:
         serializedVersion: 2
         x: 128
-        y: 1408
+        y: 1152
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1371,15 +1029,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recovery
+      name: i_SnowPoint
       rect:
         serializedVersion: 2
         x: 256
-        y: 1411
+        y: 1152
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1392,15 +1050,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Flurry
+      name: i_IceBalt
       rect:
         serializedVersion: 2
         x: 384
-        y: 1408
+        y: 1152
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1413,15 +1071,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: EyeOfFlurry
+      name: i_Recovery
       rect:
         serializedVersion: 2
         x: 512
-        y: 1408
+        y: 1152
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1434,15 +1092,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ColdStorm
+      name: i_Flurry
       rect:
         serializedVersion: 2
         x: 640
-        y: 1408
+        y: 1155
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1455,15 +1113,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RotateStorm
+      name: i_EyeOfFlurry
       rect:
         serializedVersion: 2
         x: 768
-        y: 1408
+        y: 1152
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1476,15 +1134,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LockOn
+      name: i_ColdStorm
       rect:
         serializedVersion: 2
         x: 896
-        y: 1408
+        y: 1152
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1497,15 +1155,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shield
+      name: i_RotateStorm
       rect:
         serializedVersion: 2
         x: 0
-        y: 1280
+        y: 1024
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1518,15 +1176,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HugeShield
+      name: i_LockOn
       rect:
         serializedVersion: 2
         x: 128
-        y: 1280
+        y: 1024
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1539,15 +1197,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GiantShield
+      name: skills_42
       rect:
         serializedVersion: 2
-        x: 256
-        y: 1280
+        x: 768
+        y: 1024
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1560,15 +1218,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ThornShield
+      name: skills_43
       rect:
         serializedVersion: 2
-        x: 384
-        y: 1280
+        x: 896
+        y: 1024
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1581,15 +1239,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ReflectShield
+      name: i_Shield
       rect:
         serializedVersion: 2
-        x: 512
-        y: 1280
+        x: 0
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1602,15 +1260,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LightningShield
+      name: i_HugeShield
       rect:
         serializedVersion: 2
-        x: 640
-        y: 1280
+        x: 128
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1623,15 +1281,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ChargeShield
+      name: i_GiantShield
       rect:
         serializedVersion: 2
-        x: 768
-        y: 1280
+        x: 256
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1644,15 +1302,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Invincible
+      name: i_ThornShield
       rect:
         serializedVersion: 2
-        x: 896
-        y: 1280
+        x: 384
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1665,15 +1323,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Absorb
+      name: i_ReflectShield
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1152
+        x: 512
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1686,15 +1344,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hide
+      name: i_ChargeShield
       rect:
         serializedVersion: 2
-        x: 128
-        y: 1152
+        x: 640
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1707,15 +1365,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chill
+      name: i_Invincible
       rect:
         serializedVersion: 2
-        x: 256
-        y: 1152
+        x: 768
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1728,15 +1386,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Field
+      name: i_Absorb
       rect:
         serializedVersion: 2
-        x: 384
-        y: 1152
+        x: 896
+        y: 896
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1749,15 +1407,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SnowStorm
+      name: i_Hide
       rect:
         serializedVersion: 2
-        x: 512
-        y: 1152
+        x: 0
+        y: 768
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1770,15 +1428,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blizzard
+      name: i_Chill
       rect:
         serializedVersion: 2
-        x: 640
-        y: 1152
+        x: 128
+        y: 768
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1791,15 +1449,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SnowFog
+      name: i_Field
       rect:
         serializedVersion: 2
-        x: 768
-        y: 1152
+        x: 0
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1812,15 +1470,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WhiteOut
+      name: i_SnowStorm
       rect:
         serializedVersion: 2
-        x: 896
-        y: 1152
+        x: 128
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1833,15 +1491,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Aurora
+      name: i_Blizzard
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1024
+        x: 256
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1854,15 +1512,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SubStorm
+      name: i_SnowFog
       rect:
         serializedVersion: 2
-        x: 128
-        y: 1024
+        x: 384
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1875,15 +1533,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IceAge
+      name: i_WhiteOut
       rect:
         serializedVersion: 2
-        x: 256
-        y: 1024
+        x: 512
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1896,15 +1554,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Summon
+      name: i_Aurora
       rect:
         serializedVersion: 2
-        x: 384
-        y: 1024
+        x: 640
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1917,15 +1575,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pet
+      name: i_SubStorm
       rect:
         serializedVersion: 2
-        x: 512
-        y: 1024
+        x: 768
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1938,15 +1596,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pet2
+      name: i_IceAge
       rect:
         serializedVersion: 2
-        x: 640
-        y: 1024
+        x: 896
+        y: 640
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1959,15 +1617,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BPet
+      name: i_Summon
       rect:
         serializedVersion: 2
-        x: 768
-        y: 1024
+        x: 0
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1980,15 +1638,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IceWall
+      name: i_Pet
       rect:
         serializedVersion: 2
-        x: 896
-        y: 1024
+        x: 128
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2001,15 +1659,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Iceberg
+      name: i_Pet2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 896
+        x: 256
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2022,15 +1680,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shard
+      name: i_BPet
       rect:
         serializedVersion: 2
-        x: 128
-        y: 896
+        x: 384
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2043,15 +1701,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mine
+      name: i_IceWall
       rect:
         serializedVersion: 2
-        x: 256
-        y: 896
+        x: 512
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2064,15 +1722,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skills_67
+      name: i_IceBerg
       rect:
         serializedVersion: 2
-        x: 384
-        y: 896
+        x: 640
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2085,15 +1743,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skills_68
+      name: i_Shard
       rect:
         serializedVersion: 2
-        x: 512
-        y: 896
+        x: 768
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2106,15 +1764,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skills_69
+      name: i_Mine
       rect:
         serializedVersion: 2
-        x: 640
-        y: 896
+        x: 896
+        y: 384
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2127,15 +1785,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skills_70
+      name: i_Present
       rect:
         serializedVersion: 2
         x: 768
-        y: 896
+        y: 0
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2148,15 +1806,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skills_71
+      name: i_Dash
       rect:
         serializedVersion: 2
         x: 896
-        y: 896
+        y: 0
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2168,1186 +1826,10 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: skills_72
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19d887a12f04be170800000000000000
-      internalID: 8208726154383232401
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_73
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dfc5d1fef30a06b30800000000000000
-      internalID: 4278595842457033981
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_74
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fef737e874b1789c0800000000000000
-      internalID: -3925138556083535889
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_75
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0d8fd598225d17110800000000000000
-      internalID: 1257020115323320528
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_76
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c23b9d751fe6ac580800000000000000
-      internalID: -8806104138529524948
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_77
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d6ed614ad0a1a13b0800000000000000
-      internalID: -5541087745636114835
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_78
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 22bf49619afd36000800000000000000
-      internalID: 28111940015684386
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_79
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 768
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c9424bddd40b6aec0800000000000000
-      internalID: -3555961007283886948
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_80
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7eefabd0e3799e970800000000000000
-      internalID: 8784718840936988391
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_81
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 656a332c03188a340800000000000000
-      internalID: 4875288643045140054
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_82
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a6a4ea6a6033aa950800000000000000
-      internalID: 6461032719075658346
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_83
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 91a9af3c3930c9db0800000000000000
-      internalID: -4783944770991252967
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_84
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bcefa885b61ff50d0800000000000000
-      internalID: -3431758947683729717
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_85
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 986462fc208628f90800000000000000
-      internalID: -6952880513432009079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_86
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dbe3f48ada2411550800000000000000
-      internalID: 6129753881448496829
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_87
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0fcec06eb7b5489f0800000000000000
-      internalID: -467147873640977168
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_88
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 62a3f6171e1b44670800000000000000
-      internalID: 8522131976720693798
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_89
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0e43bcc709f3913b0800000000000000
-      internalID: -5541327976701152032
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_90
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 48d089116ee4459f0800000000000000
-      internalID: -480672510177178236
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_91
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 85584460e73858040800000000000000
-      internalID: 4649266767624176984
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_92
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e1d0e95319971b670800000000000000
-      internalID: 8552750831930051870
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_93
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ae9271a6a5a0b3fb0800000000000000
-      internalID: -4667125205396149782
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_94
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: adaf3dfa48a341390800000000000000
-      internalID: -7848583909039932710
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_95
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 512
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1730179ebc7e5fc50800000000000000
-      internalID: 6698514883764355953
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_96
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f79f82e0429a6ec0800000000000000
-      internalID: -3572882546988443664
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_97
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8952feb16d43c0740800000000000000
-      internalID: 5119524970609714584
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_98
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1fe0b4a8931d166b0800000000000000
-      internalID: -5304728841002217743
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_99
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7256abfd956c1c470800000000000000
-      internalID: 8413223668212720935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_100
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4904e43c190bcc730800000000000000
-      internalID: 4020782707428442260
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_101
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 015439b932b29cf90800000000000000
-      internalID: -6932962719426198256
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_102
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c7095b1fd908b9bf0800000000000000
-      internalID: -316517932946059140
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_103
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 384
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 90c626b3e2cfd5c90800000000000000
-      internalID: -7179304955463701495
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_104
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f5e6474260e9c04c0800000000000000
-      internalID: -4319904193336545697
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_105
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bc963b56aca952630800000000000000
-      internalID: 3901694846266730955
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_106
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7e40348b4d21b7f90800000000000000
-      internalID: -6954944494709832473
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_107
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7933c80032d482f60800000000000000
-      internalID: 8009736750006809495
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_108
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f9d8208f82a70cd0800000000000000
-      internalID: -2591924323314247184
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_109
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 419231ee30661ff90800000000000000
-      internalID: -6921638985226573548
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_110
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 27dfef4f0e1598fb0800000000000000
-      internalID: -4645091514031080078
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_111
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 62fb8a231f46cd310800000000000000
-      internalID: 1431129768696790822
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_112
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7ec6d9cfe9cb95030800000000000000
-      internalID: 3484023177776819431
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_113
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 624e5642acc1aa320800000000000000
-      internalID: 2569898191887918118
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_114
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 24c6c160dccc74ec0800000000000000
-      internalID: -3582669797607052222
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_115
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c7553ef043df55b40800000000000000
-      internalID: 5428523325911684476
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_116
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 28f193755c1b79c60800000000000000
-      internalID: 7824918338709561218
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_117
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb2be8043098e29c0800000000000000
-      internalID: -3950069176096345410
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_118
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e8a0dc76cc9bd8250800000000000000
-      internalID: 5948614970392251022
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_119
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 128
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 03d1083244f452ca0800000000000000
-      internalID: -6042336170975683280
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_120
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 436a989c3ec7a6680800000000000000
-      internalID: -8761052807315216844
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_121
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ec9c61e1a26835a0800000000000000
-      internalID: -6541370011344397083
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_122
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c1d4543a86ec3f620800000000000000
-      internalID: 2806813941593099548
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_123
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f2fef74aa86cef90800000000000000
-      internalID: -6923043446613675280
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_124
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6a3ab89740380b4d0800000000000000
-      internalID: -3120850486525451354
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_125
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9e4124af39f1e8110800000000000000
-      internalID: 1264983265756976361
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_126
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5017ae625f4168410800000000000000
-      internalID: 1478892570790228229
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skills_127
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d1b24c287bd1ade40800000000000000
-      internalID: 5681886553891416861
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: e4f54f1c4aed4a84397329cc5730e2d2
+    spriteID: 9f0c7d18275cffc47a65a69fce2536d4
     internalID: 0
     vertices: []
     indices: 

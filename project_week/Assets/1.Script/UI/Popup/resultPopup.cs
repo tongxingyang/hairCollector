@@ -11,36 +11,34 @@ namespace week
 {
     public class resultPopup : MonoBehaviour
     {
-        [Header("top")]
-        [SerializeField] CanvasGroup _top;
+        [Header("result")]
+        [SerializeField] CanvasGroup _panel;
         [Space]
         [SerializeField] TextMeshProUGUI _bestRecord;
-        [SerializeField] Image _titleBackImg;
-        [Header("bot")]
-        [SerializeField] CanvasGroup _bot;
-        [Space]
-        [SerializeField] TextMeshProUGUI _recordTitle;
+        [SerializeField] TextMeshProUGUI[] _recordTitle;
         [SerializeField] TextMeshProUGUI _record;
+        [SerializeField] GameObject _newRecordLight;
+        [Header("button")]
         [SerializeField] TextMeshProUGUI _coinTxt;
         [SerializeField] TextMeshProUGUI _gemTxt;
-        [SerializeField] TextMeshProUGUI _apTxt;
-
-        [SerializeField] GameObject _coin;
-        [SerializeField] GameObject _gem;
-        [SerializeField] GameObject _ap;
+        [SerializeField] GameObject _coinbox;
+        [SerializeField] GameObject _gembox;
         [Header("button")]
         [SerializeField] Image _AdsBtn;
         [SerializeField] Image _lobbyBtn;
         [Header("coinper")]
         [SerializeField] GameObject[] _per;
 
+        GameScene _gs;
+
         float _preCalCoin, _getCoin;
         float _preCalGem, _getGem;
         float _preCalAp, _getAp;
 
-        int _boss;
+        int _lvl, _mob, _boss, _clearQst;
+        float _recordTime;
 
-        int _isNewRecord; // 0: 신기록X, 1: 시즌기록 달성, 2: 전체기록 달성
+        bool _isNewRecord;
 
         private void Start()
         {
@@ -49,108 +47,128 @@ namespace week
                 _per[i].SetActive(false);
             }
 
+            _newRecordLight.SetActive(false);
             gameObject.SetActive(false);
         }
 
-        public void resultInit(float time, int coin, int gem, int ap, int mob, int boss, int arti)
+        public void Init(GameScene gs)
         {
+            _gs = gs;
+        }
+
+        public void setRresult()
+        {
+            // 기록
+            _recordTime = _gs.ClockMng.RecordSecond;
+            _clearQst = _gs.ClearQst;
+            // 신기록 여부
+            _isNewRecord = _recordTime > BaseManager.userGameData.SeasonTimeRecord[(int)BaseManager.userGameData.NowStageLevel];
+
+            // 보조기록
+            _lvl = _gs.Lvl;
+            _mob = _gs.MobKill;
+            _boss = _gs.BossKill;
+
+            // 재화
+            _getCoin = _gs.Coin;
+            _getGem = _gs.Gem;
+
+            // 광고 설정
             if (BaseManager.userGameData.RemoveAd)
             {
                 _AdsBtn.color = Color.gray;
                 _AdsBtn.raycastTarget = false;
             }
 
+            // 버튼 설정
             _AdsBtn.raycastTarget = false;
             _lobbyBtn.raycastTarget = false;
 
-            _isNewRecord = (time > BaseManager.userGameData.AllTimeRecord) ? 2 : (time > BaseManager.userGameData.SeasonTimeRecord) ? 1 : 0;
-
-            _coin.SetActive(coin > 0);
-            _gem.SetActive(gem > 0);
-            _ap.SetActive(ap > 0);
+            // 재화 이미지 설정
+            _coinbox.SetActive(_getCoin > 0);
+            _gembox.SetActive(_getGem > 0);
 
             gameObject.SetActive(true);
-            _top.alpha = 0;
-            _bot.alpha = 0;
+            _panel.alpha = 0;
 
-            _getCoin = coin;
-            _getGem = gem;
-            _getAp = ap;
-
-            _boss = boss;
-
-            StartCoroutine(resultOpenSequence(time));
+            StartCoroutine(resultOpenSequence());
         }
 
-        IEnumerator resultOpenSequence(float time)
+        IEnumerator resultOpenSequence()
         {
             //=================[ 창 열기 전 ]==============================================
 
-            RectTransform topRect = (RectTransform)_top.transform;
-            RectTransform botRect = (RectTransform)_bot.transform;
+            RectTransform Rect = (RectTransform)_panel.transform;
 
-            _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.SeasonTimeRecord, false);
-            _record.text = "";// BaseManager.userEntity.getLifeTime(time, true);
+            _bestRecord.text = BaseManager.userGameData.getLifeTime(_gs.StageLevel, BaseManager.userGameData.SeasonTimeRecord[(int)BaseManager.userGameData.NowStageLevel]);
+            _record.text = "";
 
-            _coinTxt.text = _getCoin.ToString();
-            _gemTxt.text = _getGem.ToString();
-            _apTxt.text = _getAp.ToString();
+            _coinTxt.text = Convert.ToInt32(_getCoin).ToString();
+            _gemTxt.text = Convert.ToInt32(_getGem).ToString();
 
-            _recordTitle.text = "기  록";
+            _recordTitle[0].text = "이번기록";
+            _recordTitle[1].text = "이번기록";
 
-            if (_isNewRecord > 0) // 시즌 신기록
+            if (_isNewRecord) // 시즌 신기록
             {
-                BaseManager.userGameData.setNewSeasonRecord(Convert.ToInt32(time));
-                NanooManager.instance.setSeasonRankingRecord(_boss);
-
-                if (_isNewRecord == 2) // 전체도 신기록
-                {
-                    BaseManager.userGameData.setNewAllRecord(Convert.ToInt32(time));
-                    NanooManager.instance.setAllRankingRecord(_boss);
-                }
-
-                StartCoroutine(newRecord(_isNewRecord == 2));            
+                StartCoroutine(newRecord());            
             }
 
             if (((int)BaseManager.userGameData.Skin == BaseManager.userGameData.QuestSkin) 
-                && (BaseManager.userGameData.DayQuestSkin == 0))
+                && (BaseManager.userGameData.QuestSkin == 0))
             {
-                BaseManager.userGameData.DayQuestSkin = 1;
+                BaseManager.userGameData.QuestSkin = 1;
             }
 
-            BaseManager.userGameData.WholeTimeRecord += Convert.ToInt32(time);
-            preRewardCalculator();
+            // 일퀘
+            // 일일 스킨 퀘스트
+            if (BaseManager.userGameData.DayQuest[(int)Quest.day_skin] == 0
+                && BaseManager.userGameData.Skin==(SkinKeyList)BaseManager.userGameData.QuestSkin)
+            {
+                BaseManager.userGameData.DayQuest[(int)Quest.day_skin] = 1;
+            }
+            // 일일 부활 퀘스트
+            if (BaseManager.userGameData.DayQuest[(int)Quest.day_revive] == 0
+                && _gs.RebirthQst > 0)
+            {
+                BaseManager.userGameData.DayQuest[(int)Quest.day_revive] = 1;
+            }
+            // 일일 스킬 퀘스트
+            for (int i = 0; i < 3; i++)
+            {
+                if (BaseManager.userGameData.DayQuest[(int)Quest.day_skill_0 + i] == 0
+                    && _gs.Player.isHaveSkill(BaseManager.userGameData.QuestSkill(i)))
+                {
+                    BaseManager.userGameData.DayQuest[(int)Quest.day_skill_0 + i] = 1;
+                }
+            }            
+
+            // 새 정보
+            BaseManager.userGameData.QuestRequest += _clearQst; // 퀘 계산
+            BaseManager.userGameData.WholeTimeRecord += Convert.ToInt32(_recordTime); // 총 플탐 계산
+            preRewardCalculator();  // 돈계산
+            if (_gs.ClockMng.RecordMonth >= 3) // 난이도오픈계산
+            {
+                BaseManager.userGameData.setLevelOpen(_gs.StageLevel);
+            }
 
             Debug.Log("코인 : " + _preCalCoin);
             //=================[ 창 열기 ]==============================================
 
-            botRect.DOAnchorPosY(-175f, 1f);
-            _bot.DOFade(1f, 1f);
+            Rect.DOAnchorPosY(950f, 1f);
+            _panel.DOFade(1f, 1f);
 
             yield return new WaitForSeconds(0.5f);
-
-            topRect.DOAnchorPosY(875f, 1f);
-            _top.DOFade(1f, 1f);
 
             //=================[ 기록 ]==============================================
 
             yield return new WaitForSeconds(0.5f);
-            
-            _record.text = BaseManager.userGameData.getLifeTime(time, true);
+
+            _record.text = BaseManager.userGameData.getLifeTime(_gs.StageLevel, _recordTime, false, true);
             _record.transform.localScale = Vector3.one * 2;
             _record.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InCirc);
 
             yield return new WaitForSeconds(0.25f);
-
-            if (_isNewRecord > 0)
-            {            
-                _bestRecord.text = BaseManager.userGameData.getLifeTime(BaseManager.userGameData.SeasonTimeRecord, false);
-
-                _bestRecord.transform.localScale = Vector3.one * 2;
-                _bestRecord.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InCirc);
-
-                WindowManager.instance.Win_celebrate.whenNewResult();
-            }
 
             if (BaseManager.userGameData.RemoveAd == false)
             {
@@ -162,7 +180,6 @@ namespace week
             {
                 if (BaseManager.userGameData.chkMulCoinList(i))
                 {
-                    Debug.Log(i.ToString());
                     yield return new WaitForSeconds(0.5f);
                     _per[(int)i].SetActive(true);
                     yield return StartCoroutine(getMultiReward(gameValues._mulCoinVal[(int)i]));
@@ -170,19 +187,45 @@ namespace week
             }
         }
 
-        IEnumerator newRecord(bool allRecord = false)
+        /// <summary> 신기록 </summary>
+        IEnumerator newRecord()
         {
-            _titleBackImg.gameObject.SetActive(true);
-            _recordTitle.text = "신 기 록";
+            // 데이터
+            BaseManager.userGameData.setNewSeasonRecord(Convert.ToInt32(_recordTime), _lvl, _boss);
+            NanooManager.instance.setSeasonRankingRecord(BaseManager.userGameData.NowStageLevel);
 
-            Color col = (allRecord) ? new Color(1f, 0.5f, 0f) : new Color(0.4f, 0.5f, 1f);
+            // 신기록 -> 리뷰창
+            if (BaseManager.userGameData.Success_Recommend == false)
+            {
+                int val = Convert.ToInt32(_recordTime) / 120;
+                if (BaseManager._innerData.RecommendDay[(int)BaseManager.userGameData.NowStageLevel] < val)
+                {
+                    BaseManager._innerData.RecommendDay[(int)BaseManager.userGameData.NowStageLevel] = val;
+                    BaseManager._innerData.showRecommend = true;
+                    BaseManager.instance.saveDeviceData();
+                }
+            }
 
+            // 장식
+            _newRecordLight.SetActive(true);
+            _recordTitle[0].text = "신 기 록";
+            _recordTitle[1].text = "신 기 록";
+
+            _bestRecord.text = BaseManager.userGameData.getLifeTime(_gs.StageLevel, Convert.ToInt32(_recordTime));
+
+            _bestRecord.transform.localScale = Vector3.one * 2;
+            _bestRecord.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InCirc);
+
+            WindowManager.instance.Win_celebrate.whenNewResult();
+
+            // 장식
+            Color col = new Color(1f, 0.5f, 0f);// new Color(0.4f, 0.5f, 1f);
             while (true)
             {
-                _recordTitle.color = Color.white;
+                _recordTitle[0].color = Color.white;
                 yield return new WaitForSeconds(0.2f);
 
-                _recordTitle.color = col;
+                _recordTitle[0].color = col;
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -191,7 +234,6 @@ namespace week
         {
             BaseManager.userGameData.Coin += (int)_preCalCoin;
             BaseManager.userGameData.Gem += (int)_preCalGem;
-            BaseManager.userGameData.Ap += (int)_preCalAp;
 
             BaseManager.userGameData.GameReward = new ObscuredInt[3] { (int)_preCalCoin * 2, (int)_preCalGem * 2, (int)_preCalAp * 2 };
 
@@ -203,12 +245,12 @@ namespace week
             _AdsBtn.raycastTarget = false;
         }
 
-        /// <summary> 일단 내가 얻을수있는건 미리 계산 </summary>
+        /// <summary> [저장] 일단 내가 얻을수있는건 미리 계산 </summary>
         void preRewardCalculator()
         {
             _preCalCoin = _getCoin;
             _preCalGem = _getGem;
-            _preCalAp = _getAp;
+            //_preCalAp = _getAp;
 
             Debug.Log("코인 : " + _preCalCoin);
             for (mulCoinChkList i = mulCoinChkList.removeAD; i < mulCoinChkList.max; i++)
@@ -217,21 +259,18 @@ namespace week
                 {
                     _preCalCoin *= gameValues._mulCoinVal[(int)i].x;
                     _preCalGem  *= gameValues._mulCoinVal[(int)i].y;
-                    _preCalAp   *= gameValues._mulCoinVal[(int)i].z;
+                    //_preCalAp   *= gameValues._mulCoinVal[(int)i].z;
 
                     if (i == mulCoinChkList.removeAD)
                     {
                         Debug.Log("removeAd : " + BaseManager.userGameData.RemoveAd);
-                        BaseManager.userGameData.AdRecord++;
-                        if (BaseManager.userGameData.DayQuestAd == 0)
-                            BaseManager.userGameData.DayQuestAd = 1;
                     }
                 }
             }
 
             BaseManager.userGameData.Coin += (int)_preCalCoin;
             BaseManager.userGameData.Gem += (int)_preCalGem;
-            BaseManager.userGameData.Ap += (int)_preCalAp;
+            //BaseManager.userGameData.Ap += (int)_preCalAp;
 
             BaseManager.userGameData.GameReward = new ObscuredInt[3] { (int)_preCalCoin, (int)_preCalGem, (int)_preCalAp };
 
@@ -244,7 +283,7 @@ namespace week
             // 시작수
             int c = (int)_getCoin;
             int g = (int)_getGem;
-            int a = (int)_getAp;
+            //int a = (int)_getAp;
 
             bool going = true;
 
@@ -276,11 +315,11 @@ namespace week
                     _gemTxt.text = g.ToString();
                 }
 
-                if (_getAp * mul.y > a)
-                {
-                    a++;
-                    _apTxt.text = a.ToString();
-                }
+                //if (_getAp * mul.y > a)
+                //{
+                //    a++;
+                //    _apTxt.text = a.ToString();
+                //}
 
                 // 띠링
                 yield return new WaitForEndOfFrame();
@@ -288,11 +327,11 @@ namespace week
 
             _getCoin    = (int)(_getCoin * mul.x);
             _getGem     = (int)(_getGem * mul.y);
-            _getAp      = (int)(_getAp * mul.z);
+            //_getAp      = (int)(_getAp * mul.z);
 
             _coinTxt.text   = ((int)_getCoin).ToString();
             _gemTxt.text    = ((int)_getGem).ToString();
-            _apTxt.text     = ((int)_getAp).ToString();            
+            //_apTxt.text     = ((int)_getAp).ToString();            
         }
 
         public void doubleCoin()
@@ -308,9 +347,6 @@ namespace week
 
             AdManager.instance.adReward = () =>
             {                
-                BaseManager.userGameData.AdRecord++;
-                if (BaseManager.userGameData.DayQuestAd == 0)
-                    BaseManager.userGameData.DayQuestAd = 1;
                 doubleReward();
             };
             AdManager.instance.UserChoseToWatchAd();

@@ -16,7 +16,7 @@ namespace week
             public bool _isUse;
             public tileBase _map;
             SpriteRenderer _sprite;
-            Transform tr;
+            Transform tr;            
 
             public Transform Tr
             {
@@ -28,6 +28,11 @@ namespace week
                     }
                     return tr;
                 }
+            }
+
+            public void calCoordinate(int x, int y)
+            {
+                _map._co += new Vector2Int(x, y);
             }
         }
 
@@ -58,12 +63,13 @@ namespace week
             // _compass = _gs.Compass;
             _temp = new Tile[3];
 
-            setMapObj(true); 
-            
             for (int i = 0; i < 9; i++)
             {
+                _tiles[i]._map.FixedInit(_gs);
                 _clm.changeSS += _tiles[i]._map.changeSeasonMap;
             }
+
+            setMapObj(true); 
         }
 
         public void setMapObj(bool first = false)
@@ -74,9 +80,12 @@ namespace week
                 {
                     if (_tiles[i * 3 + j]._isUse == false)
                     {
-                        _tiles[i * 3 + j]._map.setOBMng(_gs, _clm.Season);
                         _tiles[i * 3 + j]._map.setTransform(_tiles[i * 3 + j].Tr.position, first);
+                        
                         _tiles[i * 3 + j]._isUse = true;
+
+                        if (first)
+                            _tiles[i * 3 + j].calCoordinate(-1 + j, 1 - i);
                     }
                 }
             }
@@ -118,6 +127,7 @@ namespace week
             for (int i = 0; i < 3; i++)
             {
                 _tiles[i] = _temp[i];
+                _tiles[i].calCoordinate(0, 3);
             }
 
             setMapObj();
@@ -140,6 +150,7 @@ namespace week
             for (int i = 0; i < 3; i++)
             {
                 _tiles[i + 6] = _temp[i];
+                _tiles[i + 6].calCoordinate(0, -3);
             }
 
             setMapObj();
@@ -163,6 +174,7 @@ namespace week
             for (int i = 0; i < 3; i++)
             {
                 _tiles[i * 3 + 2] = _temp[i];
+                _tiles[i * 3 + 2].calCoordinate(3, 0);
             }
 
             setMapObj();
@@ -186,6 +198,7 @@ namespace week
             for (int i = 0; i < 3; i++)
             {
                 _tiles[i * 3] = _temp[i];
+                _tiles[i * 3].calCoordinate(-3, 0);
             }
 
             setMapObj();

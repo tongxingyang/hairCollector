@@ -5,241 +5,63 @@ using NaughtyAttributes;
 
 namespace week
 {
-    public class LandObject : poolingObject
+    public class LandObject : IobstacleObject, IPause
     {
-        [SerializeField] mapObstacle _type;
-        [SerializeField] GameObject _pocket;
-        public mapObstacle getType { get => _type; }
-
-        protected GameScene _gs;
         protected PlayerCtrl _player;
         protected enemyManager _enm;
         protected clockManager _clock;
+        [SerializeField] Transform _homePos;
+        
+        List<Boss> _nowBossList;
+        bossControl _bosss;
 
-        Transform _homePos;
-
-        #region Boss
-
-        [ShowIf("chk_boss")]
-        [SerializeField] Transform[] bosPos;
-        bool chk_boss { get { return _type < mapObstacle.map_0; } }
-
-        bossControl[] bosss;
-
-        #endregion
-
-        #region Ruin
-
-        //[ShowIf("chk_ruin")]
-        //[SerializeField] LandItem present;
-        [ShowIf("chk_ruin")]
-        [SerializeField] baseRuinTrap _trap;
-        bool chk_ruin { get { return _type >= mapObstacle.ruin0; } }
-
-        #endregion
-
-        #region normal
-
-        [ShowIf("chk_normal")]
-        [SerializeField] LandItem[] _normalTem;
-        [ShowIf("chk_normal")]
-        [SerializeField] seasonlyBase[] _objs;
-        [ShowIf("chk_normal")]
-        [SerializeField] environmentObject[] _envs;
-        bool chk_normal { get { return chk_boss == false; } }
-       
-
-        #endregion
-
-        public void FixInit(GameScene gs, tileBase tile, season ss)
+        public override IobstacleObject FixedInit(GameScene gs, obstacleKeyList type)
         {
-            preInit();
-
             _gs = gs;
             _enm = _gs.EnemyMng;
             _player = _gs.Player;
             _clock = _gs.ClockMng;
 
-            if (chk_boss)
-            {
-            }
-            else if (chk_ruin)
-            {
-                _trap.fixedInit(_gs);
-            }
-            else
-            {
-                foreach (seasonlyBase sb in _objs)
-                {
-                    sb.FixedInit();
-                }
-                if (_envs != null)
-                {
-                    foreach (environmentObject ev in _envs)
-                    {
-                        ev.Init(_gs);
-                    }
-                }
-            }
+            getType = type;
 
-            otherSetInit();
-            RepeatInit(tile, ss);
+            return RepeatInit();
         }
 
-        public void RepeatInit(tileBase tile, season ss)
+        public override IobstacleObject RepeatInit()
         {
             preInit();
 
-            _homePos = tile.transform;
-            tile.reclaim += Destroy;
+            _nowBossList = new List<Boss>();
+            Boss _bs = D_season.GetEntity(_clock.NowSeason.ToString()).f_boss;
 
-            if (chk_boss)
+            if (_bs == Boss.all)
             {
-                bossInit();
-            }
-            else if (chk_ruin)
-            {
-                ruinInit(ss);
-                _trap.repeatInit();
+                for (Boss b = Boss.boss_bear; b < Boss.all; b++)
+                {
+                    _nowBossList.Add(b);
+                }
             }
             else
             {
-                normalInit(ss);
+                _nowBossList.Add(Boss.boss_bear);
+                _nowBossList.Add(_bs);
             }
 
-            StartCoroutine(chkInUseActive());
+            _bs = _nowBossList[Random.Range(0, _nowBossList.Count)];
+
+            _bosss = _enm.makeBoss(_bs, this, _homePos.position);
+            _bosss.PlayObject();
+
+            return this;
         }
 
-        protected virtual void otherSetInit() { }
-
-        IEnumerator chkInUseActive()
+        protected override void Destroy()
         {
-            bool chk;
-            bool prev;
-            while (_isUse)
-            {
-                chk = (Mathf.Abs(_player.transform.position.x - transform.position.x) < 17.5f) && (Mathf.Abs(_player.transform.position.y - transform.position.y) < 17.5f);
-
-                prev = _pocket.activeSelf;
-                _pocket.SetActive(chk);
-
-                if (prev == false)
-                {
-                    if (chk_ruin && chk)
-                    {
-                        _trap.operate();
-                    }
-                }
-
-                yield return new WaitForSeconds(0.1f);
-                yield return new WaitUntil(() => _gs.Pause == false);
-            }
-        }
-
-        #region bossLand
-
-        void bossInit()
-        {
-            // present = null;
-            _objs = null;
-            _normalTem = null;
-
-            bosss = new bossControl[bosPos.Length];
-                      
-            Boss _bs = (Random.Range(0, 5) == 0) ? Boss.boss_bear : (Boss)((int)_clock.Season);
-            // _bs = (Boss)Random.Range(0, (int)Boss.max);
-
-            for (int i = 0; i < bosPos.Length; i++)
-            {
-                bosss[i] = _enm.makeBoss(_bs, this, bosPos[i].position);
-                bosss[i].PlayObject();
-            }
-        }
-
-        #endregion
-
-        #region ruinLand
-
-        void ruinInit(season ss)
-        {
-            //bosPos = null;
-            //_objs = null;
-            //_normalTem = null;
-
-            normalInit(ss);
-            //present.presentRespone();
-            //present.Init(_gs, ()=> { _trap.OnTrap = false; });
-
-            _normalTem[0].presentRespone();
-            _normalTem[0].Init(_gs, () => { _trap.OnTrap = false; });
-
-            StartCoroutine(chkPlayer());
-        }
-
-        IEnumerator chkPlayer()
-        {
-            yield return new WaitForSeconds(1f);
-            while (true)
-            {
-                _trap.OnTrap = (Vector3.Distance(_player.transform.position, transform.position) < 9f);
-
-                yield return new WaitUntil(() => _gs.Pause == false);
-            }
-        }
-
-        #endregion
-
-        #region normalLand
-
-        void normalInit(season ss)
-        {
-            bosPos = null;
-            //present = null;
-            foreach (LandItem tem in _normalTem)
-            {
-                tem.Init(_gs, ()=> { });
-            }
-            foreach (seasonlyBase sb in _objs)
-            {
-                sb.setSeason(ss);
-            }
-        }
-
-        #endregion
-
-        public override void Destroy()
-        {
+            _bosss.ForceDestroy();
             preDestroy();
-            otherInDestroy();
         }
 
-        protected virtual void otherInDestroy()
-        {
-            if (chk_boss)
-            {
-                for (int i = 0; i < bosPos.Length; i++)
-                {
-                    bosss[i].chkDestroy(this);
-                }
-            }
-            else if (chk_ruin)
-            {
-            }
-            else
-            {
-            }
-            
-        }
-
-        [ContextMenu("SetNormalField")]
-        void checkNormalObj()
-        {
-            _objs = GetComponentsInChildren<seasonlyBase>();
-            _normalTem = GetComponentsInChildren<LandItem>();
-            _envs = GetComponentsInChildren<environmentObject>();
-        }
-
-        public override void onPause(bool bl)
+        public virtual void onPause(bool bl)
         {
         }
     }

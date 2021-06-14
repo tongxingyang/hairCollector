@@ -16,7 +16,7 @@ namespace week
                     StartCoroutine(timechk());
                     break;
                 case EnShot.scarecrow_shot:
-                    _efm.makeEff(effAni.crowfire, transform.position);
+                    _efm.makeEff("crowfire", transform.position);
                     _keep = 2f;
                     StartCoroutine(secondEff());
                     break;
@@ -69,9 +69,12 @@ namespace week
         }
 
         EnemyCtrl ec;
-        void OnTriggerEnter2D(Collider2D collision)
+        void OnTriggerEnter2D(Collider2D collision) 
         {
-            chkCollision(_gs.Player);
+            if (collision.gameObject.tag.Equals("Player"))
+            {
+                chkCollision(_gs.Player);
+            }
         }
 
         void chkCollision(PlayerCtrl player)
@@ -86,11 +89,11 @@ namespace week
                     break;
                 case EnShot.scarecrow_shot:
                     player.getDamaged(_dmg);
-                    _efm.makeEff(effAni.lava, player.transform.position);
+                    _efm.makeEff("lava", player.transform.position);
                     break;
                 case EnShot.flower_mine:
                     player.getDamaged(_dmg);
-                    _efm.makeEff(effAni.mine, transform.position);
+                    _efm.makeEff("Mine", transform.position);
                     Destroy();
                     break;
                 default:

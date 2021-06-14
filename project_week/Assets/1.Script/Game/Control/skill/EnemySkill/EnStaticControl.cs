@@ -93,7 +93,7 @@ namespace week
                 }
                 while (time < 1f)
                 {
-                    time += Time.deltaTime * rate;
+                    time += Time.deltaTime * rate * 1.1f;
 
                     for (int i = 0; i < 8; i++)
                     {
@@ -111,6 +111,8 @@ namespace week
 
                     yield return new WaitUntil(() => _gs.Pause == false);
                 }
+
+                SoundManager.instance.PlaySFX(SFX.crowfire);
             }
 
             sz = max;

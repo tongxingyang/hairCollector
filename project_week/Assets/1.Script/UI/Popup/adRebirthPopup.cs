@@ -57,10 +57,6 @@ namespace week
             AdManager.instance.adReward = () =>
             {
                 _watch();
-                BaseManager.userGameData.AdRecord++;
-                if (BaseManager.userGameData.DayQuestAd == 0)
-                    BaseManager.userGameData.DayQuestAd = 1;
-
                 close();
             };
             AdManager.instance.UserChoseToWatchAd();
@@ -86,6 +82,12 @@ namespace week
                 yield return new WaitForEndOfFrame();
             }
 
+            _timeover();
+            cancel();
+        }
+
+        public void manualCancel()
+        {
             _timeover();
             cancel();
         }

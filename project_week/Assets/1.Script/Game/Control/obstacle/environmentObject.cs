@@ -4,22 +4,42 @@ using UnityEngine;
 
 namespace week
 {
-    public class environmentObject : MonoBehaviour
+    public class environmentObject : IobstacleObject
     {
-        GameScene _gs;
+        [SerializeField] LandItem _gemTem;
+
         PlayerCtrl _player;
         BuffEffect _bff;
-        public void Init(GameScene gs)
+
+        public override IobstacleObject FixedInit(GameScene gs, obstacleKeyList type)
         {
             _gs = gs;
             _player = gs.Player;
+            getType = type;
+
+            _gemTem.FixedInit(_gs, type);
+
+            return RepeatInit();
+        }
+
+        public override IobstacleObject RepeatInit()
+        {
+            _gemTem.RepeatInit();
+
+            preInit();
+
+            return this;
+        }
+        protected override void Destroy()
+        {
+            preDestroy();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.tag.Equals("Player"))
             {
-                BuffEffect bf = _player.setDeBuff(eBuff.speed, 1, 0.8f, BuffEffect.buffTermType.infinity);
+                BuffEffect bf = _player.setDeBuff(SkillKeyList.SPEED, 1, 0.8f, BuffEffect.buffTermType.infinity);
                 if (bf != null)
                 {
                     _bff = bf;
@@ -31,7 +51,6 @@ namespace week
         {
             if (collision.tag.Equals("Player"))
             {
-                Debug.Log("늪에서 나옴");
                 _player.manualRemoveDeBuff(_bff);
                 _bff = null;
             }

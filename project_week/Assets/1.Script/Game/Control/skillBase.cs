@@ -23,7 +23,7 @@ namespace week
         public abstract void skillUp();
 
         public SkillKeyList Type { get => type; }
-        public bool chk_lvl { get { return lvl < max_lvl; } }
+        public bool isMax { get { return lvl >= max_lvl; } }
         public bool active { get { return lvl > 0; } }
         public int Lvl { get => lvl; }
         public int MaxLvl { get => max_lvl; }
@@ -33,7 +33,7 @@ namespace week
     public class ability : skillBase
     {
         public float val0;
-        float val0_increase;
+        public float val0_increase { get; private set; }
 
         public Action<SkillKeyList> skUp { get; set; }
 
@@ -44,19 +44,20 @@ namespace week
             upGrade = false;
             lvl = 0;
 
-            max_lvl = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.max_level.ToString());
+            max_lvl     = D_skill.GetEntity(sk.ToString()).f_max_level;
 
-            explain = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.explain.ToString());
-            information = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.info.ToString());
+            explain     = D_skill.GetEntity(sk.ToString()).f_explain;
+            information = D_skill.GetEntity(sk.ToString()).f_info;
 
-            val0             = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0.ToString());
-            val0_increase    = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0_increase.ToString());
-            string m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.val0_cal.ToString());
-            val0_mul = (m.Equals("m")) ? true : false;
+            val0            = D_skill.GetEntity(sk.ToString()).f_val0;
+            val0_increase   = D_skill.GetEntity(sk.ToString()).f_val0_increase;
+            string m        = D_skill.GetEntity(sk.ToString()).f_val0_cal;
+            val0_mul        = (m.Equals("m")) ? true : false;
         }
 
         public override void skillUp()
         {
+            //Debug.Log(val0 + " / " + val0_increase);
             if (lvl < max_lvl)
             {
                 skUp(type);
@@ -94,12 +95,14 @@ namespace week
         float size_increase; // 크기 증가량
         int count_increase;  // 개수 증가량
 
-        public SkillKeyList _essential = SkillKeyList.max;      // 선행 스킬 필요 여부
+        public SkillKeyList _essential = SkillKeyList.non;      // 선행 스킬 필요 여부
         public List<SkillKeyList> _choice;  // 필요한 선행 스킬
         private bool _overrided;         // 진화형 오버라이드
 
-        public inheritType _inherit;
-
+        public inheritType Inherit { get; private set; }
+        public bool IsLock { get => shouldHaveKey > 0; }        
+        public int shouldHaveKey { get; private set; }
+        public void unLock() { shouldHaveKey = 0; }
         public Action<SkillKeyList> OverChk { get; set; }
 
         public float _timer;        // 쿨 타이머
@@ -114,78 +117,85 @@ namespace week
             _timer = 0;
 
             lvl = 0;
-            max_lvl = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.max_level.ToString());
+            max_lvl = D_skill.GetEntity(sk.ToString()).f_max_level;
 
-            skillRank = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.rank.ToString()) % 10;
+            skillRank = D_skill.GetEntity(sk.ToString()).f_rank % 10;
 
-            name = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.skill_name.ToString());
-            explain = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.explain.ToString());
-            information = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.info.ToString());
+            name        = D_skill.GetEntity(sk.ToString()).f_skill_name;
+            explain     = D_skill.GetEntity(sk.ToString()).f_explain;
+            information = D_skill.GetEntity(sk.ToString()).f_info;
 
-            val0 = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0.ToString()); 
-            val0_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val0_increase.ToString());
-            string m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.val0_cal.ToString());
-            val0_mul = (m.Equals("m")) ? true : false;
-            
-            val1 = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val1.ToString());
-            val1_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.val1_increase.ToString());
-            m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.val1_cal.ToString());
-            val1_mul = (m.Equals("m")) ? true : false;
+            val0            = D_skill.GetEntity(sk.ToString()).f_val0;
+            val0_increase   = D_skill.GetEntity(sk.ToString()).f_val0_increase;
+            string m        = D_skill.GetEntity(sk.ToString()).f_val0_cal;
+            val0_mul        = (m.Equals("m")) ? true : false;
 
-            delay = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.delay.ToString()); // * BaseManager.userGameData.o_Cool;
-            keep = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.keep.ToString());
-            count = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count.ToString());
-            size = 1;
-            
-            m = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.inheritType.ToString());
-            _inherit = EnumHelper.StringToEnum<inheritType>(m);
+            val1            = D_skill.GetEntity(sk.ToString()).f_val1;
+            val1_increase   = D_skill.GetEntity(sk.ToString()).f_val1_increase;
+            m               = D_skill.GetEntity(sk.ToString()).f_val1_cal; ;
+            val1_mul        = (m.Equals("m")) ? true : false;
 
-            delay_reduce = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.delay_reduce.ToString());
-            keep_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.keep_increase.ToString());
-            size_increase = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.size_increase.ToString());
-            count_increase = DataManager.GetTable<int>(DataTable.skill, sk.ToString(), SkillValData.count_increase.ToString());
-            range = DataManager.GetTable<float>(DataTable.skill, sk.ToString(), SkillValData.range.ToString());
+            delay           = D_skill.GetEntity(sk.ToString()).f_delay;
+            keep            = D_skill.GetEntity(sk.ToString()).f_keep;
+            count           = D_skill.GetEntity(sk.ToString()).f_count;
+            size            = 1;
 
-            string str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), SkillValData.essential.ToString());
-            if (str.Equals("n") == false)
+            Inherit = D_skill.GetEntity(sk.ToString()).f_inheritType;
+
+            delay_reduce    = D_skill.GetEntity(sk.ToString()).f_delay_reduce;
+            keep_increase   = D_skill.GetEntity(sk.ToString()).f_keep_increase;
+            size_increase   = D_skill.GetEntity(sk.ToString()).f_size_increase;
+            count_increase  = D_skill.GetEntity(sk.ToString()).f_count_increase;
+            range           = D_skill.GetEntity(sk.ToString()).f_range;
+
+            SkillKeyList skl = D_skill.GetEntity(sk.ToString()).f_essential;
+            if (skl != SkillKeyList.non)
             {
-                _essential = EnumHelper.StringToEnum<SkillKeyList>(str);
+                _essential = skl;
                 _choice = new List<SkillKeyList>();
 
                 for (int i = 0; i < 2; i++)
                 {
-                    str = DataManager.GetTable<string>(DataTable.skill, sk.ToString(), (SkillValData.choice0 + i).ToString());
-                    if (str.Equals("n") == false)
+                    skl = D_skill.GetEntity(sk.ToString()).f_choice0;
+                    if (skl != SkillKeyList.non)
                     {
-                        SkillKeyList skl = EnumHelper.StringToEnum<SkillKeyList>(str);
                         _choice.Add(skl);
-                    }
+                        
+                        skl = D_skill.GetEntity(sk.ToString()).f_choice1;
+                        if (skl != SkillKeyList.non)
+                        {
+                            _choice.Add(skl);
+                        }
+                    }                    
                 }
-            }            
+            }                   
 
             _overrided = false;
+
+            // lock 체크
+            shouldHaveKey = D_skill.GetEntity(type.ToString()).f_medal;
         }
 
         public override void skillUp()
         {
             if (lvl == 0)
             {
-                switch (_inherit)
+                switch (Inherit)
                 {
+                    case inheritType.rebase:
                     case inheritType.non:
+                    case inheritType.medal:
                         break;
-                    case inheritType.over:
-                        Debug.Log("over : " + _essential.ToString());
+                    case inheritType.union:
                         OverChk(_essential);
-                        break;
-                    case inheritType.overover:
-                    case inheritType.overSelect:
-                        OverChk(_essential); 
-                        
                         for (int i = 0; _choice != null && i < _choice.Count; i++)
                         {
                             OverChk(_choice[i]);
                         }
+                        break;
+                    case inheritType.over:
+                    case inheritType.overmedal:
+                        OverChk(_essential);
                         break;
                 }
             }
@@ -212,9 +222,6 @@ namespace week
 
         public void overrideOff()
         {
-            if (skillRank == 0)
-                return;
-
             _overrided = true;
         }
 

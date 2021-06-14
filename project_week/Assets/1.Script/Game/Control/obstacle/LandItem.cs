@@ -5,26 +5,87 @@ using UnityEngine;
 
 namespace week
 {
-    public class LandItem : MonoBehaviour
+    public class LandItem : IobstacleObject
     {
-        [SerializeField] landtem _temtype;
         [SerializeField] GameObject _tem;
 
-        GameScene _gs;
         PlayerCtrl _player;
 
-        float regenTime = 15f;
+        public gainableTem _temtype { get; set; } = gainableTem.heal;
 
-        Action getEquip;
+        float regenTime = 15f; // 힐
+        bool _isMineOff = true; // 지뢰 (습득 가능 상태 여부)
+        string _aniName;
 
-        public void Init(GameScene gs, Action _getEquip)
+        /// <summary> 생성 초기화 </summary>
+        public override IobstacleObject FixedInit(GameScene gs, obstacleKeyList type)
         {
             _gs = gs;
             _player = gs.Player;
-            getEquip = _getEquip;
-            _tem.SetActive(true);
+            getType = type;
+
+            _temtype = D_obstacle.GetEntity(type.ToString()).f_tem;
+
+            return RepeatInit();
         }
 
+        /// <summary> 재사용 초기화 </summary>
+        public override IobstacleObject RepeatInit()
+        {
+            preInit();
+
+            //if (_temtype == gainableTem.dropMine)
+            //{
+            //    _isMineOff = (UnityEngine.Random.Range(0, 4) == 0);
+            //    _aniName = (_isMineOff) ? "offMine" : "onMine";
+                
+            //    GetComponentInChildren<Animator>().SetTrigger(_aniName);
+            //}
+            
+            _tem.SetActive(true);
+
+            return this;
+        }
+
+        /// <summary> 충돌 (아이템습득) </summary>
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.tag.Equals("Player"))
+            {
+                if (collision.GetComponent<PlayerCtrl>() == null)
+                {
+                    Debug.Log("누구냐 : " + collision.name);
+                }
+
+                apply_ItemEffect();
+            }
+        }
+
+        /// <summary> 템 효과 적용 (및 리스폰 체크) </summary>
+        void apply_ItemEffect()
+        {
+            // 습득 실패류
+            if (_temtype == gainableTem.sward && BaseManager.userGameData.Skin != SkinKeyList.heroman) // 칼인데 용사아닐때
+                return;
+
+            // 습득 성공류
+            if (_temtype != gainableTem.non)
+                _player.getTem(_temtype);
+
+            if (_temtype == gainableTem.heal)
+            {
+                StartCoroutine(respone());
+            } 
+
+            temOff();
+        }
+
+        public void temOff()
+        {
+            _tem.SetActive(false);
+        }
+
+        /// <summary> 템 리스폰 (시간) </summary>
         IEnumerator respone()
         {
             float t = 0f;
@@ -43,53 +104,9 @@ namespace week
             }
         }
 
-        public void presentRespone()
+        protected override void Destroy()
         {
-            _tem.SetActive(true);
-        }
-
-        void chkRespone()
-        {
-            switch (_temtype)
-            {
-                case landtem.heal:
-                    float val = _player.MaxHp * gameValues._healpackVal;
-                    _player.getHealed(val);
-                    StartCoroutine(respone());
-                    break;
-                case landtem.gem:
-                    _gs.getGem();
-                    break;
-                case landtem.present:
-                    _gs.getEquip();
-                    getEquip?.Invoke();
-                    break;
-                case landtem.sward:
-                    if (_player.IsHero)
-                    {
-                        _player.setDeBuff(eBuff.att, 60f, 2);
-                        _player.setDeBuff(eBuff.def, 60f, 2);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                    break;
-            }
-
-            _tem.SetActive(false);
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if(collision.gameObject.tag.Equals("Player"))
-            {
-                if (collision.GetComponent<PlayerCtrl>() == null)
-                {
-                    Debug.Log("누구냐 : " + collision.name);
-                }
-                chkRespone();
-            }
+            preDestroy();
         }
     }
 }

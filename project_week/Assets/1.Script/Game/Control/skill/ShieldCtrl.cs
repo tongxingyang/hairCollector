@@ -14,10 +14,10 @@ namespace week
         #region [ 일반 실드 ] 
 
         [Header("NORMAL")]
-        [SerializeField] Animator _normalShield;
-        [Space]
-        [SerializeField] Transform _nShield_A;
-        [SerializeField] Transform _nShield_B;
+        [SerializeField] Transform _normalShield;
+        [SerializeField] SpriteRenderer _nShield;
+        SpriteMask _nMask;
+        Transform _rotateHome;
         [SerializeField] GameObject _ballFab;
 
         SkillKeyList _norType;
@@ -25,10 +25,9 @@ namespace week
         float _shieldMount = 0;
         List<shieldCollider> _balls;
         bool _isLightningPlay;
-        float _subRate;
+        public float NsubRate { get; set; }        
 
         public bool IsUseNormal { get => _isUsedNormal; set => _isUsedNormal = value; }
-        float LightningDmg(SkillKeyList skilln) { return _gs.Player.Skills[skilln].val0 * _gs.Player.Att; }
 
         #endregion
 
@@ -42,6 +41,8 @@ namespace week
         bool _isUsedHigh;
         float _keep;
         float _dmgStack;
+        attackData _adata = new attackData(); 
+        public float HsubRate { get; set; }
         public bool IsUsedHigh { get => _isUsedHigh; set => _isUsedHigh = value; }
 
         #endregion
@@ -53,11 +54,9 @@ namespace week
             _isUsedNormal = false;
             _isUsedHigh = false;
 
-            // _coll.Init(this, _gs);
+            _nMask = _nShield.GetComponent<SpriteMask>();
 
-            _normalShield.enabled = false;
-            _nShield_A.gameObject.SetActive(false);
-            _nShield_B.gameObject.SetActive(false);
+            _nShield.gameObject.SetActive(false);
             _highShield.gameObject.SetActive(false);
         }
 
@@ -75,12 +74,6 @@ namespace week
 
             _shieldMount = hp;
 
-            return this;
-        }
-
-        public ShieldCtrl setSubRate(float rate)
-        {
-            _subRate = rate;
             return this;
         }
 
@@ -102,12 +95,10 @@ namespace week
         {
             if (isNor)
             {
-                _normalShield.enabled = false;
+                _nShield.gameObject.SetActive(true);
 
-                _nShield_B.gameObject.SetActive(false);
-
-                _normalShield.enabled = true;
-                _normalShield.SetTrigger(_norType.ToString());
+                _nShield.sprite = DataManager.ShieldImgs[_norType];
+                _nMask.sprite = DataManager.ShieldImgs[_norType];
             }
             else
             {
@@ -126,13 +117,11 @@ namespace week
             {
                 _gs.Player.pSpine.skeleton.SetColor(new Color(1f, 1f, 1f, 0.3f));
 
-                //Debug.Log(Physics2D.GetLayerCollisionMask(8));
                 UnityEngine.Physics2D.SetLayerCollisionMask(LayerMask.NameToLayer("player"), LayerMask.GetMask("obstacle", "environment", "trap", "ignoreOb"));
-                //Debug.Log(Physics2D.GetLayerCollisionMask(8));
 
                 if (_hghType == SkillKeyList.Chill)
                 {
-                    _gs.Player.setDeBuff(eBuff.speed, _keep, _subRate);
+                    _gs.Player.setDeBuff(SkillKeyList.SPEED, _keep, HsubRate);
                 }
             }
 
@@ -146,7 +135,7 @@ namespace week
 
             if (_hghType == SkillKeyList.Absorb)
             {
-                _gs.Player.getHealed(_dmgStack * _subRate);
+                _gs.Player.getHealed(_dmgStack * HsubRate * _gs.Player.getAddDmg(skillType.shield));
             }
             else if (_hghType == SkillKeyList.Hide || _hghType == SkillKeyList.Chill)
             {
@@ -162,8 +151,7 @@ namespace week
         {
             _isUsedNormal = false;
 
-            _normalShield.enabled = false;
-            _nShield_A.gameObject.SetActive(false);
+            _nShield.gameObject.SetActive(false);
         }
 
         public void highDestroy()
@@ -182,6 +170,10 @@ namespace week
 
             if (first)
             {
+                _rotateHome = new GameObject().transform;
+                _rotateHome.parent = _normalShield;
+                _rotateHome.transform.localPosition = Vector3.zero;
+
                 _balls = new List<shieldCollider>();
                 _isLightningPlay = false;
             }
@@ -206,15 +198,15 @@ namespace week
             {
                 for (int i = 0; i < n - cnt; i++)
                 {
-                    Scol = Instantiate(_ballFab, _nShield_B).GetComponent<shieldCollider>();
+                    Scol = Instantiate(_ballFab, _rotateHome).GetComponent<shieldCollider>();
                     _balls.Add(Scol);
-                    Scol.Init(this, _gs, SkillKeyList.LightningShield);
+                    Scol.Init(this, _gs, SkillKeyList.ChargeShield);
                 }
 
                 float degree = 360 / n;
                 for (int i = 0; i < _balls.Count; i++)
                 {
-                    _balls[i].transform.position = Vector3.zero;
+                    _balls[i].transform.position = _rotateHome.position;
                     _balls[i].transform.rotation = Quaternion.Euler(Vector3.zero);
 
                     _balls[i].transform.rotation = Quaternion.AngleAxis(degree * i, Vector3.back);
@@ -230,9 +222,8 @@ namespace week
         {
             if (_isLightningPlay == false)
             {
-                _normalShield.enabled = false;
+                _nShield.gameObject.SetActive(false);
 
-                _nShield_A.gameObject.SetActive(false);
                 StartCoroutine(lightSpin());
             }
         }
@@ -240,42 +231,40 @@ namespace week
         IEnumerator lightSpin()
         {
             _isLightningPlay = true;
-            _nShield_B.gameObject.SetActive(true);
 
             while (true)
             {
-                _nShield_B.Rotate(new Vector3(0f, 0f, 2f), Space.Self);
+                _rotateHome.Rotate(new Vector3(0f, 0f, 2f), Space.Self);
 
-                for (int i = 0; i < _balls.Count; i++)
-                {
-                    Color col = _balls[i].Render.color;
+                //for (int i = 0; i < _balls.Count; i++)
+                //{
+                //    Color col = _balls[i].Render.color;
                     
-                    if (col == Color.white)
-                        continue;
+                //    if (col == Color.white)
+                //        continue;
 
-                    col.r = (col.r < 1f) ? col.r * 1.1f : 1f;
-                    col.g = (col.g < 1f) ? col.g * 1.1f : 1f;
-                    col.b = (col.b < 1f) ? col.b * 1.1f : 1f;
+                //    col.r = (col.r < 1f) ? col.r * 1.1f : 1f;
+                //    col.g = (col.g < 1f) ? col.g * 1.1f : 1f;
+                //    col.b = (col.b < 1f) ? col.b * 1.1f : 1f;
 
-                    _balls[i].Render.color *= col;
-                }
+                //    _balls[i].Render.color *= col;
+                //}
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
         }
 
-        void setShield(float shield)
+        /// <summary> 차지실드로 실드 충전 </summary>
+        void setChargeShield(float shield)
         {
+            Debug.Log("차지 :+ " + shield);
             _isUsedNormal = true;
             _shieldMount += shield;
-            if (_norType == SkillKeyList.ChargeShield)
-            {
-                float heal = _gs.Player.MaxHp * _gs.Player.Skills[SkillKeyList.ChargeShield].val1 * 0.01f;
-                _gs.Player.getHealed(heal);
-            }
 
-            _normalShield.enabled = true;
-            _normalShield.SetTrigger(SkillKeyList.Shield.ToString());
+            _nShield.sprite = DataManager.ShieldImgs[SkillKeyList.ThornShield];
+            _nMask.sprite = DataManager.ShieldImgs[SkillKeyList.Shield];
+
+            _nShield.gameObject.SetActive(true);
         }
 
         #endregion
@@ -283,7 +272,7 @@ namespace week
         #endregion
 
         /// <summary> 실드에 데미지 계산 (데미지/독뎀여부) </summary>
-        public bool getDamage(ref float dmg, EnemyCtrl enemy = null)
+        public bool getDamage(ref float _dmg, EnemyCtrl enemy = null)
         {
             if (_isUsedHigh)
             {
@@ -293,7 +282,7 @@ namespace week
                 }
                 else if (_hghType == SkillKeyList.Absorb)
                 {
-                    _dmgStack += dmg;
+                    _dmgStack += _dmg;
                     _dfm.getText(transform, "흡수", dmgTxtType.shield, true);
                 }
 
@@ -301,34 +290,47 @@ namespace week
             }
             else if(_isUsedNormal)
             {
-                dmg *= (enemy == null) ? 2f : 1f; // 중립뎀은 실드에 데미지 2배
+                SoundManager.instance.PlaySFX(SFX.shield);
+                if (enemy == null) // 중립데미지
+                {
+                    _dmg *= 2f;// 중립뎀은 실드에 데미지 2배
+                }
+                else // 몹에게서 데미지
+                {
+                    if (_norType == SkillKeyList.ThornShield 
+                        || _norType== SkillKeyList.ChargeShield)                  // 공격자 반사
+                    {
+
+                        shotCtrl _shotBullet = _gs.SkillMng.getLaunch(SkillKeyList.GigaDrill);
+                        _shotBullet.transform.position = _gs.Player.transform.position;
+                        _shotBullet.setTarget(enemy.transform.position);
+                        _shotBullet.repeatInit(SkillKeyList.ThornShield, _dmg * NsubRate, 1f)
+                            .play();
+                    }
+                    else if (_norType == SkillKeyList.ReflectShield)                // 전체 반사
+                    {
+                        _gs.EnemyMng.enemyRangeShot(_dmg * NsubRate, 3f, _norType);
+                    }
+                }
 
                 if (_norType == SkillKeyList.GiantShield)                       // 방어력 적용
                 {
-                    dmg *= (100 - _gs.Player.Def * 0.5f) * 0.01f;
+                    float r_Def = (_gs.Player.Def > 90f) ? 90f : _gs.Player.Def;
+                    float df = _gs.Player.Skills[SkillKeyList.GiantShield].val1;
+                    Debug.Log(_dmg + " -* " + r_Def + "의 " + df * 100f + "% " + _dmg * (100f - r_Def * df) * 0.01f);
+                    _dmg *= (100f - r_Def * df) * 0.01f;
                 }
-                else if (_norType == SkillKeyList.ThornShield)                  // 공격자 반사
-                {
-                    float? val = enemy?.getDamaged(dmg * _subRate);
-                    Debug.Log(val);
-                }
-                else if (_norType == SkillKeyList.ReflectShield)                // 전체 반사
-                {
-                    _gs.EnemyMng.enemyDamagedRange(dmg * _subRate, 2.5f); 
-                    Debug.Log(dmg * _subRate);
-                }
+                
+                _dfm.getText(transform, Convert.ToInt32(_dmg).ToString(), dmgTxtType.shield, true);
 
-                //Debug.Log(dmg);
-                _dfm.getText(transform, Convert.ToInt32(dmg).ToString(), dmgTxtType.shield, true);
-
-                if (_shieldMount >= dmg)
+                if (_shieldMount >= _dmg)
                 {
-                    _shieldMount -= dmg;
-                    dmg = 0;
+                    _shieldMount -= _dmg;
+                    _dmg = 0;
                 }
                 else
                 {
-                    dmg -= _shieldMount;
+                    _dmg -= _shieldMount;
                     _shieldMount = 0; 
                 }
 
@@ -337,7 +339,7 @@ namespace week
                     normalDestroy();
                 }
 
-                return dmg > 0;
+                return _dmg > 0;
             }
 
             return false;
@@ -347,10 +349,14 @@ namespace week
         {
             switch (skill)
             {
-                case SkillKeyList.LightningShield:
                 case SkillKeyList.ChargeShield:
-                    id.getDamaged(LightningDmg(skill), false);
-                    setShield(LightningDmg(skill) * _gs.Player.Skills[SkillKeyList.Lightning].val1);
+                    {
+                        _adata.set(_gs.Player.Att * _gs.Player.Skills[skill].val0, _norType, false);
+                        float val = id.getDamaged(_adata);
+
+                        //setShield(LightningDmg(skill));
+                        setChargeShield(val * _gs.Player.Skills[skill].val1 * _gs.Player.getAddDmg(skillType.shield));                      
+                    }
                     break;
                 case SkillKeyList.Invincible:
                 case SkillKeyList.Absorb:

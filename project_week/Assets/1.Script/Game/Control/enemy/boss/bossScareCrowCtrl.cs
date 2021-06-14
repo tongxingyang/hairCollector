@@ -91,7 +91,7 @@ namespace week
 
             while (_isDie == false)
             {
-                deltime += Time.deltaTime;
+                deltime = Time.deltaTime;
 
                 switch (_stats)
                 {
@@ -151,7 +151,6 @@ namespace week
             if (Vector3.Distance(transform.position, _homePos) < 10f)
             {
                 skillCoolTime += Time.deltaTime;
-
                 transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
 
                 if (skillCoolTime > _bossSkillCool)
@@ -183,6 +182,8 @@ namespace week
 
                 Vector3 pos = transform.position + (Vector3)Random.insideUnitCircle * 5f;
                 esc.operation(pos);
+
+                SoundManager.instance.PlaySFX(SFX.crowshake);
 
                 yield return new WaitForSeconds(0.1f);
             }

@@ -13,101 +13,141 @@ namespace week
         [SerializeField] Transform _chim;
         [SerializeField] Image _seasonImg;
         [SerializeField] Sprite[] seasons;
-        [SerializeField] nightDarkCtrl _dark;
+        [SerializeField] nightDarkCtrl _night;
 
         GameScene _gs;
-        int _day;
-        readonly int _date = 120;
-        float _night = 30f;
+
+        readonly int _dateSecond = 120; // 하루 -> 초
+        float _nightSecond = 30f;       // 밤 -> 초
         float _degree;
         bool _isNight;
         float _startDark = 0.6f;
 
-        season _season = season.winter;
-        float _recordTime = 0f;
+        List<KeyValuePair<season, int>> _seasonData;
+
+        /// <summary> 진정한 기록 </summary>
+        public float RecordSecond { get; private set; }   // 전체 시간
+        /// <summary> 전체 일수 </summary>
+        public int RecordDay { get; private set; }
+        /// <summary> 전체 달수 </summary>
+        public int RecordMonth { get; private set; }
+        /// <summary> 전체 년수 </summary>
+        public int RecordYear { get; private set; }
+
+        public int _dayInSeason { get; private set; }
+        /// <summary> 이번달이 몇일인지 </summary>
+        public int NowDayinSeason { get => _seasonData[RecordDay % 4].Value; }
+
         float _dateTime;
         float _monthTime;
-        int _seasonNum;
-        public float RecordTime { get => _recordTime; set => _recordTime = value; }
-        public season Season { get => _season; set => _season = value; }
 
-        float _chk1w = 45f;
-        public bool chk1Wave { get => _monthTime > _chk1w; }
-        public bool chk2Wave { get => _monthTime > 120f; }
-        public bool chk3Wave { get => _monthTime > 240f; }
-        public int Day { get => _day; set => _day = value; }
+        public season NowSeason { get; private set; }
 
-        public Action<season> changeSS;
+        bool _firstDay = true;
+        public bool chk1Wave { get => _monthTime > ((_firstDay) ? 60f : 0f); }
+        public bool chk2Wave { get => _monthTime > ((_seasonData[RecordMonth % 4].Value == 2) ? 60f : 120f); }
+        public bool chk3Wave { get => _monthTime > ((_seasonData[RecordMonth % 4].Value == 2) ? 120f : 240f); }
+
+        public Action changeDay { get; set; }
+        public Action<season> changeSS { get; set; }
+        
         public void Init(GameScene gs)
-        {
+        {            
             _gs = gs;
             _isNight = false;
-            _degree = -360f / _date;
-            _night = _date / 4;
-            _dark.Init(gs);
+            _degree = -360f / _dateSecond;
+
+            // 계절 설정
+            _seasonData = new List<KeyValuePair<season, int>>();
+
+            for (UserGameData.sson ss = 0; ss < UserGameData.sson.max; ss++)
+            {
+                string[] str = D_level.GetEntity(_gs.StageLevel.ToString()).Get<string>(ss.ToString()).Split(',');
+                _seasonData.Add(new KeyValuePair<season, int>(EnumHelper.StringToEnum<season>(str[0]), int.Parse(str[1])));
+                //_seasonData.Add(new KeyValuePair<season, int>(season.dark, int.Parse(str[1])));
+            }
+
+            NowSeason = _seasonData[0].Key;
+            _seasonImg.sprite = seasons[(int)NowSeason];
+
+            _night.Init(gs);
         }
 
+        /// <summary> gameScene 코루틴에서 시간계산 </summary>
         public void accTime(float deltime)
         {
-            _recordTime += deltime;
-            _time.text = BaseManager.userGameData.getLifeTime(_recordTime,false);//.convertToTime((int)_recordTime)}({})";
-
-            chkDate(deltime);
-
-            //int ss = (int)RecordTime / 360;
-            //_season = (season)(ss % 4);
-        }
-
-        void chkDate(float deltime)
-        {
+            RecordSecond += deltime;
             _dateTime += deltime;
             _monthTime += deltime;
+
+            _time.text = BaseManager.userGameData.getLifeTime(_gs.StageLevel, RecordSecond);
+                        
             _chim.rotation = Quaternion.Euler(0, 0, _dateTime * _degree);
 
-            if (_dateTime > _date - _night && _isNight == false)
+            if (_dateTime > _dateSecond - _nightSecond && _isNight == false) // 전구사람체크
             {
-                float calDark = (BaseManager.userGameData.SkinBval[(int)skinBvalue.light]) ? 0.2f : _startDark;
+                float calDark = (BaseManager.userGameData.Skin == SkinKeyList.bulbman) ? 0.2f : _startDark;
 
-                _dark.startNight(calDark);
+                _night.startNight(calDark);
                 _isNight = true;
             }
-            else if (_dateTime > _date)
-            {
-                _dateTime = 0;
-                _day++;
-                _isNight = false;
 
-                _dark.endNight();
-                chkSeason();
+            
+            if (_dateTime > _dateSecond) // 하루 지남
+            {
+                _dateTime = 0;  // 초기화
+                
+                // 아침
+                {
+                    _isNight = false;
+                    _night.endNight();
+                }
+
+                _dayInSeason++;
+                RecordDay++;
+
+                //int num = RecordMonth % _seasonData.Count;
+                changeDay?.Invoke();
+
+                if (_seasonData[RecordMonth % 4].Value <= _dayInSeason) // 계절 변동
+                {
+                    RecordMonth++;
+                    NowSeason = _seasonData[RecordMonth % 4].Key;
+                    _monthTime = 0;
+                    // getNextSeason();
+
+                    _dayInSeason = 0;
+                    RecordYear = RecordDay / 12;
+                    _startDark += 0.05f;
+
+                    _nightSecond = D_season.GetEntity(NowSeason.ToString()).f_night;
+
+                    changeSS?.Invoke(NowSeason); // += 추가로 day 기반 몹 강화율 계산
+                    _seasonImg.sprite = seasons[(int)NowSeason];
+
+                }
             }
 
             if (chk1Wave)
-                _chk1w = 0f;
+                _firstDay = false;
         }
 
-        void chkSeason()
-        {
-            _seasonNum++;
-            _startDark += 0.05f;
+        /// <summary> 다음계절 세팅 </summary>
+        //void getNextSeason()
+        //{
+        //    NowSeason++;
+        //    while(true)
+        //    {
+        //        if (_seasonData.ContainsKey(NowSeason))
+        //        {
+        //            break;
+        //        }
 
-            if (_seasonNum > 2)
-            {
-                _seasonNum = 0;
-                _monthTime = 0;
-                if (_season == season.winter)
-                {
-                    _season = season.spring;
-                }
-                else
-                {
-                    _season++;
-                }
-
-                _night = (_season == season.winter) ? (_date/4) : (_season == season.summer) ? (_date / 12) : (_date / 6);
-
-                changeSS(_season);
-                _seasonImg.sprite = seasons[(int)_season];
-            }
-        }
+        //        if (NowSeason == season.dark)
+        //            NowSeason = season.spring;
+        //        else
+        //            NowSeason++;
+        //    }
+        //}
     }
 }

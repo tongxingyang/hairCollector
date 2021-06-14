@@ -18,12 +18,12 @@ namespace week
             _animator = GetComponent<Animator>();
         }
 
-        public void Init(effAni efa)
+        public void Init(string effName)
         {
-            ee = efa;
+            // ee = efa;
             isUse = true;
             gameObject.SetActive(true);
-            _animator.SetTrigger(efa.ToString());
+            _animator.SetTrigger(effName.ToString());
         }
 
         public void endOfAnimation()

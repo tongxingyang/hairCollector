@@ -29,11 +29,6 @@ namespace week
         DateTime _nextAdGem;
         TimeSpan adgem_leftTime;
         public TimeSpan AdGem_LeftTime { get => adgem_leftTime; }
-        // ====== [   rader   ] ======
-        bool _chkRader;
-        long _chkRaderTime;
-        public long ChkRaderTime { get => _chkRaderTime; }
-
 
         public void Init()
         {
@@ -55,17 +50,6 @@ namespace week
                 {
                     adgem_leftTime = _nextAdGem - gameValues.epoch.AddMilliseconds(_nowTime);
                 }
-
-                // 광고제거 안샀고 && 레이더 시간 체크 필요 && 레이더 아직 대여불가
-                //if (BaseManager.userGameData.RemoveAd == false && _chkRader && BaseManager.userGameData.RaderRentalable == false) 
-                //{
-                //    _chkRaderTime++;
-                //    if (_chkRaderTime > 900)
-                //    {
-                //        BaseManager.userGameData.RaderRentalable = true;
-                //    }
-                //}
-
                 
                 _leftTime = _eve - gameValues.epoch.AddMilliseconds(_nowTime);
 
@@ -83,34 +67,20 @@ namespace week
         }
 
 
-        public void setAdGem()
-        {
-            _nextAdGem = gameValues.epoch.AddMilliseconds(BaseManager.userGameData.NextAdGemTime);
+        //public void setAdGem()
+        //{
+        //    _nextAdGem = gameValues.epoch.AddMilliseconds(BaseManager.userGameData.NextAdGemTime);
 
-            _isSetUserData = true;
-        }
+        //    _isSetUserData = true;
+        //}
 
-        public void adGemRefresh()
-        {
-            BaseManager.userGameData.NextAdGemTime = BaseManager.userGameData.LastSave + Convert.ToInt64(new TimeSpan(0, 30, 0).TotalMilliseconds);
-            setAdGem();
-        }
+        //public void adGemRefresh()
+        //{
+        //    BaseManager.userGameData.NextAdGemTime = BaseManager.userGameData.LastSave + Convert.ToInt64(new TimeSpan(0, 30, 0).TotalMilliseconds);
+        //    setAdGem();
+        //}
 
         #region [ Time Check List ]
-
-        /// <summary> 레이더 체크 세팅 </summary>
-        public void setRaderRentalCheck(long time)
-        {
-            _chkRader = true;
-
-            _chkRaderTime = time;
-        }
-
-        public void resetRaderTime()
-        {
-            _chkRaderTime = 0;
-            BaseManager.userGameData.RaderRentalable = false;
-        }
 
         public void setStoreCheck(long time)
         {

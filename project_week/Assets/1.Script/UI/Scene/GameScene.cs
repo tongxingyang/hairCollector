@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using NaughtyAttributes;
 
 namespace week
 {
@@ -15,6 +16,7 @@ namespace week
         [Header("Game")]
         [SerializeField] Joystick _joyStick = null;
         [SerializeField] SnowController _snow = null;
+        [SerializeField] CanvasScaler _ui;
         [Header("Manager")]
         [SerializeField] MapManager _mapMng = null;
         ObstacleManager _obtMng;
@@ -23,53 +25,47 @@ namespace week
         effManager _efMng;
         playerSkillManager _skillMng;
         dmgFontManager _dmgfntMng;
+        [SerializeField] UserGameInterface _inGameInterface = null;
         [SerializeField] clockManager _clockMng = null;
-        [SerializeField] gameCompass _compass = null;
         [Header("Popup")]
         [SerializeField] upgradePopup _upgradePanel;
         [SerializeField] pausePopup _pausePanel;
         [SerializeField] resultPopup _resultPopup;
         [SerializeField] adRebirthPopup _adRebirthPopup;
-        [Header("UI")]
-        [SerializeField] Image _ExpBar;
-        [Space]
-        [SerializeField] GameObject _coinIcon;
-        [SerializeField] TextMeshProUGUI _coinTxt;
-        [SerializeField] GameObject _gemIcon;
-        [SerializeField] TextMeshProUGUI _gemTxt;
-        [SerializeField] GameObject _apIcon;
-        [SerializeField] TextMeshProUGUI _apTxt;
+        [SerializeField] snowQuestPopup _inQuestPopup;
 
-        public bool gemIcon { set { _gemIcon.SetActive(value); _gemTxt.gameObject.SetActive(value); } }
-        public bool apIcon { set { _apIcon.SetActive(value); _apTxt.gameObject.SetActive(value); } }
+        // ========= [ none character data ] ===============
 
-        [Space]
-        [SerializeField] GameObject _bossKillMark;
-        [SerializeField] TextMeshProUGUI _killCount;
-        [Header("etc")]
-        [SerializeField] TextMeshProUGUI _lvlTmp;
+        /// <summary> 레벨 </summary>
+        public int Lvl { get; private set; } = 1;
+        /// <summary> 코인 </summary>
+        public float Coin { get; private set; } = 0;
+        /// <summary> 보석 </summary>
+        public int Gem { get; private set; } = 0;
+        /// <summary> 몹킬 </summary>
+        public int MobKill { get; private set; } = 0;
+        /// <summary> 보스킬 </summary>
+        public int BossKill { get; private set; } = 0;
+        /// <summary> 퀘 </summary>
+        public int ClearQst { get; private set; } = 0;
+        /// <summary> 부활 </summary>
+        public int RebirthQst { get; set; } = 0;
 
-        public int _lvl = 1;
+        // ========= [  ] ===============
 
-        float _coin = 0;
-        int _gem = 0;
-        int _ap = 0;
+        public levelKey StageLevel { get; private set; }
+        float _mobDayIncrease;
+        float _coinLevel;
 
-        int _bossKill = 0;
-        int _mobKill = 0;
-        int _getArti = 0;
+        // ========= [  ] ===============
 
         Vector3 targetPos;
 
-        bool _pause;
-        bool _gameOver;
-        bool _stagePlay;
-
         public PlayerCtrl Player { get => _player; }
         public bool Uping { get; set; }
-        public bool Pause { get => _pause; set => _pause = value; }
-        public bool GameOver { get => _gameOver; }
-        public bool StagePlay { get => _stagePlay; }
+        public bool Pause { get; private set; }
+        public bool GameOver { get; private set; }
+        public bool StagePlay { get; private set; }
 
         Vector2 _pVec;
         public Vector2 pVector
@@ -93,11 +89,14 @@ namespace week
         public effManager EfMng { get => _efMng; }
         public playerSkillManager SkillMng { get => _skillMng; }
         public dmgFontManager DmgfntMng { get => _dmgfntMng; }
+        public snowQuestPopup InQuestPopup { get => _inQuestPopup; }
+        public upgradePopup UpGradePopup { get => _upgradePanel; }
 
-        public float RecordTime { get => _clockMng.RecordTime; }
         public clockManager ClockMng { get => _clockMng; }
-        public gameCompass Compass { get => _compass; }
+        public float RecordTime { get => _clockMng.RecordSecond; }
+        public UserGameInterface InGameInterface { get => _inGameInterface; }
 
+        public GameResource _gameResource { get; private set; }
         void test()
         {
             DataManager.LoadBGdata();
@@ -108,34 +107,39 @@ namespace week
             // 이전 씬 소속 정리
             if (BaseManager.userGameData.RemoveAd == false)
             {
-                BaseManager.userGameData.IsSetRader = false;
             }
+
+            if ((float)Screen.height / Screen.width > 2960f / 1440f)
+            {
+                _ui.matchWidthOrHeight = 0f;
+            }
+
+            StageLevel = (levelKey)(int)BaseManager.userGameData.NowStageLevel;
+            _mobDayIncrease = D_level.GetEntity(StageLevel.ToString()).f_increase;
+            _coinLevel = D_level.GetEntity(StageLevel.ToString()).f_coin;
 
             // 새로운 씬 초기화
             //test();
 
-            _stagePlay = false;
-            _gameOver = false;
-            gemIcon = false;
-            apIcon = false;
+            StagePlay = false;
+            GameOver = false;
 
             managersManager();
 
-            _player._gameOver = gameOver;
-            _ExpBar.fillAmount = 0f;
+            if(StageLevel == levelKey.hard)
+                SoundManager.instance.PlayBGM(BGM.BattleHard);
+            else
+                SoundManager.instance.PlayBGM(BGM.Battle);
 
-            _pausePanel.pauseStart(this);
-            _upgradePanel.setting(_player, whenCloseUpgradePanel);
+            // DataManager.getDataInGame();
 
-            SoundManager.instance.PlayBGM(BGM.Battle);
-
-            StartCoroutine(move());
-            StartCoroutine(_enemyMng.startMakeEnemy());
+            StartCoroutine(gameTimeFlow());
+            // StartCoroutine(_enemyMng.startMakeEnemy());
 
             WindowManager.instance.Win_coinGenerator.RefreshFollowCost = wealthRefresh;
             BaseManager.userGameData.PlayCount++;
 
-            _stagePlay = true;
+            StagePlay = true;
         }
 
         void managersManager()
@@ -147,177 +151,212 @@ namespace week
             _skillMng = _enemyMng.GetComponent<playerSkillManager>();
             _dmgfntMng = _enemyMng.GetComponent<dmgFontManager>();
 
-            _enProjMng.Init(this);
-            _enemyMng.Init(this);
+            _gameResource = GetComponent<GameResource>();
+
+            _inQuestPopup.Init(this);
+
+            _clockMng.Init(this);
             _obtMng.Init(this);
+            _enemyMng.Init(this);
             _mapMng.Init(this);
+
+            _enProjMng.Init(this);
 
             _efMng.Init(this);
             _skillMng.Init(this);
             _dmgfntMng.Init();
 
-            _clockMng.Init(this);
-            _player.Init(this);
+            _inGameInterface.Init(this);
+            _pausePanel.Init(this);
+
+            _player.Init(this, gameOver);
+            _upgradePanel.Init(this, whenCloseUpgradePanel);
+            _resultPopup.Init(this);
         }
 
-        IEnumerator move()
+        IEnumerator gameTimeFlow()
         {
-            yield return new WaitUntil(() => _stagePlay == true);
+            yield return new WaitUntil(() => StagePlay == true);
+            float deltime = 0f;
 
-            while (_gameOver == false)
+            while (GameOver == false)
             {
-                yield return new WaitUntil(() => _pause == false);
+                yield return new WaitUntil(() => Pause == false);
 
-                _clockMng.accTime(Time.deltaTime);
+                deltime = Time.deltaTime;
 
-                _player.setMove(_joyStick.Direction);
-
-                if (_mapMng.middleTilePos.y - _player.transform.position.y < -10.24f)
-                {
-                    _mapMng.playerMoveUp();
-                }
-                else if (_mapMng.middleTilePos.y - _player.transform.position.y > 10.24f)
-                {
-                    _mapMng.playerMoveDown();
-                }
-
-                if (_mapMng.middleTilePos.x - _player.transform.position.x < -10.24f)
-                {
-                    _mapMng.playerMoveRight();
-                }
-                else if (_mapMng.middleTilePos.x - _player.transform.position.x > 10.24f)
-                {
-                    _mapMng.playerMoveLeft();
-                }
+                _clockMng.accTime(deltime);
+                _enemyMng.makeEnemy(deltime);
+                move(deltime);
 
                 yield return new WaitForEndOfFrame();
             }
         }
 
-        #region EXP
-
-        public void ExpRefresh(float val)
+        /// <summary> 이동 및 맵 </summary>
+        private void move(float deltime)
         {
-            _ExpBar.fillAmount = val;
+            // 이동
+            _player.setMove(_joyStick.Direction);
+
+            // 맵 조작
+            if (_mapMng.middleTilePos.y - _player.transform.position.y < -10.24f)
+            {
+                _mapMng.playerMoveUp();
+            }
+            else if (_mapMng.middleTilePos.y - _player.transform.position.y > 10.24f)
+            {
+                _mapMng.playerMoveDown();
+            }
+
+            if (_mapMng.middleTilePos.x - _player.transform.position.x < -10.24f)
+            {
+                _mapMng.playerMoveRight();
+            }
+            else if (_mapMng.middleTilePos.x - _player.transform.position.x > 10.24f)
+            {
+                _mapMng.playerMoveLeft();
+            }
         }
+
+        #region EXP
 
         public void levelUp()
         {
-            if (_gameOver)
+            if (GameOver)
             {
                 return;
             }
 
-            whenPause();        
-
-            _lvl++;
-            _lvlTmp.text = $"lvl.{_lvl.ToString()}";
-
-            _upgradePanel.levelUpOpen();
-        }
-
-        /// <summary> 유물 대신 렙업스킬 </summary>
-        public void getEquip()
-        {
-            if (_gameOver)
-            {
-                return;
-            }
-
-            // _getArti++;
             whenPause();
-            _upgradePanel.levelUpOpen();
-            // StartCoroutine(getEquipCo());
+
+            Lvl++;
+            InGameInterface.LevelRefresh(Lvl);
+
+            SoundManager.instance.PlaySFX(SFX.levelup);
+            _upgradePanel.getSkillTreeOpen(NotiType.levelUp);
         }
 
-        //IEnumerator getEquipCo()
-        //{
-        //    yield return new WaitUntil(() => Pause == false);
+        /// <summary> 바로 스킬 선택 </summary>
+        public void confirm_skill(SkillKeyList sk, NotiType noti)
+        {
+            if (GameOver)
+            {
+                return;
+            }
 
-        //    whenPause();
-
-        //    _upgradePanel.presentOpen();
-        //}
+            whenPause();
+            _upgradePanel.confirm_skillTree(sk, noti);
+        }
 
         #endregion
 
-        public void getKill(float exp, float coin)
+        /// <summary>  </summary>
+        public void kill_mob(float exp, float coin, Mob mob)
         {
-            _mobKill++;
+            MobKill++;
             
             getCoin(coin);
+
+            inQuest_goal_valtype igv = inQuest_goal_valtype.fire;
+            switch (mob)
+            {
+                case Mob.closed:
+                    igv = inQuest_goal_valtype.close;
+                    break;
+                case Mob.ranged:
+                    igv = inQuest_goal_valtype.range;
+                    break;
+                case Mob.solid:
+                    igv = inQuest_goal_valtype.hard;
+                    break;
+            }
+            _inQuestPopup.getData(inQuest_goal_key.kill, igv, _player.hpRate);
 
             _player.getExp(exp);
         }
 
-        public void getBossKill(float _bossCoin)
+        public void kill_Boss(float _bossCoin, float _bossExp)
         {
             Debug.Log("보스킬");
 
-            _bossKillMark.SetActive(true);
-
-            _bossKill++;
-            _killCount.text = _bossKill.ToString();
+            BossKill++;
+            _inGameInterface.bossKillRefresh(BossKill);
 
             getCoin(_bossCoin);
-
-            _player.getExp(gameValues._startBobExp);
+            _player.getExp(_bossExp);
         }
 
         public void getCoin(float coin, bool isAni = false)
         {
-            if (_gameOver)
+            if (GameOver)
                 return;
 
-            float seasonCoin = 1f;// ((_clockMng.Season == season.fall) ? 1.2f : 1f);
-            _coin += coin * _player.Coin * seasonCoin;
+            Coin += coin * _player.Coin;
 
-            if (isAni)
-            {
-                WindowManager.instance.Win_coinGenerator.getDirect(_coinIcon.transform.position, currency.coin, 1);
-            }
-            else
-            {
-                _coinTxt.text = Convert.ToInt32(_coin).ToString();
-            }
+            _inGameInterface.getCoin(Coin);
         }
 
         public void getGem()
         {
-            if (_gameOver)
+            if (GameOver)
             {
                 return;
             }
 
-            _gem += 1;
-            //_gemTxt.text = _gem.ToString();
+            Gem += 1;
 
-            WindowManager.instance.Win_coinGenerator.getDirect(_gemIcon.transform.position, currency.gem, 1);
+            _inGameInterface.GemRefresh(Gem);
         }
 
-        public void getAp(int val)
+        //public void getAp(int val)
+        //{
+        //    if (GameOver)
+        //    {
+        //        return;
+        //    }
+
+        //    _ap += val;
+
+        //    _inGameInterface.ApRefresh(_ap);
+        //}
+
+        /// <summary> 퀘스트 얻기 </summary>
+        public void getInQuest()
         {
-            if (_gameOver)
+            if (GameOver)
             {
                 return;
             }
 
-            _ap += val;
-            //_apTxt.text = _ap.ToString();
+            whenPause();
+            _inQuestPopup.open();
+        }
 
-            WindowManager.instance.Win_coinGenerator.getDirect(_apIcon.transform.position, currency.ap, 1);
+        public void setInQuestData(inQuest_goal_key gk, inQuest_goal_valtype gv, float val)
+        {            
+            _inQuestPopup.getData(gk, gv, val);
+        }
+        public void InQuestTimeCheck(inQuest_goal_key gk, inQuest_goal_valtype gv, float val)
+        {
+            _inQuestPopup.getData_time(gk, gv, val);
+        }
+
+        public void setInQuestData(inQuest_goal_key gk, gainableTem tem, float val)
+        {
+            _inQuestPopup.getData(gk, tem, val);
+        }
+
+        /// <summary> 퀘스트 완료 (퀘보상)메달 지급 </summary>
+        public void clearQuest()
+        {
+            Player.getTem(gainableTem.questKey);
+            ClearQst++;
         }
 
         public void wealthRefresh()
         {
-            _gemTxt.text = _gem.ToString();
-            _apTxt.text = _ap.ToString();
-
-            if (_gem > 0)
-                gemIcon = true;
-
-            if (_ap > 0)
-                apIcon = true;
+            _inGameInterface.wealthRefresh(Gem);
         }
 
         #region 카메라 안 군중제어
@@ -440,14 +479,7 @@ namespace week
             return targetPos;
         }
 
-        #endregion
-
-        public void preGameOver()
-        {            
-            _player.whenPlayerDie();
-
-            whenPause();
-        }
+        #endregion        
 
         /// <summary> 게임 종료 및 결산 </summary>
         public void gameOver()
@@ -455,21 +487,8 @@ namespace week
             whenPause();
 
             _enemyMng.allDestroy();
-            _stagePlay = false;
-            _gameOver = true;
-
-            int coinResult = (int)(_coin);
-            int gemResult = _gem;
-            int apResult = _ap;
-
-            if (BaseManager.userGameData.BossRecord < _bossKill)
-            {
-                BaseManager.userGameData.BossRecord = _bossKill;
-            }
-            if (BaseManager.userGameData.ArtifactRecord < _getArti)
-            {
-                BaseManager.userGameData.ArtifactRecord = _getArti;
-            }
+            StagePlay = false;
+            GameOver = true;
 
             // BaseManager.userGameData.SaveDataServer();
 
@@ -477,7 +496,7 @@ namespace week
             _pausePanel.gameObject.SetActive(false);
             _adRebirthPopup.gameObject.SetActive(false);
 
-            _resultPopup.resultInit(_clockMng.RecordTime, coinResult, gemResult, apResult, _mobKill, _bossKill, _getArti);
+            _resultPopup.setRresult();
         }
 
 
@@ -485,7 +504,7 @@ namespace week
 
         public void openPause()
         {
-            if (_gameOver)
+            if (GameOver)
             {
                 return;
             }
@@ -498,9 +517,9 @@ namespace week
             Time.timeScale = 1;
             Uping = false;
 
-            whenResume();
+            whenResume(true);
 
-            _player.setAlmighty();
+            _player.whenLevUpExp();
         }
 
         public void openAdRebirthPanel(Action watch, Action timeover)
@@ -513,7 +532,7 @@ namespace week
 
         public void whenPause()
         {
-            _pause = true;
+            Pause = true;
 
             _player.onPause(true);
 
@@ -530,9 +549,9 @@ namespace week
                 ec.onPause(true);
             }
         }
-        public void whenResume()
+        public void whenResume(bool isAlmighty = false)
         {
-            _pause = false;
+            Pause = false;
 
             _player.onPause(false); 
 
@@ -547,6 +566,11 @@ namespace week
             foreach (effControl ec in _efMng.EffList)
             {
                 ec.onPause(false);
+            }
+
+            if (isAlmighty)
+            {
+                _player.setAlmighty();
             }
         }
     }

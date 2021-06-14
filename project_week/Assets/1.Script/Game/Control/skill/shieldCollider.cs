@@ -34,9 +34,6 @@ namespace week
 
                 IDamage id = coll.GetComponentInParent<IDamage>();
                 _shield.onTriggerEnemy(id, _skill);
-
-                if (_skill == SkillKeyList.ChargeShield)
-                    _render.color = Color.green;
             }
         }
     }

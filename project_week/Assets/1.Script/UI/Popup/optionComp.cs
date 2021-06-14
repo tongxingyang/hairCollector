@@ -52,9 +52,7 @@ namespace week
         /// <summary> 옵션창 닫기 </summary>
         public void close()
         {
-            //Debug.Log(BaseManager.option.BgmVol + " // " + _bgmVol.value);
-            BaseManager.instance.saveOption();
-            //_win.localScale = new Vector3(1f, 0f);
+            BaseManager.instance.saveDeviceData();
 
             gameObject.SetActive(false);
         }
@@ -93,9 +91,8 @@ namespace week
             // BaseManager.userGameData.saveDataToLocal();
 
 #if UNITY_EDITOR
-
 #else
-            yield return StartCoroutine(AuthManager.instance.saveDataToFB());
+            yield return StartCoroutine(AuthManager.instance.saveDataToFB(null));
 #endif
             yield return null;
             Application.Quit();

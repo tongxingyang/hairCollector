@@ -9,7 +9,9 @@ namespace week
     public class rankBox : MonoBehaviour
     {
         [SerializeField] Image _skinIcon;
-        
+        [SerializeField] GameObject _topRanker;
+        [SerializeField] Image _medal;
+
         [SerializeField] TextMeshProUGUI _rank;
         [SerializeField] TextMeshProUGUI _nickName;
         [SerializeField] TextMeshProUGUI _time;
@@ -17,16 +19,26 @@ namespace week
         [SerializeField] TextMeshProUGUI _version;
         [SerializeField] TextMeshProUGUI _preRank;
 
-        public rankBox setRankBox(int rank, string nick, int record, rankSubData data)
+        /// <summary> 세팅 </summary>
+        public rankBox setRankBox(levelKey lvl, int rank, string nick, int record, rankSubData data, System.Func<int, Sprite> getsprite)
         {
             _skinIcon.sprite = DataManager.SkinSprite[(SkinKeyList)data._skin];
             _skinIcon.color = Color.white;
             _rank.text = $"#{rank}";
+            if (rank < 4)
+            {
+                _topRanker.SetActive(true);
+                _medal.sprite = getsprite(rank-1);
+            }
+            else 
+            { 
+                _topRanker.SetActive(false); 
+            }
             _nickName.text = nick;
 
             int time = (int)(record * 0.001f);
             int boss = (int)(record % 1000);
-            _time.text = BaseManager.userGameData.getLifeTime(time, false) + $"({time})";
+            _time.text = BaseManager.userGameData.getLifeTime(lvl, time) + $"({time})";
             _boss.text = boss.ToString();
             _version.text = data._version.ToString();
 
@@ -35,6 +47,7 @@ namespace week
             return this;
         }
 
+        /// <summary> 빈거 세팅 </summary>
         public rankBox blink()
         {
             _skinIcon.sprite = DataManager.SkinSprite[SkinKeyList.snowman];
@@ -51,9 +64,9 @@ namespace week
             return this;
         }
 
-        public void setBoxType(bool isSeason)
-        {
-            _preRank.gameObject.SetActive(isSeason);
-        }
+        //public void setBoxType(bool isSeason)
+        //{
+        //    _preRank.gameObject.SetActive(isSeason);
+        //}
     }
 }

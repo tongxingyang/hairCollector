@@ -14,12 +14,15 @@ namespace week
         enum e_box
         {
             b_petBase,
+
             b_pet,
             b_pet2,
             b_pet3,
+
             b_icewall,
             b_iceberg,
             b_shard,
+
             b_mine
         }
 
@@ -38,20 +41,16 @@ namespace week
 
         #endregion
 
-        [Header("Item")]
-        [SerializeField] GameObject _petTem;
-        [SerializeField] GameObject _mineTem;
-
-        public bool _getPtTem()
+        public bool getMineTem()
         {
-            // 플레이어? 템리스트에서 펫 있는지 체크 반환
+            // 플레이어? 템리스트에서 무적 있는지 체크 반환
 
             return false;
         }
 
-        public bool _getMnTem()
+        public bool getBeardTem()
         {
-            // 플레이어? 템리스트에서 마인 있는지 체크 반환
+            // 플레이어? 템리스트에서 무적 있는지 체크 반환
 
             return false;
         }
@@ -59,24 +58,22 @@ namespace week
         #region [ override ]
         public override void mBoxSetting()
         {
-            List<SkillKeyList>[] skl
-                = new List<SkillKeyList>[1] { new List<SkillKeyList>() { SkillKeyList.IceWall, SkillKeyList.Mine } };
+            gameObject.SetActive(false);
 
-            mBoxes[(int)e_box.b_petBase].Init(_tree, _player.Skills[SkillKeyList.Summon]).setDefault(skl);
+            mBoxes[(int)e_box.b_petBase].Init(_tree, _player.Skills[SkillKeyList.Summon])
+                .setRoot(new List<SkillKeyList>[] {});
 
-            mBoxes[(int)e_box.b_pet].Init(_tree, _player.Skills[SkillKeyList.Pet]).setFrom(new SkillKeyList[] { SkillKeyList.Summon });
-            mBoxes[(int)e_box.b_pet2].Init(_tree, _player.Skills[SkillKeyList.Pet2]).setFrom(new SkillKeyList[] { SkillKeyList.Pet });
-            mBoxes[(int)e_box.b_pet3].Init(_tree, _player.Skills[SkillKeyList.BPet]).setFrom(new SkillKeyList[] { SkillKeyList.Pet2 }).setTem(_petTem, _getPtTem);
+            mBoxes[(int)e_box.b_pet]    .Init(_tree, _player.Skills[SkillKeyList.Pet])      .setFrom();
+            mBoxes[(int)e_box.b_pet2]   .Init(_tree, _player.Skills[SkillKeyList.Pet2])     .setFrom()
+                .setGoLine(new List<SkillKeyList>[] { new List<SkillKeyList> { SkillKeyList.BPet } });
+            mBoxes[(int)e_box.b_pet3]   .Init(_tree, _player.Skills[SkillKeyList.BPet])     .setFrom();//  .setTem(() => getTem(gainableTem.beardTem));
 
-            List<SkillKeyList>[] skl2
-                = new List<SkillKeyList>[1] { new List<SkillKeyList>() { SkillKeyList.Iceberg, SkillKeyList.Shard } };
-            mBoxes[(int)e_box.b_icewall].Init(_tree, _player.Skills[SkillKeyList.IceWall])  .setFrom(new SkillKeyList[] { SkillKeyList.Summon }).setGoLine(skl2);
-            mBoxes[(int)e_box.b_iceberg].Init(_tree, _player.Skills[SkillKeyList.Iceberg])  
-                .setSelectType(new SkillKeyList[] { SkillKeyList.Shard })                   .setFrom(new SkillKeyList[] { SkillKeyList.IceWall });
-            mBoxes[(int)e_box.b_shard].Init(_tree, _player.Skills[SkillKeyList.Shard])
-                .setSelectType(new SkillKeyList[] { SkillKeyList.Iceberg })                 .setFrom(new SkillKeyList[] { SkillKeyList.IceWall });
+            mBoxes[(int)e_box.b_icewall].Init(_tree, _player.Skills[SkillKeyList.IceWall])  .setFrom()  
+                .setGoLine(new List<SkillKeyList>[] { new List<SkillKeyList> { SkillKeyList.IceBerg, SkillKeyList.Shard } });
+            mBoxes[(int)e_box.b_iceberg].Init(_tree, _player.Skills[SkillKeyList.IceBerg])  .setFrom()  .setChoiceType(new SkillKeyList[] { SkillKeyList.Shard });
+            mBoxes[(int)e_box.b_shard]  .Init(_tree, _player.Skills[SkillKeyList.Shard])    .setFrom()  .setChoiceType(new SkillKeyList[] { SkillKeyList.IceBerg });
 
-            mBoxes[(int)e_box.b_mine].Init(_tree, _player.Skills[SkillKeyList.SnowDart]).setFrom(new SkillKeyList[] { SkillKeyList.Summon }).setTem(_mineTem, _getMnTem);
+            mBoxes[(int)e_box.b_mine]   .Init(_tree, _player.Skills[SkillKeyList.Mine])     .setFrom();//  .setTem(() => getTem(gainableTem.mineTem));
         }
 
         #endregion

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace week
 {
-    public class BaseObstacle : poolingObject
+    public class BaseObstacle : poolingObject, IPause
     {
         protected enemyManager _enm;
         Transform _homePos;
@@ -28,7 +28,7 @@ namespace week
         protected virtual void otherSetInit() { }
 
 
-        public override void Destroy()
+        protected override void Destroy()
         {
             preDestroy();
             otherInDestroy();
@@ -39,8 +39,6 @@ namespace week
         
         }
 
-        public override void onPause(bool bl)
-        {
-        }
+        public virtual void onPause(bool bl) { }
     }
 }

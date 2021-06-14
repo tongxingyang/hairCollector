@@ -82,8 +82,10 @@ namespace week
                         if (Vector3.Distance(_player.transform.position, transform.position) < 5f)
                         {
                             _player.getDamaged(this, Skill0);
-                            _player.setDeBuff(eBuff.speed, 3, 0.8f);
+                            _player.setDeBuff(SkillKeyList.SPEED, 3, 0.8f);
                         }
+
+                        skillAShot();
                         _player.cameraShake();
                     }
                 }
@@ -96,6 +98,7 @@ namespace week
                             _nowDir = (int)_prevDir;
                         }
 
+                        SoundManager.instance.PlaySFX(SFX.flurry);
                         skillBShot();
                     }
                 }
@@ -114,7 +117,7 @@ namespace week
 
             while (_isDie == false)
             {
-                deltime += Time.deltaTime;
+                deltime = Time.deltaTime;
 
                 switch (_stats)
                 {
@@ -200,7 +203,7 @@ namespace week
         /// <summary> 1번스킬 - 점프 쿵 </summary>
         void skillAShot()
         {
-
+            SoundManager.instance.PlaySFX(SFX.bossground);
         }
 
         /// <summary> 2번스킬 - 투척 </summary>

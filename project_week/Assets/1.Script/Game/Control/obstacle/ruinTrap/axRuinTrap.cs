@@ -6,28 +6,29 @@ namespace week
 {
     public class axRuinTrap : baseRuinTrap
     {
+        /// <summary> 망치들 </summary>
         [SerializeField] Transform[] _axis;
 
         float _outAngle = 1f;
         float _inAngle = -1.5f;
         float _spd = 1f;
 
+        /// <summary> 함정 생성 초기화 - 추가작업 필요시 </summary>
         protected override void whenFixedInit()
         {
             _att = 8f;
         }
 
+        /// <summary> 함정 재사용 초기화 - 추가작업 필요시 </summary>
         protected override void whenRepeatInit()
         {
-            Att = _att * Mathf.Pow(1.2f, _clm.Day);
+            Att = _att * _dmgRate * _increase;
+            
+            //StartCoroutine(rollingAx());
         }
 
-        public override void operate()
-        {
-            StartCoroutine(rollingAx());
-        }
-
-        IEnumerator rollingAx()
+        /// <summary> 망치 컨트롤 </summary>
+        protected override IEnumerator trapPlay()
         {
             float time = 0;
             float chkSpd = 0;
@@ -38,42 +39,19 @@ namespace week
             {
                 time = Time.deltaTime;
 
-                if (_onTrap)
+                if (chkSpd < _spd)
                 {
-                    if (chkSpd < _spd)
-                    {
-                        chkSpd += time;
-                    }
-                }
-                else
-                {
-                    if (chkSpd > 0f)
-                    {
-                        chkSpd -= time;
-                    }
+                    chkSpd += time;
                 }
 
                 _axis[0].Rotate(Vector3.forward, _outAngle * chkSpd);
                 _axis[1].Rotate(Vector3.forward, _inAngle * chkSpd);
 
-                //for (int i = 0; i < _axis.Length; i++)
-                //{
-                //    _axis[i].Rotate(Vector3.forward, _angle * chkSpd);     
-                //}
-
-                yield return new WaitUntil(() => (_gs.Pause == false && _onTrap));
+                yield return new WaitUntil(() => (_gs.Pause == false));
             }
         }
-        
-        //private void OnTriggerEnter2D(Collider2D collision)
-        //{
-        //    if (collision.tag.Equals("Player"))
-        //    {
-        //        Vector3 knock = (_player.transform.position - transform.position).normalized;
-        //        _player.getDamaged(Att);
-        //        _player.getKnock(knock, 0.1f, 0.2f);
-        //    }
-        //}
+
+        /// <summary> 충돌 </summary>
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag.Equals("Player"))
@@ -82,14 +60,6 @@ namespace week
                 _player.getDamaged(Att);
                 _player.getKnock(knock, 0.1f, 0.2f);
             }
-        }
-
-        public override void onPause(bool bl)
-        {
-        }
-
-        public override void Destroy()
-        {
         }
     }
 }

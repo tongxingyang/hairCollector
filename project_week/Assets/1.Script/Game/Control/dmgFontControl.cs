@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 namespace week
 {
@@ -40,24 +41,32 @@ namespace week
                 case dmgTxtType.def:
                     _dmgText.color = Color.blue * 0.9f;
                     break;
+                case dmgTxtType.poison:
+                    _dmgText.color = new Color(0.8f, 0.2f, 0f);
+                    break;
             }
 
             gameObject.SetActive(true);
-            StartCoroutine(fontAni());
+
+            transform.DOLocalMoveY(transform.localPosition.y + 1f, 1f).OnComplete(()=> {
+                gameObject.SetActive(false);
+                isUse = false;
+            });
+            //StartCoroutine(fontAni());
         }
 
-        IEnumerator fontAni()
-        {
-            float t = 0;
-            while (t < 1f)
-            {
-                t += Time.deltaTime;
-                transform.position += Vector3.up * Time.deltaTime;
-                yield return new WaitForEndOfFrame();
-            }
+        //IEnumerator fontAni()
+        //{
+        //    float t = 0;
+        //    while (t < 1f)
+        //    {
+        //        t += Time.deltaTime;
+        //        transform.position += Vector3.up * Time.deltaTime;
+        //        yield return new WaitForEndOfFrame();
+        //    }
 
-            gameObject.SetActive(false);
-            isUse = false;
-        }
+        //    gameObject.SetActive(false);
+        //    isUse = false;
+        //}
     }
 }

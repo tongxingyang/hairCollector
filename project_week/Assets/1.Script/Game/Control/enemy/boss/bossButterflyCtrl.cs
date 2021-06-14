@@ -65,7 +65,7 @@ namespace week
 
             while (_isDie == false)
             {
-                deltime += Time.deltaTime;
+                deltime = Time.deltaTime;
 
                 switch (_stats)
                 {
@@ -170,9 +170,10 @@ namespace week
             {
                 yield return new WaitForSeconds(0.25f);
 
-                _efMng.makeEff(effAni.tel, transform.position);
+                _efMng.makeEff("tel", transform.position);
                 yield return new WaitForSeconds(0.16f);
 
+                SoundManager.instance.PlaySFX(SFX.bossTelpo);
                 transform.position = _homePos + (Vector3)(Random.insideUnitCircle * 5.5f);
 
                 for (int j = 0; j < sk_B_shotCnt; j++)

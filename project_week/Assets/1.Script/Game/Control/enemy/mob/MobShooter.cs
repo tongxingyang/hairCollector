@@ -31,17 +31,17 @@ namespace week
 
         protected override void otherWhenFixInit()
         {
-            if (_mobName.Equals("monkey"))
-            {
-                _isCurved = true;
-                _shotType = EnShot.banana;
-            }
-
             _dotDmg = new dotDmg();
         }
 
         protected override void otherWhenRepeatInit()
         {
+            if (_season == season.summer)
+            {
+                _isCurved = true;
+                _shotType = EnShot.banana;
+            }
+
             _dotDmg.reset();
             applyAttack();
             _shotTerm = 0.5f;
@@ -88,9 +88,7 @@ namespace week
                     _esc.operation(_player.transform.position, 0);
                 }
 
-                chkDotDmg(deltime);
-                chkDestroy(deltime);
-                chkFrozen(deltime);
+                check_mobStair(deltime);
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }

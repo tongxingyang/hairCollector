@@ -56,7 +56,7 @@ namespace week
         string _version;
         // long _lastLogin;
         List<rankSubData> _leaders;
-        public Action WhenTomorrow { get; set; }
+        public Action<int> WhenTomorrow { get; set; }
         bool _succesGetTime;
 
         public bool IsExist { get; set; }
@@ -255,7 +255,6 @@ namespace week
 
                 DataSnapshot snap = task.Result;
                 IsExist = snap.HasChildren;
-                Debug.Log(snap.ChildrenCount);
                 complete = true;
             });
 
@@ -293,14 +292,19 @@ namespace week
         /// <summary> 서버 저장 </summary>
         public void SaveDataServer(bool wantWait)
         {
-            if (wantWait)
-                WindowManager.instance.openWin(Windows.win_serverLoad);
+            Action endWin = null;
 
-            StartCoroutine(saveDataToFB());
+            if (wantWait)
+            {
+                WindowManager.instance.openWin(Windows.win_serverLoad);
+                endWin = WindowManager.instance.Win_serverWait.close;
+            }
+
+            StartCoroutine(saveDataToFB(endWin));
         }
 
         /// <summary> 서버에 데이터 저장(과 동시에 마지막 저장시간 갱신) </summary>
-        public IEnumerator saveDataToFB(bool isFirst = false)
+        public IEnumerator saveDataToFB(Action endWin, bool isFirst = false)
         {
             // 시간 저장
             yield return StartCoroutine(checkNextDay(isFirst));
@@ -324,13 +328,14 @@ namespace week
 
             yield return new WaitUntil(() => complete == true);
 
-            WindowManager.instance.Win_serverWait.close();
+            endWin?.Invoke();
         }
 
+        enum dataKey { _payment, _property, _quest, _record, _statistics, _status, _util, max }
         public IEnumerator loadDataFromFB()
         {
             Debug.Log("서버에서 데이터 로드 시도");
-            bool complete = false;       
+            bool complete = false;
 
             reference.Child("User").Child(_uid).GetValueAsync().ContinueWith(task =>
             {
@@ -345,16 +350,19 @@ namespace week
                     Debug.LogError("Load SignInWithCredentialAsync encountered an error. : " + task.Exception);
                     return;
                 }
-                string userData = (string)task.Result.GetRawJsonValue();
 
+                string userData = task.Result.GetRawJsonValue();
+                //Debug.Log(userData);                
+                //=======================================================
                 UserEntity entity = JsonConvert.DeserializeObject<UserEntity>(userData, new ObscuredValueConverter());
 
                 if (BaseManager.userGameData == null)
                 {
-                    BaseManager.userGameData = new UserGameData();                    
+                    BaseManager.userGameData = new UserGameData(); 
                 }
 
                 BaseManager.userGameData.setUserEntity(entity);
+                //Debug.Log(BaseManager.userGameData.getUserData());
 
                 complete = true;
             });
@@ -604,15 +612,16 @@ namespace week
         /// <summary> 최근 저장 시간 저장 - (시간만 갱신) - 기기, 서버 </summary>
         IEnumerator saveLastLogin()
         {
-            int complete = 0;
+            bool complete = false;
 
             NanooManager.instance.getTimeStamp(() =>
             {
-                complete = 1;
+                complete = true;
             });
 
-            yield return new WaitUntil(() => complete == 1);
+            yield return new WaitUntil(() => complete == true);
 
+            complete = false;
             // 서버에도 저장
             reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").SetValueAsync((long)BaseManager.userGameData.LastSave).ContinueWith(task =>
             {
@@ -621,10 +630,10 @@ namespace week
                     Debug.Log("성공");
                 }
 
-                complete = 2;
+                complete = true;
             });
 
-            yield return new WaitUntil(() => complete == 2);
+            yield return new WaitUntil(() => complete == true);
 
         }
 
@@ -642,28 +651,28 @@ namespace week
 
             // (서버에 저장된) 마지막 저장 시간
             bool complete = false;
-            long lastTime = 0;
+            long lastSaveTime = 0;
             reference.Child("User").Child(_uid).Child("_util").Child("_lastSave").GetValueAsync().ContinueWith(task => {
                 
-                lastTime = (long)task.Result.Value;
+                lastSaveTime = (long)task.Result.Value;
                 complete = true;
             });
+            Debug.Log(lastSaveTime);
             yield return new WaitUntil(() => complete == true);
 
-            // 현재 서버시간 (가져오면서 저장)
-            yield return StartCoroutine(saveLastLogin());            
+            // 현재 서버시간 (가져오면서 새로저장)
+            yield return StartCoroutine(saveLastLogin());
 
             // 비교
-            DateTime lastDate = gameValues.epoch.AddMilliseconds(lastTime);
-            DateTime nowDate = gameValues.epoch.AddMilliseconds(BaseManager.userGameData.LastSave);
+            int lastDate = Convert.ToInt32(gameValues.epoch.AddMilliseconds(lastSaveTime).ToString("yyyyMMdd"));
+            int nowDate = Convert.ToInt32(gameValues.epoch.AddMilliseconds(BaseManager.userGameData.LastSave).ToString("yyyyMMdd"));
 
-            // Debug.Log(nowDate.Day + " > " + lastDate.Day);
-            if (nowDate.Day > lastDate.Day)
+            if (nowDate > lastDate)
             {
                 Debug.Log(nowDate.ToString("yyyy-MM-dd HH:mm:ss"));
                 Debug.Log(lastDate.ToString("yyyy-MM-dd HH:mm:ss"));
                 
-                WhenTomorrow?.Invoke();
+                WhenTomorrow?.Invoke(nowDate);
             }
         }
 
@@ -695,7 +704,6 @@ namespace week
                 }
 
                 DataSnapshot shot = task.Result;
-                // Debug.Log(shot.Value + " : " + ());
                 chker(shot.HasChildren);
 
                 Debug.Log("testNickName : 성공");

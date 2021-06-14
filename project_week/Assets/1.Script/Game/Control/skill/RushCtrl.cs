@@ -8,6 +8,7 @@ namespace week
     {
         enum rush { bat, flurry, storm }
         [SerializeField] Transform _followAngle;
+        [SerializeField] Transform _followFixedAngle;
         [SerializeField] Transform[] _shotPos;
         [SerializeField] rushCollider[] _cols;
         Animator[] _Ani;
@@ -17,10 +18,10 @@ namespace week
         float _flurryDmg;
         float _stormDmg;
         shotCtrl _bullet;
+        attackData _adata = new attackData();
 
         public Transform[] openPos { get => _shotPos; }
-        public Transform baltPos { get => _shotPos[2]; }
-        public bool OnStorm { get; set; }
+        public Transform baltPos { get => _shotPos[0]; }
 
         public void Init(GameScene gs)
         {
@@ -40,6 +41,11 @@ namespace week
             _followAngle.rotation = Quaternion.AngleAxis(angle, Vector3.back);
         }
 
+        public void setFixDir()
+        {
+            _followFixedAngle.rotation = _followAngle.rotation;
+        }
+
         #region [Bat]
 
         public void setBat(float dmg)
@@ -47,7 +53,7 @@ namespace week
             _batDmg = dmg;
 
             _Ani[(int)rush.bat].gameObject.SetActive(true);
-            // _Ani[(int)rush.bat].SetTrigger("swing");
+            SoundManager.instance.PlaySFX(SFX.icebat);
         }
 
         #endregion
@@ -58,6 +64,7 @@ namespace week
         {
             _flurryDmg = dmg;
 
+            SoundManager.instance.PlaySFX(SFX.flurry);
             _Ani[(int)rush.flurry].gameObject.SetActive(true);
             _cols[1].Skill = sk;
 
@@ -82,25 +89,13 @@ namespace week
             _Ani[(int)rush.storm].gameObject.SetActive(true);
 
             _cols[2].Skill = skill;
-            if (skill == SkillKeyList.ColdStorm)
-            {
-            }
-            else if (skill == SkillKeyList.RotateStorm)
-            {
-                OnStorm = false;
-                _cols[2].StormCnt = 0;
-                _cols[2].transform.localScale = Vector3.one;
-            }
-            else if(skill == SkillKeyList.LockOn)
-            {
-                _cols[2].transform.localScale = Vector3.one * 1.6f;
-            }
+            _cols[2].sizeReset(skill);
         }
 
         #endregion
 
         /// <summary> 상호작용 가능한 오브젝트만 </summary>
-        public void onTriggerEnemy(GameObject go, SkillKeyList skill)
+        public void onTriggerEnemy(GameObject go, SkillKeyList skill, bool isboss = false)
         {
             IDamage id = go.GetComponentInParent<IDamage>();
             if (id == null)
@@ -115,31 +110,47 @@ namespace week
             switch (skill)
             {
                 case SkillKeyList.IceBat:
-                    id.getDamaged(_batDmg, false);
-                    // Vector3 nor = (go.transform.position - _gs.Player.transform.position).normalized * 0.05f;
+                    _adata.set(_batDmg, skill, false);
                     nor = (go.transform.position - _gs.Player.transform.position).normalized * 1.5f;
-                    id.getKnock(nor, 1f, 0.3f);
+
+                    if (isboss)
+                    {
+                        bossControl bc = go.GetComponentInParent<bossControl>();
+
+                        if (bc != null)
+                            isboss = bc.getType == Boss.boss_flower;
+                    }
+
+                    if (isboss == false)
+                    {
+                        id.getKnock(nor, 1f, 0.3f);
+                    }
                     break;
                 case SkillKeyList.Flurry:
-                    id.getDamaged(_flurryDmg, false);
+                    _adata.set(_flurryDmg, skill, false);
                     break;
                 case SkillKeyList.EyeOfFlurry:
-                    id.getDamaged(_flurryDmg, false);
+                    _adata.set(_flurryDmg, skill, false);
                     nor = (_shotPos[3].transform.position - go.transform.position);
-                    id.getKnock(nor, 0.5f, 0.1f);
+                    if (isboss == false)
+                    {
+                        id.getKnock(nor, 0.5f, 0.1f);
+                    }
                     break;
                 case SkillKeyList.ColdStorm:
-                    id.getDamaged(_stormDmg, false);
+                    _adata.set(_stormDmg, skill, false);
                     break;
                 case SkillKeyList.RotateStorm:
-                    id.getDamaged(_stormDmg, false);                    
-                    OnStorm = true;
+                    _adata.set(_stormDmg, skill, false);
+                    _cols[2].OnStorm = true;
                     break;
                 case SkillKeyList.LockOn:
-                    id.getDamaged(_stormDmg, false);
+                    _adata.set(_stormDmg, skill, false);
                     _gs.Player.getBalt(SkillKeyList.LockOn, go.transform.position);
                     break;
             }
+
+            id.getDamaged(_adata);
         }
 
         public void onPause(bool bl)

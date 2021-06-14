@@ -7,6 +7,7 @@ namespace week
 {
     public class spikeRuinTrap : baseRuinTrap
     {
+        /// <summary> 스파이크 위치 클래스 </summary>
         class pair
         {
             public int originX;
@@ -47,6 +48,7 @@ namespace week
         Vector3[] _originPos;
         int _trapCnt;
 
+        /// <summary> 함정 생성 초기화 - 추가작업 필요시 </summary>
         protected override void whenFixedInit()
         {
             _trapCnt = _spikes.Length;
@@ -60,49 +62,26 @@ namespace week
                 _pos[i] = new pair(0, 0);
             }
 
-            //_pos[0] = new pair(-1, 2);
-            //_pos[1] = new pair(0, 2);
-            //_pos[2] = new pair(1, 2);
-            //_pos[3] = new pair(2, 2);
-            //_pos[4] = new pair(2, 1);
-            //_pos[5] = new pair(2, 0);
-            //_pos[6] = new pair(2, -1);
-            //_pos[7] = new pair(2, -2);
-            //_pos[8] = new pair(1, -2);
-            //_pos[9] = new pair(0, -2);
-            //_pos[10] = new pair(-1, -2);
-            //_pos[11] = new pair(-2, -1);
-            //_pos[12] = new pair(-2, 0);
-            //_pos[13] = new pair(-2, 1);
-            //_pos[14] = new pair(-2, 1);
-            //_pos[15] = new pair(-2, 2);
-
             _att = 15f;
         }
 
+        /// <summary> 함정 재사용 초기화 - 추가작업 필요시 </summary>
         protected override void whenRepeatInit()
         {
             for (int i = 0; i < _trapCnt; i++)
             {
                 _spikes[i].transform.localPosition = _originPos[i];
-                //_spikes[i].transform.position = transform.position + new Vector3(_pos[i].originX * 0.6f, _pos[i].originY * 0.6f);
                 _spikes[i].SetTrigger("idle");
             }
 
-            Att = _att * Mathf.Pow(1.2f, _clm.Day);
+            Att = _att * _dmgRate * _increase;
+
+            //if (gameObject.activeSelf)
+            //    StartCoroutine(spikeMove());
         }
 
-        public override void Destroy()
-        {
-
-        }
-
-        public override void operate()
-        {
-            StartCoroutine(spikeMove());
-        }
-
-        IEnumerator spikeMove()
+        /// <summary> 스파이크 컨트롤 </summary>
+        protected override IEnumerator trapPlay()
         {
             float time = 0;
             int x, y;
@@ -152,10 +131,11 @@ namespace week
                     }                    
                 }
 
-                yield return new WaitUntil(() => (_gs.Pause == false && _onTrap));
+                yield return new WaitUntil(() => (_gs.Pause == false));
             }
         }
 
+        /// <summary> 충돌 </summary>
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag.Equals("Player"))

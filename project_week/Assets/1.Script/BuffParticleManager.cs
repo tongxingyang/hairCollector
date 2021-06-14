@@ -7,11 +7,15 @@ namespace week
     public class BuffParticleManager : MonoBehaviour
     {
         [SerializeField] GameObject[] _particleFabs;
+        [SerializeField] GameObject _clearQstFab;
 
+        bool _qPlay;
         GameObject[] _particle;
 
         private void Awake()
         {
+            _qPlay = false;
+            _clearQstFab.SetActive(false);
             _particle = new GameObject[5];
         }
 
@@ -35,6 +39,21 @@ namespace week
             {
                 _particle[num].SetActive(false);
             }
+        }
+
+        public void clearQst()
+        {
+            if (_qPlay == false)
+                StartCoroutine(clearQstEffPlay());
+        }
+
+        IEnumerator clearQstEffPlay()
+        {
+            _qPlay = true;
+            _clearQstFab.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _clearQstFab.SetActive(false);
+            _qPlay = false;
         }
     }
 }

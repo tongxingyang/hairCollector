@@ -15,7 +15,7 @@ namespace week
 
         public Action completeChange { get; set; }
 
-        bool _closable;
+        bool _closable = true;
 
         public void changeNick()
         {
@@ -93,65 +93,62 @@ namespace week
             completeChange?.Invoke();
             AuthManager.instance.SaveDataServer(true);
 
-            // 랭킹
+            //// 랭킹
+            //NanooManager.instance.setUid(AuthManager.instance.Uid);
+            //int prerank = -1;
+            //bool complete = false;
+            //int score = 0;
 
-            NanooManager.instance.setUid(AuthManager.instance.Uid);
-            int prerank = -1;
-            bool complete = false;
-            int score = 0;
-
-            // 시즌부터
-            NanooManager.instance.getRankingPersonal(true, (dictionary) =>
-            {
+            //// 시즌부터
+            //NanooManager.instance.getRankingPersonal(true, (dictionary) =>
+            //{
                 
-                if (dictionary == null)
-                {
-                    prerank = -1;
-                }
+            //    if (dictionary == null)
+            //    {
+            //        prerank = -1;
+            //    }
 
-                prerank = int.Parse((string)dictionary["ranking"]);
+            //    prerank = int.Parse((string)dictionary["ranking"]);
 
-                if (prerank != -1)
-                {
-                    score = int.Parse((string)dictionary["score"]);
-                }
+            //    if (prerank != -1)
+            //    {
+            //        score = int.Parse((string)dictionary["score"]);
+            //    }
 
-                complete = true;
-            });
+            //    complete = true;
+            //});
 
-            yield return new WaitUntil(() => complete == true);
-            if (prerank != -1)
-            {
-                BaseManager.userGameData.newNickSetssRecord();
-                NanooManager.instance.setSeasonRankingRecord(score % 1000);
-            }
+            //yield return new WaitUntil(() => complete == true);
+            //if (prerank != -1)
+            //{
+            //    NanooManager.instance.setSeasonRankingRecord();
+            //}
 
             // 전체
-            complete = false;
-            score = 0;
-            NanooManager.instance.getRankingPersonal(false, (dictionary) =>
-            {
-                if (dictionary == null)
-                {
-                    prerank = -1;
-                }
+            //complete = false;
+            //score = 0;
+            //NanooManager.instance.getRankingPersonal(false, (dictionary) =>
+            //{
+            //    if (dictionary == null)
+            //    {
+            //        prerank = -1;
+            //    }
 
-                prerank = int.Parse((string)dictionary["ranking"]);
+            //    prerank = int.Parse((string)dictionary["ranking"]);
 
-                if (prerank != -1)
-                {
-                    score = int.Parse((string)dictionary["score"]);
-                }
+            //    if (prerank != -1)
+            //    {
+            //        score = int.Parse((string)dictionary["score"]);
+            //    }
 
-                complete = true;
-            });
+            //    complete = true;
+            //});
 
-            yield return new WaitUntil(() => complete == true);
-            if (prerank != -1)
-            {
-                BaseManager.userGameData.newNickSetallRecord();
-                NanooManager.instance.setAllRankingRecord(score % 1000);
-            }
+            //yield return new WaitUntil(() => complete == true);
+            //if (prerank != -1)
+            //{
+            //    NanooManager.instance.setAllRankingRecord();
+            //}
 
             // 닉네임 변경 안내 UI 창
 

@@ -8,6 +8,18 @@ TextureImporter:
   - first:
       213: 7853190210224026116
     second: drogonfly_1
+  - first:
+      213: 9155121401749023487
+    second: drogonfly_0
+  - first:
+      213: 937197539664635808
+    second: drogonfly_1
+  - first:
+      213: -68023129592650368
+    second: drogonfly_2
+  - first:
+      213: -751522624871957558
+    second: drogonfly_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -119,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3916b090840bfc0d0800000000000000
-      internalID: -3400305370205560429
+      spriteID: ffaa3d2b8668d0f70800000000000000
+      internalID: 9155121401749023487
       vertices: []
       indices: 
       edges: []
@@ -140,8 +152,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4027af163e22cfc60800000000000000
-      internalID: 7853190210224026116
+      spriteID: 0a7a4146238910d00800000000000000
+      internalID: 937197539664635808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drogonfly_2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 085ae14f2555e0ff0800000000000000
+      internalID: -68023129592650368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: drogonfly_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acb76d7872e0295f0800000000000000
+      internalID: -751522624871957558
       vertices: []
       indices: 
       edges: []

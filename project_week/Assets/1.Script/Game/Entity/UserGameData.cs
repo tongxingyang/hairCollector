@@ -8,16 +8,28 @@ using Newtonsoft.Json;
 namespace week
 {
     [Serializable]
-    public class Option
+    public class DeviceData
     {
         [SerializeField] public float BgmVol;
         [SerializeField] public float SfxVol;
-        public Option()
+
+        /// <summary> 화면 흔들림 on/off </summary>
+        [SerializeField] public bool OnShake;
+
+        /// <summary> 난이도별 날짜 넘어가는 신기록 갱신시 리뷰창 소환 </summary>
+        [SerializeField] public int[] RecommendDay;   
+        
+        /// <summary> 리뷰창 소환 여부 </summary>
+        public bool showRecommend { get; set; } = false;    //->게임실행시 초기화
+
+        public DeviceData()
         {
             BgmVol = SfxVol = 1f;
+            RecommendDay = new int[3] { 1, 1, 1 };
+            OnShake = true;
         }
     }
-
+    
     public class UserGameData
     {
         public enum defaultStat { hp, att, def, hpgen, cool, exp, coin, speed, max }
@@ -39,30 +51,20 @@ namespace week
         /// <summary> 타임스탬프 간격 </summary>
         public float TimeCheck { get; set; }
 
-        /// <summary> 레이더 대여 가능? </summary>
-        public bool RaderRentalable { get; set; }
-
         #region -------------------------[skin value]-------------------------
-
-        /// <summary> 상시적용 스킨 능력치 </summary>
-        ObscuredFloat[] _addStats;
 
         /// <summary> 적용할 계절 </summary>
         season? _applySeason = null;
 
-        bool[] _skinBval;
-        ObscuredFloat[] _skinFval;
-        ObscuredInt[] _skinIval;
-        snowballType _ballType;
 
         #region [skin properties]
 
-        public ObscuredFloat[] AddStats { get => _addStats; set => _addStats = value; }
+        /// <summary> 상시적용 스킨 능력치 </summary>
+        public ObscuredFloat[] AddStats { get; private set; }
         public season? ApplySeason { get => _applySeason; set => _applySeason = value; }
-        public bool[] SkinBval { get => _skinBval; }
-        public ObscuredFloat[] SkinFval { get => _skinFval; }
-        public ObscuredInt[] SkinIval { get => _skinIval; }
-        public snowballType BallType { get => _ballType; }
+        public ObscuredFloat SkinFval { get; private set; }
+        public ObscuredInt SkinIval { get; private set; }
+        public snowballType BallType { get; private set; }
 
         #endregion
 
@@ -88,42 +90,59 @@ namespace week
 
         // - 스킨
         public ObscuredInt HasSkin { get => _userEntity._property._hasSkin; set => _userEntity._property._hasSkin = value; }
+        public ObscuredInt[] SkinLevel { get => _userEntity._property._skinLevel; set => _userEntity._property._skinLevel = value; }
         public SkinKeyList Skin { get => (SkinKeyList)((int)_userEntity._property._skin); set => _userEntity._property._skin = (int)value; }
+
+        // - 난이도
+        public levelKey NowStageLevel { get => (levelKey)Convert.ToInt32(_userEntity._property._nowStageLevel); set => _userEntity._property._nowStageLevel = (int)value; }
+        public bool IsLevelOpen(levelKey lvl) { return (_userEntity._property._isLevelOpen & (1 << (int)lvl)) > 0; }
+        /// <summary> 어느 난이도를 클리어했는지 입력 -> 클리어한 난이도+1된 난이도 해금 </summary>
+        public void setLevelOpen(levelKey nowLvl) 
+        { 
+            int lvldata = _userEntity._property._isLevelOpen;
+            lvldata|= (1 << (int)nowLvl + 1); 
+            _userEntity._property._isLevelOpen = lvldata;
+        }
         
-        // - 템
-        public ObscuredBool IsSetRader { get => _userEntity._property._isSetRader; set => _userEntity._property._isSetRader = value; }
-        public ObscuredLong LastRaderTime { get => _userEntity._property._lastRaderTime; set => _userEntity._property._lastRaderTime = value; }
-        
+        // - 템(구 레이더)
+
         // 플레이어 통계 데이터 ==============================================================
         public ObscuredInt WholeAccessTime { get => _userEntity._statistics._wholeAccessTime; set => _userEntity._statistics._wholeAccessTime = value; }
         public ObscuredInt PlayCount { get => _userEntity._statistics._playCount; set => _userEntity._statistics._playCount = value; }
         public ObscuredInt StoreUseCount { get => _userEntity._statistics._storeUseCount; set => _userEntity._statistics._storeUseCount = value; }
 
         // 기록 ==============================================================
-        public ObscuredString NowSeasonRankKey { get => _userEntity._record._nowSeasonRankKey; }
-        public ObscuredInt SeasonTimeRecord { get => _userEntity._record._seasonTimeRecord; }
-        public ObscuredInt RecordSeasonSkin { get => _userEntity._record._recordSeasonSkin; }
-        public ObscuredInt AllTimeRecord { get => _userEntity._record._allTimeRecord; }
-        public ObscuredInt RecordAllSkin { get => _userEntity._record._recordAllSkin; }
+        // public string NowSeasonRankKey() { return AuthManager. _userEntity._record._levelRecord[NowStageLevel]._nowSeasonRankKey; }
+        public ObscuredInt[] SeasonTimeRecord   { get => _userEntity._record._season_TimeRecord; set => _userEntity._record._season_TimeRecord = value; }
+        public ObscuredInt[] SeasonRecordSkin   { get => _userEntity._record._season_RecordSkin; set => _userEntity._record._season_RecordSkin = value; }
+        public ObscuredInt[] SeasonRecordLevel  { get => _userEntity._record._season_RecordLevel; set => _userEntity._record._season_RecordLevel = value; }
+        public ObscuredInt[] SeasonRecordBoss   { get => _userEntity._record._season_RecordBoss; set => _userEntity._record._season_RecordBoss = value; }
 
-        public ObscuredInt WholeTimeRecord { get => _userEntity._record._wholeTimeRecord; set => _userEntity._record._wholeTimeRecord = value; }
-        public ObscuredInt BossRecord { get => _userEntity._record._bossRecord; set => _userEntity._record._bossRecord = value; }
-        public ObscuredInt ArtifactRecord { get => _userEntity._record._artifactRecord; set => _userEntity._record._artifactRecord = value; }
-        public ObscuredInt AdRecord { get => _userEntity._record._adRecord; set => _userEntity._record._adRecord = value; }
+        //public int AllTimeRecord(levelKey lvl)      { return _userEntity._record._levelRecord[(int)lvl]._allTime_TimeRecord; }
+        //public int AllTimeSkin(levelKey lvl)        { return _userEntity._record._levelRecord[(int)lvl]._allTime_RecordSkin; }
+        //public int AllTimeLevel(levelKey lvl)       { return _userEntity._record._levelRecord[(int)lvl]._allTime_RecordLevel; }
+        //public int AllTimeBoss(levelKey lvl)        { return _userEntity._record._levelRecord[(int)lvl]._allTime_RecordBoss; }
+
+        public ObscuredInt RequestRecord { get => _userEntity._record._requestRecord; set => _userEntity._record._requestRecord = value; }
         public ObscuredInt ReinRecord { get => _userEntity._record._reinRecord; set => _userEntity._record._reinRecord = value; }
+        public ObscuredInt WholeTimeRecord { get => _userEntity._record._wholeTimeRecord; set => _userEntity._record._wholeTimeRecord = value; }
 
         // 퀘스트 ==============================================================
         // - 일일
-        public ObscuredInt[] DayQuest { get => _userEntity._quest._dayQuest; set => _userEntity._quest._dayQuest = value; }
-        public ObscuredInt DayQuestRein { get => _userEntity._quest._dayQuest[0]; set => _userEntity._quest._dayQuest[0] = value; }
-        public ObscuredInt DayQuestSkin { get => _userEntity._quest._dayQuest[1]; set => _userEntity._quest._dayQuest[1] = value; }
-        public ObscuredInt DayQuestAd { get => _userEntity._quest._dayQuest[2]; set => _userEntity._quest._dayQuest[2] = value; }
-        /// <summary> 오늘의 스킨 퀘스트 </summary>
-        public ObscuredInt QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
-        // - 전체
-        public ObscuredInt GetTimeReward { get => _userEntity._quest._getTimeReward; set => _userEntity._quest._getTimeReward = value; }
-        public ObscuredInt GetBossReward { get => _userEntity._quest._getBossReward; set => _userEntity._quest._getBossReward = value; }
-        // public ObscuredInt GetArtifactReward { get => _userEntity._quest._getArtifactReward; set => _userEntity._quest._getArtifactReward = value; }
+        /// <summary> (일일퀘스트) 1~6 </summary>
+        public ObscuredInt[] DayQuest { get => _userEntity._quest._questChk; set => _userEntity._quest._questChk = value; }
+        /// <summary> (일일퀘스트) 오늘의 스킨 </summary>
+        public int QuestSkin { get => _userEntity._quest._questSkin; set => _userEntity._quest._questSkin = value; }
+        /// <summary> (일일퀘스트) 오늘의 스킬s 정보 </summary>
+        public SkillKeyList QuestSkill(int i) { return (SkillKeyList)Convert.ToInt32(_userEntity._quest._questSkill[i]); }
+        // - 반복
+        public ObscuredInt QuestRein { get => _userEntity._quest._questRein; set => _userEntity._quest._questRein = value; }
+        public ObscuredInt QuestRequest { get => _userEntity._quest._questRequest; set => _userEntity._quest._questRequest = value; }
+        // - 난이도별
+        /// <summary> 생존일 </summary>
+        public ObscuredInt[] LvlTimeReward { get => _userEntity._quest._lvlTimeReward; set => _userEntity._quest._lvlTimeReward = value; }
+        /// <summary> 보스킬 </summary>
+        public ObscuredInt[] LvlBossReward { get => _userEntity._quest._lvlBossReward; set => _userEntity._quest._lvlBossReward = value; }
 
         // 스탯 ==============================================================
         public ObscuredInt[] StatusLevel { get => _userEntity._status._statusLevel; set => _userEntity._status._statusLevel = value; }
@@ -135,7 +154,7 @@ namespace week
         public ObscuredFloat o_Cool         { get; set; }
         public ObscuredFloat o_ExpFactor    { get; set; }
         public ObscuredFloat o_CoinFactor   { get; set; }
-        public ObscuredFloat SkinEnhance    { get; set; }
+        // public ObscuredFloat SkinEnhance    { get; set; }
 
         // 인앱결제 ==============================================================
         public int amcl { get => _userEntity._payment._mulCoinList; }
@@ -149,15 +168,14 @@ namespace week
         }
         public ObscuredInt PaymentChkList { get => _userEntity._payment._chkList; set => _userEntity._payment._chkList = value; }
         public bool RemoveAd { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.removeAD)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.removeAD) : 0; }
-        public bool MulCoin3p { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.mul_1st_3p)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.mul_1st_3p) : 0; }
+            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.removeAD) : 0; }        
         public bool StartPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.startPack)) > 0;
             set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.startPack) : 0; }
-        public bool SkinPack { get => (_userEntity._payment._chkList & (1 << (int)paymentChkList.skinPack)) > 0;
-            set => _userEntity._payment._chkList |= (value) ? (1 << (int)paymentChkList.skinPack) : 0; }        
 
-        public long NextAdGemTime { get => _userEntity._payment._nextAdGemTime; set => _userEntity._payment._nextAdGemTime = value; }
+        public bool VampPack { get => _userEntity._payment._vampPack; set => _userEntity._payment._vampPack = value; }
+        public bool HeroPack { get => _userEntity._payment._heroPack; set => _userEntity._payment._heroPack = value; }
+
+        public int LeftFreeGem { get => _userEntity._payment._leftFreeGem; set => _userEntity._payment._leftFreeGem = value; }
 
         // 유틸 ==============================================================
         public ObscuredLong LastSave { get => _userEntity._util._lastSave;
@@ -167,11 +185,14 @@ namespace week
                 { _userEntity._util._lastSave = value; };
             }
         }
+        public ObscuredInt PublishDate { get => _userEntity._util._publishDate; set => _userEntity._util._publishDate = value; }
         public ObscuredInt UtilChkList { get => _userEntity._util._chkList; set => _userEntity._util._chkList = value; }
         public bool FreeNichkChange { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.freeNickChange)) > 0;
                                         set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.freeNickChange) : 0; }
         public bool Change_SecondStatus { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.change_SecondStatus)) > 0;
                                         set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.change_SecondStatus) : 0; }
+        public bool Success_Recommend { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.success_Recommend)) > 0;
+            set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.success_Recommend) : 0; }
 
         #endregion
 
@@ -209,6 +230,8 @@ namespace week
             applyLevel();
 
             applySkin();
+
+            setDayData();
         }
 
         public UserGameData setTest()
@@ -253,28 +276,71 @@ namespace week
         /// <summary> 스탯 레벨 -> 스탯에 적용 </summary>
         public void applyLevel()
         {
-            o_Hp            = DataManager.GetTable<int>(DataTable.status, statusKeyList.hp.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.hp) * StatusLevel[(int)statusKeyList.hp]);
-            o_Att           = DataManager.GetTable<int>(DataTable.status, statusKeyList.att.ToString(), StatusData.origin.ToString())
-                                + (getAddit(statusKeyList.att) * StatusLevel[(int)statusKeyList.att]);
-            o_Def           = DataManager.GetTable<int>(DataTable.status, statusKeyList.def.ToString(), StatusData.origin.ToString())
-                                + (getAddit(statusKeyList.def) * StatusLevel[(int)statusKeyList.def]);
-            o_Hpgen         = DataManager.GetTable<int>(DataTable.status, statusKeyList.hpgen.ToString(), StatusData.origin.ToString())
-                                + (getAddit(statusKeyList.hpgen) * StatusLevel[(int)statusKeyList.hpgen]);
-            o_Cool          = DataManager.GetTable<int>(DataTable.status, statusKeyList.cool.ToString(), StatusData.origin.ToString())
-                                + (getAddit(statusKeyList.cool) * StatusLevel[(int)statusKeyList.cool]);
-            o_ExpFactor     = DataManager.GetTable<int>(DataTable.status, statusKeyList.exp.ToString(), StatusData.origin.ToString())
-                                + (getAddit(statusKeyList.exp) * StatusLevel[(int)statusKeyList.exp]);
-            o_CoinFactor    = DataManager.GetTable<int>(DataTable.status, statusKeyList.coin.ToString(), StatusData.origin.ToString())
-                                + (getAddit(statusKeyList.coin) * StatusLevel[(int)statusKeyList.coin]);
-            SkinEnhance     = StatusLevel[(int)statusKeyList.skin];
+            o_Hp            = D_status.GetEntity(statusKeyList.hp.ToString()).f_origin      + getAddit(statusKeyList.hp);
+            o_Att           = D_status.GetEntity(statusKeyList.att.ToString()).f_origin     + getAddit(statusKeyList.att);
+            o_Def           = D_status.GetEntity(statusKeyList.def.ToString()).f_origin     + getAddit(statusKeyList.def);
+            o_Hpgen         = D_status.GetEntity(statusKeyList.hpgen.ToString()).f_origin   + getAddit(statusKeyList.hpgen);
+            o_Cool          = D_status.GetEntity(statusKeyList.cool.ToString()).f_origin    + getAddit(statusKeyList.cool);
+            o_ExpFactor     = D_status.GetEntity(statusKeyList.exp.ToString()).f_origin     + getAddit(statusKeyList.exp);
+            o_CoinFactor    = D_status.GetEntity(statusKeyList.coin.ToString()).f_origin    + getAddit(statusKeyList.coin);
+            // SkinEnhance     = StatusLevel[(int)statusKeyList.skin];
         }
 
-        public float getAddit(statusKeyList type)
+        public float getAddit(statusKeyList type, int add = 0)
         {
-            float add = (float)DataManager.GetTable<int>(DataTable.status, type.ToString(), StatusData.addition.ToString());
-            float rate = (float)DataManager.GetTable<int>(DataTable.status, type.ToString(), StatusData.additrate.ToString());
-            return (add / rate);
+            if (type == statusKeyList.skin)
+                return StatusLevel[(int)statusKeyList.skin] + add;
+
+            int lvl = StatusLevel[(int)type] + add;
+            float val = 0;
+            int bronze = D_status.GetEntity(type.ToString()).f_bronze;
+            int silver = D_status.GetEntity(type.ToString()).f_silver- D_status.GetEntity(type.ToString()).f_bronze;
+            int gold = D_status.GetEntity(type.ToString()).f_gold - D_status.GetEntity(type.ToString()).f_silver;
+            int plat = D_status.GetEntity(type.ToString()).f_platinum - D_status.GetEntity(type.ToString()).f_gold;
+
+
+            if (lvl < bronze)
+            {
+                val += D_status.GetEntity(type.ToString()).f_bronzeAddit * lvl;
+            }
+            else
+            {
+                val += D_status.GetEntity(type.ToString()).f_bronzeAddit * (bronze - 1) + D_status.GetEntity(type.ToString()).f_bronzeReward;
+                lvl -= bronze;
+
+                if (lvl == 0) return val;
+
+                if (lvl < silver)
+                {
+                    val += D_status.GetEntity(type.ToString()).f_silverAddit * lvl;
+                }
+                else
+                {
+                    val += D_status.GetEntity(type.ToString()).f_silverAddit * (silver - 1) + D_status.GetEntity(type.ToString()).f_silverReward;
+                    lvl -= silver;
+
+                    if (lvl == 0) return val;
+
+                    if (lvl < gold)
+                    {
+                        val += D_status.GetEntity(type.ToString()).f_goldAddit * lvl;
+                    }
+                    else
+                    {
+                        val += D_status.GetEntity(type.ToString()).f_goldAddit * gold + D_status.GetEntity(type.ToString()).f_goldReward;
+                        lvl -= gold;
+
+                        if (lvl == 0) return val;
+
+                        if (lvl < plat)
+                        {
+                            val += D_status.GetEntity(type.ToString()).f_platinumAddit * lvl;
+                        }
+                    }
+                }
+            }
+
+            return val;
         }
 
         #endregion
@@ -289,64 +355,56 @@ namespace week
             switch (stat)
             {
                 case statusKeyList.hp:
-                    o_Hp = DataManager.GetTable<int>(DataTable.status, statusKeyList.hp.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.hp) * StatusLevel[(int)statusKeyList.hp]);
+                    o_Hp = D_status.GetEntity($"{statusKeyList.hp}").f_origin + (getAddit(statusKeyList.hp) * StatusLevel[(int)statusKeyList.hp]);
                     break;
                 case statusKeyList.att:
-                    o_Att = DataManager.GetTable<int>(DataTable.status, statusKeyList.att.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.att) * StatusLevel[(int)statusKeyList.att]);
+                    o_Att = D_status.GetEntity($"{statusKeyList.att}").f_origin + (getAddit(statusKeyList.att) * StatusLevel[(int)statusKeyList.att]);
                     break;
                 case statusKeyList.def:
-                    o_Def = DataManager.GetTable<int>(DataTable.status, statusKeyList.def.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.def) * StatusLevel[(int)statusKeyList.def]);
+                    o_Def = D_status.GetEntity($"{statusKeyList.def}").f_origin + (getAddit(statusKeyList.def) * StatusLevel[(int)statusKeyList.def]);
                     break;
                 case statusKeyList.hpgen:
-                    o_Hpgen = DataManager.GetTable<int>(DataTable.status, statusKeyList.hpgen.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.hpgen) * StatusLevel[(int)statusKeyList.hpgen]);
+                    o_Hpgen = D_status.GetEntity($"{statusKeyList.hpgen}").f_origin+ (getAddit(statusKeyList.hpgen) * StatusLevel[(int)statusKeyList.hpgen]);
+                    Debug.Log("2 : " + o_Hpgen);
                     break;
                 case statusKeyList.cool:
-                    o_Cool = DataManager.GetTable<int>(DataTable.status, statusKeyList.cool.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.cool) * StatusLevel[(int)statusKeyList.cool]);
+                    o_Cool = D_status.GetEntity($"{statusKeyList.cool}").f_origin + (getAddit(statusKeyList.cool) * StatusLevel[(int)statusKeyList.cool]);
                     break;
                 case statusKeyList.exp:
-                    o_ExpFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.exp.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.exp) * StatusLevel[(int)statusKeyList.exp]);
+                    o_ExpFactor = D_status.GetEntity($"{statusKeyList.exp}").f_origin + (getAddit(statusKeyList.exp) * StatusLevel[(int)statusKeyList.exp]);
                     break;
                 case statusKeyList.coin:
-                    o_CoinFactor = DataManager.GetTable<int>(DataTable.status, statusKeyList.coin.ToString(), StatusData.origin.ToString())
-                                        + (getAddit(statusKeyList.coin) * StatusLevel[(int)statusKeyList.coin]);
+                    o_CoinFactor = D_status.GetEntity($"{statusKeyList.coin}").f_origin + (getAddit(statusKeyList.coin) * StatusLevel[(int)statusKeyList.coin]);
                     break;
                 case statusKeyList.skin:
-                    SkinEnhance = StatusLevel[(int)statusKeyList.skin];
+                    //SkinEnhance = StatusLevel[(int)statusKeyList.skin];
                     break;
             }
         }
-
+        
         /// <summary> 스킨과 스킨 능력치 적용 </summary>
         public void applySkin()
         {
             SkinKeyList skin = (SkinKeyList)((int)_userEntity._property._skin);
             string key = skin.ToString();
 
-            string ss = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.season.ToString());
+            string ss = D_skin.GetEntity(key.ToString()).f_season;
 
             ObscuredInt j;
 
-            _skinBval = new bool[(int)skinBvalue.max];
-            _skinFval = new ObscuredFloat[(int)skinFvalue.max];
-            _skinIval = new ObscuredInt[(int)skinIvalue.max];
-            _ballType = snowballType.standard;
+            BallType = snowballType.standard;
 
-            _addStats = new ObscuredFloat[(int)defaultStat.max];
+            AddStats = new ObscuredFloat[(int)defaultStat.max];
             for (defaultStat i = defaultStat.hp; i < defaultStat.max; i++)
             {
                 j = (int)i;
 
-                _addStats[(int)i] = DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.d_hp + j).ToString()) * 0.01f;
+                float m = (i == defaultStat.def || i == defaultStat.hpgen) ? 1f : 0.01f;
+                AddStats[(int)i] = D_skin.GetEntity(key.ToString()).Get<float>((SkinValData.d_hp + j).ToString()) * m;
 
                 if (i < defaultStat.speed)
                 {
-                    _addStats[(int)i] += DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.ex_hp + j).ToString()) * 0.01f * SkinEnhance;
+                    AddStats[(int)i] += D_skin.GetEntity(key.ToString()).Get<float>((SkinValData.ex_hp + j).ToString()) * m * SkinLevel[(int)skin];
                 }
             }
 
@@ -355,101 +413,88 @@ namespace week
                 _applySeason = EnumHelper.StringToEnum<season>(ss);
             }
 
-            string t_B = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeB.ToString());
-            if (t_B.Equals("n") == false) 
-            {
-                skinBvalue sbv = EnumHelper.StringToEnum<skinBvalue>(t_B);
-                _skinBval[(int)sbv] = true;
-            }
-
-            string t_F = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeF.ToString());
+            string t_F = D_skin.GetEntity(key.ToString()).f_typeF;
             if (t_F.Equals("n") == false)
             {
-                skinFvalue sfv = EnumHelper.StringToEnum<skinFvalue>(t_F);
-                
-                _skinFval[(int)sfv] = DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval0.ToString());
-                _skinFval[(int)sfv] += _userEntity._status._statusLevel[(int)statusKeyList.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
+                SkinFval = D_skin.GetEntity(key.ToString()).f_Fval0 + SkinLevel[(int)skin] * D_skin.GetEntity(key.ToString()).f_Fval1;
             }
 
-            string t_I = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeI.ToString());
+            string t_I = D_skin.GetEntity(key.ToString()).f_typeI;
             if (t_I.Equals("n") == false)
             {
-                skinIvalue siv = EnumHelper.StringToEnum<skinIvalue>(t_I);
-
-                _skinIval[(int)siv] = DataManager.GetTable<int>(DataTable.skin, key, SkinValData.Ival.ToString());
+                SkinIval = D_skin.GetEntity(key.ToString()).f_Ival;
             }
 
-            string sb = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.snowball.ToString());
+            string sb = D_skin.GetEntity(key.ToString()).f_snowball;
             if (sb.Equals("n") == false)
             {
-                _ballType = EnumHelper.StringToEnum<snowballType>(sb);
+                BallType = EnumHelper.StringToEnum<snowballType>(sb);
             }
         }
 
         /// <summary> 스킨구매전 데이터 제공용 </summary>
-        public void getSkinInfo(SkinKeyList skin, ref float[] fval, ref int[] ival, ref float[] stats)
+        //public void getSkinInfo(SkinKeyList skin, ref float[] fval, ref int[] ival, ref float[] stats)
+        public void getSkinInfo(SkinKeyList skin, ref float[] stats)
         {
             string key = skin.ToString();
             int j;
-
+            Debug.Log(D_skin.GetEntity(key).f_d_speed);
             for (defaultStat i = defaultStat.hp; i < defaultStat.max; i++)
             {
                 j = (int)i;
 
-                stats[(int)i] = DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.d_hp + j).ToString()) * 0.01f;
+                stats[(int)i] = D_skin.GetEntity(key).Get<float>((SkinValData.d_hp + j).ToString()) * 0.01f;
 
                 if (i < defaultStat.speed)
                 {
-                    stats[(int)i] += DataManager.GetTable<float>(DataTable.skin, key, (SkinValData.ex_hp + j).ToString()) * 0.01f * SkinEnhance; ;
+                    stats[(int)i] += D_skin.GetEntity(key).Get<float>((SkinValData.ex_hp + j).ToString()) * 0.01f; ;
                 }
             }
 
-            string t_F = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeF.ToString());
-            if (t_F.Equals("n") == false)
-            {
-                skinFvalue sfv = EnumHelper.StringToEnum<skinFvalue>(t_F);
+            //string t_F = D_skin.GetEntity(key.ToString()).f_typeF;
+            //if (t_F.Equals("n") == false)
+            //{
+            //    skinFvalue sfv = EnumHelper.StringToEnum<skinFvalue>(t_F);
 
-                fval[(int)sfv] = DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval0.ToString());
-                fval[(int)sfv] += _userEntity._status._statusLevel[(int)statusKeyList.skin] * DataManager.GetTable<float>(DataTable.skin, key, SkinValData.Fval1.ToString());
-            }
+            //    fval[(int)sfv] = D_skin.GetEntity(key.ToString()).f_Fval0;
+            //    fval[(int)sfv] += _userEntity._status._statusLevel[(int)statusKeyList.skin] * D_skin.GetEntity(key.ToString()).f_Fval1;
+            //}
 
-            string t_I = DataManager.GetTable<string>(DataTable.skin, key, SkinValData.typeI.ToString());
+            //string t_I = D_skin.GetEntity(key.ToString()).f_typeI;
 
-            if (t_I.Equals("n") == false)
-            {
-                skinIvalue siv = EnumHelper.StringToEnum<skinIvalue>(t_I);
+            //if (t_I.Equals("n") == false)
+            //{
+            //    skinIvalue siv = EnumHelper.StringToEnum<skinIvalue>(t_I);
 
-                ival[(int)siv] = DataManager.GetTable<int>(DataTable.skin, key, SkinValData.Ival.ToString());
-                Debug.Log(ival[(int)siv]);
-            }
+            //    ival[(int)siv] = D_skin.GetEntity(key.ToString()).f_Ival;
+            //    Debug.Log(ival[(int)siv]);
+            //}
         }
 
         /// <summary> 스킨 설명 </summary>
         public string getSkinExplain(SkinKeyList skin, bool ApplyData = true)
         {
-            float[] fval = new float[(int)skinFvalue.max];
-            int[] ival = new int[(int)skinIvalue.max];
+            string key = skin.ToString();
+
             float[] stats = new float[(int)defaultStat.max];
+            float fval = D_skin.GetEntity(skin.ToString()).f_Fval0 + SkinLevel[(int)skin] * D_skin.GetEntity(skin.ToString()).f_Fval1;
+            int ival = D_skin.GetEntity(skin.ToString()).f_Ival;
 
-            if (ApplyData)
+            int j;
+            for (defaultStat i = defaultStat.hp; i < defaultStat.max; i++)
             {
-                for (int i = 0; i < (int)skinFvalue.max; i++)
-                    fval[i] = _skinFval[i];
+                j = (int)i;
 
-                for (int i = 0; i < (int)skinIvalue.max; i++)
-                    ival[i] = _skinIval[i];
+                //float m = (i == UserGameData.defaultStat.def || i == UserGameData.defaultStat.hpgen) ? 1f : 0.01f;
+                stats[(int)i] = D_skin.GetEntity(key).Get<float>((SkinValData.d_hp + j).ToString());
 
-                for (int i = 0; i < (int)defaultStat.max; i++)
-                    stats[i] = _addStats[i];
-            }
-            else
-            {
-                getSkinInfo(skin, ref fval, ref ival, ref stats);
+                if (i < defaultStat.speed)
+                {
+                    stats[(int)i] += D_skin.GetEntity(key).Get<float>((SkinValData.ex_hp + j).ToString()) * SkinLevel[(int)skin];
+                }
             }
 
             string str = "";
-            ObscuredInt statIVal = 0;
-            ObscuredFloat statFVal = 0f;
 
             switch (skin)
             {
@@ -457,16 +502,13 @@ namespace week
                     str = "겨울에 만들어진 눈사람";
                     break;
                 case SkinKeyList.fireman:
-                    statIVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
-                    str = "여름한정!" + System.Environment.NewLine + $"공격력 {statIVal}% 증가";
+                    str = "여름한정!" + System.Environment.NewLine + string.Format("공격력 {0:0}% 증가", stats[(int)defaultStat.att] - 100);
                     break;
                 case SkinKeyList.grassman:
-                    statIVal = Convert.ToInt32(stats[(int)defaultStat.hpgen] * 100) - 100;
-                    str = "봄 한정!" + System.Environment.NewLine + $"체력재생량 {statIVal}% 증가";
+                    str = "봄 한정!" + System.Environment.NewLine + string.Format("체력재생량 {0:0}% 증가", stats[(int)defaultStat.hpgen] - 100);
                     break;
                 case SkinKeyList.rockman:
-                    statIVal = Convert.ToInt32(stats[(int)defaultStat.hp] * 100) - 100;
-                    str = "눈 대신 돌을 던진다." + System.Environment.NewLine + $"체력 {statIVal}% 증가";
+                    str = "눈 대신 돌을 던진다." + System.Environment.NewLine + string.Format("체력 {0:0}% 증가", stats[(int)defaultStat.hp] - 100);
                     break;
                 case SkinKeyList.citrusman:
                     // 미정
@@ -476,50 +518,46 @@ namespace week
                     str = "머리의 전구로 밤을 밝힌다.";
                     break;
                 case SkinKeyList.presentman:
-                    statFVal = stats[(int)defaultStat.coin] * 100 - 100;
-                    str = "눈 대신 선물 받아라!" + System.Environment.NewLine + "겨울한정!" + System.Environment.NewLine + string.Format("코인획득량 {0:0.0}% 증가", statFVal);
+                    str = "눈 대신 선물 받아라!" + System.Environment.NewLine + "겨울한정!" + System.Environment.NewLine + string.Format("코인획득량 {0:0.0}% 증가", stats[(int)defaultStat.coin] - 100);
                     break;
                 case SkinKeyList.wildman:
-                    str = $"잃은 체력 1%당 공격력 {fval[(int)skinFvalue.wild]}% 증가";
+                    str = String.Format("잃은 체력 1%당 공격력 {0:0.0}% 증가", fval);
                     break;
                 case SkinKeyList.mineman:
-                    str = $"지뢰 개수 +{ival[(int)skinIvalue.mine]}" + System.Environment.NewLine + $"지뢰 공격력 {fval[(int)skinFvalue.mine]}% 증가";
+                    str = $"지뢰 개수 +{ival}" + System.Environment.NewLine + $"지뢰 공격력 {fval * 100f}% 증가";
                     break;
                 case SkinKeyList.robotman:
-                    str = "늪지 무효" + System.Environment.NewLine + string.Format("추가 방어 {0:0.00}% ", stats[(int)defaultStat.def] * 100f);
+                    str = "늪지 무효" + System.Environment.NewLine + string.Format("추가 방어 {0:0}", stats[(int)defaultStat.def]);
                     break;
                 case SkinKeyList.icecreamman:
-                    str = "눈덩이가 빙결 적용" + System.Environment.NewLine + $"블리자드, 아이스에이지 발동시 체력 {fval[(int)skinFvalue.iceHeal]}% 회복";
+                    str = "눈덩이가 빙결 적용" + System.Environment.NewLine + $"블리자드, 아이스에이지 발동시 체력 {fval}% 회복";
                     break;
                 case SkinKeyList.goldman:
-                    statIVal = Convert.ToInt32(stats[(int)defaultStat.def]);
-                    str = $"30초에 한번씩 {fval[(int)skinFvalue.invincible]}초간 무적" + System.Environment.NewLine + $"방어력 {statIVal}% 증가";
+                    str = $"스킬 무적 즉시습득" + System.Environment.NewLine + string.Format("방어력 {0:0}% 증가", stats[(int)defaultStat.def]);
                     break;
                 case SkinKeyList.angelman:
-                    statIVal = Convert.ToInt32(stats[(int)defaultStat.speed] * 100) - 100;
-                    str = $"눈사람이 죽을때 최대체력의 {fval[(int)skinFvalue.rebirth]}%로 부활" + System.Environment.NewLine +"(유적과 버프 상실)" + System.Environment.NewLine + $"이동속도 {statIVal}% 증가";
+                    str = $"눈사람이 죽을때" + System.Environment.NewLine + $"최대체력의 {fval * 100f}%로 부활" + System.Environment.NewLine + string.Format("이동속도 {0:0}% 증가", stats[(int)defaultStat.speed] - 100);
                     break;
                 case SkinKeyList.squareman:
-                    str = "네모난 눈을 던진다." + System.Environment.NewLine + $"30% 확률로 {fval[(int)skinFvalue.criticDmg]}%의 추가데미지를 준다.";
+                    str = "네모난 눈을 던진다." + System.Environment.NewLine + $"30% 확률로 {fval}%의 추가데미지를 준다.";
                     break;
                 case SkinKeyList.spiderman:
-                    str = "추가로 달린 다리로 더 많은 눈덩이를 던진다." + System.Environment.NewLine + $"눈덩이 공격력 {fval[(int)skinFvalue.snowball]}% 증가";
+                    str = "추가로 달린 다리로 더 많은 눈덩이를 던진다." + System.Environment.NewLine + $"눈덩이 공격력 {fval}% 증가";
                     break;
                 case SkinKeyList.vampireman:
-                    statIVal = Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100;
-                    str = $"눈덩이로 준 피해의 {fval[(int)skinFvalue.blood]}%만큼 체력을 회복한다." + System.Environment.NewLine + $"공격력 {statIVal}% 증가";
+                    str = string.Format("공격력 {0:0}% 증가", stats[(int)defaultStat.att] - 100) + System.Environment.NewLine + $"눈덩이로 준 피해의 {fval * 100f}%만큼 체력 회복."  ;
                     break;
                 case SkinKeyList.heroman:
-                    ObscuredInt[] stt = new ObscuredInt[3] { Convert.ToInt32(stats[(int)defaultStat.hp] * 100) - 100,
-                        Convert.ToInt32(stats[(int)defaultStat.att] * 100) - 100, 
+                    ObscuredInt[] stt = new ObscuredInt[3] { Convert.ToInt32(stats[(int)defaultStat.hp]) - 100,
+                        Convert.ToInt32(stats[(int)defaultStat.att]) - 100, 
                         Convert.ToInt32(stats[(int)defaultStat.def])};
 
-                    str = "용사의 검을 찾으면 일시적으로 공격력/방어력이 2배가 된다."
-                        + System.Environment.NewLine + $"체력 {stt[0]}% 증가/공격력 {stt[1]}% 증가/방어력 {stt[2]}% 증가";
+                    str = "맵에서 용사의 검을 찾으면" + System.Environment.NewLine + "일시적으로 공격/방어 대폭 강화."
+                        + System.Environment.NewLine + $"체력 {stt[0]}% 증가 / 공격력 {stt[1]}% 증가" + System.Environment.NewLine + $"/방어력 {stt[2]} 증가";
                     break;
                 case SkinKeyList.santaman:
-                    str = $"넌 선물 1개! 난 선물 {ival[(int)skinIvalue.present]}개!" + System.Environment.NewLine
-                        + $"선물 먹으면 체력 {fval[(int)skinFvalue.present]}% 회복" + System.Environment.NewLine + "낮은 확률로 공격력 or 방어력 증가";
+                    str = $"넌 선물 1개! 난 선물 {ival}개!" + System.Environment.NewLine
+                        + $"선물 먹으면 체력 {fval * 100f}% 회복" + System.Environment.NewLine + "낮은 확률로 공격력 or 방어력 증가";
                     break;
                 case SkinKeyList.dragonman:
                     // 미정
@@ -534,150 +572,190 @@ namespace week
 
         #region [ 기타 설정 함수 ]
 
-        public void setNewSeasonRecord(ObscuredInt ssRecord)
+        /// <summary> (하루경과) 일일퀘스트 재설정 - [플레이시 한번 체크] </summary>
+        public void setNextDay(int today)
         {
-            _userEntity._record._seasonTimeRecord = ssRecord;
-            _userEntity._record._recordSeasonSkin = _userEntity._property._skin;
+            //int today = Convert.ToInt32(DateTime.Now.ToString("yyyyMMdd"));
+
+            //if (today > PublishDate) // 다음날 - 새 퀘스트
+            {
+                PublishDate = today;
+
+                Quest.setNextDay();
+
+                LeftFreeGem = 3;
+            }
         }
 
-        public void setNewAllRecord(ObscuredInt allRecord)
+        /// <summary> 신기록 </summary>
+        public void setNewSeasonRecord(int newRecord, int snowLvl, int boss)
         {
-            _userEntity._record._allTimeRecord = allRecord;
-            _userEntity._record._recordAllSkin = _userEntity._property._skin;
+            levelKey lvl = (levelKey)NowStageLevel;
+            _userEntity._record._season_TimeRecord[(int)lvl] = newRecord;
+            _userEntity._record._season_RecordSkin[(int)lvl] = _userEntity._property._skin;
+            _userEntity._record._season_RecordLevel[(int)lvl] = snowLvl;
+            _userEntity._record._season_RecordBoss[(int)lvl] = boss;
         }
 
+        /// <summary> 새 시즌 개시시 초기화 </summary>
         public void whenRecordNewSeason()
         {
-            _userEntity._record._seasonTimeRecord = 0;
-            _userEntity._record._recordSeasonSkin = 1;
-            _userEntity._record._nowSeasonRankKey = NanooManager.instance.getRANK_CODE;
-        }
-
-        public void newNickSetssRecord()
-        {
-            if (_userEntity._record._seasonTimeRecord > 0)
-                _userEntity._record._seasonTimeRecord++;
-        }
-        public void newNickSetallRecord()
-        {
-            if (_userEntity._record._allTimeRecord > 0)
-                _userEntity._record._allTimeRecord++;
+            for (int i = 0; i < (int)levelKey.max; i++)
+            {
+                _userEntity._record.initSeasonRecord();
+            }
         }
 
         #endregion
 
+        #region []
+
+        Dictionary<levelKey, List<KeyValuePair<season, int>>> seasonStringData;
+        public enum sson { season0, season1, season2, season3, max }
+        string[] _dayName = new string[] { "첫째날 ", "둘째날 ", "셋째날 ", "넷째날 ", "다섯째날 ", "여섯째날 ",
+                                            "일곱째날 ", "여덟째날 ", "아홉째날 ", "열째날 ", "열한째날 ", "열둘째날 " };
+
+        /// <summary> 해당 레벨에서의 season별 day 데이터 </summary>
+        void setDayData()
+        {
+            seasonStringData = new Dictionary<levelKey, List<KeyValuePair<season, int>>>();
+            for (levelKey lvk = 0; lvk < levelKey.max; lvk++)
+            {
+                //season start = D_level.GetEntity(lvk.ToString()).f_startSeason;
+                
+                List<KeyValuePair<season, int>> seasonData = new List<KeyValuePair<season, int>>();
+
+                for (sson ssn = 0; ssn < sson.max; ssn++)
+                {
+                    string[] str = D_level.GetEntity(NowStageLevel.ToString()).Get<string>(ssn.ToString()).Split(',');
+
+                    season key = EnumHelper.StringToEnum<season>(str[0]);
+                    int val = int.Parse(str[1]);
+
+                    int num = seasonData.Count;
+                    if (num > 0 && seasonData[num - 1].Key == key)
+                    {
+                        val += seasonData[num - 1].Value;
+                        seasonData.RemoveAt(num);
+                    }                    
+                    
+                    seasonData.Add(new KeyValuePair<season, int>(key, val));
+                }
+
+                //while (true)
+                //{
+                //    start++; 
+                //    if (start == season.max)
+                //    {
+                //        start = season.spring;
+                //    }
+
+                //    int val = D_season.GetEntity(start.ToString()).Get<int>(lvk.ToString());
+
+                //    if (seasonData.ContainsKey(start))
+                //        break;
+                //    else if (val == 0)
+                //        continue;
+
+                //    seasonData.Add(start, val);
+                //}
+
+                seasonStringData.Add(lvk, seasonData);
+            }
+        }
+
         /// <summary> ObscuredFloat 기록 --> 전부 string으로 변환 </summary>
-        public string getLifeTime(ObscuredFloat time, bool isTwoLine)
+        public string getLifeTime(levelKey lvl, float time, bool onlyDay = false, bool isTwoLine = false)
         {
-            int year;
-            int season;
-            int day;
-            int m;
-            int s;
+            int _year = (int)(time / (12 * 120));
+            time -= _year * 12 * 120;
 
-            year = (int)(time / (24 * 60));
-            time -= year * 24 * 60;
-            season = (int)(time / (6 * 60));
-            time -= season * 6 * 60;
-            day = (int)(time / (2 * 60));
-            time -= day * 2 * 60;
-            m = (time > 60) ? 1 : 0;
-            time -= m * 60;
-            s = (int)time;
+            season _season = season.max;
+            int _day = (int)(time / 120);
+            time -= _day * 120;
 
-            string str = "";
-            if (year > 0)
+            foreach (KeyValuePair<season, int> kv in seasonStringData[lvl])
             {
-                str += $"{year}년 ";
-            }
-            if (season > 0)
-            {
-                str += $"{season}계절 ";
-            }
-            if (day > 0)
-            {
-                switch (day)
+                _season = kv.Key;
+                if (_day >= kv.Value)
                 {
-                    case 0:
-                        str += "첫째날 ";
-                        break;
-                    case 1:
-                        str += "둘째날 ";
-                        break;
-                    case 2:
-                        str += "셋째날 ";
-                        break;
+                    _day -= kv.Value;
                 }
+                else
+                    break;
             }
 
-            if (isTwoLine)
+            int _m;
+            int _s;
+
+            _m = (time > 60) ? 1 : 0;
+            time -= _m * 60;
+
+            _s = (int)time;
+
+            // string으로 변환 ======================================================
+            string str = "";
+            if (_year > 0)
             {
+                str += $"{_year}년 ";
+            }
+
+            str += D_season.GetEntity(_season.ToString()).f_sName + " ";
+            
+            str += _dayName[_day];
+
+            if (onlyDay)
+                return str;
+
+            // ========== 두줄 =================
+            if (isTwoLine)            
                 str += System.Environment.NewLine;
-            }
+            
 
-            if (m > 0)
+            if (_m > 0)
             {
-                str += $"{m}분 ";
+                str += $"{_m}분 ";
             }
-            str += $"{s}초";
+            str += $"{_s}초";
 
             return str;
         }
 
-        /// <summary> ObscuredFloat 기록 --> 날짜까지만 string으로 변환 </summary>
-        public string getTimeRecordToString(ObscuredFloat time)
+        /// <summary> 일퀘에서 day -> string </summary>
+        public string dayToTimeRecord(levelKey lvl, int day)
         {
-            ObscuredInt year;
-            ObscuredInt season;
-            ObscuredInt day;
+            int _year = (int)(day / 12);
+            day -= _year * 12;
 
-            year = (int)(time / (24 * 60));
-            time -= year * 24 * 60;
-            season = (int)(time / (6 * 60));
-            time -= season * 6 * 60;
-            day = (int)(time / (2 * 60));
-            time -= day * 2 * 60;
+            season _season = season.max;
+            int _day = day;
 
-            string str = "";
-            if (year > 0)
+            foreach (KeyValuePair<season, int> kv in seasonStringData[lvl])
             {
-                str += $"{year}년 ";
-            }
-
-            switch (season)
-            {
-                case 0:
-                    str += "봄 ";
-                    break;
-                case 1:
-                    str += "여름 ";
-                    break;
-                case 2:
-                    str += "가을 ";
-                    break;
-                case 3:
-                    str += "겨울 ";
-                    break;
-            }
-
-            if (day > 0)
-            {
-                switch (day)
+                _season = kv.Key;
+                if (_day >= kv.Value)
                 {
-                    case 0:
-                        str += "첫째날";
-                        break;
-                    case 1:
-                        str += "둘째날";
-                        break;
-                    case 2:
-                        str += "셋째날";
-                        break;
+                    _day -= kv.Value;
                 }
+                else
+                    break;
             }
+
+            // string으로 변환 ======================================================
+            string str = "";
+            if (_year > 0)
+            {
+                str += $"{_year}년 ";
+            }
+
+            str += D_season.GetEntity(_season.ToString()).f_sName + " ";
+
+            str += _dayName[_day];
 
             return str;
         }
+
+        #endregion
 
         /// <summary> 데이터 저장 </summary>
         public string getUserData()
@@ -685,14 +763,15 @@ namespace week
             return _userEntity.saveData();
         }
 
-        public Dictionary<string, object> getSeasonRankData(string uid)
+        public Dictionary<string, object> getSeasonRankData(string uid, levelKey lvl)
         {
             Dictionary<string, object> data = new Dictionary<string, object>();
             data["_uid"] = uid;
             data["_nick"] = NickName;
-            data["_time"] = (int)SeasonTimeRecord;
-            data["_boss"] = (int)BossRecord;
-            data["_skin"] = (int)RecordSeasonSkin;
+            data["_time"] = SeasonTimeRecord[(int)lvl];
+            data["_skin"] = SeasonRecordSkin[(int)lvl];
+            data["_level"] = SeasonRecordLevel[(int)lvl];
+            data["_boss"] = SeasonRecordBoss[(int)lvl];            
             data["_version"] = 11;
 
             return data;
@@ -706,10 +785,10 @@ namespace week
             return JsonUtility.ToJson(data);
         }
 
-        //public DateTime getEpochDate()
-        //{
-        //    DateTime utcCreated = gameValues.epoch.AddMilliseconds(BaseManager.userGameData.LastSave);
-        //    return utcCreated;
-        //}
+        // 삭제
+        public void resetPaymentChkList()
+        {
+            _userEntity._payment._chkList = 0;    
+        }
     }
 }

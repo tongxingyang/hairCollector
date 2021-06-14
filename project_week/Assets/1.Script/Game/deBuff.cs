@@ -11,7 +11,7 @@ namespace week
         public enum buffNamed { Attack, Defence, HpGen, CoolTime, BonusCoin, None }
 
         /// <summary> 버프 타입 </summary>
-        eBuff _bff;
+        SkillKeyList _bff;
         /// <summary> 계절 </summary>
         buffTermType _isTerm;
         /// <summary> 지속 시간 </summary>
@@ -24,14 +24,14 @@ namespace week
         /// <summary> 끝날때 </summary>
         Action _whenOver;
 
-        public eBuff Bff { get => _bff; }
+        public SkillKeyList Bff { get => _bff; }
         public buffTermType IsSeason { get => _isTerm; }
         public float? Term { get => _term; set => _term = (_isTerm == buffTermType.term) ? value : null; }
         public bool TermOver { get => _term < 0; }
         public float Val { get => _val; }
         public buffNamed Name { get => _name; }
 
-        public BuffEffect(eBuff bff, float term, float val, buffTermType isterm = buffTermType.term)
+        public BuffEffect(SkillKeyList bff, float term, float val, buffTermType isterm = buffTermType.term)
         {
             _bff = bff;
             _isTerm = isterm;

@@ -13,8 +13,10 @@ namespace week
         GameScene _gs;
         PlayerCtrl _player;
         playerSkillManager _psm;
+
         float _dmg;
         float _size;
+        attackData _adata = new attackData();
 
         private void Awake()
         {
@@ -96,8 +98,8 @@ namespace week
             }
 
             // 아직 크리티컬 없음
-
-            float val = id.getDamaged(_dmg, false);            
+            _adata.set(_dmg, SkillKeyList.IceBat, false);
+            float val = id.getDamaged(_adata);            
 
             // 밀치기
             knock?.Invoke(id);

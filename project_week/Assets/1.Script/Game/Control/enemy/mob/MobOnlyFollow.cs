@@ -42,9 +42,7 @@ namespace week
                         break;
                 }
 
-                chkDotDmg(deltime);
-                chkDestroy(deltime);
-                chkFrozen(deltime);
+                check_mobStair(deltime);
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }

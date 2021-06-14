@@ -43,14 +43,12 @@ namespace week
 
         void move(Action act)
         {
-            Vector3 pos = transform.position + ((Vector3)UnityEngine.Random.insideUnitCircle * 200f);
+            Vector3 pos = transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 200f);
 
             if (_posNum == 1)            
                 pos += Vector3.left * 175f;
             else if (_posNum == 2)
                 pos += Vector3.right * 175f;
-            else if (_posNum == 3)
-                pos += Vector3.down * 230f;
 
             Sequence seq = DOTween.Sequence();
             seq.Append(transform.DOJump(pos, 300f, 1, 0.1f));
@@ -60,6 +58,8 @@ namespace week
             {
                 useOff();
                 act();
+
+                SoundManager.instance.PlaySFX(SFX.coin);
             });
         }
 

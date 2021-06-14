@@ -7,6 +7,7 @@ namespace week
 {
     public class shotRuinTrap : baseRuinTrap
     {
+        /// <summary> 뇌전탑 클래스 </summary>
         class charger
         {
             public bool _onCharger;
@@ -18,7 +19,7 @@ namespace week
             SpriteRenderer _render;
             Transform _pos;
 
-            public Color _color
+            Color _color
             {
                 set { _render.color = value; }
             }
@@ -54,10 +55,14 @@ namespace week
         [SerializeField] Transform[] _shotPos;
         charger[] _chargers;
 
+        EnemyProjManager _epm;
         EnSkill_Proj _proj;
 
+        /// <summary> 함정 생성 초기화 - 추가작업 필요시 </summary>
         protected override void whenFixedInit()
-        { 
+        {
+            _epm = _gs.EnProjMng;
+
             int leng = _shotPos.Length;
             _chargers = new charger[leng];
             
@@ -67,20 +72,19 @@ namespace week
                 _chargers[i].chargingColor();
             }
 
-            _att = DataManager.GetTable<float>(DataTable.enproj, EnShot.lightning.ToString(), EnProjValData.att.ToString());
+            _att = 5f;
         }
 
+        /// <summary> 함정 재사용 초기화 - 추가작업 필요시 </summary>
         protected override void whenRepeatInit()
         {
-            Att = _att * Mathf.Pow(1.2f, _clm.Day);
+            Att = _att * _dmgRate * _increase;
+
+            //StartCoroutine(shot());
         }
 
-        public override void operate()
-        {
-            StartCoroutine(shot());
-        }
-
-        IEnumerator shot()
+        /// <summary> 전기발사 컨트롤 </summary>
+        protected override IEnumerator trapPlay()
         {
             float time = 0;
             
@@ -119,20 +123,9 @@ namespace week
                             }
                         }
                     }
-                    yield return new WaitUntil(() => (_gs.Pause == false && _onTrap));
+                    yield return new WaitUntil(() => (_gs.Pause == false));
                 }
             }
-        }
-
-
-
-        public override void onPause(bool bl)
-        {
-        }
-
-        public override void Destroy()
-        {
-            preDestroy();
         }
     }
 }

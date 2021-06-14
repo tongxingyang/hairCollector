@@ -11,12 +11,14 @@ namespace week
     {
         Plugin plugin;
 
-        readonly string static_RANK_CODE = "snowadventure-RANK-0D39E8A1-E2FF99FE";
+        // readonly string static_RANK_CODE = "snowadventure-RANK-0D39E8A1-E2FF99FE";
+        readonly string[] static_RANK_CODE = {  "snowadventure-RANK-A7261CBA-47783D3B",
+                                                        "snowadventure-RANK-E47977E5-3A7BF95B",
+                                                        "snowadventure-RANK-7B930EE4-22AB1BB7"};
 
-        readonly string PRE_RANK_CODE = "snowadventure-RANK-21DE85D1-03980325";
-        readonly string RANK_CODE = "snowadventure-RANK-A01270B3-7AFED569";
+        readonly string PRE_RANK_CODE = "snowadventure-RANK-0D39E8A1-E2FF99FE";
 
-        public string getRANK_CODE => RANK_CODE;
+        public string getRANK_CODE(levelKey lvl) => static_RANK_CODE[(int)lvl];
 
         protected override void Init()
         {
@@ -29,8 +31,6 @@ namespace week
 
         public void setUid(string uid)
         {
-            //Debug.Log("uid 세팅");
-
             plugin.SetUUID(uid);
             plugin.SetNickname(BaseManager.userGameData.NickName);
             plugin.SetLanguage(Configure.PN_LANG_KO);
@@ -66,7 +66,6 @@ namespace week
                     if (dictionary.ContainsKey("postbox_count"))
                     {
                         int cnt = int.Parse((string)dictionary["postbox_count"]);
-
                         getCountAction?.Invoke(cnt > 0);
                     }
                 }
@@ -77,64 +76,15 @@ namespace week
             });
         }
 
-        //public void AccessEvent()
-        //{
-        //    plugin.AccessEvent((state, message, rawData, dictionary) => {
-        //        if (state.Equals(Configure.PN_API_STATE_SUCCESS))
-        //        {
-        //            if (dictionary.ContainsKey("open_id"))
-        //            {
-        //                //Debug.Log(dictionary["open_id"]);
-        //            }
-
-        //            if (dictionary.ContainsKey("server_timestamp"))
-        //            {
-        //                Debug.Log("시간");
-        //                long t = long.Parse((string)dictionary["server_timestamp"])*1000;
-        //                Debug.Log(t);
-        //                DateTime dt = new DateTime(t);
-        //                Debug.Log(dt);
-        //                DateTime lastDate = gameValues.epoch.AddMilliseconds(t);
-        //                Debug.Log(lastDate);
-        //            }
-
-        //            if (dictionary.ContainsKey("postbox_subscription"))
-        //            {
-        //                foreach (Dictionary<string, object> subscription in (ArrayList)dictionary["postbox_subscription"])
-        //                {
-        //                    Debug.Log(subscription["product"]);
-        //                    Debug.Log(subscription["ttl"]);
-        //                }
-        //            }
-
-        //            if (dictionary.ContainsKey("invite_rewards"))
-        //            {
-        //                foreach (Dictionary<string, object> invite in (ArrayList)dictionary["invite_rewards"])
-        //                {
-        //                    Debug.Log(invite["item_code"]);
-        //                    Debug.Log(invite["item_count"]);
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Debug.Log("Fail");
-        //        }
-        //        // Debug.Log(rawData);
-        //    });
-        //}
-
         #region [ NANOO RANKING ]         
 
         /// <summary> 리더보드에서 랭킹 가져오기 </summary>
-        public void getRankingTotal(bool isSeason, Action<Dictionary<string, object>> action)
+        public void getRankingTotal(levelKey lvl, Action<Dictionary<string, object>> action)
         {
-            string str = (isSeason) ? RANK_CODE : static_RANK_CODE;
+            string str = static_RANK_CODE[(int)lvl];
             plugin.Ranking(str, 28, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    // Debug.Log("rank : " + rawData);
-
                     action?.Invoke(dictionary);
                 }
                 else
@@ -145,26 +95,11 @@ namespace week
         }
 
         /// <summary> 시즌 랭킹 등록 </summary>
-        public void setSeasonRankingRecord(int boss)
+        public void setSeasonRankingRecord(levelKey lvl)
         {
-            long record = BaseManager.userGameData.SeasonTimeRecord * 1000 + boss;
-            plugin.RankingRecord(RANK_CODE, record, BaseManager.userGameData.getRankData(BaseManager.userGameData.RecordSeasonSkin), (state, message, rawData, dictionary) => {
-                if (state.Equals(Configure.PN_API_STATE_SUCCESS))
-                {
-                    Debug.Log("Success");
-                }
-                else
-                {
-                    Debug.Log("setRankingRecord : Fail");
-                }
-            });
-        }
-
-        /// <summary> 전체 랭킹 등록 </summary>
-        public void setAllRankingRecord(int boss)
-        {
-            long record = BaseManager.userGameData.AllTimeRecord * 1000 + boss;
-            plugin.RankingRecord(static_RANK_CODE, record, BaseManager.userGameData.getRankData(BaseManager.userGameData.RecordAllSkin), (state, message, rawData, dictionary) => {
+            long record = BaseManager.userGameData.SeasonTimeRecord[(int)lvl] * 1000 
+                + BaseManager.userGameData.SeasonRecordBoss[(int)lvl];
+            plugin.RankingRecord(static_RANK_CODE[(int)lvl], record, BaseManager.userGameData.getRankData(BaseManager.userGameData.SeasonRecordSkin[(int)lvl]), (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("Success");
@@ -177,9 +112,9 @@ namespace week
         }
 
         /// <summary> 리더보드에서 퍼스널랭킹 가져오기 </summary>
-        public void getRankingPersonal(bool isSeason, Action<Dictionary<string, object>> action)
+        public void getRankingPersonal(levelKey lvl, Action<Dictionary<string, object>> action)
         {
-            string str = (isSeason) ? RANK_CODE : static_RANK_CODE;
+            string str = static_RANK_CODE[(int)lvl];
             plugin.RankingPersonal(str, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
@@ -252,7 +187,6 @@ namespace week
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("PostboxItemSend : Success");
-                    // Debug.Log("PostboxItemSend : " + rawData);
                 }
                 else
                 {
@@ -267,8 +201,6 @@ namespace week
             plugin.PostboxItemUse(postId, (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    //Debug.Log(dictionary["item_code"]);
-                    //Debug.Log(dictionary["item_count"]);
                     getItem?.Invoke(dictionary);
                 }
                 else
@@ -285,13 +217,6 @@ namespace week
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     getItem?.Invoke(dictionary);
-                    //ArrayList useItems = (ArrayList)dictionary["item"];
-                    //foreach (Dictionary<string, object> item in useItems)
-                    //{
-                    //    Debug.Log(item["uid"]);
-                    //    Debug.Log(item["item_code"]);
-                    //    Debug.Log(item["item_count"]);
-                    //}
                 }
                 else
                 {
@@ -325,9 +250,6 @@ namespace week
             {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
-                    //Debug.Log(dictionary["code"]);
-                    //Debug.Log(dictionary["item_code"]);
-                    //Debug.Log(dictionary["item_count"]);
                     getPresent?.Invoke(dictionary);
                 }
                 else

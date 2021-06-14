@@ -8,16 +8,30 @@ namespace week
     {
         [SerializeField] GameObject[] objs;
 
-        public override void FixedInit()
+        /// <summary> 최초 초기화 - 추가 작업 </summary>
+        protected override void whenFixedInit()
         {
         }
 
-        public override void setSeason(season ss)
+        /// <summary> 재사용 초기화 - 추가 작업 </summary>
+        protected override void whenRepeatInit()
         {
-            for (season i = season.spring; i < season.not; i++)
+            setSeason();
+        }
+
+        /// <summary> 계절설정 </summary>
+        protected override void setSeason()
+        {
+            _season = _gs.ClockMng.NowSeason;
+
+            for (season i = season.spring; i < season.max; i++)
             {
-                objs[(int)i].SetActive(i == ss);
+                objs[(int)i].SetActive(i == _season);
             }
+        }
+
+        public override void onPause(bool bl)
+        {
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace week
 {
-    public abstract class EnSkillControl : BaseSkillControl
+    public abstract class EnSkillControl : EnSkillBase
     {
         /// <summary> 투사체 타입 </summary>
         [SerializeField] EnShot _shotType;
@@ -42,8 +42,7 @@ namespace week
             _player = _gs.Player;
             _efm = efm;
 
-            //_dmg = DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.att.ToString());
-            _speed = gameValues._defaultProjSpeed * DataManager.GetTable<float>(DataTable.enproj, _shotType.ToString(), EnProjValData.speed.ToString());
+            _speed = gameValues._defaultProjSpeed * D_enproj.GetEntity(_shotType.ToString()).f_speed;
 
             whenInit();
 

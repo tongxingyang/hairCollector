@@ -7,11 +7,11 @@ using DG.Tweening;
 
 namespace week
 {
-    public abstract class EnemyCtrl : poolingObject, IDamage
+    public abstract class EnemyCtrl : poolingObject, IDamage, IPause
     {
         protected float[] _standardStt;
         protected float[] _finalStt;
-        protected float _hp;
+        public float _hp;
 
         protected bool _isBoss;
         protected bool _isDie;
@@ -24,6 +24,7 @@ namespace week
         protected effManager _efMng;
         protected clockManager _clMng;
 
+        protected attackData _dotData = new attackData();
         protected dotDmg _dotDmg;
         protected float deltime = 0;
         protected float _dot = 0;
@@ -32,7 +33,7 @@ namespace week
         protected Action<Transform, string, dmgTxtType, bool> dmgFunc;
         protected bool _isDmgAction;
 
-        public virtual float getDamage { get => _finalStt[(int)snowStt.att]; }
+        public virtual float getAtt { get => _finalStt[(int)enemyStt.ATT]; }
         public dotDmg DotDmg { get => _dotDmg; set => _dotDmg = value; }
 
         protected abstract void otherWhenFixInit();
@@ -41,19 +42,19 @@ namespace week
 
         public float getHp()
         {
-            return _hp;
+            return _finalStt[(int)enemyStt.HP];
         }
 
-        public virtual float getDamaged(float val, bool ignoreDef = false)
+        public virtual float getDamaged(attackData data)
         {
-            if (ignoreDef == false)
+            if (data.def_Ignore == false)
             {
-                val = val * (100f - _finalStt[(int)snowStt.def]) * 0.01f;
+                data.damage = data.damage * (100f - _finalStt[(int)enemyStt.DEF]) * 0.01f;
                 // val = (val - _finalStt[(int)snowStt.def] > 0) ? val - _finalStt[(int)snowStt.def] : 0;
             }
 
-            dmgFunc(transform, Convert.ToInt32(val).ToString(), dmgTxtType.standard, false);
-            _hp -= val;
+            dmgFunc(transform, Convert.ToInt32(data.damage).ToString(), dmgTxtType.standard, false);
+            _hp -= data.damage;
 
             if (_hp <= 0)
             {
@@ -61,7 +62,7 @@ namespace week
             }
 
             damagedAni();
-            return val;
+            return data.damage;
         }
 
         public void getKnock(Vector3 endP, float power = 0.05f, float duration = 0.1f)
@@ -74,10 +75,16 @@ namespace week
         }
 
         public abstract void setFrozen(float term);
-        public abstract void setBuff(eBuff bff, float val);
+        public abstract void setBuff(enemyStt bff, float val);
 
         public virtual void enemyDie() { }
-        public override void Destroy() { }
+        protected override void Destroy() { }
+
+        /// <summary> 외부에서 삭제 </summary>
+        public void ForceDestroy()
+        {
+            Destroy();
+        }
 
         #region damage Animation
 
@@ -101,6 +108,8 @@ namespace week
             }
         }
         protected abstract IEnumerator damageAni();
+
+        public virtual void onPause(bool bl) { }
 
         #endregion
     }

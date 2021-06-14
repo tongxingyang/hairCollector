@@ -19,7 +19,7 @@ namespace week
 
         public void startNight(float a)
         {
-            _alpha = a;
+            _alpha = a * _gs.Player.darkLight;
             gameObject.SetActive(true);
             StartCoroutine(startNight());
         }

@@ -87,6 +87,10 @@ namespace week
                         Debug.Log("어택0");
                         skillAShot();
                     }
+                    else if (_stats == stat.skill1)
+                    {
+                        SoundManager.instance.PlaySFX(SFX.owlfoot);
+                    }
                 }
                 else if (e.Data.Name.Equals("stompEnd"))
                 {
@@ -172,7 +176,7 @@ namespace week
         {
             if (Vector3.Distance(transform.position, _homePos) < 10f)
             {
-                skillCoolTime += Time.deltaTime;
+                skillCoolTime = Time.deltaTime;
 
                 transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
 
@@ -198,6 +202,7 @@ namespace week
         /// <summary> 1번스킬 - 불회오리 발사 </summary>
         void skillAShot()
         {
+            SoundManager.instance.PlaySFX(SFX.bossowl);
             for (int i = 0; i < skillA_fireCount; i++)
             {
                 epc = (EnSkill_Proj)_enProjMng.makeEnProj(EnShot.owl_shot, Skill0);
@@ -273,7 +278,6 @@ namespace week
                 case stat.back:
                     break;
                 case stat.Trace:
-                    Debug.Log("what");
                     break;
                 case stat.skill0:
                     _skill_finished = false;

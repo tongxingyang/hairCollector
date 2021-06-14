@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace week
 {
-    public abstract class shotBaseCtrl : poolingObject
+    public abstract class shotBaseCtrl : poolingObject, IPause
     {
         // 투사체 타입
         protected SkillKeyList _skillType;
+        protected ShotList _bulletType;
 
         #region [ references ]
 
@@ -24,6 +25,16 @@ namespace week
         protected float _keep;
         protected float _size;
 
+        protected attackData _aData = new attackData();
+
         #endregion
+
+        protected void getEff()
+        {
+            string str = D_skill.GetEntity(_skillType.ToString()).f_eff;
+            _efm.makeEff(str, transform.position);
+        }
+
+        public virtual void onPause(bool bl) { }
     }
 }

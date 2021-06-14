@@ -8,13 +8,11 @@ namespace week
     public class effManager : MonoBehaviour
     {
         [SerializeField] GameObject _effs;
-        [SerializeField] GameObject _dust;
 
         [SerializeField] GameObject _rebirthFab;
 
         GameScene _gs;
 
-        List<walkDust> _dustList;
         List<effControl> _effList;
         public List<effControl> EffList { get => _effList; set => _effList = value; }
 
@@ -24,10 +22,9 @@ namespace week
         {
             _gs = gs;
             _effList = new List<effControl>();
-            _dustList = new List<walkDust>();
         }
 
-        public void makeEff(effAni efa, Vector3 pos)
+        public void makeEff(string effName, Vector3 pos)
         {
             // 있으면 찾아쓰고
             foreach (effControl ec in _effList)
@@ -35,7 +32,7 @@ namespace week
                 if (ec.isUse == false)
                 {
                     ec.transform.position = pos;
-                    ec.Init(efa);
+                    ec.Init(effName);
                     return;
                 }
             }
@@ -45,28 +42,7 @@ namespace week
             _effList.Add(efc);
             efc.transform.parent = transform;
             efc.transform.position = pos;
-            efc.Init(efa);
-        }
-
-        public void makeDust(Vector3 pos)
-        {
-            // 있으면 찾아쓰고
-            foreach (walkDust wd in _dustList)
-            {
-                if (wd.IsUse == false)
-                {
-                    wd.transform.position = pos;
-                    wd.init();
-                    return;
-                }
-            }
-
-            // 없으면 생성
-            walkDust wdd = Instantiate(_dust).GetComponent<walkDust>();
-            _dustList.Add(wdd);
-            wdd.transform.parent = transform;
-            wdd.transform.position = pos;
-            wdd.init();
+            efc.Init(effName);
         }
 
         public void getRebirth(Vector3 pos, Action reAct, Action endAct)

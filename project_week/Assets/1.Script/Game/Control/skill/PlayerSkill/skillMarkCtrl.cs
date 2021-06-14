@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace week
 {
-    public class skillMarkCtrl : poolingObject
+    public class skillMarkCtrl : poolingObject, IPause
     {
         #region [ references ]
 
@@ -16,18 +16,20 @@ namespace week
         #endregion
 
         [SerializeField] GameObject[] _marks;
-        SpriteRenderer[] _sprites;
-        CircleCollider2D[] _cols;
+        SpriteRenderer _sprites;
+        CapsuleCollider2D _cols;
 
         SkillKeyList _skillType;
-        float _dmg;
+        float _dmg, _dmg2;
         float _keep;
         float _size;
         float _dotRate = 1f;
 
+        attackData _adata = new attackData();
 
         bool _targetEnemy = true;
 
+        Action _midEff;
         protected Animator _ani;
         protected Animator Ani
         {
@@ -46,13 +48,16 @@ namespace week
 
         private void Awake()
         {
-            _sprites = new SpriteRenderer[3];
-            _cols = new CircleCollider2D[3];
-            for (int i = 0; i < 3; i++)
-            {
-                _sprites[i] = _marks[i].GetComponent<SpriteRenderer>();
-                _cols[i] = _marks[i].GetComponent<CircleCollider2D>();
-            }
+            _sprites = _marks[0].GetComponent<SpriteRenderer>();
+            _cols = _marks[0].GetComponent<CapsuleCollider2D>();
+            // _sprites = new SpriteRenderer[3];
+
+            //_cols = new CircleCollider2D[3];
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    _sprites[i] = _marks[i].GetComponent<SpriteRenderer>();
+            //    _cols[i] = _marks[i].GetComponent<CircleCollider2D>();
+            //}
         }
 
         /// <summary> 재사용 </summary>
@@ -66,28 +71,18 @@ namespace week
         }
 
         /// <summary> 재사용 </summary>
-        public skillMarkCtrl repeatInit(SkillKeyList skilln, float dmg)
+        public skillMarkCtrl repeatInit(SkillKeyList skilln, float dmg, float dmg2 = 0)
         {
             _skillType = skilln;
             _dmg = dmg;
+            _dmg2 = dmg2;
 
             _marks[1].SetActive(false);
             _marks[2].SetActive(false);
-            _cols[0].isTrigger = true;
-            for (int i = 0; i < 3; i++)
-            {
-                _marks[i].transform.localPosition = Vector3.zero;
-                _marks[i].transform.rotation = Quaternion.Euler(Vector3.zero);
-                _marks[i].transform.localScale = Vector3.one;
-
-                _sprites[i].color = Color.white * 0f;
-                _cols[i].enabled = false;
-            }
 
             Ani.enabled = true;
 
             preInit();
-            Debug.Log($"셋팅");
 
             return this;
         }
@@ -108,32 +103,49 @@ namespace week
             _dotRate = rate;
             return this;
         }
-        
+        public skillMarkCtrl setMidEff(Action midEff)
+        {
+            _midEff = midEff;
+            return this;
+        }
 
         public void play()
         {
             _targetEnemy = (_skillType == SkillKeyList.Present) ? false : true;
             switch (_skillType)
             {
-                case SkillKeyList.Iceball:  // 지속시간 변경불가
+                case SkillKeyList.IceBall:  // 지속시간 변경불가
                 case SkillKeyList.Hail:
-                case SkillKeyList.Meteor:
-                case SkillKeyList.Poison:
-                case SkillKeyList.Lightning:
-                case SkillKeyList.Circle:   
-                case SkillKeyList.Thuncall:
+                case SkillKeyList.Meteor: 
                 case SkillKeyList.IceWall:
-                case SkillKeyList.Iceberg:
+                case SkillKeyList.Shard:
                     Ani.SetTrigger(_skillType.ToString());
                     break;
-                case SkillKeyList.SnowBomb:     // 지속시간 변경가능
-                case SkillKeyList.SnowMissile:
-                case SkillKeyList.PoisonBomb:
-                    StartCoroutine(timeNeff());
+                case SkillKeyList.Lightning:
+                    SoundManager.instance.PlaySFX(SFX.lightning);
+                    Ani.SetTrigger(_skillType.ToString());
                     break;
-                case SkillKeyList.Shard:
-                    Ani.SetTrigger(SkillKeyList.IceWall.ToString());
-                    Debug.Log($"켜짐? : {Ani.enabled}");
+                case SkillKeyList.Poison:
+                    SoundManager.instance.PlaySFX(SFX.poison);
+                    Ani.SetTrigger(_skillType.ToString());
+                    break;
+                case SkillKeyList.Circle:
+                case SkillKeyList.Thuncall:
+                    SoundManager.instance.PlaySFX(SFX.magic);
+                    Ani.SetTrigger(_skillType.ToString());
+                    break;
+                case SkillKeyList.SinkHole: 
+                case SkillKeyList.Vespene:
+                    Ani.SetTrigger(_skillType.ToString());
+                    break;
+                case SkillKeyList.Crevasse:
+                    SoundManager.instance.PlaySFX(SFX.crevasse);
+                    Ani.SetTrigger(_skillType.ToString());
+                    _gs.Player.cameraShake();
+                    break;
+                case SkillKeyList.IceBerg:
+                    SoundManager.instance.PlaySFX(SFX.iceberg);
+                    Ani.SetTrigger(_skillType.ToString());
                     break;
                 case SkillKeyList.Mine:                  
                 case SkillKeyList.Present:
@@ -145,7 +157,7 @@ namespace week
             }
         }
 
-        public override void Destroy()
+        protected override void Destroy()
         {
             preDestroy();
         }
@@ -167,39 +179,16 @@ namespace week
             EndAni();
         }
 
-        /// <summary> 시간초 체크 있음 </summary>
-        IEnumerator timeNeff()
-        {
-            float time = 0;
-            Ani.SetTrigger(_skillType.ToString());
-
-            while (time < _keep)
-            {
-                time += Time.deltaTime;
-                yield return new WaitUntil(() => _gs.Pause == false);
-            }
-
-            Ani.enabled = false;
-
-            time = 0;
-            _cols[0].enabled = false;
-            _sprites[0].sortingOrder = 3;
-
-            while (time < 0.5f)
-            {
-                time += Time.deltaTime;
-                _sprites[0].color = new Color(1f, 1f, 1f, 1f - time / 0.5f);
-
-                yield return new WaitUntil(() => _gs.Pause == false);
-            }
-
-            // Ani.SetTrigger("End");
-            EndAni();
-        }
-
         public void getEff()
         {
-            _efm.makeEff(effAni.hail, transform.position);
+            string str = D_skill.GetEntity(_skillType.ToString()).f_eff;
+            Debug.Log(str);
+            if (string.IsNullOrWhiteSpace(str) == false)
+            {
+                _efm.makeEff(str, transform.position);
+            }
+
+            _midEff?.Invoke();
         }
 
         /// <summary> 파편 애니 </summary>
@@ -214,12 +203,36 @@ namespace week
 
                 for (int i = 0; i < num; i++)
                 {
-
                     _shotBullet = _psm.getLaunch(SkillKeyList.Shard);
                     _shotBullet.transform.position = transform.position;
                     _shotBullet.setTarget(Vector3.up, _angle + rAngle * i);
-                    _shotBullet.repeatInit(SkillKeyList.Shard, _dmg * 1.5f, 1f)
+                    _shotBullet.repeatInit(SkillKeyList.Shard, _dmg2, 1f)
                     .play();
+                }
+            }
+        }
+
+        public void setVespene()
+        {
+            StartCoroutine(vespene());
+        }
+
+        IEnumerator vespene()
+        {
+            skillMarkCtrl _stamp;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    _stamp = _psm.getStamp();
+                    _stamp.transform.position = transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 3f);
+                    _stamp.repeatInit(SkillKeyList.Vespene, _dmg2)
+                          .setKeep(_gs.Player._skills[SkillKeyList.Vespene].keep)
+                          .setDotRate(_gs.Player._skills[SkillKeyList.Vespene].val1)
+                          .play();
+
+                    yield return new WaitUntil(() => _gs.Pause == false);
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
         }
@@ -227,6 +240,15 @@ namespace week
         public void EndAni()
         {
             Destroy();
+
+            _midEff = null;
+
+            for (int i = 0; i < _marks.Length; i++)
+            {
+                _marks[i].transform.localPosition = Vector3.zero;
+                _marks[i].transform.rotation = Quaternion.Euler(Vector3.zero);
+                _marks[i].transform.localScale = Vector3.one;
+            }
         }
 
         #region [ 충돌 ]
@@ -258,10 +280,10 @@ namespace week
                     switch (num)
                     {
                         case 0:
-                            _gs.Player.getAddStat(1, 0);
+                            _gs.Player.getAddStat(SkillKeyList.ATT, 1.01f);
                             break;
                         case 9:
-                            _gs.Player.getAddStat(0, 0.001f);
+                            _gs.Player.getAddStat(SkillKeyList.DEF, 0.1f);
                             break;
                         default:
                             _gs.Player.getHealed(_dmg);
@@ -275,38 +297,50 @@ namespace week
 
         private void OnCollisionEnter2D(Collision2D coll)
         {
-            // Debug.Log(coll.tag);
             if (_targetEnemy)
             {
-                if (coll.gameObject.tag.Equals("Enemy") || coll.gameObject.tag.Equals("Boss"))
+                if (coll.gameObject.tag.Equals("Enemy"))
                 {
                     ec = coll.gameObject.GetComponentInParent<EnemyCtrl>();
                     if (ec == null)
                     {
-                        // Debug.LogError(coll.gameObject.name);
                         return;
                     }
 
                     chkCollision(ec);
                 }
+                else if (coll.gameObject.tag.Equals("Boss"))
+                {
+                    ec = coll.gameObject.GetComponentInParent<EnemyCtrl>();
+                    if (ec == null)
+                    {
+                        return;
+                    }
+
+                    chkCollision(ec, false);
+                }
             }
         }
 
-        void chkCollision(EnemyCtrl ec)
+        void chkCollision(EnemyCtrl ec, bool isMob = true)
         {
+            if (isMob && ((MobControl)ec).EnemyType == Mob.ash)
+                return;
+
             switch (_skillType)
             {
-                case SkillKeyList.Iceball:  // 닿으면 바로 데미지
+                case SkillKeyList.IceBall:  // 닿으면 바로 데미지
                 case SkillKeyList.Hail:
                 case SkillKeyList.Meteor:
                 case SkillKeyList.Lightning:
-                case SkillKeyList.SnowBomb:
-                case SkillKeyList.SnowMissile:
+                case SkillKeyList.SinkHole:
+                case SkillKeyList.Crevasse:
                 case SkillKeyList.Circle:
                 case SkillKeyList.IceWall:
-                case SkillKeyList.Iceberg:
+                case SkillKeyList.IceBerg:
                 case SkillKeyList.Shard:
-                    ec.getDamaged(_dmg);
+                    _adata.set(_dmg, _skillType, false);
+                    ec.getDamaged(_adata);
                     break;
                 case SkillKeyList.Poison:   // 데미지 없고 중독
                     ec.DotDmg.setDotDmg(_dotRate, _keep);
@@ -321,16 +355,18 @@ namespace week
                             .play();
                     }
                     break;              
-                case SkillKeyList.PoisonBomb:   // 데미지 + 중독
-                    ec.getDamaged(_dmg);                    
+                case SkillKeyList.Vespene:   // 데미지 + 중독
                     ec.DotDmg.setDotDmg(_dotRate, _keep);
+                    _adata.set(_dmg, _skillType, false);
+                    ec.getDamaged(_adata);      
                     break;
                 case SkillKeyList.Present:
                     //
                     break;
                 case SkillKeyList.Mine:
-                    ec.getDamaged(_dmg);
-                    _efm.makeEff(effAni.mine, transform.position);
+                    _adata.set(_dmg, _skillType, false);
+                    ec.getDamaged(_adata);
+                    getEff();                    
                     Destroy();
                     break;
                 default:
@@ -341,7 +377,7 @@ namespace week
 
         #endregion
 
-        public override void onPause(bool bl)
+        public virtual void onPause(bool bl)
         {
             if (Ani != null)
             {

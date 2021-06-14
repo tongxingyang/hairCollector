@@ -13,12 +13,10 @@ namespace week
         static public BaseManager instance; // 
 
         public static UserGameData userGameData;
-        public static Option option;
-        private static PreGameData preGameData;               
+        public static DeviceData _innerData;
+        public static PreGameData PreGameData;               
 
         public Camera _main;
-
-        public static PreGameData PreGameData { set => preGameData = value; }
         PlayTimeManager _playTimeMng;
 
         /// <summary> 패치 </summary>
@@ -30,55 +28,57 @@ namespace week
         public Action SceneLoadComplete { set => _sceneLoadComplete = value; }
         public PlayTimeManager PlayTimeMng { get => _playTimeMng; }
 
-        #region [ test ]
-
-        public class t1
+        private void Awake()
         {
-            [SerializeField] public ObscuredInt[] arrayI;
-
-            public t1(ObscuredInt[] arrayI)
-            {
-                this.arrayI = arrayI;
-            }
+            Newtonsoft.Json.Utilities.AotHelper.EnsureList<ObscuredInt>();
         }
-
-        public class t2
-        {
-            [SerializeField] public List<ObscuredInt> listI;
-
-            public t2(List<ObscuredInt> listI)
-            {
-                this.listI = listI;
-            }
-        }
-
-        void Test()
-        {
-            t1 tt1 = new t1(new ObscuredInt[] { 0, 1, 2 });
-            string t1json = JsonConvert.SerializeObject(tt1, new ObscuredValueConverter());
-            t1 t1s = JsonConvert.DeserializeObject<t1>(t1json, new ObscuredValueConverter());
-
-            t2 tt2 = new t2(new List<ObscuredInt>() { 3, 4, 5 });
-            string t2json = JsonConvert.SerializeObject(tt2, new ObscuredValueConverter());
-            t2 t2s = JsonConvert.DeserializeObject<t2>(t2json, new ObscuredValueConverter());
-        }
-
-        #endregion
 
         // Use this for initialization
         void Start()
         {
             _main = Camera.main;
 
+            //test();
             Debug.Log("베이스 스타트");
+            
             instance = this;
-            option = new Option();
+            _innerData = new DeviceData();
+
             _playTimeMng = gameObject.AddComponent<PlayTimeManager>();
             _playTimeMng.Init();
 
-            Test();
-
             StartCoroutine(StartLogoScene());
+        }
+        
+        void test()
+        {
+            Debug.Log("테스트 시작");
+            //string pay = "{\"_chkList\":5,\"_heroPack\":true,\"_leftFreeGem\":0,\"_mulCoinList\":23,\"_vampPack\":true}";
+            string ppt = "{\"_currency\":[21431,2746,280],\"_hasSkin\":49153,\"_isSetRader\":false,\"_lastRaderTime\":0,\"_nickName\":\"\ud0a4\ud0a4 \ub2e4 \uc784\ub9c8\",\"_nowStageLevel\":2,\"_skin\":0,\"_skinLevel\":[10,0,0,4,0,1,5,0,8,0,0,1,0,0,0,4,6,2,0]}" ;
+            string qst = "{\"_lvlBossReward\":[8,1,1],\"_lvlTimeReward\":[5,5,1],\"_publishDate\":20210524,\"_questChk\":[0,0,0,0,0,0],\"_questRein\":0,\"_questRequest\":0,\"_questSkill\":[7,17,18],\"_questSkin\":5}" ;
+            string rcd = "{\"_reinRecord\":-132,\"_requestRecord\":-150,\"_season_RecordBoss\":[0,0,0],\"_season_RecordLevel\":[1,8,2],\"_season_RecordSkin\":[0,0,0],\"_season_TimeRecord\":[247,0,139],\"_wholeTimeRecord\":4987}" ;
+            //string sti = "{\"_playCount\":86,\"_storeUseCount\":67,\"_wholeAccessTime\":38928}";
+            string stt = "{\"_statusLevel\":[29,8,11,33,6,5,2,4]}";
+            //string utl = "{\"_chkList\":3,\"_lastSave\":1621818547000}";
+
+            //UserEntity.payment e1 = JsonConvert.DeserializeObject<UserEntity.payment>(pay, new ObscuredValueConverter());
+            Debug.Log("테스트 1");
+            //UserEntity.gameUtility e7 = JsonConvert.DeserializeObject<UserEntity.gameUtility>(utl, new ObscuredValueConverter());
+            Debug.Log("테스트 2");
+            //UserEntity.statistics e5 = JsonConvert.DeserializeObject<UserEntity.statistics>(sti, new ObscuredValueConverter());
+            Debug.Log("테스트 3");
+            UserEntity.status e6 = JsonConvert.DeserializeObject<UserEntity.status>(stt, new ObscuredValueConverter());
+            Debug.Log("테스트 4");
+            UserEntity.quest e3 = JsonConvert.DeserializeObject<UserEntity.quest>(qst, new ObscuredValueConverter());
+            Debug.Log("테스트 5");
+            UserEntity.record e4 = JsonConvert.DeserializeObject<UserEntity.record>(rcd, new ObscuredValueConverter());
+            Debug.Log("테스트 6");
+            UserEntity.property e2 = JsonConvert.DeserializeObject<UserEntity.property>(ppt, new ObscuredValueConverter());
+
+            //UserGameData ata = new UserGameData();
+            //ata.setUserEntity(entity);
+
+            Debug.Log("테스트 끝");
         }
 
         // 로고 씬
@@ -98,7 +98,7 @@ namespace week
             _sceneLoadStart?.Invoke();
 
             yield return new WaitForSeconds(0.2f);
-
+            Debug.Log(remove + " -> " + (SceneNum)load);
             AsyncOperation AO;
             if (remove != string.Empty)
             {
@@ -149,17 +149,17 @@ namespace week
             }
         }
 
-        public void saveOption()
+        public void saveDeviceData()
         {
-            ES3.Save("option", JsonUtility.ToJson(option));
+            ES3.Save("deviceData", JsonUtility.ToJson(_innerData));
         }
 
         public void loadOption()
         {
-            if (ES3.KeyExists("option"))
+            if (ES3.KeyExists("deviceData"))
             {
-                string str = ES3.Load<string>("option");
-                option = JsonUtility.FromJson<Option>(str);
+                string str = ES3.Load<string>("deviceData");
+                _innerData = JsonUtility.FromJson<DeviceData>(str);
             }
         }
 
@@ -167,5 +167,5 @@ namespace week
         {            
             StartCoroutine(userGameData.RandomizeKey_Coroutine());
         }
-    }
+    }    
 }

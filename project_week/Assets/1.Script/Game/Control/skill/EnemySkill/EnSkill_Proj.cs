@@ -71,7 +71,7 @@ namespace week
         {
             float time = 0;
 
-            while (_isUse)
+            while (IsUse)
             {
                 time += Time.deltaTime;
 
@@ -117,7 +117,7 @@ namespace week
                 if (_dmg == 0)
                     _gs.DmgfntMng.getText(transform, "빗나감", dmgTxtType.standard, true);
                 else
-                    _player.getDamaged(_dmg);
+                    _player.getDamaged(null, _dmg);
 
                 if (_triggDestroy)
                 {
@@ -126,7 +126,7 @@ namespace week
             }
             else if (collision.tag.Equals("obstacle"))
             {
-                _efm.makeEff(effAni.attack, transform.position);
+                _efm.makeEff("Aattack", transform.position);
                 Destroy();
             }
         }

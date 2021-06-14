@@ -22,6 +22,7 @@ namespace week
         [SerializeField] Slider _sfxSlider;
         [SerializeField] Image _bgmHandle;
         [SerializeField] Image _sfxHandle;
+        [SerializeField] Toggle _onShakeToggle;
         [SerializeField] Toggle _dfmToggle;
 
         [Header("skill view")]
@@ -29,18 +30,25 @@ namespace week
         [SerializeField] GameObject _skillCase;
 
         [SerializeField] Sprite[] _imgs;
+        [Space]
+        [SerializeField] GameObject _cheat;
+        bool cheatOn = false;
+        public void cheat()
+        {
+            cheatOn = !cheatOn;
+            _cheat.SetActive(cheatOn);
+        }
 
         GameScene _gs;
 
         List<getSkillCase> _skillList;
 
-        public void pauseStart(GameScene gs)
+        public void Init(GameScene gs)
         {
             _gs = gs;
             _skillList = new List<getSkillCase>();
 
-            _bgmSlider.value = SoundManager.instance.masterVolumeBGM;
-            _sfxSlider.value = SoundManager.instance.masterVolumeSFX;
+            whenOpen();
             _dfmToggle.isOn = false;
 
             _chkExitPanel.SetActive(false);
@@ -53,11 +61,19 @@ namespace week
 
         #region [pause-Popup]
 
+        void whenOpen()
+        {
+            _bgmSlider.value = SoundManager.instance.masterVolumeBGM;
+            _sfxSlider.value = SoundManager.instance.masterVolumeSFX;
+            _onShakeToggle.isOn = BaseManager._innerData.OnShake;
+        }
+
         public void openPause()
         {
             gameObject.SetActive(true);
             _pauseCase.SetActive(true);
             _resumeTxt.gameObject.SetActive(false);
+            whenOpen();
 
             _gs.whenPause();
 
@@ -101,8 +117,8 @@ namespace week
             _pauseCase.gameObject.SetActive(false);
             _optionPanel.SetActive(true);
 
-            _bgmHandle.sprite = (BaseManager.option.BgmVol < 0.1f) ? _imgs[0] : _imgs[1];
-            _sfxHandle.sprite = (BaseManager.option.SfxVol < 0.1f) ? _imgs[0] : _imgs[1];
+            _bgmHandle.sprite = (BaseManager._innerData.BgmVol < 0.1f) ? _imgs[0] : _imgs[1];
+            _sfxHandle.sprite = (BaseManager._innerData.SfxVol < 0.1f) ? _imgs[0] : _imgs[1];
         }
 
         public void optionClose()
@@ -122,6 +138,12 @@ namespace week
             SoundManager.instance.SetVolumeSFX(val);
             _sfxHandle.sprite = (val < 0.1f) ? _imgs[0] : _imgs[1];
         }
+
+        public void OnShakeToggle()
+        {
+            BaseManager._innerData.OnShake = _onShakeToggle.isOn;
+        }
+
         public void dmgFontToggle()
         {
             _gs.DmgfntMng.Toggle = _dfmToggle.isOn;
@@ -165,7 +187,7 @@ namespace week
             int num = 0;
             getSkillCase gsc;
 
-            for (SkillKeyList sk = SkillKeyList.HP; sk < SkillKeyList.Snowball; sk++)
+            for (SkillKeyList sk = SkillKeyList.HP; sk < SkillKeyList.SnowBall; sk++)
             {
                 if (_gs.Player.Abils[sk].active)
                 {
@@ -173,16 +195,17 @@ namespace week
                     {
                         gsc = Instantiate(_skillCase).GetComponent<getSkillCase>();
                         gsc.transform.SetParent(_contents.transform);
+                        gsc.transform.localPosition = Vector3.zero;
                         gsc.transform.localScale = Vector3.one;
                         _skillList.Add(gsc);
                     }
 
-                    _skillList[num].Init(sk, _gs.Player.Abils[sk].Lvl);
+                    _skillList[num].Init(_gs, sk, _gs.Player.Abils[sk].Lvl);
                     num++;
                 }            
             }
 
-            for (SkillKeyList sk = SkillKeyList.Snowball; sk < SkillKeyList.max; sk++)
+            for (SkillKeyList sk = SkillKeyList.SnowBall; sk < SkillKeyList.non; sk++)
             {
                 if (_gs.Player.Skills[sk].active)
                 {
@@ -190,31 +213,15 @@ namespace week
                     {
                         gsc = Instantiate(_skillCase).GetComponent<getSkillCase>();
                         gsc.transform.SetParent(_contents.transform);
+                        gsc.transform.localPosition = Vector3.zero;
                         gsc.transform.localScale = Vector3.one;
                         _skillList.Add(gsc);
                     }
 
-                    _skillList[num].Init(sk, _gs.Player.Skills[sk].Lvl);
+                    _skillList[num].Init(_gs, sk, _gs.Player.Skills[sk].Lvl);
                     num++;
                 }
             }
-
-            //for (SkillKeyList sk = SkillKeyList.poison; sk < SkillKeyList.max; sk++)
-            //{
-            //    if (_gs.Player.Equips[sk].active)
-            //    {
-            //        if (_skillList.Count <= num)
-            //        {
-            //            gsc = Instantiate(_skillCase).GetComponent<getSkillCase>();
-            //            gsc.transform.SetParent(_contents.transform);
-            //            gsc.transform.localScale = Vector3.one;
-            //            _skillList.Add(gsc);
-            //        }
-
-            //        _skillList[num].Init(sk, _gs.Player.Equips[sk].Lvl);
-            //        num++;
-            //    }
-            //}
 
             if (_skillList.Count > num)
             {

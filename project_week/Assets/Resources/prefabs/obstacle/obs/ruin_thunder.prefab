@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6255552959009331294}
   - component: {fileID: 4593371098408585580}
   - component: {fileID: 3655772037981084535}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: tower2
   m_TagString: obstacle
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -109,7 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 394204061238583773}
   - component: {fileID: 3818788201001478404}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: head3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: b938bc18775d8834081f845329b216bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 2005138432844686267}
   - component: {fileID: 7662710746099631261}
   - component: {fileID: 2664817394441714824}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: tower0
   m_TagString: obstacle
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -290,7 +290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8208466137575192149}
   - component: {fileID: 4022409147631323315}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: head2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,7 +350,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: b938bc18775d8834081f845329b216bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -371,7 +371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5846531740590442519}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: shotPos3
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -402,7 +402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7389153310643188271}
   - component: {fileID: 2423894156951571170}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: shotTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -447,7 +447,7 @@ MonoBehaviour:
   - {fileID: 6279898290634412772}
   - {fileID: 5846531740590442519}
   - {fileID: 5581825513423825938}
-  - {fileID: 6915412605821720348}
+  - {fileID: 4150436127539566950}
 --- !u!1 &2871579159048244576
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,8 +457,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4150436127539566950}
-  m_Layer: 13
-  m_Name: shotPos4
+  m_Layer: 11
+  m_Name: shotPos5
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 949183809128176360}
   - component: {fileID: 7940532745709449607}
   - component: {fileID: 5259385739974314752}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: tower4
   m_TagString: obstacle
   m_Icon: {fileID: 0}
@@ -549,7 +549,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -586,7 +586,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 369606013353054414}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: pocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,7 +619,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1775869454040016943}
   - component: {fileID: 7985152666129252749}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: head0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,7 +679,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: b938bc18775d8834081f845329b216bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -700,7 +700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6279898290634412772}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: shotPos2
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -732,7 +732,7 @@ GameObject:
   - component: {fileID: 6624093365753110438}
   - component: {fileID: 947068850886753340}
   - component: {fileID: 1671226118103285018}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: tower1
   m_TagString: obstacle
   m_Icon: {fileID: 0}
@@ -792,7 +792,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -830,7 +830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4799023848778504550}
   - component: {fileID: 5076138064756616186}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: head1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: b938bc18775d8834081f845329b216bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -913,7 +913,7 @@ GameObject:
   - component: {fileID: 6915412605821720348}
   - component: {fileID: 1467380390550652925}
   - component: {fileID: 5338491487041920970}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: tower5
   m_TagString: obstacle
   m_Icon: {fileID: 0}
@@ -973,7 +973,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1011,8 +1011,8 @@ GameObject:
   m_Component:
   - component: {fileID: 721970715332442901}
   - component: {fileID: 5486125507401139625}
-  m_Layer: 13
-  m_Name: head4
+  m_Layer: 11
+  m_Name: head5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1071,7 +1071,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: b938bc18775d8834081f845329b216bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1092,7 +1092,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6195421749269246501}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: shotPos1
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -1122,7 +1122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5581825513423825938}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: shotPos4
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -1153,7 +1153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7241828124296195214}
   - component: {fileID: 7877675061478765793}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: head4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1213,7 +1213,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: b938bc18775d8834081f845329b216bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1236,7 +1236,7 @@ GameObject:
   - component: {fileID: 2171834861600754699}
   - component: {fileID: 3120113882100692571}
   - component: {fileID: 8615024934160003900}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: tower3
   m_TagString: obstacle
   m_Icon: {fileID: 0}
@@ -1296,7 +1296,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 28
   m_Sprite: {fileID: 21300000, guid: 1eacd7c3a1141a64895a93d56b665add, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1333,8 +1333,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6468680543211211694}
-  - component: {fileID: 8383653381022790180}
-  m_Layer: 0
+  - component: {fileID: 8502310448974110924}
+  m_Layer: 11
   m_Name: ruin_thunder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1356,7 +1356,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8383653381022790180
+--- !u!114 &8502310448974110924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1365,46 +1365,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8760158410815542487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e17b1fd8ea4bd498dd19047985e973, type: 3}
+  m_Script: {fileID: 11500000, guid: 96d11ec1014b48648a8bfe4740223f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 11
-  _pocket: {fileID: 3762647064571798742}
-  bosPos:
-  - {fileID: 0}
-  _trap: {fileID: 2423894156951571170}
-  _normalTem:
-  - {fileID: 8462437242950947338}
-  _objs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _envs: []
 --- !u!1 &8945324021210531490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,7 +1377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8405015743300868659}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: shotPos0
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -1445,7 +1408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6836176740850956101}
   - component: {fileID: 6733941120718495363}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: mark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1505,7 +1468,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 1a4dfdbf5f469e6458965106adc91768, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.34901962}
   m_FlipX: 0
@@ -1524,10 +1487,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6836176740850956101}
     m_Modifications:
+    - target: {fileID: 2013787753515861805, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2464440048298264915, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2464440048298264915, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
         type: 3}
@@ -1579,6 +1547,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4705527787354696861, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6094117709466198092, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
         type: 3}
       propertyPath: m_Name
@@ -1589,20 +1562,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6094117709466198092, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6638988227069265817, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44e5eca6d4e37940a46b9d183ecd8ca, type: 3}
---- !u!114 &8462437242950947338 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5025709519893483669, guid: d44e5eca6d4e37940a46b9d183ecd8ca,
-    type: 3}
-  m_PrefabInstance: {fileID: 3516878069143716511}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a18604198e3815e43adb5eb13881d777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1368257364238322636 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2464440048298264915, guid: d44e5eca6d4e37940a46b9d183ecd8ca,

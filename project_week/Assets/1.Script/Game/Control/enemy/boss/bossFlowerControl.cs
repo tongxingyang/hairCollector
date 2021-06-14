@@ -45,7 +45,7 @@ namespace week
             _stemLeng = _stem.Length;
             _stemDir = new Vector3[_stemLeng];
             _stemHight = new float[_stemLeng];
-            _standardStt[(int)snowStt.speed] = 1f;
+            _standardStt[(int)enemyStt.SPEED] = 1f;
 
             for (int i = 0; i < _stemLeng; i++)
             {
@@ -114,7 +114,7 @@ namespace week
             {
                 for (int i = 0; i < _stemLeng; i++)
                 {
-                    _stem[i].position = Vector3.MoveTowards(_stem[i].position, _stemDir[i], 3f * Speed * Time.deltaTime);
+                    _stem[i].position = Vector3.MoveTowards(_stem[i].position, _stemDir[i], 15f * Speed * Time.deltaTime);
                 }
                 
                 yield return new WaitUntil(() => _gs.Pause == false);
@@ -128,9 +128,9 @@ namespace week
             {                
                 _runningTime += delTime;
 
-                if (_standardStt[(int)snowStt.speed] > 1f)
+                if (_standardStt[(int)enemyStt.SPEED] > 1f)
                 {
-                    _standardStt[(int)snowStt.speed] -= delTime;
+                    _standardStt[(int)enemyStt.SPEED] -= delTime;
                 }
 
                 for (int i = 0; i < _stemLeng; i++)
@@ -175,7 +175,7 @@ namespace week
             _mark.transform.position = _player.transform.position;
             _mark.SetTrigger("redzone");
 
-            while (waitTime < 1f)
+            while (waitTime < 1.5f)
             {
                 delTime = Time.deltaTime;
 
@@ -190,7 +190,7 @@ namespace week
                 }
 
                 targetPos = _player.transform.position;
-                _mark.transform.position = Vector3.MoveTowards(_mark.transform.position, targetPos, 1.5f * Time.deltaTime);
+                _mark.transform.position = Vector3.MoveTowards(_mark.transform.position, targetPos, 2f * Time.deltaTime);
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
@@ -198,33 +198,33 @@ namespace week
             targetPos = _mark.transform.position;
 
             Vector3 dist;
-            float R;
+            float intervalX, intervalY;
             float r;
-            float x;
 
-            float rPow;
             float posy;
 
-            _standardStt[(int)snowStt.speed] = 15f;
+            _standardStt[(int)enemyStt.SPEED] = 15f;
             while (Vector3.Distance(_head.transform.position, targetPos) > 0.05f)
             {
-                _stemDir[_stemLeng - 1] = Vector3.MoveTowards(_head.transform.position, targetPos, 15f * Time.deltaTime);
+                //UnityEngine.Debug.Log("abc");
+                _head.transform.position = Vector3.MoveTowards(_head.transform.position, targetPos, 15f * Time.deltaTime);
+                _stemDir[_stemLeng - 1] = _head.transform.position; 
 
                 dist = _stemDir[_stemLeng - 1] - _foot.position;
-                R = _stemDir[_stemLeng - 1].x - _foot.position.x;
-                r = R * 0.5f;
-                rPow = r * r;
+                r = dist.x * 0.5f;
 
                 for (int i = 0; i < _stemLeng - 1; i++)
                 {
-                    x = (R * i / _stemLeng);
-                    posy = Mathf.Sqrt(x * (2 * r - x)) * 0.5f;
-                    _stemDir[i] = new Vector3(_foot.position.x + (dist.x * i / _stemLeng), _foot.position.y + (dist.y * i / _stemLeng) + posy);
+                    intervalX = (dist.x * (i + 1) / _stemLeng);
+                    intervalY = (dist.y * (i + 1) / _stemLeng);
+                    posy = Mathf.Sqrt(intervalX * (2 * r - intervalX)) * 0.5f;
+                    _stemDir[i] = new Vector3(_foot.position.x + intervalX, _foot.position.y + intervalY + posy);
                 }
 
                 yield return new WaitUntil(() => _gs.Pause == false);
             }
 
+            SoundManager.instance.PlaySFX(SFX.bossground);
             _mark.SetTrigger("crack");
             _player.cameraShake();
 
@@ -251,6 +251,8 @@ namespace week
                     _esc.operation(degree * j + addAngle);
                 }
 
+                SoundManager.instance.PlaySFX(SFX.bossShot);
+
                 while (time < 0.5f)
                 {
                     time += Time.deltaTime;
@@ -262,11 +264,12 @@ namespace week
         /// <summary> 2번스킬 - 지뢰 뿌리기 </summary>
         void skillB()
         {
+            SoundManager.instance.PlaySFX(SFX.bossShot);
             for (int i = 0; i < 10; i++)
             {
                 _esc = _enProjMng.makeEnProj(EnShot.flower_mine, Skill1);
                 _esc.transform.position = transform.position;
-                _esc.operation(transform.position + (Vector3)(Random.insideUnitCircle * 5));
+                _esc.operation(transform.position + (Vector3)(Random.insideUnitCircle * 5));                    
             }
         }
 

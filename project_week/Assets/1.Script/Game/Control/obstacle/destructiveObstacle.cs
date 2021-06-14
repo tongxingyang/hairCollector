@@ -35,9 +35,9 @@ namespace week
             };
         }
 
-        public float getDamaged(float val, bool ignoreDef = false)
+        public float getDamaged(attackData data)
         {
-            _hp -= (int)val;
+            _hp -= (int)data.damage;
 
             if (_hp <= 0)
             {
@@ -45,7 +45,7 @@ namespace week
             }
 
             SetAnimation("shake", false, 1f);
-            return val;
+            return data.damage;
         }
 
         void Destroy()
@@ -62,7 +62,7 @@ namespace week
             Debug.LogError("장애물은 디버프 걸리지 않음");
         }
 
-        public void setBuff(eBuff bff, float val)
+        public void setBuff(enemyStt bff, float val)
         {
             Debug.LogError("장애물은 디버프 걸리지 않음");
         }
