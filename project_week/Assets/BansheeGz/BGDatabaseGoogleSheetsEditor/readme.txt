@@ -1,6 +1,6 @@
-BG Database Excel plugin by BancheeGz, 2018-2021
+BG Database Google Sheets plugin by BancheeGz, 2018-2021
 
-https://www.bansheegz.com/BGDatabase/Downloads/EditorExcel
+https://www.bansheegz.com/BGDatabase/Downloads/EditorGoogleSheets
 support email: support@bansheegz.com
 
 Copyright (c) 2018-2021 All Rights Reserved
