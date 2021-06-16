@@ -1,9 +1,9 @@
-BG Database Excel plugin by BancheeGz, 2018-2021
+BG Database Excel plugin by BancheeGz, 2018-2020
 
 https://www.bansheegz.com/BGDatabase/Downloads/EditorExcel
 support email: support@bansheegz.com
 
-Copyright (c) 2018-2021 All Rights Reserved
+Copyright (c) 2018-2020 All Rights Reserved
 
 -----------------------------------------------------
                             Disclaimer:

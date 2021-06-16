@@ -4,9 +4,6 @@
   <projectSetting name="com.google.firebaseAnalyticsCookie" value="c1aebe35240b484daa321ef24145c410" />
   <projectSetting name="com.google.firebaseAnalyticsEnabled" value="True" />
   <projectSetting name="Google.IOSResolver.VerboseLoggingEnabled" value="False" />
-  <projectSetting name="Google.PackageManagerResolver.Enable" value="True" />
-  <projectSetting name="Google.PackageManagerResolver.PromptToAddRegistries" value="True" />
-  <projectSetting name="Google.PackageManagerResolver.PromptToMigratePackages" value="True" />
   <projectSetting name="Google.PackageManagerResolver.VerboseLoggingEnabled" value="False" />
   <projectSetting name="Google.VersionHandler.VerboseLoggingEnabled" value="True" />
   <projectSetting name="Google.VersionHandler.VersionHandlingEnabled" value="True" />
