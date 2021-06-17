@@ -52,20 +52,7 @@ namespace week
             chkDestroy(deltime);
 
             if (_isFrozen) 
-                selfEnemyDie();
-
-            if (!_closed)
-            {
-                if (PlayerDist < 6f)
-                {
-                    _outOfViewSpeed = 1f;
-                    _closed = true;
-                }
-                else
-                {
-                    _outOfViewSpeed = 3f;
-                }
-            }
+                selfEnemyDie();            
         }
 
         protected void TraceMove()

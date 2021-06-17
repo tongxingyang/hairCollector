@@ -243,12 +243,12 @@ SpriteAtlas:
   - exp
   - gem
   - skinPack
-  - IceKnuckle
+  - Iceknuckle
   - gem_m
   - HalfIcicle
   - IceBall
   - adRemove
-  - IceBalt
+  - Icebalt
   - Icicle
   - 3perCoin
   - ThornShield
@@ -387,7 +387,7 @@ SpriteAtlas:
   - quest_19
   - quest_18
   - Poison
-  - SnowDart
+  - Snowdart
   - Pet
   - i_DODGE
   - revive
@@ -403,11 +403,11 @@ SpriteAtlas:
   - startPack
   - heroPack
   - coin_l
-  - SnowBullet
+  - Snowbullet
   - SnowPoint
   - SnowBall
   - Shield
-  - GigaDrill
+  - Gigadrill
   - FrostDrill
   - Ricoche
   - GiantShield

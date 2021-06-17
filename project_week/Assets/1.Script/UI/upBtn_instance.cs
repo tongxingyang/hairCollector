@@ -29,8 +29,8 @@ namespace week
 
             GetComponent<Button>().onClick.AddListener(selectSkill);
         }
-
-        public void setBtn(SkillKeyList sk, int lvl)
+        Action<SkillKeyList> _whenAbil;
+        public void setBtn(SkillKeyList sk, int lvl, Action<SkillKeyList> act)
         {
             _skType = sk;
 
@@ -72,6 +72,8 @@ namespace week
                 _explain.text = $"{D_skill.GetEntity($"{sk}").f_skill_name} 스킬 습득";
                 _lvl.gameObject.SetActive(false);
             }
+
+            _whenAbil = (sk < SkillKeyList.SnowBall) ? act : null;
         }
 
         public void setFeedback(Action whenThrow)
@@ -91,6 +93,7 @@ namespace week
             {
                 _instantApply?.Invoke(_skType, _upGrade.Noti);
 
+                _whenAbil?.Invoke(_skType);
                 _whenClose?.Invoke();
             }
             else if (_skType == SkillKeyList.non)

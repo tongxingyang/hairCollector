@@ -69,6 +69,7 @@ namespace week
         public float MobRate { get; private set; }  // 난이도별 몹강화 배율
         public float MobDayRate { get; private set; } = 1f;  // 날짜별 몹강화 배율
         public float MobDefRate { get; private set; } // 날짜별 몹 방어력 배율
+        public float MobIncSpeed { get; private set; } // 날짜별 몹 추가 스피드
         int _mobWave;
 
         private mobData[] MobDatas { get => _mobDatas; set => _mobDatas = value; }
@@ -122,10 +123,16 @@ namespace week
         /// <summary> 날짜바뀔때 </summary>
         void cal_MobDayRate()
         {
+            // 몹 방어력
             MobDefRate += Mathf.Sqrt(12f / (_gs.ClockMng.RecordDay + 1));
             
+            // 몹 강화
             int day = _gs.ClockMng._dayInSeason;
             MobDayRate = Mathf.Pow(gameValues._mobIncrease, day) + gameValues._mobIncrease2 * _gs.ClockMng.RecordMonth;
+
+            // 몹 이속
+            float sp = 1 + (_gs.ClockMng.RecordDay * 0.006f);
+            MobIncSpeed = (sp > 1.1f) ? 1.1f : sp;
         }
 
         ///// <summary> 계절 바뀔때 (참조변수는 장식용) </summary>

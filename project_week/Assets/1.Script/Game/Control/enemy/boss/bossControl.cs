@@ -116,7 +116,7 @@ namespace week
             _finalStt[(int)enemyStt.SPEED] = _standardStt[(int)enemyStt.SPEED];
             _finalStt[(int)enemyStt.EXP] = _standardStt[(int)enemyStt.EXP];
             _finalStt[(int)enemyStt.COIN] = _standardStt[(int)enemyStt.COIN];
-            Debug.Log(_finalStt[(int)enemyStt.HP]);
+
             Skill0 = _skill0 * _finalStt[(int)enemyStt.ATT];
             Skill1 = _skill1 * _finalStt[(int)enemyStt.ATT];
 

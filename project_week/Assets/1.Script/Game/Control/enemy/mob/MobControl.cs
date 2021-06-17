@@ -22,9 +22,8 @@ namespace week
         protected float MaxHp { get { return _finalStt[(int)enemyStt.HP]; } }
         protected virtual float Att { get { return _finalStt[(int)enemyStt.ATT]     * _enMng.FieldBuff[enemyStt.ATT] * _mobBuff[(int)enemyStt.ATT]; } }
         protected float Def { get { return _finalStt[(int)enemyStt.DEF]     + _enMng.FieldBuff[enemyStt.DEF] + _mobBuff[(int)enemyStt.DEF]; } }
-        protected float Speed { get { return _finalStt[(int)enemyStt.SPEED] * _enMng.FieldBuff[enemyStt.SPEED] * _mobBuff[(int)enemyStt.SPEED] * _outOfViewSpeed; } }
-        protected float _outOfViewSpeed = 1f;
-        protected bool _closed = false;
+        protected float Speed { get { return _finalStt[(int)enemyStt.SPEED] * _enMng.FieldBuff[enemyStt.SPEED] * _mobBuff[(int)enemyStt.SPEED] * _increaseSpeed; } }
+        protected float _increaseSpeed = 1f;
 
         protected float[] _mobBuff; // 몹 디버프는 시간제한 없음
 
@@ -118,6 +117,8 @@ namespace week
             _finalStt[(int)enemyStt.DEF] = _standardStt[(int)enemyStt.DEF] * _enMng.MobDefRate * D_level.GetEntity(_gs.StageLevel.ToString()).f_defrate + _enMng.InitBff[(int)enemyStt.DEF];
             _finalStt[(int)enemyStt.SPEED] = _standardStt[(int)enemyStt.SPEED];
 
+            _increaseSpeed = _enMng.MobIncSpeed;
+
             float val = _enMng.FieldBuff[enemyStt.SIZE];
             transform.localScale = new Vector3(val, val);
 
@@ -129,7 +130,6 @@ namespace week
             _isCool = false;
 
             _render.color = Color.white;
-            _closed = false;
 
             _isDmgAction = false;
 
@@ -218,20 +218,7 @@ namespace week
         {
             chkDotDmg(deltime);
             chkDestroy(deltime);
-            chkFrozen(deltime);
-
-            if (!_closed)
-            {
-                if (PlayerDist < 6f)
-                {
-                    _outOfViewSpeed = 1f;
-                    _closed = true;
-                }
-                else
-                {
-                    _outOfViewSpeed = 3f;
-                }
-            }
+            chkFrozen(deltime);            
         }
 
         /// <summary> 받은 데미지~방어력 계산해서 </summary>

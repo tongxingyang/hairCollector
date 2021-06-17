@@ -96,7 +96,7 @@ namespace week
         /// <summary> 몹 소환 최대치 </summary>
         public static readonly ObscuredFloat _mobMaxCount = 80;
         /// <summary> 몹 강화량(하루) </summary>
-        public static readonly ObscuredFloat _mobIncrease = 1.14f;
+        public static readonly ObscuredFloat _mobIncrease = 1.15f;
         /// <summary> 몹 강화량(1년) </summary>
         public static readonly ObscuredFloat _mobIncrease2 = 0.75f;
 

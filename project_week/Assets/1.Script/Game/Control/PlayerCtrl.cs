@@ -1227,7 +1227,7 @@ namespace week
         /// <summary> 힐받기(힐) </summary>
         public void getHealed(float heal)
         {
-            heal = heal * HealMount; Debug.Log(heal);
+            heal = heal * HealMount;
             Hp += heal;
 
             if (Hp > MaxHp)
