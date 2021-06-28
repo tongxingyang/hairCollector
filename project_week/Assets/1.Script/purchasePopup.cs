@@ -119,6 +119,30 @@ namespace week
             _storePurchaseNotice.text = "※감사합니다!";
 
             _after = after;
+            _after += () => { AuthManager.instance.SaveDataServer(true); };
+            open();
+
+            StartCoroutine(chkTime(0.5f));
+
+            return this;
+        }
+
+        /// <summary> 버그 보상 </summary>
+        public purchasePopup setBugReward(Sprite sp, string str, Action after = null)
+        {
+            SoundManager.instance.PlaySFX(SFX.purchase);
+            _closable = false;
+            openPurchaseCheck(type.store);
+
+            _storePurchaseTitle.text = str;
+
+            _storePurchasePresent.sprite = sp;
+            _storePurchasePresent.SetNativeSize();
+            _storePurchasePresent.GetComponent<RectTransform>().sizeDelta = Vector3.one * 750f;
+
+            _storePurchaseNotice.text = "※불편을 드려 죄송합니다.";
+
+            _after = after;
             open();
 
             StartCoroutine(chkTime(0.5f));

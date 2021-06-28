@@ -54,10 +54,9 @@ namespace week
         public void resetMyRecord()
         {
 #if UNITY_EDITOR
-            for (int i = 0; i < BaseManager.userGameData.SeasonTimeRecord.Length; i++) 
+            for (levelKey i = 0; i < levelKey.max; i++) 
             {
-                BaseManager.userGameData.SeasonTimeRecord[i] = 0;
-                BaseManager._innerData.RecommendDay[i] = 1;
+                BaseManager.userGameData.LevelsRecord[(int)i] = new UserEntity.levelRecord();
             }
 
             BaseManager._innerData.showRecommend = false;

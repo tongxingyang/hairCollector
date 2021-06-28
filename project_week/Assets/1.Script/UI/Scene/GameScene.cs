@@ -230,11 +230,11 @@ namespace week
 
             whenPause();
 
-            Lvl++;
-            InGameInterface.LevelRefresh(Lvl);
-
             SoundManager.instance.PlaySFX(SFX.levelup);
-            _upgradePanel.getSkillTreeOpen(NotiType.levelUp);
+            _upgradePanel.getSkillTreeOpen(NotiType.levelUp,()=> {
+                Lvl++;
+                InGameInterface.LevelRefresh(Lvl);
+            });
         }
 
         /// <summary> 바로 스킬 선택 </summary>

@@ -25,6 +25,7 @@ namespace week
         int _selectNum;
 
         List<KeyValuePair<SkillKeyList,int>> _suggestAbil;
+        Action _upAct;
 
         public NotiType Noti { get; private set; }
         // 창 종료시 gameScene 행동
@@ -88,9 +89,10 @@ namespace week
         #region upgrade
 
         /// <summary> 스킬습득 - 제안 -> 트리 </summary>
-        public void getSkillTreeOpen(NotiType noti)
+        public void getSkillTreeOpen(NotiType noti, Action act)
         {
             open(noti);
+            _upAct = act;
 
             _suggestPanel.SetActive(true);
             _treePanel.SetActive(false);
@@ -154,6 +156,8 @@ namespace week
                             break;
                         }
                     }
+
+                    _upAct?.Invoke();
                 });
             }
         }

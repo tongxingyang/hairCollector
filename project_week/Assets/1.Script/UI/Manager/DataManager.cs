@@ -31,7 +31,7 @@ namespace week
     public static class DataManager
     {
         static BGMetaEntity[] datalist;
-        
+
         static Dictionary<Mob, GameObject> _mobFabs;
         static Dictionary<Boss, GameObject> _bobFabs;
         static Dictionary<obstacleKeyList, GameObject> _eachObsFabs;
@@ -41,6 +41,8 @@ namespace week
         static GameObject _rushFabs;
         static GameObject _fieldFabs;
         static GameObject _petFabs;
+
+        public static TextAsset AgreeTxt { get; private set; }
 
         static Dictionary<EnShot, GameObject> _enProjFabs;
         static Dictionary<SkillKeyList, Sprite> _shieldImgs;
@@ -105,6 +107,8 @@ namespace week
 
         public static void loadPrefabs()
         {
+            AgreeTxt = Resources.Load("agree") as TextAsset;
+
             _mobFabs = new Dictionary<Mob, GameObject>();
             for (Mob i = (Mob)0; i < Mob.max; i++)
             {

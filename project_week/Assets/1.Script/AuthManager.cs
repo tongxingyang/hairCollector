@@ -39,6 +39,19 @@ namespace week
         }
     }
 
+    [Serializable]
+    public class Profile
+    {
+        [SerializeField] public bool inspection;
+        [SerializeField] public string version;
+
+        public Profile()
+        {
+            inspection = true;
+            version = "9.9.9";
+        }
+    }
+
     public class AuthManager : TSingleton<AuthManager>
     {
         FirebaseAuth auth;
@@ -46,14 +59,14 @@ namespace week
         {
             get { return FirebaseDatabase.DefaultInstance.RootReference; }
         }
-        DatabaseReference serverTime
-        {
-            get { return reference.Child("Profile").Child("serverTime"); }
-        }
+        //DatabaseReference serverTime
+        //{
+        //    get { return reference.Child("Profile").Child("serverTime"); }
+        //}
 
         ObscuredString _uid = "SinglePlay";
 
-        string _version;
+        Profile _profile;
         // long _lastLogin;
         List<rankSubData> _leaders;
         public Action<int> WhenTomorrow { get; set; }
@@ -69,7 +82,7 @@ namespace week
 
         public bool isLoginFb { get; set; }
         public List<rankSubData> Leaders { get => _leaders; }
-        public string Version { get => _version; }
+        public Profile profile { get => _profile; }
         // public long LastLogin { get => _lastLogin; }
         public ObscuredString Uid { get => _uid; set => _uid = value; }
 
@@ -98,6 +111,7 @@ namespace week
             PlayGamesPlatform.Activate();
 
             auth = FirebaseAuth.DefaultInstance;
+            _profile = new Profile();
             IsExist = false;
             LoadedLastSave = 0;
             isLoginFb = false;
@@ -391,54 +405,12 @@ namespace week
             yield return new WaitUntil(() => complete == true);
         }
 
-        //public IEnumerator loadAndChangeDataFromFB(string remove)
-        //{
-        //    Debug.Log("서버 데이터로 로컬 데이터 교체 시도");
-        //    bool complete = false;
-
-        //    reference.Child("User").Child(_uid).GetValueAsync().ContinueWith(task =>
-        //    {
-        //        if (task.IsCanceled)
-        //        {
-        //            Debug.LogError("Load SignInWithCredentialAsync was canceled.");
-        //            return;
-        //        }
-
-        //        if (task.IsFaulted)
-        //        {
-        //            Debug.LogError("Load SignInWithCredentialAsync encountered an error. : " + task.Exception);
-        //            return;
-        //        }
-
-        //        string userData = (string)task.Result.GetRawJsonValue();
-
-        //        UserEntity entity = JsonConvert.DeserializeObject<UserEntity>(userData, new ObscuredValueConverter());
-
-        //        if (BaseManager.userGameData == null)
-        //        {
-        //            BaseManager.userGameData = new UserGameData();
-        //        }
-
-        //        // BaseManager.userGameData.loadDataFromLocal(entity);
-        //        ES3.Save(_uid, userData);
-
-        //        // 교체 ==================================================
-
-        //        // removeAndSaveDataToLocal(remove);
-
-        //        complete = true;
-        //    });
-
-        //    yield return new WaitUntil(() => complete == true);
-        //    Debug.Log("서버에서 데이터 로드 완료");
-        //}
-
         /// <summary> 버전 가져오기 (_lastVersion에서 버전 확인가능) </summary>
-        public IEnumerator loadVersionFromFB()
+        public IEnumerator loadProFileFromFB()
         {
             bool complete = false;
 
-            reference.Child("Profile").Child("version").GetValueAsync().ContinueWith(task =>
+            reference.Child("Profile").GetValueAsync().ContinueWith(task =>
             {
                 Debug.Log("버전 체크");
                 if (task.IsCanceled)
@@ -453,8 +425,9 @@ namespace week
                     return;
                 }
 
-                DataSnapshot shot = task.Result;
-                _version = (string)shot.Value;
+                Debug.Log(task.Result.GetRawJsonValue());
+                _profile = JsonUtility.FromJson<Profile>(task.Result.GetRawJsonValue());
+
                 complete = true;
             });
 
@@ -462,150 +435,6 @@ namespace week
         }
 
         #endregion
-
-        /*
-        #region [ rank ]
-
-        /// <summary> 신기록 세우거나 유저 요청시 </summary>
-        public void saveRankDataFromFB()
-        {
-            if (networkCheck() == false)
-                return;
-
-            StartCoroutine(userRankChecking());
-        }
-
-        /// <summary> 유저 랭킹 저장 </summary>
-        IEnumerator userRankChecking()
-        {
-            // 최신판 로드 및 정렬
-            yield return StartCoroutine(loadRankDataFromFB());
-
-            saveRankDataTransaction(); // 트랜잭션 저장
-        }
-
-        /// <summary> 로드 </summary>
-        public IEnumerator loadRankDataFromFB()
-        {
-            bool complete = false;
-
-            reference.Child("Rank").GetValueAsync().ContinueWith(task =>
-            {
-                if (task.IsCanceled)
-                {
-                    Debug.LogError("Rank Load SignInWithCredentialAsync was canceled.");
-                    return;
-                }
-
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("Rank Load SignInWithCredentialAsync encountered an error. : " + task.Exception);
-                    return;
-                }
-
-                DataSnapshot snap = task.Result;
-
-                _leaders.Clear();
-
-                foreach (DataSnapshot leader in snap.Children)
-                { 
-                    rankData rankBox = JsonConvert.DeserializeObject<rankData>(leader.GetRawJsonValue(), new ObscuredValueConverter());
-
-                    _leaders.Add(rankBox);
-                }
-
-                complete = true;
-                BaseManager.userGameData._rankRefreshTime = DateTime.Now;
-            });
-
-            yield return new WaitUntil(() => complete == true);
-
-            sortingLeaders();
-            BaseManager.userGameData._minRank = _leaders.Last()._time;
-        }
-
-        /// <summary> 트랜잭션 저장 </summary>
-        void saveRankDataTransaction()
-        {
-            reference.Child("Rank").RunTransaction(MutableData => { 
-            
-                List<object> tLeaders = MutableData.Value as List<object>;
-
-                Debug.Log("랭커 수 : " + tLeaders.Count);
-                if (tLeaders == null)
-                {
-                    tLeaders = new List<object>();
-                }
-                else if (MutableData.ChildrenCount >= 28)
-                {
-                    long min = long.MaxValue;
-                    object minData = null;
-
-                    foreach (var child in tLeaders)
-                    {
-                        if (!(child is Dictionary<string, object>))
-                            continue;
-
-                        string childid = (string)((Dictionary<string, object>)child)["_uid"];
-                        long childtime = (long)((Dictionary<string, object>)child)["_time"];
-
-                        if (childid.Equals(_uid))
-                        {
-                            ((Dictionary<string, object>)child)["_nick"] = BaseManager.userGameData.NickName;
-                            ((Dictionary<string, object>)child)["_version"] = ((int)gameValues._version);
-                            ((Dictionary<string, object>)child)["_time"] = ((int)BaseManager.userGameData.TimeRecord);
-                            ((Dictionary<string, object>)child)["_boss"] = ((int)BaseManager.userGameData.BossRecord);
-                            ((Dictionary<string, object>)child)["_skin"] = ((int)BaseManager.userGameData.RecordSkin);
-
-                            MutableData.Value = tLeaders;
-                            return TransactionResult.Success(MutableData);
-                        }
-                        else if (min > childtime)
-                        {
-                            minData = child;
-                            min = childtime;
-                        }
-                    }
-
-                    if (min > BaseManager.userGameData.TimeRecord)
-                    {
-                        return TransactionResult.Abort();
-                    }
-
-                    tLeaders.Remove(minData);
-                }
-                else
-                {
-                    foreach (var child in tLeaders)
-                    {
-                        if (!(child is Dictionary<string, object>))
-                            continue;
-
-                        string childid = (string)((Dictionary<string, object>)child)["_uid"];
-
-                        Debug.Log(childid + " => " + (childid.Equals(_uid)) + " <= " + _uid);
-                        if (childid.Equals(_uid))
-                        {
-                            ((Dictionary<string, object>)child)["_nick"] = BaseManager.userGameData.NickName;
-                            ((Dictionary<string, object>)child)["_version"] = ((int)gameValues._version);
-                            ((Dictionary<string, object>)child)["_time"] = ((int)BaseManager.userGameData.TimeRecord);
-                            ((Dictionary<string, object>)child)["_boss"] = ((int)BaseManager.userGameData.BossRecord);
-                            ((Dictionary<string, object>)child)["_skin"] = ((int)BaseManager.userGameData.RecordSkin);
-
-                            MutableData.Value = tLeaders;
-                            return TransactionResult.Success(MutableData);
-                        }
-                    }
-                }
-
-                tLeaders.Add(BaseManager.userGameData.getRankData(_uid));
-                MutableData.Value = tLeaders;
-                return TransactionResult.Success(MutableData);
-            });
-        }
-
-        #endregion
-        */
 
         #region [ 특정요소 저장/로드 ]
         
@@ -657,7 +486,7 @@ namespace week
                 lastSaveTime = (long)task.Result.Value;
                 complete = true;
             });
-            Debug.Log(lastSaveTime);
+
             yield return new WaitUntil(() => complete == true);
 
             // 현재 서버시간 (가져오면서 새로저장)

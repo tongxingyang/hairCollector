@@ -108,7 +108,6 @@ namespace week
 
                     if (isUp)
                     {
-                        Debug.Log("쓰");
                         _enm.enemyDamaged(dmg, _skill);
                     }
                 }

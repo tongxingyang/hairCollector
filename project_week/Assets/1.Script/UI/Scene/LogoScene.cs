@@ -26,6 +26,9 @@ namespace week
         #endregion
 
         [SerializeField] NotificationPopup _notif;
+        [SerializeField] GameObject _Agreement;
+        [SerializeField] TextMeshProUGUI _agreeTxt;
+        [SerializeField] Button _Agree;
         [SerializeField] TextMeshProUGUI _load;
         [SerializeField] Slider _fill;
         
@@ -46,6 +49,13 @@ namespace week
             mImgs[(int)E_IMAGE.pressButton].gameObject.SetActive(false);
             _fill.gameObject.SetActive(true);
             _notif.gameObject.SetActive(false);
+
+            _Agree.onClick.AddListener(() => 
+            { 
+                BaseManager.userGameData.Agreement = true;
+                StartCoroutine(AuthManager.instance.saveDataToFB(null, true));
+            });
+            _Agreement.SetActive(false);
 
             StartCoroutine(showLogo());
         }
@@ -159,6 +169,14 @@ namespace week
             }
 
             ConnectComplete = true;
+
+            yield return StartCoroutine(AuthManager.instance.loadProFileFromFB());
+            if (AuthManager.instance.profile.inspection)
+            {
+                _notif.setInspection();
+                ConnectComplete = false;
+                yield break;
+            }
 #else
             // 인터넷 - 데이터 체크 
             yield return StartCoroutine(userDataAfterNetChk());
@@ -168,6 +186,16 @@ namespace week
             {
                 yield break;
             }
+
+            if (BaseManager.userGameData.Agreement == false)
+            {
+                _agreeTxt.text = DataManager.AgreeTxt.text;
+                _Agreement.SetActive(true);
+
+                yield return new WaitUntil(() => BaseManager.userGameData.Agreement == true);
+                _Agreement.SetActive(false);
+            }
+
             NanooManager.instance.setUid(AuthManager.instance.Uid); // 나누 접속
             //AnalyticsManager.instance.AnalyticsLogin(AuthManager.instance.Uid); // 애널리스틱
 
@@ -213,11 +241,18 @@ namespace week
                 yield return new WaitUntil(() => AuthManager.instance.isLoginFb == true); // [대기] 파베 로그인
 
                 _load.text = "버전 확인";
-                yield return StartCoroutine(AuthManager.instance.loadVersionFromFB());  // [대기] 버전 체크
+                yield return StartCoroutine(AuthManager.instance.loadProFileFromFB());  // [대기] 버전 체크
                 {
-                    string[] releaseVersion = AuthManager.instance.Version.Split('.');
+                    if (AuthManager.instance.profile.inspection)
+                    {
+                        _notif.setInspection();
+                        ConnectComplete = false;
+                        yield break;
+                    }
+
+                    string[] releaseVersion = AuthManager.instance.profile.version.Split('.');
                     string[] installVersion = Application.version.Split('.');
-                    Debug.Log(AuthManager.instance.Version + " // " + Application.version);
+                    Debug.Log(AuthManager.instance.profile.version + " // " + Application.version);
 
                     for (int i = 0; i < 3; i++)
                     {
@@ -262,32 +297,35 @@ namespace week
             }
             else // 인터넷 연결해제
             {
-                
-                if (ES3.KeyExists(gameValues._offlineKey)) // 기본 오프라인 데이터 있음
-                {
-                    _load.text = "오프라인 : 기기 데이터 확인";
-                    BaseManager.userGameData.loadOffLineData(); // 오프라인 데이터 로드                    
+                _notif.networkError();
+                ConnectComplete = false;
+                yield break;
 
-                    //bool result = false;
-                    //WindowManager.instance.Win_accountList.open((string selectKey) =>
-                    //{
-                    //    AuthManager.instance.Uid = selectKey;
-                    //    result = true;
-                    //}); // 플레이 할 슬롯 선택
+                //if (ES3.KeyExists(gameValues._offlineKey)) // 기본 오프라인 데이터 있음
+                //{
+                //    _load.text = "오프라인 : 기기 데이터 확인";
+                //    BaseManager.userGameData.loadOffLineData(); // 오프라인 데이터 로드                    
 
-                    //yield return new WaitUntil(() => result == true); // [대기] 고를때까지 기다려주기
+                //    //bool result = false;
+                //    //WindowManager.instance.Win_accountList.open((string selectKey) =>
+                //    //{
+                //    //    AuthManager.instance.Uid = selectKey;
+                //    //    result = true;
+                //    //}); // 플레이 할 슬롯 선택
 
-                    //string offData = ES3.Load<string>(AuthManager.instance.Uid);
-                    //UserEntity _uet = JsonConvert.DeserializeObject<UserEntity>(offData, new ObscuredValueConverter());
-                    //BaseManager.userGameData.loadDataFromLocal(_uet);
-                }
-                else // 기본 오프라인 데이터 없음
-                {
-                    _load.text = "오프라인 : 오프라인 뉴비";
+                //    //yield return new WaitUntil(() => result == true); // [대기] 고를때까지 기다려주기
 
-                    BaseManager.userGameData = new UserGameData();  // 새 오프라인 데이터 생성
-                    BaseManager.userGameData.saveOffLineData();     // 오프라인 데이터 저장
-                }
+                //    //string offData = ES3.Load<string>(AuthManager.instance.Uid);
+                //    //UserEntity _uet = JsonConvert.DeserializeObject<UserEntity>(offData, new ObscuredValueConverter());
+                //    //BaseManager.userGameData.loadDataFromLocal(_uet);
+                //}
+                //else // 기본 오프라인 데이터 없음
+                //{
+                //    _load.text = "오프라인 : 오프라인 뉴비";
+
+                //    BaseManager.userGameData = new UserGameData();  // 새 오프라인 데이터 생성
+                //    BaseManager.userGameData.saveOffLineData();     // 오프라인 데이터 저장
+                //}
             }
 
             gauge += 0.1f;
@@ -296,6 +334,7 @@ namespace week
             BaseManager.instance.KeyRandomizing();
             //Debug.Log("데이터 완료");
             _load.text = "데이터 로드 완료";
+
             ConnectComplete = true;
         }
 

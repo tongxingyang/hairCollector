@@ -71,7 +71,7 @@ namespace week
         // 게임 값 ==============================
         
         /// <summary> 플레이어 시작 경험치 </summary>
-        public static readonly ObscuredInt _startExp = 25;
+        public static readonly ObscuredInt _startExp = 13;
         /// <summary> 몹 시작 경험치 </summary>
         public static readonly ObscuredInt _startMobExp = 2;
         /// <summary> 보스 시작 경험치 </summary>
@@ -88,8 +88,8 @@ namespace week
 
         /// <summary> max경험치 증가 값 </summary>
         public static readonly ObscuredFloat _expIncrease = 1.15f;
-        /// <summary> max경험치 증가 값 </summary>
-        public static readonly ObscuredFloat _expRate = 1.1f;
+        /// <summary> 경험치 조절 값 </summary>
+        public static readonly ObscuredFloat _expRate = 1f;
         /// <summary> 힐팩량(5%) </summary>
         public static readonly ObscuredFloat _healpackVal = 0.06f;
 

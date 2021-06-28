@@ -173,14 +173,14 @@ namespace week
 
                 // 시간
                 mTmps[(int)eTmp.qstEasyTimeTxt + lvl].text = $"({D_level.GetEntity(i.ToString()).f_trans}) {BaseManager.userGameData.dayToTimeRecord(i, BaseManager.userGameData.LvlTimeReward[lvl] + 1)}까지 버티기";
-                _chk = (BaseManager.userGameData.LvlTimeReward[lvl] < BaseManager.userGameData.SeasonTimeRecord[lvl] / 120);
+                _chk = (BaseManager.userGameData.LvlTimeReward[lvl] < BaseManager.userGameData.TimeRecord(i) / 120);
                 mImgs[(int)eImg.qstEasyTimeBtn + lvl].color = (_chk) ? _enableColor : _qstBlack;
                 mImgs[(int)eImg.qstEasyTimeBtn + lvl].raycastTarget = _chk;
 
                 // 보스
                 _Val = D_quest.GetEntity((Quest.easy_boss + lvl).ToString()).f_val;
                 mTmps[(int)eTmp.qstEasyBossTxt + lvl].text = $"({D_level.GetEntity(i.ToString()).f_trans}) 한번의 모험에서 보스 {BaseManager.userGameData.LvlBossReward[lvl] + 1}마리 처치";
-                _chk = (BaseManager.userGameData.SeasonRecordBoss[lvl] - BaseManager.userGameData.LvlBossReward[lvl] >= _Val);
+                _chk = (BaseManager.userGameData.RecordBoss(i) - BaseManager.userGameData.LvlBossReward[lvl] >= _Val);
                 mImgs[(int)eImg.qstEasyBossBtn + lvl].color = (_chk) ? _enableColor : _qstBlack;
                 mImgs[(int)eImg.qstEasyBossBtn + lvl].raycastTarget = _chk;
             }

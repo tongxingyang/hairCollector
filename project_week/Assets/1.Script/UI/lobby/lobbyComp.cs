@@ -51,13 +51,13 @@ namespace week
         {
             _name.text = BaseManager.userGameData.NickName;
 
-            if (BaseManager.userGameData.SeasonTimeRecord[(int)BaseManager.userGameData.NowStageLevel] == 0)
+            if (BaseManager.userGameData.TimeRecord(BaseManager.userGameData.NowStageLevel) == 0)
             {
                 _record.text = "응애 나 아기눈사람";
             }
             else
             {
-                _record.text = $"{BaseManager.userGameData.getLifeTime(BaseManager.userGameData.NowStageLevel, BaseManager.userGameData.SeasonTimeRecord[(int)BaseManager.userGameData.NowStageLevel])}";
+                _record.text = $"{BaseManager.userGameData.getLifeTime(BaseManager.userGameData.NowStageLevel, BaseManager.userGameData.TimeRecord(BaseManager.userGameData.NowStageLevel))}";
             }
         }
 

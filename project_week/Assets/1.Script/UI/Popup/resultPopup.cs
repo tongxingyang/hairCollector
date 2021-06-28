@@ -62,7 +62,7 @@ namespace week
             _recordTime = _gs.ClockMng.RecordSecond;
             _clearQst = _gs.ClearQst;
             // 신기록 여부
-            _isNewRecord = _recordTime > BaseManager.userGameData.SeasonTimeRecord[(int)BaseManager.userGameData.NowStageLevel];
+            _isNewRecord = _recordTime > BaseManager.userGameData.TimeRecord(BaseManager.userGameData.NowStageLevel);
 
             // 보조기록
             _lvl = _gs.Lvl;
@@ -100,7 +100,7 @@ namespace week
 
             RectTransform Rect = (RectTransform)_panel.transform;
 
-            _bestRecord.text = BaseManager.userGameData.getLifeTime(_gs.StageLevel, BaseManager.userGameData.SeasonTimeRecord[(int)BaseManager.userGameData.NowStageLevel]);
+            _bestRecord.text = BaseManager.userGameData.getLifeTime(_gs.StageLevel, BaseManager.userGameData.TimeRecord(BaseManager.userGameData.NowStageLevel));
             _record.text = "";
 
             _coinTxt.text = Convert.ToInt32(_getCoin).ToString();

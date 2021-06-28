@@ -350,7 +350,6 @@ namespace week
         {
             if (BaseManager.userGameData.LeftFreeGem > 0) // 무료보석 남아있음
             {
-                BaseManager.userGameData.LeftFreeGem -= 1;
                 StartCoroutine(getAdGemRoutine());
             }
             else
@@ -365,8 +364,9 @@ namespace week
             int g = D_product.GetEntity(productKeyList.ad_gem.ToString()).f_gem;
 
 #if UNITY_EDITOR
-            Debug.Log("광고");
+
             BaseManager.userGameData.Gem += g;
+            BaseManager.userGameData.LeftFreeGem--;
             WindowManager.instance.Win_coinGenerator.getWealth2Point(mTrs[(int)eTr.ad_gem].position, _lobby.GemTxt.position, currency.gem, g, 0, 10);
             
             AuthManager.instance.SaveDataServer(true);

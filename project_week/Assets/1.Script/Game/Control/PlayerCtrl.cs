@@ -1184,7 +1184,11 @@ namespace week
         /// <summary> 경험치얻기(경험치) </summary>
         public void getExp(float exp)
         {
-            _playerExp += exp * Exp * gameValues._expRate * 2;
+            exp *= Exp * gameValues._expRate;
+#if UNITY_EDITOR
+            exp *= 1;
+#endif
+            _playerExp += exp;
 
             if (levelUpable && (_isUpgrading == false))
             {
@@ -1325,7 +1329,9 @@ namespace week
             setDash(1f);
 
             _gs.setInQuestData(inQuest_goal_key.dmg, inQuest_goal_valtype.take, dmg);
-            
+#if UNITY_EDITOR
+            return;
+#endif
             Hp -= dmg;
 
             if (Hp <= 0) // 뒤짐
@@ -1351,6 +1357,11 @@ namespace week
             _dmgFont.getText(transform, Convert.ToInt32(dmg).ToString(), dmgTxtType.poison, true); // 데미지 폰트
 
             _gs.setInQuestData(inQuest_goal_key.dmg, inQuest_goal_valtype.take, dmg);
+
+#if UNITY_EDITOR
+            return;
+#endif
+
             Hp -= dmg;
 
             if (Hp <= 0) // 뒤짐
@@ -1562,9 +1573,9 @@ namespace week
             _gs.whenPause();
         }
 
-        #endregion
+#endregion
 
-        #region [ 버프 관련 함수 ]
+#region [ 버프 관련 함수 ]
 
         /// <summary> 버프 세팅 </summary>
         /// <param name="bff"> 버프 종류 </param>
@@ -1709,9 +1720,9 @@ namespace week
             }
         }
 
-        #endregion
+#endregion
         
-        #region [ 플레이어 외적으로 ]
+#region [ 플레이어 외적으로 ]
 
         public void cameraShake()
         {
@@ -1728,6 +1739,6 @@ namespace week
             _psm.onPause(bl);
         }
 
-        #endregion 
+#endregion
     }
 }

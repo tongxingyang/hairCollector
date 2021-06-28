@@ -97,9 +97,9 @@ namespace week
         /// <summary> 시즌 랭킹 등록 </summary>
         public void setSeasonRankingRecord(levelKey lvl)
         {
-            long record = BaseManager.userGameData.SeasonTimeRecord[(int)lvl] * 1000 
-                + BaseManager.userGameData.SeasonRecordBoss[(int)lvl];
-            plugin.RankingRecord(static_RANK_CODE[(int)lvl], record, BaseManager.userGameData.getRankData(BaseManager.userGameData.SeasonRecordSkin[(int)lvl]), (state, message, rawData, dictionary) => {
+            long record = BaseManager.userGameData.TimeRecord(lvl) * 1000 
+                + BaseManager.userGameData.RecordBoss(lvl);
+            plugin.RankingRecord(static_RANK_CODE[(int)lvl], record, BaseManager.userGameData.getRankData(BaseManager.userGameData.RecordSkin(lvl)), (state, message, rawData, dictionary) => {
                 if (state.Equals(Configure.PN_API_STATE_SUCCESS))
                 {
                     Debug.Log("Success");

@@ -50,6 +50,7 @@ namespace week
         /// <summary> 빈거 세팅 </summary>
         public rankBox blink()
         {
+            _topRanker.SetActive(false);
             _skinIcon.sprite = DataManager.SkinSprite[SkinKeyList.snowman];
             _skinIcon.color = Color.gray;
             _rank.text = $"#--";

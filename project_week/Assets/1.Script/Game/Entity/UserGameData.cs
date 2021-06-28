@@ -113,15 +113,16 @@ namespace week
 
         // 기록 ==============================================================
         // public string NowSeasonRankKey() { return AuthManager. _userEntity._record._levelRecord[NowStageLevel]._nowSeasonRankKey; }
-        public ObscuredInt[] SeasonTimeRecord   { get => _userEntity._record._season_TimeRecord; set => _userEntity._record._season_TimeRecord = value; }
-        public ObscuredInt[] SeasonRecordSkin   { get => _userEntity._record._season_RecordSkin; set => _userEntity._record._season_RecordSkin = value; }
-        public ObscuredInt[] SeasonRecordLevel  { get => _userEntity._record._season_RecordLevel; set => _userEntity._record._season_RecordLevel = value; }
-        public ObscuredInt[] SeasonRecordBoss   { get => _userEntity._record._season_RecordBoss; set => _userEntity._record._season_RecordBoss = value; }
+        public UserEntity.levelRecord[] LevelsRecord   { get => _userEntity._record._levelRecord; set => _userEntity._record._levelRecord = value; }
 
-        //public int AllTimeRecord(levelKey lvl)      { return _userEntity._record._levelRecord[(int)lvl]._allTime_TimeRecord; }
-        //public int AllTimeSkin(levelKey lvl)        { return _userEntity._record._levelRecord[(int)lvl]._allTime_RecordSkin; }
-        //public int AllTimeLevel(levelKey lvl)       { return _userEntity._record._levelRecord[(int)lvl]._allTime_RecordLevel; }
-        //public int AllTimeBoss(levelKey lvl)        { return _userEntity._record._levelRecord[(int)lvl]._allTime_RecordBoss; }
+        //public int[] SeasonRecordSkin   { get => _userEntity._record._season_RecordSkin; set => _userEntity._record._season_RecordSkin = value; }
+        //public int[] SeasonRecordLevel  { get => _userEntity._record._season_RecordLevel; set => _userEntity._record._season_RecordLevel = value; }
+        //public int[] SeasonRecordBoss   { get => _userEntity._record._season_RecordBoss; set => _userEntity._record._season_RecordBoss = value; }
+
+        public int TimeRecord(levelKey lvl) { return _userEntity._record._levelRecord[(int)lvl]._season_TimeRecord; }
+        public int RecordSkin(levelKey lvl) { return _userEntity._record._levelRecord[(int)lvl]._season_RecordSkin; }
+        public int RecordLevel(levelKey lvl) { return _userEntity._record._levelRecord[(int)lvl]._season_RecordLevel; }
+        public int RecordBoss(levelKey lvl) { return _userEntity._record._levelRecord[(int)lvl]._season_RecordBoss; }
 
         public ObscuredInt RequestRecord { get => _userEntity._record._requestRecord; set => _userEntity._record._requestRecord = value; }
         public ObscuredInt ReinRecord { get => _userEntity._record._reinRecord; set => _userEntity._record._reinRecord = value; }
@@ -193,6 +194,11 @@ namespace week
                                         set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.change_SecondStatus) : 0; }
         public bool Success_Recommend { get => (_userEntity._util._chkList & (1 << (int)utilityChkList.success_Recommend)) > 0;
             set => _userEntity._util._chkList |= (value) ? (1 << (int)utilityChkList.success_Recommend) : 0; }
+
+        /// <summary> 이용약관 동의 </summary>
+        public bool Agreement { get => _userEntity._util._agreement; set => _userEntity._util._agreement = value; }
+        /// <summary> 210622일자 버그로 인한 랭킹 초기화 체크 </summary>
+        public bool BugLogChk { get => _userEntity._util._bugLogChk; set => _userEntity._util._bugLogChk = value; }
 
         #endregion
 
@@ -590,11 +596,7 @@ namespace week
         /// <summary> 신기록 </summary>
         public void setNewSeasonRecord(int newRecord, int snowLvl, int boss)
         {
-            levelKey lvl = (levelKey)NowStageLevel;
-            _userEntity._record._season_TimeRecord[(int)lvl] = newRecord;
-            _userEntity._record._season_RecordSkin[(int)lvl] = _userEntity._property._skin;
-            _userEntity._record._season_RecordLevel[(int)lvl] = snowLvl;
-            _userEntity._record._season_RecordBoss[(int)lvl] = boss;
+            LevelsRecord[(int)NowStageLevel].newRecord ( newRecord, _userEntity._property._skin, snowLvl, boss);
         }
 
         /// <summary> 새 시즌 개시시 초기화 </summary>
@@ -768,10 +770,10 @@ namespace week
             Dictionary<string, object> data = new Dictionary<string, object>();
             data["_uid"] = uid;
             data["_nick"] = NickName;
-            data["_time"] = SeasonTimeRecord[(int)lvl];
-            data["_skin"] = SeasonRecordSkin[(int)lvl];
-            data["_level"] = SeasonRecordLevel[(int)lvl];
-            data["_boss"] = SeasonRecordBoss[(int)lvl];            
+            data["_time"] = LevelsRecord[(int)lvl]._season_TimeRecord;
+            data["_skin"] = LevelsRecord[(int)lvl]._season_RecordSkin;
+            data["_level"] = LevelsRecord[(int)lvl]._season_RecordLevel;
+            data["_boss"] = LevelsRecord[(int)lvl]._season_RecordBoss;            
             data["_version"] = 11;
 
             return data;

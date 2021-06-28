@@ -182,7 +182,7 @@ namespace week
         public void getEff()
         {
             string str = D_skill.GetEntity(_skillType.ToString()).f_eff;
-            Debug.Log(str);
+
             if (string.IsNullOrWhiteSpace(str) == false)
             {
                 _efm.makeEff(str, transform.position);

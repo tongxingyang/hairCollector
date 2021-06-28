@@ -207,6 +207,12 @@ namespace week
 
         void modify()
         {
+            // 점검중
+            if (AuthManager.instance.profile.inspection)
+            {
+                WindowManager.instance.Win_message.showActMessage("점검중입니다.", () => { Application.Quit(); });
+            }
+
             if (BaseManager.userGameData.RemoveAd)
             {
                 BaseManager.userGameData.AddMulCoinList(mulCoinChkList.removeAD);
@@ -252,6 +258,20 @@ namespace week
                 Debug.Log("신기록 열려?");
                 _recommend.open();
                 BaseManager._innerData.showRecommend = false;
+            }
+
+            // 보상
+            if (BaseManager.userGameData.BugLogChk == false)
+            {
+                BaseManager.userGameData.BugLogChk = true;
+                BaseManager.userGameData.Gem += 200;
+
+                Sprite gem = D_product.GetEntity(productKeyList.l_gem.ToString()).f_image;
+                string str = "오류로 인한 초기화 보상" + System.Environment.NewLine + "보석 200개";
+                WindowManager.instance.Win_purchase.setBugReward(gem, str, () => { 
+                    WindowManager.instance.Win_coinGenerator.getWealth2Point(Vector3.zero, GemTxt.position, currency.gem, 200, 0, 25);
+                })
+                    .setImgSize(false);
             }
         }
 
@@ -378,7 +398,7 @@ namespace week
 
         public void openUpdate()
         {
-            MTmps[(int)eTmp.upVersion].text = $"{AuthManager.instance.Version} 서브" + System.Environment.NewLine + "업데이트";
+            MTmps[(int)eTmp.upVersion].text = $"{AuthManager.instance.profile.version} 서브" + System.Environment.NewLine + "업데이트";
             mGos[(int)eGO.updatePanel].SetActive(true);
         }
 

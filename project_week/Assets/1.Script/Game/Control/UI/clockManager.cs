@@ -106,7 +106,6 @@ namespace week
                 _dayInSeason++;
                 RecordDay++;
 
-                //int num = RecordMonth % _seasonData.Count;
                 changeDay?.Invoke();
 
                 if (_seasonData[RecordMonth % 4].Value <= _dayInSeason) // 계절 변동
@@ -114,7 +113,6 @@ namespace week
                     RecordMonth++;
                     NowSeason = _seasonData[RecordMonth % 4].Key;
                     _monthTime = 0;
-                    // getNextSeason();
 
                     _dayInSeason = 0;
                     RecordYear = RecordDay / 12;
@@ -131,23 +129,5 @@ namespace week
             if (chk1Wave)
                 _firstDay = false;
         }
-
-        /// <summary> 다음계절 세팅 </summary>
-        //void getNextSeason()
-        //{
-        //    NowSeason++;
-        //    while(true)
-        //    {
-        //        if (_seasonData.ContainsKey(NowSeason))
-        //        {
-        //            break;
-        //        }
-
-        //        if (NowSeason == season.dark)
-        //            NowSeason = season.spring;
-        //        else
-        //            NowSeason++;
-        //    }
-        //}
     }
 }

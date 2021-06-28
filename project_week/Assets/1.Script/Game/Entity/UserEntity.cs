@@ -96,17 +96,42 @@ namespace week
             {
                 _statusLevel = statusLevel;
             }
-        }        
+        }
+
+        /// <summary> 레벨별 기록 클래스 </summary>
+        [Serializable]
+        public class levelRecord
+        {
+            [SerializeField] public ObscuredInt _season_TimeRecord;     // 시즌 기록
+            [SerializeField] public ObscuredInt _season_RecordSkin;     // 시즌 신기록 당시의 스킨
+            [SerializeField] public ObscuredInt _season_RecordLevel;    // 시즌 신기록 당시 레벨
+            [SerializeField] public ObscuredInt _season_RecordBoss;     // 보스킬
+
+            public levelRecord()
+            {
+                _season_TimeRecord = 0;
+                _season_RecordSkin = 0;
+                _season_RecordLevel = 0;
+                _season_RecordBoss = 0;
+            }
+            public void newRecord(int time, int skin, int lvl, int boss)
+            {
+                _season_TimeRecord = 0;
+                _season_RecordSkin = 0;
+                _season_RecordLevel = 0;
+                _season_RecordBoss = 0;
+            }
+        }
 
         /// <summary> 기록 </summary>
         [Serializable]
         public class record
         {
-            //[SerializeField] public levelRecord[] _levelRecord; // 난이도별 기록
-            [SerializeField] public ObscuredInt[] _season_TimeRecord;     // 시즌 기록
-            [SerializeField] public ObscuredInt[] _season_RecordSkin;     // 시즌 신기록 당시의 스킨
-            [SerializeField] public ObscuredInt[] _season_RecordLevel;    // 시즌 신기록 당시 레벨
-            [SerializeField] public ObscuredInt[] _season_RecordBoss;     // 보스킬
+            [SerializeField] public levelRecord[] _levelRecord; // 난이도별 기록
+            //[SerializeField] public ObscuredInt[] _season_TimeRecord;     // 시즌 기록
+            //[SerializeField] public ObscuredInt[] _season_RecordSkin;     // 시즌 신기록 당시의 스킨
+            //[SerializeField] public ObscuredInt[] _season_RecordLevel;    // 시즌 신기록 당시 레벨
+            //[SerializeField] public ObscuredInt[] _season_RecordBoss;     // 보스킬
 
             [SerializeField] public ObscuredInt _requestRecord; // 의뢰 해결
             [SerializeField] public ObscuredInt _reinRecord; // 강화 횟수
@@ -115,38 +140,39 @@ namespace week
 
             public record() 
             {
-                _season_TimeRecord= new ObscuredInt[(int)levelKey.max];
-                _season_RecordSkin= new ObscuredInt[(int)levelKey.max];
-                _season_RecordLevel= new ObscuredInt[(int)levelKey.max];
-                _season_RecordBoss= new ObscuredInt[(int)levelKey.max];
+                _levelRecord = new levelRecord[(int)levelKey.max];
+                for (int i = 0; i < _levelRecord.Length; i++)
+                {
+                    _levelRecord[i] = new levelRecord();
+                }
                 
                 _requestRecord= 0;
                 _reinRecord= 0;
                 _wholeTimeRecord= 0; 
             }
 
-            public record(ObscuredInt[] season_TimeRecord, ObscuredInt[] season_RecordSkin, ObscuredInt[] season_RecordLevel, ObscuredInt[] season_RecordBoss, 
-                ObscuredInt requestRecord, ObscuredInt reinRecord, ObscuredInt wholeTimeRecord)
-            {
-                _season_TimeRecord = season_TimeRecord;
-                _season_RecordSkin = season_RecordSkin;
-                _season_RecordLevel = season_RecordLevel;
-                _season_RecordBoss = season_RecordBoss;
+            //public record(ObscuredInt[] season_TimeRecord, ObscuredInt[] season_RecordSkin, ObscuredInt[] season_RecordLevel, ObscuredInt[] season_RecordBoss, 
+            //    ObscuredInt requestRecord, ObscuredInt reinRecord, ObscuredInt wholeTimeRecord)
+            //{
+            //    _season_TimeRecord = season_TimeRecord;
+            //    _season_RecordSkin = season_RecordSkin;
+            //    _season_RecordLevel = season_RecordLevel;
+            //    _season_RecordBoss = season_RecordBoss;
 
-                _requestRecord = requestRecord;
-                _reinRecord = reinRecord;
-                _wholeTimeRecord = wholeTimeRecord;
-            }
+            //    _requestRecord = requestRecord;
+            //    _reinRecord = reinRecord;
+            //    _wholeTimeRecord = wholeTimeRecord;
+            //}
 
             /// <summary> 시즌 기록 초기화 </summary>
             public void initSeasonRecord()
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    _season_TimeRecord[i] = 0;
-                    _season_RecordSkin[i] = 1;
-                    _season_RecordLevel[i] = 0;
-                    _season_RecordBoss[i] = 0;
+                    _levelRecord[i]._season_TimeRecord = 0;
+                    _levelRecord[i]._season_RecordSkin = 1;
+                    _levelRecord[i]._season_RecordLevel = 0;
+                    _levelRecord[i]._season_RecordBoss = 0;
                 }
             }
         }
@@ -293,18 +319,27 @@ namespace week
             /// <summary> 퀘스트등 날짜 체크용 </summary>
             [SerializeField] public ObscuredInt _publishDate;
 
+            /// <summary> 이용약관 동의 </summary>
+            [SerializeField] public ObscuredBool _agreement;
+            /// <summary> 210622일자 버그로 인한 랭킹 초기화 체크 </summary>
+            [SerializeField] public ObscuredBool _bugLogChk;
+
             public gameUtility()
             {
                 _lastSave = 0;
                 _chkList = 0;
                 _publishDate = 0;
+                _agreement = false;
+                _bugLogChk = false;
             }
-            public gameUtility(long lastSave, ObscuredInt chklist, ObscuredInt publishDate)
-            {
-                _lastSave = lastSave;
-                _chkList = chklist;
-                _publishDate = publishDate;
-            }
+
+            //public gameUtility(long lastSave, ObscuredInt chklist, ObscuredInt publishDate, ObscuredBool bugLogChk)
+            //{
+            //    _lastSave = lastSave;
+            //    _chkList = chklist;
+            //    _publishDate = publishDate;
+            //    _bugLogChk = bugLogChk;
+            //}
         }
 
         #endregion
