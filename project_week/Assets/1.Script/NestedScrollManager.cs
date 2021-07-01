@@ -15,6 +15,8 @@ namespace week
         [SerializeField] Scrollbar _scrollbar;
         [SerializeField] Slider _tapSlider;
         [SerializeField] RectTransform[] _btns;
+        [Header("canvas")]
+        [SerializeField] Canvas[] _canvases;
 
         TextMeshProUGUI[] _btnTxts;
 
@@ -29,6 +31,7 @@ namespace week
         int _targetIndex;
 
         bool _isDrag;
+        float _tapbarDist = 1f / 3f;
 
         // Start is called before the first frame update
         void Start()
@@ -47,7 +50,7 @@ namespace week
                 _btnTxts[i] = _btns[i].GetComponentInChildren<TextMeshProUGUI>();
             }
 
-            _tapSlider.value = _scrollbar.value = _curPos = _targetPos = 1f;
+            _tapSlider.value = _scrollbar.value = _curPos = _targetPos = _tapbarDist * 2;
             TapClick(2);
 
             StartCoroutine(ScrollControl());
@@ -59,6 +62,7 @@ namespace week
             yield return new WaitForEndOfFrame();
             float btnSizeY = _btns[0].sizeDelta.y;
 
+            bool enableChk = false;
             while (true)
             {
                 _tapSlider.value = _scrollbar.value;
@@ -71,6 +75,9 @@ namespace week
                     {
                         _btns[i].sizeDelta = new Vector2(i == _targetIndex ? width * 2 : width, btnSizeY);
                         _btnTxts[i].fontSize = i == _targetIndex ? maxFont : minFont;
+
+                        enableChk = (Mathf.Abs(_scrollbar.value - i * _tapbarDist) > _tapbarDist);
+                        _canvases[i].enabled = !enableChk;
                     }
                 }
 
@@ -107,11 +114,6 @@ namespace week
 
             for (int i = 0; i < SIZE; i++)
             {
-                //if (_scrolls[i] != null && _curPos != _pos[i] && _targetPos == _pos[i])
-                //{
-                //    _scrolls[i].verticalScrollbar.value = 1f;
-                //}
-
                 if (_scrolls[i] != null && _curPos != _targetPos && _targetPos != _pos[i])
                 {
                     _scrolls[i].verticalScrollbar.value = 1f;

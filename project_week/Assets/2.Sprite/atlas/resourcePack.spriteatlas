@@ -31,15 +31,13 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: f11af6bef39f1a14095464874d637c9c, type: 3}
-    totalSpriteSurfaceArea: 8352295
+    totalSpriteSurfaceArea: 8084717
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 9b5bbc30dca17514683f5c78bdfcc232, type: 3}
-  - {fileID: 21300000, guid: 9c488ca036d59ec4b811e6cbeacb6958, type: 3}
   - {fileID: 21300000, guid: 547cb8c03eccfc549818bcee982fcb3a, type: 3}
   - {fileID: 21300000, guid: 23b5e74110d73054c82bbd3a69ce8ca6, type: 3}
-  - {fileID: 21300000, guid: fd80505176c30d34c9ff8fc71582abdc, type: 3}
   - {fileID: 21300000, guid: fe304451f51f1924e88476c0f6017ce7, type: 3}
   - {fileID: 21300000, guid: 90cc2b6163cd02a4e97e1b8a6ec47a04, type: 3}
   - {fileID: 21300000, guid: 1b768a71d4079ac4db6c28b000346d0e, type: 3}
@@ -50,7 +48,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 14567392a5751934dbef5c6cc01afb83, type: 3}
   - {fileID: 21300000, guid: 950796927f5f3c04a89c1cb6a69c39ab, type: 3}
   - {fileID: 21300000, guid: 1a21a4a21fc4fb245bf090157e47ce91, type: 3}
-  - {fileID: 21300000, guid: ba5267a2134560c45871ef36902d788f, type: 3}
   - {fileID: 21300000, guid: 4c5a1bd3977638a46941bb61f0d81208, type: 3}
   - {fileID: 21300000, guid: 8f2c0724ceb553549bb50e502074dd81, type: 3}
   - {fileID: 21300000, guid: 717fc82437c5ea84e937fa91f8b1a6b5, type: 3}
@@ -135,7 +132,6 @@ SpriteAtlas:
   - {fileID: -4160871732136254767, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
   - {fileID: -6916338270877608271, guid: 8cfd78766cca1f245953040e65adb8f8, type: 3}
   - {fileID: 21300000, guid: 6170d9b6d7e910841b216f46e3301b5e, type: 3}
-  - {fileID: 21300000, guid: b55654d62c1503540a2a89c1bc43787a, type: 3}
   - {fileID: 21300000, guid: bd897ad626873f24ab3440a5acae5894, type: 3}
   - {fileID: 21300000, guid: 95da303793b49044d91bb8e78f551675, type: 3}
   - {fileID: -1902042640447476195, guid: ce269d375316a7548b57dc58edf2e802, type: 3}
@@ -227,10 +223,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: db9ed5ff94b4b1e4294c84ddcd6d3cbe, type: 3}
   m_PackedSpriteNamesToIndex:
   - santaSet
-  - hard
   - Present
   - boss
-  - easy
   - heal
   - Thorn
   - HugeShield
@@ -241,7 +235,6 @@ SpriteAtlas:
   - Crevasse
   - exp
   - gem
-  - skinPack
   - IceKnuckle
   - gem_m
   - HalfIcicle
@@ -326,7 +319,6 @@ SpriteAtlas:
   - i_Pet2
   - i_BPet
   - Hammer
-  - normal
   - miniSet
   - coin
   - vampireman

@@ -23,13 +23,16 @@ namespace week
         [Space]
         [SerializeField] Sprite[] _lockCase;
 
+        LobbyScene _ls;
+
         levelKey _stglvl;
         Action _levelIcon;
 
         bool _isOpen = false;
 
-        public void Init(Action levelIcon)
+        public void Init(LobbyScene ls, Action levelIcon)
         {
+            _ls = ls;
             _levelIcon = levelIcon;
             _levelIcon?.Invoke();
 
@@ -88,7 +91,7 @@ namespace week
                 _lvls[i].transform.localScale = (i == (int)_stglvl) ? Vector3.one : Vector3.one * 0.9f;
                 _cases[i].sprite = _lockCase[(i == (int)_stglvl) ? 1 : 0];
             }
-            _infoImg.sprite = DataManager.LevelImgs[(int)_stglvl];
+            _infoImg.sprite = _ls.Lvls[(int)_stglvl];
 
             if (_isOpen)
             {

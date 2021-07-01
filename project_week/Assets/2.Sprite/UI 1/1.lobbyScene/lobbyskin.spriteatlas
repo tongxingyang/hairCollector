@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: lobbyskin
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 87055b8a19aa2a74cae98395fe2bca53, type: 3}
+    totalSpriteSurfaceArea: 631552
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 5530f770299a55d4b82d11c884041e4a, type: 3}
+  - {fileID: 21300000, guid: 73c537b19567f5743b0b72c0a27f18af, type: 3}
+  - {fileID: 21300000, guid: 09e7366358457614baeaf339f7c3f9a8, type: 3}
+  - {fileID: 21300000, guid: 796c713a88a00d443885d0cb16fb95a3, type: 3}
+  - {fileID: 21300000, guid: beeae1bad2418b04eb3089e5bd528686, type: 3}
+  - {fileID: 21300000, guid: 3b33e50bc05202d4f8c09de233c38774, type: 3}
+  - {fileID: 21300000, guid: 5e6dfb3bbe9b8054ca2bb2a4bd0a0f5c, type: 3}
+  - {fileID: 21300000, guid: ae16ef0f78c5e9b47a0c52eac7dec811, type: 3}
+  - {fileID: 21300000, guid: cf7a386f0f99e30468da677f9ab85468, type: 3}
+  - {fileID: 21300000, guid: 25f8109f31aa19b4092b2283239885d6, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - lob_skn_skinback
+  - lob_skn_skinCase
+  - lob_skn_box
+  - lob_skn_button1
+  - lob_skn_button
+  - lob_skn_selectCase
+  - lob_skn_gem
+  - lob_skn_rabel
+  - lob_skn_roundbox
+  - lob_skn_coin
+  m_Tag: lobbyskin
+  m_IsVariant: 0

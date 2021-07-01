@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: lobbylobby
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: d2dad2b05a4201240b53e43e3cca009c, type: 3}
+    totalSpriteSurfaceArea: 549210
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: e2253a50a623f0144b302ae96ca52ace, type: 3}
+  - {fileID: 21300000, guid: 9c488ca036d59ec4b811e6cbeacb6958, type: 3}
+  - {fileID: 21300000, guid: fd80505176c30d34c9ff8fc71582abdc, type: 3}
+  - {fileID: 21300000, guid: 1e447ce1dc9745e46becd105d84ecba4, type: 3}
+  - {fileID: 21300000, guid: 9c5827d3d70f9c541bd66236539dd8cd, type: 3}
+  - {fileID: 21300000, guid: 53995e248270cf24cb0f9f45a0c4d650, type: 3}
+  - {fileID: 21300000, guid: ba0f6e85354979d479eac978a106e7cc, type: 3}
+  - {fileID: 21300000, guid: ba0e8ca677360af44a2809bb5fac8ade, type: 3}
+  - {fileID: 21300000, guid: b55654d62c1503540a2a89c1bc43787a, type: 3}
+  - {fileID: 21300000, guid: 7117c907e8a254d4d8b73ba079385d7d, type: 3}
+  - {fileID: 21300000, guid: 021576e8a3005bd44808ee7abc2718dd, type: 3}
+  - {fileID: 21300000, guid: 92b91b8e90647f64abd93925e30deefe, type: 3}
+  - {fileID: 21300000, guid: 6b0ab1de08a5c8248b42ccf561303f77, type: 3}
+  - {fileID: 21300000, guid: 2bbb789f9539bd040ab5a81dab2bd22e, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - lob_lob_startImg
+  - lob_lob_hard
+  - lob_lob_easy
+  - lob_lob_rarrow
+  - lob_lob_button
+  - lob_lob_ranking
+  - lob_lob_infoMark
+  - lob_lob_larrow
+  - lob_lob_normal
+  - lob_lob_present
+  - lob_lob_ringbox
+  - lob_lob_post
+  - lob_lob_dot
+  - lob_lob_roundbox
+  m_Tag: lobbylobby
+  m_IsVariant: 0

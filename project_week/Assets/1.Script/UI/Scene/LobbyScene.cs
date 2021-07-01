@@ -63,6 +63,9 @@ namespace week
         [SerializeField] RawImage _pattern;
         [Space]
         [SerializeField] Canvas _canvas;
+        [Space]
+        [SerializeField] Sprite[] _levels;
+        public Sprite[] Lvls { get => _levels; }
 
         Vector2 _offset;
         readonly Vector2 _rect = new Vector2(1f, 2f);
@@ -150,7 +153,7 @@ namespace week
                 _lobbyComp.setStage();
                 refresh_Cost(); 
             };
-            _levelPanel.Init(_lobbyComp.show_levelRecord);
+            _levelPanel.Init(this, _lobbyComp.show_levelRecord);
 
             MTmps[(int)eTmp.CoinTxt].text = BaseManager.userGameData.followCoin.ToString();
             MTmps[(int)eTmp.GemTxt].text = BaseManager.userGameData.followGem.ToString();

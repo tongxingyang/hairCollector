@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: lobbystore
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: d8d06f3b0655d3c408c099bfd5418516, type: 3}
+    totalSpriteSurfaceArea: 3324044
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 4f0f7e40253b3b542be64efbf3bdeea6, type: 3}
+  - {fileID: 21300000, guid: ae02c070d2534904194b572f31ba9b40, type: 3}
+  - {fileID: 21300000, guid: 221c3bf0a465b0c4bbacb420982ca031, type: 3}
+  - {fileID: 21300000, guid: 03262171fbadac649a0d713ccbccafff, type: 3}
+  - {fileID: 21300000, guid: bc2bd1812bb01bc438fda224efe6a8b8, type: 3}
+  - {fileID: 21300000, guid: a5d8aa72a09849147877ef318519b1b0, type: 3}
+  - {fileID: 21300000, guid: b5488b9377988f248bc4b1406af6660a, type: 3}
+  - {fileID: 21300000, guid: 93d897d42eb6c9e439351f1aee8d5e60, type: 3}
+  - {fileID: 21300000, guid: becfb2055ff8ad1439c02888bd63df54, type: 3}
+  - {fileID: 21300000, guid: 6accf3c5f8fbe2a44b3b2a80160a4edf, type: 3}
+  - {fileID: 21300000, guid: c7be31b6a5a83904eb71ec25b8c85883, type: 3}
+  - {fileID: 21300000, guid: b4e4d0c775297ad40b4b90de9ad22798, type: 3}
+  - {fileID: 21300000, guid: 64f8b908c0ed980499e19f133e30f46f, type: 3}
+  - {fileID: 21300000, guid: 4c65b6a8be9499b48a0510e79f82f467, type: 3}
+  - {fileID: 21300000, guid: b89391f8c2da1994b876f179bfa3310d, type: 3}
+  - {fileID: 21300000, guid: 1ce9205948c781448bbde90fa6d86707, type: 3}
+  - {fileID: 21300000, guid: cedfdf999a3be9d44a5f70851638888b, type: 3}
+  - {fileID: 21300000, guid: a9ea39f93f382714a9157e8f79d5c596, type: 3}
+  - {fileID: 21300000, guid: 7fdb6a5ac27825448a8e010cb2e4dba1, type: 3}
+  - {fileID: 21300000, guid: f004f56a5dbccab40ac68c309ca11178, type: 3}
+  - {fileID: 21300000, guid: f1c039ba451abd044a8da0937dce1d12, type: 3}
+  - {fileID: 21300000, guid: 547cc4ca6e1b9ef4d85b685bdb929764, type: 3}
+  - {fileID: 21300000, guid: 6823869b013b02a4f8ec5f2d90fb0833, type: 3}
+  - {fileID: 21300000, guid: db16822cacaadb44bad87e1ba768da18, type: 3}
+  - {fileID: 21300000, guid: 9b02ae5cbafcddc47ad490b9c8e977bb, type: 3}
+  - {fileID: 21300000, guid: 772cbdfc4783d874ead21d52c870bb90, type: 3}
+  - {fileID: 21300000, guid: 19966ebd25449af49ad1e7acd4c2e2d4, type: 3}
+  - {fileID: 21300000, guid: cf0fa7cd5a8871e41a15f6b62fb8f5f5, type: 3}
+  - {fileID: 21300000, guid: 8262b5deaa843f34f8c7b907e3a9a7d4, type: 3}
+  - {fileID: 21300000, guid: 050fdc3f1dcb9fb4c925b51041b24fe0, type: 3}
+  - {fileID: 21300000, guid: 105507af47f32c64cb1b42819b81712b, type: 3}
+  - {fileID: 21300000, guid: 6434efcfc62085c4d817aaee65d2f2fb, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - lob_str_tag2
+  - lob_str_startPack
+  - lob_str_gem_b
+  - lob_str_3per
+  - lob_str_cheap
+  - lob_str_coin_m
+  - lob_str_gem
+  - lob_str_soldout
+  - lob_str_10per
+  - lob_str_ad
+  - lob_str_Head
+  - lob_str_coin_s
+  - lob_str_coin_l
+  - lob_str_Rabel
+  - lob_str_button
+  - lob_str_infoMark
+  - lob_str_gem_h
+  - lob_str_balls0
+  - lob_str_balls1
+  - lob_str_StoreCase
+  - lob_str_gem_m
+  - lob_str_adRemove
+  - lob_str_warrior
+  - lob_str_pcase0
+  - lob_str_5per
+  - lob_str_gem_s
+  - lob_str_tag
+  - lob_str_pcase1
+  - lob_str_gem_l
+  - lob_str_vempire
+  - lob_str_box
+  - lob_str_ringbox
+  m_Tag: lobbystore
+  m_IsVariant: 0

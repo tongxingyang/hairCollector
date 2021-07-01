@@ -67,7 +67,6 @@ namespace week
         public static Dictionary<ShotList, Sprite> CurveImgs { get; private set; }
         public static Dictionary<snowballType, Sprite> SnowballImg { get; private set; }
         public static Dictionary<SkillKeyList, Sprite> ShieldImgs { get => _shieldImgs; }
-        public static Sprite[] LevelImgs { get; set; }
 
         // 인게임전용
         public static Dictionary<NotiType, Sprite> NotiSprite { get; private set; }
@@ -247,12 +246,6 @@ namespace week
             {
                 GameObject go = Resources.Load("prefabs/UI/Lobby/" + lp.ToString()) as GameObject;
                 PanelFabs.Add(lp, go);
-            }
-
-            LevelImgs = new Sprite[(int)levelKey.max];
-            for (levelKey lv = 0; lv < levelKey.max; lv++)
-            {
-                LevelImgs[(int)lv] = Resources.Load<Sprite>("sprite/inLobby/" + lv.ToString());
             }
 
             // 사운드

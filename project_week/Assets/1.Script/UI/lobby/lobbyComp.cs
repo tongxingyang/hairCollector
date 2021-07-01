@@ -100,7 +100,7 @@ namespace week
         public void show_levelRecord()
         {
             _level.text = (BaseManager.userGameData.NowStageLevel).ToString();
-            _levelImg.sprite = DataManager.LevelImgs[(int)BaseManager.userGameData.NowStageLevel];
+            _levelImg.sprite = _ls.Lvls[(int)BaseManager.userGameData.NowStageLevel];
             setStage();
         }
 

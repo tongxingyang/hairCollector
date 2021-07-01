@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: logoScene
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 05cc6342929cb9b4f8cd81c69e969853, type: 3}
+    totalSpriteSurfaceArea: 2606333
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 3a4072600c5a71a45b16efbafee7fab8, type: 3}
+  - {fileID: 21300000, guid: 0ed2f6a03ed0a03469bb23be45f7d852, type: 3}
+  - {fileID: 21300000, guid: a40951c0533518e47ae094a03b54b15e, type: 3}
+  - {fileID: 21300000, guid: a8325551e57f688428c23f2c3c0678fb, type: 3}
+  - {fileID: 21300000, guid: 9815baa20b3556c48bf16717135338a8, type: 3}
+  - {fileID: 21300000, guid: b9bd397918015044590c8945ab70678d, type: 3}
+  - {fileID: 21300000, guid: 0930896a6cd66ac44b95c00ed8e65217, type: 3}
+  - {fileID: 21300000, guid: fc7201ca76a5920418739ad304f154c8, type: 3}
+  - {fileID: 21300000, guid: c08f0f4c6dbd20846bfab9d1f20f0720, type: 3}
+  - {fileID: 1722161700555090276, guid: 702acf9c3f924614a8c86b021afdfe5f, type: 3}
+  - {fileID: -7112037481551118972, guid: 702acf9c3f924614a8c86b021afdfe5f, type: 3}
+  - {fileID: 1189316478085877003, guid: 702acf9c3f924614a8c86b021afdfe5f, type: 3}
+  - {fileID: -7194040230765325062, guid: 702acf9c3f924614a8c86b021afdfe5f, type: 3}
+  - {fileID: 6740865549891706257, guid: 702acf9c3f924614a8c86b021afdfe5f, type: 3}
+  - {fileID: 2703753184985190547, guid: 702acf9c3f924614a8c86b021afdfe5f, type: 3}
+  - {fileID: -7520891459280978689, guid: 702acf9c3f924614a8c86b021afdfe5f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - refresh
+  - logo_box
+  - newmain
+  - logo_circle
+  - lobo_pin
+  - logo_Altercase
+  - logo_button
+  - loadbar
+  - logo_box2
+  - ash_0
+  - ash_1
+  - ash_2
+  - ash_3
+  - ash_4
+  - ash_5
+  - ash_6
+  m_Tag: logoScene
+  m_IsVariant: 0
